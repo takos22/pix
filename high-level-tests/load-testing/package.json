@@ -21,6 +21,13 @@
     "arti:dev:profil": "artillery run --config config/common.yaml --environment development --output report/index.json scenarios/signup-and-profil.yaml",
     "arti:local:eval": "artillery run --config config/common.yaml --environment localhost --output report/index.json scenarios/signup-and-competence-evaluation.yaml",
     "arti:dev:eval": "artillery run --config config/common.yaml --environment development --output report/index.json scenarios/signup-and-competence-evaluation.yaml",
+    "arti:cmd": "artillery run --config config/common.yml --environment localhost --output report/index.json scenarios/signup-and-competence-evaluation.yml",
+    "arti:local:campaign": "artillery run --config config/common.yml --environment localhost --output report/index.json scenarios/signup-and-campaign-participation.yml",
+    "arti:dev:campaign": "artillery run --config config/common.yml --environment development --output report/index.json scenarios/signup-and-campaign-participation.yml",
+    "arti:local:profil": "artillery run --config config/common.yml --environment localhost --output report/index.json scenarios/signup-and-profil.yml",
+    "arti:local:candidate": "DEBUG=http* artillery run --config config/common.yaml --environment localhost --output report/index.json scenarios/authenticate-and-upload-certification-session-candidate.yaml",
+    "arti:dev:profil": "artillery run --config config/common.yml --environment development --output report/index.json scenarios/signup-and-profil.yml",
+    "arti:cmd:dev": "artillery run --config config/common.yml --environment development --output report/index.json scenarios/signup-and-competence-evaluation.yml",
     "arti:run": "npm run db:initialize && npm run arti:cmd",
     "arti:run:local": "DATABASE_URL=postgresql://postgres@localhost/pix npm run arti:run",
     "arti:local:test": "artillery run --config config/common.yaml --environment localhost --quiet scenarios/test-connectivity.yaml",
@@ -49,6 +56,7 @@
     "eslint": "^7.32.0",
     "eslint-plugin-yaml": "^0.5.0",
     "faker": "^5.5.3",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "sizeof": "^1.0.0"
   }
 }
