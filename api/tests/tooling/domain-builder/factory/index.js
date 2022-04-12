@@ -294,4 +294,5 @@ export {
   buildUserSavedTutorialWithTutorial,
   buildValidation,
   buildValidator,
+  buildUserSettings: require('./build-user-settings'),
 };
