@@ -683,6 +683,7 @@ const dependencies = {
   userRepository,
   userService,
   userSavedTutorialRepository,
+  userSettingsRepository: require('../../infrastructure/repositories/user-settings-repository'),
   verifyCertificateCodeService,
   organizationInvitationService,
   organizationCreationValidator,
