@@ -73,6 +73,7 @@ import { buildUser } from './build-user.js';
 import { buildUserLogin } from './build-user-login.js';
 import { buildUserOrgaSettings } from './build-user-orga-settings.js';
 import { buildUserSavedTutorial } from './build-user-saved-tutorial.js';
+import { buildUserSettings } from './build-user-settings.js';
 import { buildUserRecommendedTraining } from './build-user-recommended-training.js';
 import * as campaignParticipationOverviewFactory from './campaign-participation-overview-factory.js';
 import * as knowledgeElementSnapshotFactory from './knowledge-elements-snapshot-factory.js';
@@ -154,6 +155,7 @@ export {
   buildUserLogin,
   buildUserOrgaSettings,
   buildUserSavedTutorial,
+  buildUserSettings,
   buildUserRecommendedTraining,
   campaignParticipationOverviewFactory,
   knowledgeElementSnapshotFactory,

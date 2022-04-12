@@ -173,6 +173,7 @@ import * as userReconciliationService from '../services/user-reconciliation-serv
 import * as userToCreateRepository from '../../infrastructure/repositories/user-to-create-repository.js';
 import * as userRepository from '../../infrastructure/repositories/user-repository.js';
 import * as userService from '../../domain/services/user-service.js';
+import { userSettingsRepository } from '../../infrastructure/repositories/user-settings-repository.js';
 import * as userSavedTutorialRepository from '../../infrastructure/repositories/user-saved-tutorial-repository.js';
 import * as verifyCertificateCodeService from '../../domain/services/verify-certificate-code-service.js';
 import { participantResultsSharedRepository } from '../../infrastructure/repositories/participant-results-shared-repository.js';
@@ -486,6 +487,8 @@ import { updateUserDetailsForAdministration } from './update-user-details-for-ad
 import { updateUserEmailWithValidation } from './update-user-email-with-validation.js';
 import { updateUserForAccountRecovery } from './account-recovery/update-user-for-account-recovery.js';
 import { updateUserPassword } from './update-user-password.js';
+import { updateUserColor } from './update-user-color.js';
+import { getUserSettings } from './get-user-settings.js';
 import { validateSessions } from './sessions-mass-import/validate-sessions.js';
 import { getOrganizationDetails } from './organizations-administration/get-organization-details.js';
 import { updateOrganizationInformation } from './organizations-administration/update-organization.js';
@@ -683,6 +686,7 @@ const dependencies = {
   userRepository,
   userService,
   userSavedTutorialRepository,
+  userSettingsRepository,
   verifyCertificateCodeService,
   organizationInvitationService,
   organizationCreationValidator,
@@ -920,6 +924,7 @@ const usecasesWithoutInjectedDependencies = {
   getUserDetailsForAdmin,
   getUserProfile,
   getUserProfileSharedForCampaign,
+  getUserSettings,
   handleBadgeAcquisition,
   handleTrainingRecommendation,
   importCertificationCandidatesFromCandidatesImportSheet,
@@ -984,6 +989,7 @@ const usecasesWithoutInjectedDependencies = {
   updateStudentNumber,
   updateTargetProfile,
   updateTraining,
+  updateUserColor,
   updateUserDetailsForAdministration,
   updateUserEmailWithValidation,
   updateUserForAccountRecovery,
