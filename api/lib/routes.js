@@ -51,5 +51,6 @@ module.exports = [
   require('./application/tutorial-evaluations'),
   require('./application/user-orga-settings'),
   require('./application/user-tutorials'),
+  require('./application/user-settings'),
   require('./application/users'),
 ];

@@ -61,6 +61,7 @@ module.exports = {
   buildTargetProfileTemplateTube: require('./build-target-profile-template-tube'),
   buildTutorialEvaluation: require('./build-tutorial-evaluation'),
   buildUser: require('./build-user'),
+  buildUserSettings: require('./build-user-settings'),
   buildUserOrgaSettings: require('./build-user-orga-settings'),
   buildUserSavedTutorial: require('./build-user-saved-tutorial'),
   campaignParticipationOverviewFactory: require('./campaign-participation-overview-factory'),

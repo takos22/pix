@@ -129,4 +129,5 @@ module.exports = {
   buildUserWithOrganizationLearner: require('./build-user-with-organization-learner'),
   buildValidation: require('./build-validation'),
   buildValidator: require('./build-validator'),
+  buildUserSettings: require('./build-user-settings'),
 };
