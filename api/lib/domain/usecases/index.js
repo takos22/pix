@@ -151,6 +151,7 @@ const dependencies = {
   userRepository: require('../../infrastructure/repositories/user-repository'),
   userService: require('../../domain/services/user-service'),
   userTutorialRepository: require('../../infrastructure/repositories/user-tutorial-repository'),
+  // Do not forget to add the repository here for injection!
   userSettingsRepository: require('../../infrastructure/repositories/user-settings-repository'),
   verifyCertificateCodeService: require('../../domain/services/verify-certificate-code-service'),
 };
@@ -407,6 +408,7 @@ module.exports = injectDependencies(
     updateUserDetailsForAdministration: require('./update-user-details-for-administration'),
     updateUserEmailWithValidation: require('./update-user-email-with-validation'),
     updateUserPassword: require('./update-user-password'),
+    // Do not forget to add the useCases here for injecting!
     updateUserColor: require('./update-user-color'),
     getUserSettings: require('./get-user-settings'),
   },

@@ -51,6 +51,7 @@ module.exports = [
   require('./application/tutorial-evaluations'),
   require('./application/user-orga-settings'),
   require('./application/user-tutorials'),
+  // Do not forget to add your route here
   require('./application/user-settings'),
   require('./application/users'),
 ];
