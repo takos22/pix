@@ -23,6 +23,8 @@ export default class SkillReview extends Component {
   }
 
   get _isCleaBadgeAcquired() {
+    // TODO: Ne fonctionne plus depuis PIX_EMPLOI_CLEA_V2, que doit on afficher ? Les compétences PIX ou CléA ?
+    // Si on affiche les compétences CléA sans afficher le badge, n'est ce pas étrange ?
     const pixEmploiClea = 'PIX_EMPLOI_CLEA';
     return this.acquiredBadges.some((badge) => badge.key === pixEmploiClea);
   }
@@ -198,7 +200,7 @@ export default class SkillReview extends Component {
     const adapter = this.store.adapterFor('campaign-participation-result');
     await adapter.beginImprovement(campaignParticipationResult.id);
     this.router.transitionTo('campaigns.entry-point', this.args.model.campaign.code);
-    return;
+
   }
 
   @action

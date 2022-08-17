@@ -87,6 +87,8 @@ module.exports = {
 function transform(record) {
   return {
     ...record,
+    // TODO: semble avoir été introduit pour de la rétrocompatibilité: https://github.com/1024pix/pix/pull/3613
+    // Peut-on supprimer skillSetResults ?
     campaignParticipationBadges: record.badgeResults.map(mapBadgeResult),
   };
 }

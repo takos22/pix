@@ -20,6 +20,8 @@ export default class CampaignParticipationResult extends Model {
   @belongsTo('reachedStage') reachedStage;
 
   get cleaBadge() {
+    // TODO: Ne fonctionne plus depuis PIX_EMPLOI_CLEA_V2, que doit on afficher ? Les compétences PIX ou CléA ?
+    // Si on affiche les compétences CléA sans afficher le badge, n'est ce pas étrange ?
     const badgeCleaKey = 'PIX_EMPLOI_CLEA';
     return this.campaignParticipationBadges.find((badge) => badge.key === badgeCleaKey);
   }
