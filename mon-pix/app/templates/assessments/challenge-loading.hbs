@@ -1,0 +1,43 @@
+{{page-title this.pageTitle}}
+
+{{#if this.couldDisplayInfoAlert}}
+  <div
+    class="challenge__info-alert challenge__info-alert--hide challenge__info-alert--could-show"
+    tabindex="0"
+    role="alert"
+    aria-live="assertive"
+  >
+    <div class="challenge-info-alert__icon"></div>
+    <p class="challenge-info-alert__title">
+      {{t "pages.challenge.is-focused-challenge.info-alert.title"}}
+    </p>
+    <p class="challenge-info-alert__subtitle">
+      {{t "pages.challenge.is-focused-challenge.info-alert.subtitle"}}
+    </p>
+  </div>
+{{/if}}
+
+<div class="background-banner-wrapper challenge">
+  {{#if this.isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
+    <div class="challenge__focused-out-overlay"></div>
+  {{/if}}
+
+  <div class="challenge__banner">
+    {{#if @model.assessment.isCertification}}
+      <CertificationBanner
+        @certificationNumber={{@model.assessment.certificationNumber}}
+        @certification={{@model.assessment.certificationCourse}}
+        @shouldBlurBanner={{this.shouldBlurBanner}}
+      />
+    {{else}}
+      <AssessmentBanner @title={{@model.assessment.title}} @displayHomeLink={{this.displayHomeLink}} />
+    {{/if}}
+  </div>
+
+  <main class="challenge__content rounded-panel--over-background-banner" role="main">
+    <div style="background: rgba(0, 0, 0, 0.2); height: 16px; margin: 42.5px 0 34px; border-radius: 15px;"></div>
+
+    <article class="rounded-panel rounded-panel--no-margin-bottom challenge-item" role="article" style="min-height: 300px;">
+    </article>
+  </main>
+</div>

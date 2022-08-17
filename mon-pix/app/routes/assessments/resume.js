@@ -20,7 +20,7 @@ export default class ResumeRoute extends Route {
     this.assessmentHasNoMoreQuestions = transition.to.queryParams.assessmentHasNoMoreQuestions == 'true';
   }
 
-  async redirect(assessment) {
+  async afterModel(assessment) {
     if (assessment.isCompleted) {
       return this._routeToResults(assessment);
     }
@@ -32,12 +32,6 @@ export default class ResumeRoute extends Route {
     }
 
     return this._resumeAssessmentWithoutCheckpoint(assessment);
-  }
-
-  @action
-  loading(transition, originRoute) {
-    // allows the loading template to be shown or not
-    return originRoute._router.currentRouteName !== 'assessments.challenge';
   }
 
   _resumeAssessmentWithoutCheckpoint(assessment) {
@@ -118,5 +112,10 @@ export default class ResumeRoute extends Route {
     this.router.replaceWith('assessments.checkpoint', assessment.id, {
       queryParams: { finalCheckpoint: true, newLevel: this.newLevel, competenceLeveled: this.competenceLeveled },
     });
+  }
+
+  @action
+  loading() {
+    return false;
   }
 }

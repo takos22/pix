@@ -140,4 +140,9 @@ export default class ChallengeRoute extends Route {
       error?.errors?.[0]?.detail === 'La session a été finalisée par votre centre de certification.'
     );
   }
+
+  // @action
+  // loading() {
+  //   return false;
+  // }
 }
