@@ -10,7 +10,8 @@ class AssessmentResult {
     targetProfile,
     isCampaignMultipleSendings,
     isOrganizationLearnerActive,
-    isCampaignArchived
+    isCampaignArchived,
+    stillValidBadgeAcquisitions,
   ) {
     const { knowledgeElements, sharedAt, assessmentCreatedAt } = participationResults;
     const { competences } = targetProfile;
@@ -32,7 +33,7 @@ class AssessmentResult {
     );
 
     this.competenceResults = competences.map((competence) => _buildCompetenceResults(competence, knowledgeElements));
-    this.badgeResults = targetProfile.badges.map((badge) => new BadgeResult(badge, participationResults));
+    this.badgeResults = targetProfile.badges.map((badge) => new BadgeResult(badge, participationResults, stillValidBadgeAcquisitions));
 
     this.stageCount = targetProfile.stages.length;
     if (targetProfile.stages.length > 0) {

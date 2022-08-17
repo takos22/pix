@@ -22,9 +22,10 @@ const handleBadgeAcquisition = async function ({
     const targetProfile = await targetProfileRepository.getByCampaignParticipationId(event.campaignParticipationId);
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: event.userId });
 
-    const validatedBadgesByUser = associatedBadges.filter((badge) =>
-      badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, targetProfile, badge })
-    );
+    const validatedBadgesByUser = associatedBadges.filter((badge) => {
+      const targetProfileSkillsIds = targetProfile.getSkillIds();
+      badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, targetProfileSkillsIds, badge })
+    });
 
     const badgesAcquisitionToCreate = validatedBadgesByUser.map((badge) => {
       return {

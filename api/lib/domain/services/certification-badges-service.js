@@ -19,9 +19,10 @@ module.exports = {
       async (badgeAcquisition) => {
         const badge = badgeAcquisition.badge;
         const targetProfile = await targetProfileRepository.get(badge.targetProfileId, domainTransaction);
+        const targetProfileSkillsIds = targetProfile.getSkillIds();
         const isBadgeValid = badgeCriteriaService.areBadgeCriteriaFulfilled({
           knowledgeElements,
-          targetProfile,
+          targetProfileSkillsIds,
           badge,
         });
         return isBadgeValid ? badgeAcquisition : null;

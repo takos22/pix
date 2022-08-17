@@ -2,8 +2,7 @@ const _ = require('lodash');
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 const logger = require('../../infrastructure/logger');
 
-function areBadgeCriteriaFulfilled({ knowledgeElements, targetProfile, badge }) {
-  const targetProfileSkillsIds = targetProfile.getSkillIds();
+function areBadgeCriteriaFulfilled({ knowledgeElements, targetProfileSkillsIds, badge }) {
   const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds);
 
   const masteryPercentage = getMasteryPercentageForTargetProfile({ targetProfileSkillsIds, targetedKnowledgeElements });

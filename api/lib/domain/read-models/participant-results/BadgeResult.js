@@ -1,7 +1,7 @@
 const SkillSetResult = require('./SkillSetResult');
 
 class BadgeResult {
-  constructor(badge, participationResults) {
+  constructor(badge, participationResults, stillValidBadgeAcquisitions) {
     const { acquiredBadgeIds, knowledgeElements } = participationResults;
     this.id = badge.id;
     this.title = badge.title;
@@ -9,7 +9,9 @@ class BadgeResult {
     this.altMessage = badge.altMessage;
     this.key = badge.key;
     this.imageUrl = badge.imageUrl;
-    this.isAcquired = acquiredBadgeIds.includes(badge.id);
+    this.isAcquired = badge.isCertifiable
+      ? stillValidBadgeAcquisitions.find(({ badgeId }) => badgeId === badge.id)?.isStillValid
+      : acquiredBadgeIds.includes(badge.id);
     this.isAlwaysVisible = badge.isAlwaysVisible;
 
     this.skillSetResults = badge.badgeCompetences.map((competence) =>

@@ -1,11 +1,13 @@
 const { knex } = require('../bookshelf');
 const _ = require('lodash');
 const Assessment = require('../../domain/models/Assessment');
+const Badge = require('../../domain/models/Badge');
 const AssessmentResult = require('../../domain/read-models/participant-results/AssessmentResult');
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
 const competenceRepository = require('./competence-repository');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const flashAssessmentResultRepository = require('./flash-assessment-result-repository');
+const { areBadgeCriteriaFulfilled } = require('../../domain/services/badge-criteria-service');
 const { NotFoundError } = require('../../domain/errors');
 
 const ParticipantResultRepository = {
@@ -16,12 +18,14 @@ const ParticipantResultRepository = {
       isCampaignMultipleSendings,
       isOrganizationLearnerActive,
       isCampaignArchived,
+      stillValidBadgeAcquisitions,
     ] = await Promise.all([
       _getParticipationResults(userId, campaignId),
       _getTargetProfile(campaignId, locale),
       _isCampaignMultipleSendings(campaignId),
       _isOrganizationLearnerActive(userId, campaignId),
       _isCampaignArchived(campaignId),
+      _getStillValidBadgeAcquisition(userId, campaignId),
     ]);
 
     return new AssessmentResult(
@@ -29,7 +33,8 @@ const ParticipantResultRepository = {
       targetProfile,
       isCampaignMultipleSendings,
       isOrganizationLearnerActive,
-      isCampaignArchived
+      isCampaignArchived,
+      stillValidBadgeAcquisitions
     );
   },
 };
@@ -222,6 +227,67 @@ async function _isOrganizationLearnerActive(userId, campaignId) {
 async function _getEstimatedFlashLevel(assessmentId) {
   const flashAssessmentResult = await flashAssessmentResultRepository.getLatestByAssessmentId(assessmentId);
   return flashAssessmentResult?.estimatedLevel;
+}
+
+async function _getStillValidBadgeAcquisition(userId, campaignId) {
+  const { targetProfileId } = await _getTargetProfileId(campaignId);
+  const targetProfileSkillsIds = await _findTargetedSkillIds(targetProfileId);
+  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
+  const certifiableBadges = await _getCertifiableBadges(targetProfileId);
+  const certifiableBadgeIds = certifiableBadges.map(({ id }) => id);
+  const skillSetsByBadgeId = await _getSkillSets(certifiableBadgeIds);
+  const badgeCriteriaByBadgeId = await _getBadgeCriteria(certifiableBadgeIds);
+
+  return certifiableBadges.map((certifiableBadge) => {
+    const isStillValid = _isCertifiableBadgeStillValid(
+      certifiableBadge,
+      skillSetsByBadgeId,
+      badgeCriteriaByBadgeId,
+      knowledgeElements,
+      targetProfileSkillsIds
+    );
+
+    return {
+      badgeId: certifiableBadge.id,
+      isStillValid,
+    };
+  });
+
+  async function _getCertifiableBadges(targetProfileId) {
+    return knex('badges').where({ targetProfileId }).where({ isCertifiable: true });
+  }
+
+  async function _getSkillSets(certifiableBadgeIds) {
+    return knex('skill-sets')
+      .select('badgeId')
+      .select(knex.raw('json_agg("skill-sets".*) as "skillSets"'))
+      .whereIn('badgeId', certifiableBadgeIds)
+      .groupBy('badgeId');
+  }
+
+  async function _getBadgeCriteria(certifiableBadgeIds) {
+    return knex('badge-criteria')
+      .select('badgeId')
+      .select(knex.raw('json_agg("badge-criteria".*) as "badgeCriteria"'))
+      .whereIn('badgeId', certifiableBadgeIds)
+      .groupBy('badgeId');
+  }
+
+  function _isCertifiableBadgeStillValid(
+    certifiableBadge,
+    skillSetsByBadgeId,
+    badgeCriteriaByBadgeId,
+    knowledgeElements,
+    targetProfileSkillsIds
+  ) {
+    const badge = new Badge({
+      ...certifiableBadge,
+      skillSets: skillSetsByBadgeId.find(({ badgeId }) => badgeId === certifiableBadge.id),
+      badgeCriteria: badgeCriteriaByBadgeId.find(({ badgeId }) => badgeId === certifiableBadge.id),
+    });
+
+    return areBadgeCriteriaFulfilled({ knowledgeElements, targetProfileSkillsIds, badge });
+  }
 }
 
 module.exports = ParticipantResultRepository;
