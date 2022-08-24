@@ -1,9 +1,10 @@
 <header role="banner">
   <NavbarHeader @burger={{burger}} />
-  <Tutorials::Header />
+  <Tutorials::Header @onTriggerFilterButton={{this.displaySidebar}}/>
 </header>
 
 <main id="main" class="main" role="main">
+  <PixSidebar @title="Filtrer" @showSidebar={{this.isSidebarVisible}} @onClose={{this.closeSidebar}}></PixSidebar>
   <div class="user-tutorials-content-v2">
     {{#if @model.meta.rowCount}}
       <div class="user-tutorials-content-v2__container">

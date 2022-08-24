@@ -13,6 +13,7 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
 
   beforeEach(async function () {
     user = server.create('user', 'withEmail');
+    server.create('feature-toggle', { id: 0, isPixAppTutoFiltersEnabled: true });
     await authenticateByEmail(user);
     await server.db.tutorials.remove();
   });
@@ -72,6 +73,39 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
 
         // then
         expect(screen.getByLabelText('Marquer ce tuto comme utile')).to.exist;
+      });
+    });
+  });
+
+  describe('when filter button is clicked', function () {
+    it('should open sidebar', async function () {
+      // given
+      const screen = await visit('/mes-tutos/recommandes');
+
+      // when
+      await click(screen.getByRole('button', { name: 'Filtrer' }));
+
+      // then
+      expect(find('.pix-sidebar')).to.exist;
+      expect(find('.pix-sidebar__overlay')).to.exist;
+      expect(find('.pix-sidebar__overlay--hidden')).to.not.exist;
+      expect(find('.pix-sidebar--hidden')).to.not.exist;
+    });
+  });
+
+  describe('when sidebar is open', function () {
+    describe('when close button is clicked', function () {
+      it('should close sidebar', async function () {
+        // given
+        const screen = await visit('/mes-tutos/recommandes');
+        await click(screen.getByRole('button', { name: 'Filtrer' }));
+
+        // when
+        await click(find('[aria-label="Fermer"]'));
+
+        // then
+        expect(find('.pix-sidebar__overlay--hidden')).to.exist;
+        expect(find('.pix-sidebar--hidden')).to.exist;
       });
     });
   });
