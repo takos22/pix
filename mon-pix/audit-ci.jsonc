@@ -1,0 +1,17 @@
+{
+  "$schema": "https://github.com/IBM/audit-ci/raw/main/docs/schema.json",
+  "critical": true,
+  // Syntax reference at https://github.com/IBM/audit-ci#allowlisting
+  "allowlist": [
+     // ember-mocha does no execute growl in the malicious context
+     // https://github.com/ember-cli/ember-cli-mocha/issues/258#issuecomment-399158388
+     // https://1024pix.slack.com/archives/CVDB50C5T/p1604682391085400?thread_ts=1604656760.076500&cid=CVDB50C5T
+    "GHSA-qh2h-chj9-jffq|ember-mocha>mocha>growl",
+    // ember-cli is not run on client side, only in CI
+    "GHSA-xvch-5gv4-984h|ember-cli>bower-config>minimist",
+    // ember-mocha is not run on client side, only in CI
+    "GHSA-xvch-5gv4-984h|ember-mocha>mocha>mkdirp>minimist",
+    // what's that ?
+    "GHSA-896r-f27r-55mw|jsprim>json-schema"
+  ]
+}
