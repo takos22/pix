@@ -1,0 +1,28 @@
+<PixSidebar @title="Filtrer" @showSidebar={{this.isSidebarVisible}} @onClose={{this.closeSidebar}} class="tutorials-filters">
+  <:content>
+    {{#each this.sortedAreas as |area|}}
+      <div class="area-border-container">
+        <div class="area-border {{area.color}}"></div>
+        <PixCollapsible @title="{{area.title}}" class="{{area.color}}">
+          <ul class="tutorials-filters__competences">
+            {{#each area.sortedCompetences as |competence|}}
+              <li class="tutorials-filters-competences__item">
+                <PixCheckbox
+                  @id={{competence.id}}
+                  @label={{competence.name}}
+                  {{on "change" (fn this.handleFilterChange 'competences' competence.id)}}
+                />
+              </li>
+            {{/each}}
+          </ul>
+        </PixCollapsible>
+      </div>
+    {{/each}}
+  </:content>
+  <:footer>
+    <div class="tutorials-filters__footer">
+      <PixButton @triggerAction={{this.handleResetFilters}} @size="small" @backgroundColor="transparent-light" @isBorderVisible={{true}}>Rénitialiser</PixButton>
+      <PixButton @size="small">Voir les résultats</PixButton>
+    </div>
+  </:footer>
+</PixSidebar>

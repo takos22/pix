@@ -18,7 +18,7 @@ export default class SavedController extends Controller {
   }
 
   @action
-  displaySidebar() {
+  showSidebar() {
     this.isSidebarVisible = true;
   }
 

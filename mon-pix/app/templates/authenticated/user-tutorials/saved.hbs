@@ -1,15 +1,15 @@
 <header role="banner">
   <NavbarHeader @burger={{burger}} />
-  <Tutorials::Header @onTriggerFilterButton={{this.displaySidebar}} />
+  <Tutorials::Header @onTriggerFilterButton={{this.showSidebar}} />
 </header>
 
 <main id="main" class="main" role="main">
-  <PixSidebar @title="Filtrer" @showSidebar={{this.isSidebarVisible}} @onClose={{this.closeSidebar}}></PixSidebar>
+  <UserTutorials::Filters::Sidebar @isVisible={{isSidebarVisible}} @areas={{this.model.areas}} @onClose={{this.closeSidebar}} />
   <div class="user-tutorials-content-v2">
-    {{#if @model.meta.rowCount}}
+    {{#if @model.savedTutorials.meta.rowCount}}
       <div class="user-tutorials-content-v2__container">
-        <Tutorials::Cards @tutorials={{@model}} @afterRemove={{this.refresh}} />
-        <PixPagination @pagination={{@model.meta}} @pageOptions={{this.pageOptions}} @isCondensed="true" />
+        <Tutorials::Cards @tutorials={{@model.savedTutorials}} @afterRemove={{this.refresh}} />
+        <PixPagination @pagination={{@model.savedTutorials.meta}} @pageOptions={{this.pageOptions}} @isCondensed="true" />
       </div>
     {{else}}
       <Tutorials::SavedEmpty />
