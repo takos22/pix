@@ -22,6 +22,7 @@ export default class User extends Model {
   @belongsTo('profile') profile;
 
   @hasMany('membership') memberships;
+  @hasMany('user-organization') organizations;
   @hasMany('certification-center-membership') certificationCenterMemberships;
   @hasMany('organization-learner') organizationLearners;
   @hasMany('authentication-method') authenticationMethods;
