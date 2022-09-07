@@ -1,0 +1,43 @@
+<header class="page-section__header">
+  <h2 class="page-section__title">Organisations de l’utilisateur</h2>
+</header>
+<div class="content-text content-text--small">
+  {{#if this.activeOrganizationMemberships}}
+    <div class="table-admin">
+      <table>
+        <thead>
+          <tr>
+            <th class="table__column table__column--id">ID</th>
+            <th>Date dernière modification</th>
+            <th>ID organisation</th>
+            <th>Nom organisation</th>
+            <th>Type organisation</th>
+            <th>Identifiant externe organisation</th>
+            <th>Rôle</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {{#each this.activeOrganizationMemberships as |organizationMembership|}}
+            <tr>
+              <td>{{organizationMembership.id}}</td>
+              <td>{{dayjs-format organizationMembership.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}</td>
+              <td class="table__column table__column--id">
+                <LinkTo @route="authenticated.organizations.get" @model={{organizationMembership.organizationId}}>
+                  {{organizationMembership.organizationId}}
+                </LinkTo>
+              </td>
+              <td>{{organizationMembership.organizationName}}</td>
+              <td>{{organizationMembership.organizationType}}</td>
+              <td>{{organizationMembership.organizationExternalId}}</td>
+              <td>{{organizationMembership.roleLabel}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+
+    </div>
+  {{else}}
+    Aucune organisation
+  {{/if}}
+</div>

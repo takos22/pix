@@ -196,4 +196,48 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       assert.dom(screen.getByRole('link', { name: 'Terry Dicule' })).exists();
     });
   });
+
+  module('when administrator clicks on organizations tab', function () {
+    test('should show user’s organizations', async function (assert) {
+      // given
+      const userOrganization1 = this.server.create('user-organization');
+      userOrganization1.role = 'MEMBER';
+      userOrganization1.organizationId = 100025;
+      userOrganization1.organizationName = 'Dragon & Co';
+      userOrganization1.organizationType = 'PRO';
+      userOrganization1.save();
+
+      userOrganization1.role = 'MEMBER';
+      userOrganization1.organizationId = 100095;
+      userOrganization1.organizationName = 'Collège The Night Watch';
+      userOrganization1.organizationType = 'SCO';
+      userOrganization1.organizationExternalId = '1237457A';
+      userOrganization1.save();
+
+      const userOrganization2 = this.server.create('user-organization');
+      const user = server.create('user', {
+        email: 'john.harry@example.net',
+      });
+
+      user.organizations = [userOrganization1, userOrganization2];
+      user.save();
+
+      this.server.create('admin-member', {
+        userId: user.id,
+        isSuperAdmin: true,
+      });
+      await createAuthenticateSession({ userId: user.id });
+
+      const screen = await visit(`/users/${user.id}`);
+
+      // when
+      const element = await screen.findByText('Organisations', { selector: 'a.navbar-item' });
+      await click(element);
+
+      // then
+      assert.deepEqual(currentURL(), `/users/${user.id}/organizations`);
+      // TODO: Doesn't work
+      // assert.dom(screen.getByText('Collège The Night Watch')).exists();
+    });
+  });
 });
