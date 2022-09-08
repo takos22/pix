@@ -52,9 +52,10 @@ export default class FillInCampaignCodeController extends Controller {
       this.campaign = await this.store.queryRecord('campaign', {
         filter: { code: campaignCode },
       });
-      const externalUser = this.session.get('data.externalUser');
+      const hasBeenAlreadyAuthenticateByGar = this.session.get('data.externalUser');
+      const isAlreadyAuthenticated = this.session.isAuthenticated;
 
-      if (!externalUser && this.campaign.identityProvider === 'GAR') {
+      if (!hasBeenAlreadyAuthenticateByGar && this.campaign.identityProvider === 'GAR' && !isAlreadyAuthenticated) {
         this.showMediacentreStartCampaignModal = true;
         return;
       }
