@@ -289,6 +289,34 @@ exports.register = async function (server) {
         tags: ['api', 'user', 'campaign-participations'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/admin/users/{id}/organizations',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
+        handler: userController.findUserOrganizationsForAdmin,
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle Permet à un administrateur de lister les organisations d’un utilisateur',
+        ],
+        tags: ['api', 'admin', 'user', 'organizations'],
+      },
+    },
   ];
 
   server.route([
