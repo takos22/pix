@@ -32,41 +32,41 @@ services:
     ports:
       - "3000:3000"
 
-  orga:
-    image: pix/orga
-    depends_on:
-      - api
-    build: 
-      dockerfile: ../docker/dockerfiles/Dockerfile.ember
-      context: ../orga
-    ports:
-      - "4201:80"
-    volumes:
-      - ./dockerfiles/config/ember-nginx.conf:/etc/nginx/conf.d/default.conf
+  #orga:
+    #image: pix/orga
+    #depends_on:
+      #- api
+    #build: 
+      #dockerfile: ../docker/dockerfiles/Dockerfile.ember
+      #context: ../orga
+    #ports:
+      #- "4201:80"
+    #volumes:
+      #- ./dockerfiles/config/ember-nginx.conf:/etc/nginx/conf.d/default.conf
 
-  admin:
-    image: pix/admin
-    depends_on:
-      - api
-    build: 
-      dockerfile: ../docker/dockerfiles/Dockerfile.ember
-      context: ../admin/
-    ports:
-      - "4202:80"
-    volumes:
-      - ./dockerfiles/config/ember-nginx.conf:/etc/nginx/conf.d/default.conf
+  #admin:
+    #image: pix/admin
+    #depends_on:
+      #- api
+    #build: 
+      #dockerfile: ../docker/dockerfiles/Dockerfile.ember
+      #context: ../admin/
+    #ports:
+      #- "4202:80"
+    #volumes:
+      #- ./dockerfiles/config/ember-nginx.conf:/etc/nginx/conf.d/default.conf
 
-  certif:
-    image: pix/certif
-    depends_on:
-      - api
-    build: 
-      dockerfile: ../docker/dockerfiles/Dockerfile.ember
-      context: ../certif/
-    ports:
-      - "4203:80"
-    volumes:
-      - ./dockerfiles/config/ember-nginx.conf:/etc/nginx/conf.d/default.conf
+  #certif:
+    #image: pix/certif
+    #depends_on:
+      #- api
+    #build: 
+      #dockerfile: ../docker/dockerfiles/Dockerfile.ember
+      #context: ../certif/
+    #ports:
+      #- "4203:80"
+    #volumes:
+      #- ./dockerfiles/config/ember-nginx.conf:/etc/nginx/conf.d/default.conf
 
   mon-pix:
     image: pix/mon-pix
