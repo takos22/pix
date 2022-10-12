@@ -58,19 +58,4 @@ describe('Integration | Application | Route | healthcheckRouter', function () {
       expect(healthCheckController.checkRedisStatus).to.have.been.calledOnce;
     });
   });
-
-  describe('GET /api/healthcheck/crash', function () {
-    it('should exist', async function () {
-      // given
-      const method = 'GET';
-      const url = '/api/healthcheck/crash';
-
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(healthCheckController.crashTest).to.have.been.calledOnce;
-    });
-  });
 });
