@@ -11,4 +11,9 @@ export default class Card extends Component {
   get type() {
     return this.intl.t(`pages.training.type.${this.args.training.type}`);
   }
+
+  get imageSrc() {
+    // return this.args.training.type;
+    return 'Webinaire';
+  }
 }
