@@ -50,7 +50,31 @@ describe('Unit | Component | Tutorial | card', function () {
       const result = component.imageSrc;
 
       // then
-      expect(result).to.contain('Parcours_Autoformation');
+      expect(result).to.contain('Parcours_autoformation');
+    });
+
+    it('should return valid image url for webinaire', function () {
+      // when
+      const result = component.imageSrc;
+
+      // then
+      expect(result).to.contain('/images/illustrations/trainings/Illu_Webinaire-1.jpg');
+    });
+
+    it('should return valid image url for autoformation', function () {
+      // given
+      const training = {
+        type: 'autoformation',
+      };
+      component = createGlimmerComponent('component:training/card', { training });
+
+      // when
+      const result = component.imageSrc;
+
+      // then
+      expect(result).to.match(
+        new RegExp(/\/images\/illustrations\/trainings\/Illu_Parcours_autoformation-[1-3]{1}.jpg/g)
+      );
     });
   });
 });

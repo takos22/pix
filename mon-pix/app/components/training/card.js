@@ -4,8 +4,7 @@ import { inject as service } from '@ember/service';
 export default class Card extends Component {
   @service intl;
   get durationFormatted() {
-    const hours = this.args.training.duration.hours + 'h';
-    return hours;
+    return this.args.training.duration.hours + 'h';
   }
 
   get type() {
@@ -13,7 +12,9 @@ export default class Card extends Component {
   }
 
   get imageSrc() {
-    // return this.args.training.type;
-    return 'Webinaire';
+    if (this.args.training.type === 'autoformation') {
+      return '/images/illustrations/trainings/Illu_Parcours_autoformation-1.jpg';
+    }
+    return '/images/illustrations/trainings/Illu_Webinaire-1.jpg';
   }
 }
