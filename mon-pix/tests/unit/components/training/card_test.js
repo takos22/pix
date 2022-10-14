@@ -73,7 +73,7 @@ describe('Unit | Component | Tutorial | card', function () {
 
       // then
       expect(result).to.match(
-        new RegExp(/\/images\/illustrations\/trainings\/Illu_Parcours_autoformation-[1-3]{1}.jpg/g)
+        new RegExp(/\/images\/illustrations\/trainings\/Illu_Parcours_autoformation-[1-3].jpg/g)
       );
     });
   });
