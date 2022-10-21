@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const logger = require('../../infrastructure/logger');
 
 class BadgeForCalculation {
   constructor({ id, badgeCriteria }) {
@@ -24,6 +25,13 @@ class BadgeCriterion {
     ).length;
     const totalSkillsCount = this.skillIds.length;
     const masteryPercentage = _computeMasteryPercentage(validatedSkillsCount, totalSkillsCount);
+    logger.trace({
+      validatedSkillsCount,
+      totalSkillsCount,
+      masteryPercentage,
+      threshold: this.threshold,
+      isFulfilled: masteryPercentage >= this.threshold,
+    });
     return masteryPercentage >= this.threshold;
   }
 }
