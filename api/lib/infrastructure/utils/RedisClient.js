@@ -1,7 +1,6 @@
 const redis = require('redis');
 const redisScan = require('node-redis-scan');
 const Redlock = require('redlock');
-const { promisify } = require('util');
 const logger = require('../logger');
 
 const REDIS_CLIENT_OPTIONS = {};
@@ -25,16 +24,16 @@ module.exports = class RedisClient {
       { retryCount: 0 }
     );
 
-    this.ttl = promisify(this._wrapWithPrefix(this._client.ttl)).bind(this._client);
-    this.get = promisify(this._wrapWithPrefix(this._client.get)).bind(this._client);
-    this.set = promisify(this._wrapWithPrefix(this._client.set)).bind(this._client);
-    this.del = promisify(this._wrapWithPrefix(this._client.del)).bind(this._client);
-    this.expire = promisify(this._wrapWithPrefix(this._client.expire)).bind(this._client);
-    this.lpush = promisify(this._wrapWithPrefix(this._client.lpush)).bind(this._client);
-    this.lrem = promisify(this._wrapWithPrefix(this._client.lrem)).bind(this._client);
-    this.lrange = promisify(this._wrapWithPrefix(this._client.lrange)).bind(this._client);
-    this.ping = promisify(this._client.ping).bind(this._client);
-    this.flushall = promisify(this._client.flushall).bind(this._client);
+    this.ttl = this._wrapWithPrefix(this._client.ttl).bind(this._client);
+    this.get = this._wrapWithPrefix(this._client.get).bind(this._client);
+    this.set = this._wrapWithPrefix(this._client.set).bind(this._client);
+    this.del = this._wrapWithPrefix(this._client.del).bind(this._client);
+    this.expire = this._wrapWithPrefix(this._client.expire).bind(this._client);
+    this.lpush = this._wrapWithPrefix(this._client.lpush).bind(this._client);
+    this.lrem = this._wrapWithPrefix(this._client.lrem).bind(this._client);
+    this.lrange = this._wrapWithPrefix(this._client.lrange).bind(this._client);
+    this.ping = this._client.ping.bind(this._client);
+    this.flushall = this._client.flushall.bind(this._client);
     this.lockDisposer = this._clientWithLock.disposer.bind(this._clientWithLock);
   }
 
