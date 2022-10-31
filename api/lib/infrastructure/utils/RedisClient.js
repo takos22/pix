@@ -1,6 +1,7 @@
 const redis = require('redis');
 const redisScan = require('node-redis-scan');
 const Redlock = require('redlock');
+const { promisify } = require('util');
 const logger = require('../logger');
 
 const REDIS_CLIENT_OPTIONS = {};
