@@ -12,10 +12,9 @@ class DistributedCache extends Cache {
     this._channel = channel;
 
     this._redisClientSubscriber.on('ready', () => {
-      this._redisClientSubscriber.subscribe(this._channel);
-    });
-    this._redisClientSubscriber.on('message', () => {
-      return this._underlyingCache.flushAll();
+      this._redisClientSubscriber.subscribe(this._channel, () => {
+        this._underlyingCache.flushAll();
+      });
     });
   }
 

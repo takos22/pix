@@ -44,10 +44,9 @@ module.exports = class RedisClient {
     };
   }
 
-  subscribe(channel) {
-    this._client.subscribe(channel, () =>
-      logger.info({ redisClient: this._clientName }, `Subscribed to channel '${channel}'`)
-    );
+  async subscribe(channel, callback) {
+    await this._client.subscribe(channel, callback);
+    logger.info({ redisClient: this._clientName }, `Subscribed to channel '${channel}'`)
   }
 
   publish(channel, message) {
