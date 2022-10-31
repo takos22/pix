@@ -62,7 +62,7 @@ class RedisCache extends Cache {
   flushAll() {
     logger.info('Flushing Redis database');
 
-    return this._client.flushall();
+    return this._client.flushAll();
   }
 
   async quit() {

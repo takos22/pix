@@ -180,12 +180,12 @@ describe('Unit | Infrastructure | Cache | redis-cache', function () {
 
   describe('#flushAll', function () {
     beforeEach(function () {
-      stubbedClient.flushall = sinon.stub();
+      stubbedClient.flushAll = sinon.stub();
     });
 
     it('should resolve', function () {
       // given
-      stubbedClient.flushall.resolves();
+      stubbedClient.flushAll.resolves();
 
       // when
       const promise = redisCache.flushAll();

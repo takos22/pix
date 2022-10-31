@@ -34,7 +34,7 @@ module.exports = class RedisClient {
     this.lrem = this._wrapWithPrefix(this._client.lrem).bind(this._client);
     this.lrange = this._wrapWithPrefix(this._client.lrange).bind(this._client);
     this.ping = this._client.ping.bind(this._client);
-    this.flushall = this._client.flushall.bind(this._client);
+    this.flushAll = this._client.flushAll.bind(this._client);
     this.lockDisposer = this._clientWithLock.disposer.bind(this._clientWithLock);
   }
 
