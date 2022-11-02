@@ -36,6 +36,7 @@ const _DatasourcePrototype = {
 
   async _getLearningContent() {
     const generator = () => lcms.getLatestRelease();
+    await cache.connect();
     const learningContent = await cache.get(generator);
     return learningContent;
   },
@@ -60,6 +61,7 @@ module.exports = {
 
   async refreshLearningContentCacheRecords() {
     const learningContent = await lcms.getLatestRelease();
+    await cache.connect();
     await cache.set(learningContent);
     return learningContent;
   },

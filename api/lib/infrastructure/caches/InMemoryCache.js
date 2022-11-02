@@ -8,6 +8,8 @@ class InMemoryCache extends Cache {
     this._queue = Promise.resolve();
   }
 
+  connect() {}
+
   quit() {
     this._cache.close();
   }

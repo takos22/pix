@@ -17,6 +17,10 @@ class RedisCache extends Cache {
     return new RedisClient(redis_url, { name: 'redis-cache-query-client', prefix: 'cache:' });
   }
 
+  connect() {
+    return this._client.connect();
+  }
+
   async get(key, generator) {
     const value = await this._client.get(key);
 

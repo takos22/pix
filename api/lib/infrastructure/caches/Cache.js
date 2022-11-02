@@ -1,4 +1,7 @@
 class Cache {
+  connect() {
+    throw new Error('Method #connect() must be overridden');
+  }
   async get(/* key, generator */) {
     throw new Error('Method #get(key, generator) must be overridden');
   }

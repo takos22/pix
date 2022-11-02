@@ -18,6 +18,10 @@ class DistributedCache extends Cache {
     });
   }
 
+  connect() {
+    return Promise.all([this._redisClientSubscriber.connect(), this._redisClientSubscriber.connect()]);
+  }
+
   get(key, generator) {
     return this._underlyingCache.get(key, generator);
   }

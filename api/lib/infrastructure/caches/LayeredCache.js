@@ -7,6 +7,10 @@ class LayeredCache extends Cache {
     this._secondLevelCache = secondLevelCache;
   }
 
+  connect() {
+    return Promise.all([this._firstLevelCache.connect(), this._secondLevelCache.connect()]);
+  }
+
   get(key, generator) {
     return this._firstLevelCache.get(key, () => {
       return this._secondLevelCache.get(key, generator);
