@@ -1,5 +1,7 @@
 const pino = require('pino');
 const { logging: logSettings } = require('../config');
+const { getCorrelationContext } = require('./monitoring-tools');
+const { omit, get } = require('lodash');
 
 let prettyPrint;
 if (logSettings.logForHumans) {
@@ -17,16 +19,40 @@ if (logSettings.logForHumans) {
 const logger = pino(
   {
     level: logSettings.logLevel,
-    redact: ['req.headers.authorization'],
     enabled: logSettings.enabled,
   },
   prettyPrint
 );
 
-logger.error('ERROR logs enabled');
+const fatal = (data) => {
+  logger.fatal(data);
+};
+const error = (data) => {
+  const context = getCorrelationContext();
+  logger.error(
+    {
+      ...context,
+      ...omit(data, 'message'),
+    },
+    get(data, 'message', '-')
+  );
+};
+const warn = (data) => {
+  logger.warn(data);
+};
+const info = (data) => {
+  logger.info(data);
+};
+const debug = (data) => {
+  logger.debug(data);
+};
+const trace = (data) => {
+  logger.trace(data);
+};
+
 logger.warn('WARN logs enabled');
 logger.info('INFO logs enabled');
 logger.debug('DEBUG logs enabled');
 logger.trace('TRACE logs enabled');
 
-module.exports = logger;
+module.exports = { fatal, error, warn, info, debug, trace };

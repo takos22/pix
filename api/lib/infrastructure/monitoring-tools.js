@@ -103,4 +103,5 @@ module.exports = {
   pushInContext,
   setInContext,
   asyncLocalStorageForTests: asyncLocalStorage,
+  getCorrelationContext,
 };

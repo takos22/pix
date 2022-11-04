@@ -1,7 +1,7 @@
 const errorManager = require('./error-manager');
 const { BaseHttpError } = require('./http-errors');
 const { DomainError } = require('../domain/errors');
-const monitoringTools = require('../infrastructure/monitoring-tools');
+const logger = require('../infrastructure/logger');
 
 const isExpectedError = (error) => {
   return error instanceof DomainError || error instanceof BaseHttpError;
@@ -15,7 +15,7 @@ function handleErrors(request, h) {
     if (isExpectedError(error)) {
       return errorManager.handle(request, h, error);
     } else {
-      monitoringTools.logError({ event: 'uncaught-error', stack: error.stack });
+      logger.error({ event: 'uncaught-error', stack: error.stack });
     }
   }
 

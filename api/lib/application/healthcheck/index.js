@@ -1,4 +1,5 @@
 const healthcheckController = require('./healthcheck-controller');
+const logger = require('../../infrastructure/logger');
 
 exports.register = async function (server) {
   server.route([
@@ -16,7 +17,10 @@ exports.register = async function (server) {
       path: '/api/healthcheck/db',
       config: {
         auth: false,
-        handler: healthcheckController.checkDbStatus,
+        handler: () => {
+          logger.error('bar');
+          throw new Error('foo');
+        },
         tags: ['api'],
       },
     },

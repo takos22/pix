@@ -1,6 +1,31 @@
 const config = require('../../config');
 const monitoringTools = require('../monitoring-tools');
 
+const pino = require('pino');
+const { logging: logSettings } = require('../../config');
+
+let prettyPrint;
+if (logSettings.logForHumans) {
+  // eslint-disable-next-line node/no-unpublished-require
+  const pretty = require('pino-pretty');
+  const omitDay = 'HH:MM:ss';
+  prettyPrint = pretty({
+    sync: true,
+    colorize: true,
+    translateTime: omitDay,
+    ignore: 'pid,hostname',
+  });
+}
+
+const logger = pino(
+  {
+    level: logSettings.logLevel,
+    redact: ['req.headers.authorization'],
+    enabled: logSettings.enabled,
+  },
+  prettyPrint
+);
+
 function logObjectSerializer(req) {
   const enhancedReq = {
     ...req,
@@ -26,7 +51,7 @@ const configuration = {
     serializers: {
       req: logObjectSerializer,
     },
-    instance: require('../logger'),
+    instance: logger,
     // Remove duplicated req property: https://github.com/pinojs/hapi-pino#optionsgetchildbindings-request---key-any-
     getChildBindings: () => ({}),
     logQueryParams: true,
