@@ -18,11 +18,13 @@ module.exports = async function getUserCampaignAssessmentResult({
       badgeForCalculationRepository
     );
     const stillValidBadges = badges.filter((badge) => stillValidBadgeIds.includes(badge.id));
+    const nonValidBadges = badges.filter((badge) => !stillValidBadgeIds.includes(badge.id));
     const assessmentResult = await participantResultRepository.getByUserIdAndCampaignId({
       userId,
       campaignId,
       locale,
       badges: stillValidBadges,
+      nonValidBadges,
     });
 
     return assessmentResult;
