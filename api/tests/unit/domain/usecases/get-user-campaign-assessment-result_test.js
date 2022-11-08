@@ -45,7 +45,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
   context('when no error to catch is thrown during process', function () {
     it('should return assessment result based on still valid badges', async function () {
       // given
-      const expectedCampaignAssessmentResult = Symbol('campaign assessment result');
+      const expectedCampaignAssessmentResult = 'campaign assessment result';
       const badge1 = domainBuilder.buildBadge({ id: 1 });
       const badgeForCalculationObtained1 = domainBuilder.buildBadgeForCalculation.mockObtainable({ id: badge1.id });
       const badge2 = domainBuilder.buildBadge({ id: 2 });
@@ -54,6 +54,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
       });
       const badge3 = domainBuilder.buildBadge({ id: 3 });
       const badgeForCalculationObtained3 = domainBuilder.buildBadgeForCalculation.mockObtainable({ id: badge3.id });
+
       badgeRepository.findByCampaignId.withArgs(campaignId).resolves([badge1, badge2, badge3]);
       knowledgeElementRepository.findUniqByUserId
         .withArgs({ userId })
@@ -67,6 +68,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
           campaignId,
           locale,
           badges: [badge1, badge3],
+          nonValidBadges: [badge2],
         })
         .resolves(expectedCampaignAssessmentResult);
 
@@ -74,7 +76,7 @@ describe('Unit | UseCase | get-user-campaign-assessment-result', function () {
       const campaignAssessmentResult = await getUserCampaignAssessmentResult(args);
 
       // then
-      expect(campaignAssessmentResult).to.deep.equal(expectedCampaignAssessmentResult);
+      expect(campaignAssessmentResult).to.equal(expectedCampaignAssessmentResult);
     });
   });
 });

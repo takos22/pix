@@ -9,7 +9,7 @@ const {
 const _ = require('lodash');
 const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
 
-describe('Acceptance | API | Campaign Assessment Result', function () {
+describe.only('Acceptance | API | Campaign Assessment Result', function () {
   const JAFFA_COLOR = 'jaffa';
   const EMERALD_COLOR = 'emerald';
   const WILD_STRAWBERRY_COLOR = 'wild-strawberry';
