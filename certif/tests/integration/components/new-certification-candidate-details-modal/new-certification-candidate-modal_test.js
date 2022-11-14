@@ -31,22 +31,20 @@ module('Integration | Component | new-certification-candidate-modal', function (
     this.set('updateCandidateStub', updateCandidateStub);
     this.set('updateCandidateWithEventStub', updateCandidateWithEventStub);
     this.set('countries', []);
-    this.set('candidateData', [
-      {
-        firstName: '',
-        lastName: '',
-        birthdate: '',
-        birthCity: '',
-        birthCountry: '',
-        email: '',
-        externalId: '',
-        resultRecipientEmail: '',
-        birthPostalCode: '',
-        birthInseeCode: '',
-        sex: '',
-        extraTimePercentage: '',
-      },
-    ]);
+    this.set('candidateData', {
+      firstName: '',
+      lastName: '',
+      birthdate: '',
+      birthCity: '',
+      birthCountry: '',
+      email: '',
+      externalId: '',
+      resultRecipientEmail: '',
+      birthPostalCode: '',
+      birthInseeCode: '',
+      sex: '',
+      extraTimePercentage: '',
+    });
 
     // when
     const screen = await renderScreen(hbs`
@@ -168,22 +166,20 @@ module('Integration | Component | new-certification-candidate-modal', function (
     this.set('closeModal', closeModalStub);
     this.set('updateCandidateStub', updateCandidateStub);
     this.set('updateCandidateWithEventStub', updateCandidateWithEventStub);
-    this.set('candidateData', [
-      {
-        firstName: '',
-        lastName: '',
-        birthdate: '',
-        birthCity: '',
-        birthCountry: '',
-        email: '',
-        externalId: '',
-        resultRecipientEmail: '',
-        birthPostalCode: '',
-        birthInseeCode: '',
-        sex: '',
-        extraTimePercentage: '',
-      },
-    ]);
+    this.set('candidateData', {
+      firstName: '',
+      lastName: '',
+      birthdate: '',
+      birthCity: '',
+      birthCountry: '',
+      email: '',
+      externalId: '',
+      resultRecipientEmail: '',
+      birthPostalCode: '',
+      birthInseeCode: '',
+      sex: '',
+      extraTimePercentage: '',
+    });
     this.set('countries', [
       { id: 1, code: '99123', name: 'Syldavie' },
       { id: 2, code: '99100', name: 'France' },
