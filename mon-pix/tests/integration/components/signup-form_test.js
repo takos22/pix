@@ -263,6 +263,7 @@ describe('Integration | Component | SignupForm', function () {
       class sessionService extends Service {
         authenticateUser = sinon.stub().resolves();
       }
+
       this.owner.register('service:session', sessionService);
       session = this.owner.lookup('service:session', sessionService);
     });
@@ -660,6 +661,7 @@ describe('Integration | Component | SignupForm', function () {
       class sessionService extends Service {
         authenticateUser = sinon.stub().resolves();
       }
+
       this.owner.register('service:session', sessionService);
 
       const validUser = EmberObject.create({
@@ -679,7 +681,7 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel("Je m'inscris");
 
       // then
-      await waitUntil(() => find('.loader-in-button'));
+      expect(find('.loader-in-button'));
     });
   });
 });
