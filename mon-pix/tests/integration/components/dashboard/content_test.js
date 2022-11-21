@@ -577,6 +577,11 @@ describe('Integration | Component | Dashboard | Content', function () {
       }
 
       this.owner.register('service:currentUser', CurrentUserWithCodeStub);
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        campaignParticipations: [],
+        scorecards: [],
+      });
 
       // when
       await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
@@ -600,6 +605,11 @@ describe('Integration | Component | Dashboard | Content', function () {
       }
 
       this.owner.register('service:currentUser', CurrentUserStub);
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        campaignParticipations: [],
+        scorecards: [],
+      });
 
       // when
       await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
