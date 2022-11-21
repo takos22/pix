@@ -18,7 +18,7 @@ describe('Integration | Component | Congratulations Certification Banner', funct
 
     // when
     const screen = await render(
-      hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}} @closeBanner={{this.closeBanner}}/>`
+      hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}} @closeBanner={{this.closeBanner}} @certificationEligibility={{this.certificationEligibility}}/>`
     );
 
     // then
@@ -34,7 +34,7 @@ describe('Integration | Component | Congratulations Certification Banner', funct
     this.set('certificationEligibility', store.createRecord('is-certifiable', {}));
 
     const screen = await render(
-      hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}} @closeBanner={{this.closeBanner}}/>`
+      hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}} @closeBanner={{this.closeBanner}} @certificationEligibility={{this.certificationEligibility}}/>`
     );
 
     // when
