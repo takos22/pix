@@ -11,8 +11,10 @@ describe('Integration | Component | Congratulations Certification Banner', funct
 
   it('renders a banner indicating the user certifiability', async function () {
     // given
+    const store = this.owner.lookup('service:store');
     this.set('fullName', 'Fifi Brindacier');
     this.set('closeBanner', () => {});
+    this.set('certificationEligibility', store.createRecord('is-certifiable', {}));
 
     // when
     const screen = await render(
@@ -25,9 +27,12 @@ describe('Integration | Component | Congratulations Certification Banner', funct
 
   it('calls the closeBanner method when closing the banner', async function () {
     // given
+    const store = this.owner.lookup('service:store');
     const closeBannerStub = sinon.stub();
     this.set('closeBanner', closeBannerStub);
     this.set('fullName', 'Fifi Brindacier');
+    this.set('certificationEligibility', store.createRecord('is-certifiable', {}));
+
     const screen = await render(
       hbs`<CongratulationsCertificationBanner @fullName={{this.fullName}} @closeBanner={{this.closeBanner}}/>`
     );
