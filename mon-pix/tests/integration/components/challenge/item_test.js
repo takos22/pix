@@ -1,7 +1,6 @@
 import { find, render } from '@ember/test-helpers';
 import { describe, it } from 'mocha';
 import hbs from 'htmlbars-inline-precompile';
-import { expect } from 'chai';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 describe('Integration | Component | Challenge | Item', function () {
@@ -9,12 +8,16 @@ describe('Integration | Component | Challenge | Item', function () {
 
   it('should render', async function () {
     // given
-    this.set('challenge', {
-      type: 'QROC',
-      timer: false,
-      format: 'phrase',
-      proposals: '${myInput}',
-    });
+    const store = this.owner.lookup('service:store');
+    this.set(
+      'challenge',
+      store.createRecord('challenge', {
+        type: 'QROC',
+        timer: false,
+        format: 'phrase',
+        proposals: '${myInput}',
+      })
+    );
     this.set('answer', {});
 
     // when
