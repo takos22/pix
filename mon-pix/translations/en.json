@@ -151,7 +151,11 @@
   },
   "pages": {
     "user-settings": {
-      "title": "Preferences"
+      "title": "Preferences",
+      "color-label": "Preferred color",
+      "empty-color": "Pick a color",
+      "last-modified": "Last modified",
+      "submit": "Save"
     },
     "assessment-banner": {
       "modal": {
