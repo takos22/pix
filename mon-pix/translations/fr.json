@@ -150,6 +150,9 @@
     "mobile-button-title": "Ouvrir le menu"
   },
   "pages": {
+    "user-settings": {
+      "title": "Préférences"
+    },
     "assessment-banner": {
       "modal": {
         "title": "Besoin d'une pause ?",

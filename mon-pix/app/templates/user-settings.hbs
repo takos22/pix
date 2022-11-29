@@ -1,0 +1,10 @@
+{{page-title (t "pages.user-settings.title")}}
+
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
+
+    <NavbarHeader @burger={{burger}} />
+
+    <Footer />
+  </burger.outlet>
+</BurgerMenu>
