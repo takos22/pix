@@ -1,7 +1,7 @@
-import Model, {attr} from '@ember-data/model'
+import Model, { attr } from '@ember-data/model';
 
-class UserSetting extends Model {
-    @attr('string') color;
-    @attr('date') createdAt;
-    @attr('date') updatedAt;
-};
+export default class UserSetting extends Model {
+  @attr('string') color;
+  @attr('date') createdAt;
+  @attr('date') updatedAt;
+}
