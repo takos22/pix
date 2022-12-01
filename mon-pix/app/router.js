@@ -22,6 +22,8 @@ Router.map(function () {
   this.route('index', { path: '/' });
   this.route('inscription');
 
+  this.route('user-settings', { path: '/preferences' });
+
   this.route('profile', { path: '/competences' });
 
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
