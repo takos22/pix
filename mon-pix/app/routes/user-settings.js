@@ -1,0 +1,5 @@
+import SecuredRouteMixin from '../mixins/secured-route-mixin';
+import Route from '@ember/routing/route';
+
+export default class UserSettingsRoute extends Route.extend(SecuredRouteMixin) {
+}
