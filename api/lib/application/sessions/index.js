@@ -817,7 +817,7 @@ exports.register = async (server) => {
         handler: sessionController.importSessions,
         payload: {
           maxBytes: 20715200,
-          output: 'file',
+          output: 'stream',
           parse: true,
           allow: 'multipart/form-data',
           multipart: true,

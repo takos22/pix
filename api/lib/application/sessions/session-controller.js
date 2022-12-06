@@ -23,6 +23,7 @@ const trim = require('lodash/trim');
 const UserLinkedToCertificationCandidate = require('../../domain/events/UserLinkedToCertificationCandidate');
 const logger = require('../../infrastructure/logger');
 const csvHelpers = require('../../../scripts/helpers/csvHelpers');
+const papa = require('papaparse');
 
 module.exports = {
   async findPaginatedFilteredJurySessions(request) {
@@ -360,6 +361,39 @@ module.exports = {
   },
 
   async importSessions(request, h) {
+    let index = 0;
+    let headers = '';
+    let lastLine = '';
+    let chunkWithHeaders = ';';
+
+    // ou un readbyline
+    request.payload.file.on('data', function (chunk) {
+      index++;
+      // recoller les lignes non finies
+      if (!chunk.toString().endsWith('\n')) {
+        lastLine = chunk.toString().split('\n').pop();
+        console.log(lastLine);
+        // on retire la ligne non finie
+        chunk = chunk.toString().substring(0, chunk.toString().length - lastLine.length - 1);
+      }
+      if (index === 1) {
+        headers = chunk.toString().split('\n')[0];
+        chunkWithHeaders = chunk.toString();
+      } else {
+        // remettre le header à chaque fois
+        chunkWithHeaders = headers + chunk.toString().substring(0, chunk.toString().length - lastLine.length - 1);
+      }
+      const { data } = papa.parse(chunkWithHeaders, {
+        skipEmptyLines: true,
+        header: true,
+      });
+      if (index === 1) {
+        // ne parse que la premiere ligne ...
+        console.log(chunkWithHeaders);
+        console.log(index, '-------', data);
+      }
+    });
+
     const data = await csvHelpers.parseCsvWithHeader(request.payload.file.path);
     await usecases.createSessions({ data });
     return h.response().code(200);
