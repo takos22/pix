@@ -105,4 +105,22 @@ describe('Unit | Application | Router | organization-learner-router', function (
       expect(response.statusCode).to.equal(200);
     });
   });
+
+  describe('GET /api/organizations/{id}/organization-learners/{learnerId}', function () {
+    it('checks the the access rights', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization').callsFake((request, h) => h.response(true));
+      sinon.stub(organizationLearnerController, 'get').callsFake((request, h) => h.response('ok'));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const url = '/api/organizations/1/organization-learners/2';
+
+      // when
+      await httpTestServer.request('GET', url);
+
+      // then
+      expect(securityPreHandlers.checkUserBelongsToOrganization).to.have.been.called;
+    });
+  });
 });

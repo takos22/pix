@@ -50,6 +50,20 @@ exports.register = async function (server) {
         tags: ['api', 'organization-learners'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/organization-learners/{learnerId}',
+      config: {
+        pre: [{ method: securityPreHandlers.checkUserBelongsToOrganization }],
+        handler: organizationLearnerController.get,
+        notes: [
+          "- **Cette route est restreinte aux membres de l'organisation**\n" +
+            '- Récupération des informations du prescrit\n' +
+            "- Le prescrit doit appartenir à l'organisation.",
+        ],
+        tags: ['api', 'organization-learners'],
+      },
+    },
   ]);
 };
 
