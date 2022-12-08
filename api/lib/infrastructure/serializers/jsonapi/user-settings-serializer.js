@@ -1,8 +1,14 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-  deserialize() {},
-  serialize() {
-    return new Serializer().serialize();
+  deserialize(payload) {
+    return {
+      color: payload.data.attributes.color,
+    };
+  },
+  serialize(userSettings = {}) {
+    return new Serializer('user-setting', {
+      attributes: ['color', 'createdAt', 'updatedAt'],
+    }).serialize(userSettings);
   },
 };
