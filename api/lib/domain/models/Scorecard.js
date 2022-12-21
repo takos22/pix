@@ -145,6 +145,10 @@ class Scorecard {
   get hasNotReachLevelOne() {
     return this.level < 1;
   }
+
+  get hasReachAtLeastLevelOne() {
+    return this.level >= 1;
+  }
 }
 
 function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
