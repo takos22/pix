@@ -125,6 +125,10 @@ class Scorecard {
   get isProgressable() {
     return this.isStarted && !this.isMaxLevel;
   }
+
+  get isImprovable() {
+    return this.isFinished && !this.isFinishedWithMaxLevel && this.remainingDaysBeforeImproving === 0;
+  }
 }
 
 function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
