@@ -3,6 +3,7 @@ const Assessment = require('./Assessment');
 const CompetenceEvaluation = require('./CompetenceEvaluation');
 const KnowledgeElement = require('./KnowledgeElement');
 const constants = require('../constants');
+const config = require('../../config');
 const scoringService = require('../services/scoring/scoring-service');
 
 const statuses = {
@@ -10,6 +11,8 @@ const statuses = {
   STARTED: 'STARTED',
   COMPLETED: 'COMPLETED',
 };
+
+const NUMBER_OF_PIX_BY_LEVEL = 8;
 
 class Scorecard {
   constructor({
@@ -97,6 +100,10 @@ class Scorecard {
     );
 
     return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
+  }
+
+  get isFinished() {
+    return this.status === statuses.COMPLETED;
   }
 }
 
