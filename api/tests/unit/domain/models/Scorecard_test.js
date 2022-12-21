@@ -3,6 +3,7 @@ const { expect, sinon } = require('../../../test-helper');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const constants = require('../../../../lib/domain/constants');
+const config = require('../../../../lib/config');
 
 describe('Unit | Domain | Models | Scorecard', function () {
   let computeDaysSinceLastKnowledgeElementStub;
@@ -393,6 +394,50 @@ describe('Unit | Domain | Models | Scorecard', function () {
         // then
         expect(result).to.be.false;
       });
+    });
+  });
+
+  describe('#isMaxLevel', function () {
+    it('should return true when level is equal maxReachableLevel', function () {
+      // given
+      const level = 18;
+      const maxReachableLevel = 18;
+      sinon.stub(config.features, 'maxReachableLevel').value(maxReachableLevel);
+      const scorecard = new Scorecard({ level });
+
+      // when
+      const result = scorecard.isMaxLevel;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return true when level is above maxReachableLevel', function () {
+      // given
+      const level = 2;
+      const maxReachableLevel = 1;
+      sinon.stub(config.features, 'maxReachableLevel').value(maxReachableLevel);
+      const scorecard = new Scorecard({ level });
+
+      // when
+      const result = scorecard.isMaxLevel;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when level is bellow maxReachableLevel', function () {
+      // given
+      const level = 1;
+      const maxReachableLevel = 2;
+      sinon.stub(config.features, 'maxReachableLevel').value(maxReachableLevel);
+      const scorecard = new Scorecard({ level });
+
+      // when
+      const result = scorecard.isMaxLevel;
+
+      // then
+      expect(result).to.be.false;
     });
   });
 });
