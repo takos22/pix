@@ -137,6 +137,14 @@ class Scorecard {
   get isResettable() {
     return (this.isFinished || this.isStarted) && this.remainingDaysBeforeReset == 0;
   }
+
+  get hasNotEarnAnything() {
+    return this.earnedPix === 0;
+  }
+
+  get hasNotReachLevelOne() {
+    return this.level < 1;
+  }
 }
 
 function _getScorecardStatus(competenceEvaluation, knowledgeElements) {

@@ -605,4 +605,52 @@ describe('Unit | Domain | Models | Scorecard', function () {
       });
     });
   });
+
+  describe('#hasNotEarnAnything', function () {
+    it('should return true when earnedPix is equal to 0', function () {
+      // given
+      const scorecard = new Scorecard({ earnedPix: 0 });
+
+      // when
+      const result = scorecard.hasNotEarnAnything;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when earnedPix is not equal to 0', function () {
+      // given
+      const scorecard = new Scorecard({ earnedPix: 1 });
+
+      // when
+      const result = scorecard.hasNotEarnAnything;
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('#hasNotReachLevelOne', function () {
+    it('should return true when level is bellow to 1', function () {
+      // given
+      const scorecard = new Scorecard({ level: 0 });
+
+      // when
+      const result = scorecard.hasNotReachLevelOne;
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when level is above to 1', function () {
+      // given
+      const scorecard = new Scorecard({ level: 1 });
+
+      // when
+      const result = scorecard.hasNotReachLevelOne;
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
 });
