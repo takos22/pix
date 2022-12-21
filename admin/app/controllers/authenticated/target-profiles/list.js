@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 import config from 'pix-admin/config/environment';
+import { action } from '@ember/object';
 
 const DEFAULT_PAGE_NUMBER = 1;
 
@@ -25,4 +26,9 @@ export default class ListController extends Controller {
     this.pageNumber = DEFAULT_PAGE_NUMBER;
   }).restartable())
   triggerFiltering;
+
+  @action
+  close(event) {
+    console.log('The banner was closed', { event });
+  }
 }
