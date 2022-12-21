@@ -153,6 +153,10 @@ class Scorecard {
   get percentageAheadOfNextLevel() {
     return (this.pixScoreAheadOfNextLevel / NUMBER_OF_PIX_BY_LEVEL) * 100;
   }
+
+  get remainingPixToNextLevel() {
+    return NUMBER_OF_PIX_BY_LEVEL - this.pixScoreAheadOfNextLevel;
+  }
 }
 
 function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
