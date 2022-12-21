@@ -688,4 +688,24 @@ describe('Unit | Domain | Models | Scorecard', function () {
       expect(result).to.be.false;
     });
   });
+
+  describe('#percentageAheadOfNextLevel', function () {
+    [
+      { pixScoreAheadOfNextLevel: 0, expectedPercentageAheadOfNextLevel: 0 },
+      { pixScoreAheadOfNextLevel: 4, expectedPercentageAheadOfNextLevel: 50 },
+      { pixScoreAheadOfNextLevel: 3.33, expectedPercentageAheadOfNextLevel: 41.625 },
+      { pixScoreAheadOfNextLevel: 7.8, expectedPercentageAheadOfNextLevel: 97.5 },
+    ].forEach((testCase) => {
+      it('should return percentage ahead of next level', function () {
+        // given
+        const scorecard = new Scorecard({ pixScoreAheadOfNextLevel: testCase.pixScoreAheadOfNextLevel });
+
+        // when
+        const result = scorecard.percentageAheadOfNextLevel;
+
+        // then
+        expect(result).to.equal(testCase.expectedPercentageAheadOfNextLevel);
+      });
+    });
+  });
 });
