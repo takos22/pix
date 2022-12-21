@@ -121,6 +121,10 @@ class Scorecard {
   get isStarted() {
     return this.status === statuses.STARTED;
   }
+
+  get isProgressable() {
+    return this.isStarted && !this.isMaxLevel;
+  }
 }
 
 function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
