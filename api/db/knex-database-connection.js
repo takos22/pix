@@ -1,9 +1,11 @@
-const types = require('pg').types;
+const { performance } = require('node:perf_hooks');
+const { AsyncLocalStorage } = require('node:async_hooks');
+const { types } = require('pg');
 const { get } = require('lodash');
 const logger = require('../lib/infrastructure/logger');
 const monitoringTools = require('../lib/infrastructure/monitoring-tools');
 const { logging } = require('../lib/config');
-const { performance } = require('perf_hooks');
+
 /*
 By default, node-postgres casts a DATE value (PostgreSQL type) as a Date Object (JS type).
 But, when dealing with dates with no time (such as birthdate for example), we want to
@@ -44,6 +46,10 @@ try {
 /* -------------------- */
 
 const knexConfig = knexConfigs[environment];
+
+/**
+ * @type {import("knex").Knex }
+ */
 const knex = require('knex')(knexConfig);
 
 const originalToSQL = QueryBuilder.prototype.toSQL;
@@ -108,8 +114,45 @@ async function emptyAllTables() {
   return knex.raw(`${query}${tables}`);
 }
 
+const connectionStorage = new AsyncLocalStorage();
+
+async function runWithConnection(callback, args) {
+  logger.debug('starting asynchronous context with connection');
+
+  const connection = await knex.client.pool.acquire().promise;
+
+  try {
+    return await connectionStorage.run(connection, callback, ...args);
+  } finally {
+    logger.debug('asynchronous context with connection ended');
+    knex.client.pool.release(connection);
+  }
+}
+
+const { queryBuilder } = knex.client;
+
+knex.client.queryBuilder = (...args) => {
+  const qb = queryBuilder.apply(knex.client, args);
+  const connection = connectionStorage.getStore();
+  if (!connection) {
+    logger.debug('created query builder with no connection 🙁');
+    return qb;
+  }
+  logger.debug('created query builder with connection from storage 🙂');
+  return qb.connection(connection);
+};
+
+knex.client.pool.on('acquireSuccess', () => {
+  logger.debug('acquired connection from pool');
+});
+
+knex.client.pool.on('release', () => {
+  logger.debug('released connection to pool');
+});
+
 module.exports = {
   knex,
   disconnect,
   emptyAllTables,
+  runWithConnection,
 };
