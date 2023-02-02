@@ -1,11 +1,11 @@
 import Model, { belongsTo, attr } from '@ember-data/model';
 
 export const CONNECTION_TYPES = {
-  empty: 'pages.sco-organization-participants.connection-types.empty',
-  none: 'pages.sco-organization-participants.connection-types.none',
-  email: 'pages.sco-organization-participants.connection-types.email',
-  identifiant: 'pages.sco-organization-participants.connection-types.identifiant',
-  mediacentre: 'pages.sco-organization-participants.connection-types.mediacentre',
+  empty: 'components.connection-types.empty',
+  none: 'components.connection-types.none',
+  email: 'components.connection-types.email',
+  identifiant: 'components.connection-types.identifiant',
+  mediacentre: 'components.connection-types.mediacentre',
 };
 
 export default class ScoOrganizationParticipant extends Model {
