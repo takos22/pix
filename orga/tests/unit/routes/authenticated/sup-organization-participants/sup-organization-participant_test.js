@@ -13,6 +13,7 @@ module('Unit | Route | authenticated/sup-organization-participants/sup-organizat
     store = this.owner.lookup('service:store');
     sinon.stub(route.router, 'replaceWith');
     sinon.stub(store, 'findRecord');
+    route.currentUser = { organization: Symbol('Organization') };
   });
 
   test('should return participant using the parameter given', async function (assert) {
@@ -36,7 +37,7 @@ module('Unit | Route | authenticated/sup-organization-participants/sup-organizat
     const model = await route.model({ etudiant_id: 29 });
 
     // then
-    assert.strictEqual(model, expectedModel);
+    assert.strictEqual(model.organizationLearner, expectedModel);
     assert.ok(route.router.replaceWith.notCalled);
   });
 

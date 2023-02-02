@@ -12,7 +12,7 @@ module('Unit | Route | authenticated/organization-participants/organization-part
   hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/organization-participants/organization-participant/activity');
     store = this.owner.lookup('service:store');
-    route.modelFor = sinon.stub().returns({ id: '123' });
+    route.modelFor = sinon.stub().returns({ organizationLearner: { id: '123' } });
     sinon.stub(route.router, 'replaceWith');
     sinon.stub(store, 'queryRecord');
   });
