@@ -6,8 +6,17 @@
       aria-label={{t "pages.organization-learner.header.aria-label-title"}}
       class="learner-header-title"
     >
-      {{t "common.fullname" firstName=@model.firstName lastName=@model.lastName}}
+      {{t
+        "common.fullname"
+        firstName=@model.organizationLearner.firstName
+        lastName=@model.organizationLearner.lastName
+      }}
     </Ui::PreviousPageButton>
+    <Ui::LearnerHeaderInfo
+      @groupName={{t "components.group.SCO"}}
+      @group={{@model.organizationLearner.division}}
+      @connectionMethods={{@model.organizationLearner.connectionMethods}}
+    />
   </header>
   {{outlet}}
 </article>

@@ -1131,6 +1131,18 @@
       "SHARED-ASSESSMENT": "Submitted results",
       "TO_SHARE-PROFILES_COLLECTION": "Pending profile",
       "SHARED-PROFILES_COLLECTION": "Submitted profile"
+    },
+    "group": {
+      "SCO": "Class",
+      "SUP": "Group"
+    },
+    "login-method": "Login method",
+    "connection-types": {
+      "email": "Email address",
+      "empty": "–",
+      "identifiant": "Username",
+      "mediacentre": "Mediacentre",
+      "none": "None"
     }
   }
 }
