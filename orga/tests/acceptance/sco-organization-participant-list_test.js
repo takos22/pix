@@ -145,7 +145,7 @@ module('Acceptance | Sco Organization Participant List', function (hooks) {
           );
           await click(
             await screen.findByRole('checkbox', {
-              name: this.intl.t('pages.sco-organization-participants.connection-types.email'),
+              name: this.intl.t('components.connection-types.email'),
             })
           );
           // then
