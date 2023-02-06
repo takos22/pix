@@ -4,10 +4,28 @@
   <h2 class="trigger-card__title">{{t "pages.trainings.training.triggers.prerequisite.title"}}</h2>
   <p class="trigger-card__description">Si l’apprenant réussit tous les acquis des sujets sélectionnés alors le contenu
     formatif ne lui sera pas proposé</p>
+  <PixButton
+    class="trigger-card__toggler"
+    @backgroundColor="transparent-light"
+    @isBorderVisible={{true}}
+    aria-label={{t "pages.trainings.training.triggers.prerequisite.alternative-title"}}
+  >
+    <FaIcon @icon="plus" />
+    {{t "pages.trainings.training.triggers.prerequisite.title"}}
+  </PixButton>
 </section>
 
 <section class="page-section trigger-card">
   <h2 class="trigger-card__title">{{t "pages.trainings.training.triggers.goal.title"}}</h2>
   <p class="trigger-card__description">Si l’apprenant réussit les acquis des sujets sélectionnés alors le contenu
     formatif lui sera proposé</p>
+  <PixButton
+    class="trigger-card__toggler"
+    @backgroundColor="transparent-light"
+    @isBorderVisible={{true}}
+    aria-label={{t "pages.trainings.training.triggers.goal.alternative-title"}}
+  >
+    <FaIcon @icon="plus" />
+    {{t "pages.trainings.training.triggers.goal.title"}}
+  </PixButton>
 </section>
