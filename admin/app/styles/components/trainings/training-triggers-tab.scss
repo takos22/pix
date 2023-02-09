@@ -4,7 +4,6 @@
   }
 }
 
-
 .trigger-card {
   &__title {
     @include subheading;
@@ -28,10 +27,21 @@
 }
 
 .edit-training-trigger {
+  counter-reset: section;
+  padding-bottom: $spacing-s;
+
+  & > * + * {
+    margin-top: $spacing-m;
+  }
+
+  .card__title::before {
+    counter-increment: section;
+    content: counter(section) '. ';
+  }
+
   &__actions {
     display: flex;
     gap: $spacing-m;
-    margin: $spacing-m 0;
   }
 }
 
