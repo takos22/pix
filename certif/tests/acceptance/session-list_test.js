@@ -74,6 +74,21 @@ module('Acceptance | Session List', function (hooks) {
 
       // then
       assert.dom('.page-title').hasText('Créez votre première session de certification');
+      assert.dom(screen.getByRole('heading', { name: 'Créer ma première session de certification' })).exists();
+    });
+
+    test('it should redirect to the new session creation page when clicked on create session button', async function (assert) {
+      // given
+      const screen = await visit('/sessions/liste');
+
+      // when
+      await click(screen.getByRole('link', { name: 'Créer une session' }));
+      server.create('session', {
+        certificationCenterId: allowedCertificationCenterAccess.id,
+      });
+
+      // then
+      assert.strictEqual(currentURL(), '/sessions/creation');
     });
 
     module('when some sessions exist', function () {
