@@ -68,7 +68,8 @@ module.exports = {
     const userId = request.auth.credentials.userId;
     const options = queryParamsUtils.extractParameters(request.query);
 
-    request.yar.set('certificationCenterId', { key: certificationCenterId });
+    const example = request.yar.get('sessions');
+    console.log('TEST YAR', example);
 
     const { models: sessionSummaries, meta } = await usecases.findPaginatedCertificationCenterSessionSummaries({
       userId,
@@ -177,8 +178,6 @@ module.exports = {
 
   async getSessionsImportTemplate(request, h) {
     const certificationCenterId = request.params.certificationCenterId;
-    const example = request.yar.get('certificationCenterId');
-    console.log('TEST YAR', example.key);
 
     const habilitationLabels = await usecases.getImportSessionComplementaryCertificationHabilitationsLabels({
       certificationCenterId,
@@ -202,7 +201,8 @@ module.exports = {
       throw new UnprocessableEntityError('No session data in csv');
     }
     const sessions = csvSerializer.deserializeForSessionsImport(parsedCsvData);
-    await usecases.createSessions({ sessions, certificationCenterId });
+    const sessionsUpdated = await usecases.createSessions({ sessions, certificationCenterId });
+    request.yar.set('sessions', sessionsUpdated);
     return h.response().code(200);
   },
 };
