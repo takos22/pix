@@ -68,6 +68,8 @@ module.exports = {
     const userId = request.auth.credentials.userId;
     const options = queryParamsUtils.extractParameters(request.query);
 
+    request.yar.set('certificationCenterId', { key: certificationCenterId });
+
     const { models: sessionSummaries, meta } = await usecases.findPaginatedCertificationCenterSessionSummaries({
       userId,
       certificationCenterId,
@@ -175,6 +177,9 @@ module.exports = {
 
   async getSessionsImportTemplate(request, h) {
     const certificationCenterId = request.params.certificationCenterId;
+    const example = request.yar.get('certificationCenterId');
+    console.log('TEST YAR', example.key);
+
     const habilitationLabels = await usecases.getImportSessionComplementaryCertificationHabilitationsLabels({
       certificationCenterId,
     });
