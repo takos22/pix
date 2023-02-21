@@ -68,6 +68,10 @@ module.exports = {
     const userId = request.auth.credentials.userId;
     const options = queryParamsUtils.extractParameters(request.query);
 
+    // TODO : supprimer les vieux imports
+    // TODO : ajouter la route pour la sauvegarde
+    // TODO : brancher avec le front
+
     const example = request.yar.get('sessions');
     console.log('TEST YAR', example);
 
