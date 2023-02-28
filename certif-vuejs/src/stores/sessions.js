@@ -4,17 +4,19 @@ import { defineStore } from 'pinia'
 export const useSessionsStore = defineStore('sessions', () => {
   const sessionSummaries = ref({})
 
+  const url = 'http://localhost:4203/api/certification-centers/5/session-summaries'
   function fetchSummaries() {
-    fetch('https://certif-pr5575.review.pix.fr/api/certification-centers/3/session-summaries', {
+    // eslint-disable-next-line no-restricted-globals
+    fetch(url, {
       headers: {
-        Authorization: ''
-      }
+        Authorization: '',
+      },
     })
-      .then(data => data.json())
+      .then((data) => data.json())
       .then(({ data }) => {
         sessionSummaries.value = data
       });
   }
 
   return { sessionSummaries, fetchSummaries }
-})
+});
