@@ -23,12 +23,12 @@ services:
     image: pix/api
     depends_on:
       - postgres
-      - redis 
-    build: 
+      - redis
+    build:
       dockerfile: ../docker/dockerfiles/Dockerfile.hapi
       context: ../api/
     volumes:
-      - .env:/code/.env 
+      - .env:/code/.env
     ports:
       - "3000:3000"
 
@@ -36,7 +36,7 @@ services:
     image: pix/orga
     depends_on:
       - api
-    build: 
+    build:
       dockerfile: ../docker/dockerfiles/Dockerfile.ember
       context: ../orga
     ports:
@@ -48,7 +48,7 @@ services:
     image: pix/admin
     depends_on:
       - api
-    build: 
+    build:
       dockerfile: ../docker/dockerfiles/Dockerfile.ember
       context: ../admin/
     ports:
@@ -60,7 +60,7 @@ services:
     image: pix/certif
     depends_on:
       - api
-    build: 
+    build:
       dockerfile: ../docker/dockerfiles/Dockerfile.ember
       context: ../certif/
     ports:
@@ -68,11 +68,23 @@ services:
     volumes:
       - ./dockerfiles/config/ember-nginx.conf:/etc/nginx/conf.d/default.conf
 
+  certif-vuejs:
+    image: pix/certif-vuejs
+    depends_on:
+      - api
+    build:
+      dockerfile: ./docker/dockerfiles/Dockerfile.vuejs
+      context: ../
+    ports:
+      - "4204:80"
+    volumes:
+      - ./dockerfiles/config/ember-nginx.conf:/etc/nginx/conf.d/default.conf
+
   mon-pix:
     image: pix/mon-pix
     depends_on:
       - api
-    build: 
+    build:
       dockerfile: ../docker/dockerfiles/Dockerfile.ember
       context: ../mon-pix/
     ports:

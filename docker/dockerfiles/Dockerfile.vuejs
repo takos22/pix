@@ -1,0 +1,32 @@
+FROM node:16.18.1 as dev
+
+WORKDIR /code/certif
+COPY ./certif .
+
+RUN npm ci
+RUN npm install -g ember-cli
+
+CMD [ "npm", "run", "start:watch" ]
+
+FROM dev as builder
+ENV BUILD_ENV=dev
+
+RUN npx ember build --env $BUILD_ENV
+
+FROM node:16.18.1 as dev-vue
+
+WORKDIR /code/certif-vuejs
+COPY ./certif-vuejs .
+
+RUN npm ci
+RUN npm install -g vue-cli
+
+FROM dev-vue as builder-vue
+ENV BUILD_ENV=dev
+
+RUN npm run build
+
+FROM nginx:1.21.6 as production
+
+COPY --from=builder /code/certif/dist /usr/share/nginx/html/ember
+COPY --from=builder-vue /code/certif-vuejs/dist/ /usr/share/nginx/html/vue

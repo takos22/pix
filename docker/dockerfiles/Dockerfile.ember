@@ -4,7 +4,7 @@ WORKDIR /code
 COPY . .
 
 RUN npm ci
-RUN npm install -g ember-cli 
+RUN npm install -g ember-cli
 
 CMD [ "npm", "run", "start:watch" ]
 
@@ -15,4 +15,4 @@ RUN npx ember build --env $BUILD_ENV
 
 FROM nginx:1.21.6 as production
 
-COPY --from=builder /code/dist/ /usr/share/nginx/html/
+COPY --from=builder /code/dist/ /usr/share/nginx/html/ember
