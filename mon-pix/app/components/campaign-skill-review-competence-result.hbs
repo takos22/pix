@@ -33,9 +33,11 @@
             {{#if competence.flashPixScore}}
               {{t "pages.skill-review.details.flash-pix-score" score=competence.flashPixScore}}
             {{else}}
-              <PixProgressGauge
-                @value={{competence.masteryPercentage}}
-                @tooltipText="{{competence.masteryPercentage}}%"
+              <PixStars
+                @count={{this.activeStarsCount competence}}
+                @total={{5}}
+                @alt="{{competence.masteryPercentage}}%"
+                @color="yellow"
               />
             {{/if}}
           </td>
