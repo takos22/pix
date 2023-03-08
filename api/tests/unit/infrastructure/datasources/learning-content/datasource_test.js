@@ -2,7 +2,7 @@ const { expect, sinon } = require('../../../../test-helper');
 const dataSource = require('../../../../../lib/infrastructure/datasources/learning-content/datasource');
 const lcms = require('../../../../../lib/infrastructure/lcms');
 const LearningContentResourceNotFound = require('../../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound');
-const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
+const { cache } = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Unit | Infrastructure | Datasource | Learning Content | datasource', function () {
   let someDatasource;

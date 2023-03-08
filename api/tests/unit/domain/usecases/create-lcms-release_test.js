@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const lcms = require('../../../../lib/infrastructure/lcms');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { cache } = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const createLcmsRelease = require('../../../../lib/domain/usecases/create-lcms-release');
 
 describe('Unit | UseCase | create-lcms-release', function () {

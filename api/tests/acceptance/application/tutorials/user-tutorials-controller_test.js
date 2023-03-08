@@ -7,7 +7,7 @@ const {
   knex,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { cache } = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const nock = require('nock');
 

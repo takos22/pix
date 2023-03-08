@@ -4,7 +4,7 @@ const lcms = require('../../../../../lib/infrastructure/lcms');
 const {
   tutorialDatasource,
 } = require('../../../../../lib/infrastructure/datasources/learning-content/tutorial-datasource');
-const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
+const { cache } = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Unit | Infrastructure | Datasource | Learning Content | TutorialDatasource', function () {
   beforeEach(function () {

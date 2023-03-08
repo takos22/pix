@@ -3,7 +3,7 @@ dotenv.config();
 const _ = require('lodash');
 const { knex, disconnect } = require('../../../db/knex-database-connection');
 const logger = require('../../../lib/infrastructure/logger');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
+const { cache } = require('lib/infrastructure/caches/learning-content-cache');
 const { autoMigrateTargetProfile } = require('./common');
 
 async function main() {

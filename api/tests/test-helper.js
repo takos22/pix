@@ -9,7 +9,8 @@ chai.use(require('chai-sorted'));
 chai.use(require('sinon-chai'));
 const customChaiHelpers = require('./tooling/chai-custom-helpers/index');
 _.each(customChaiHelpers, chai.use);
-const cache = require('../lib/infrastructure/caches/learning-content-cache');
+const { cache } = require('../lib/infrastructure/caches/learning-content-cache');
+
 const { graviteeRegisterApplicationsCredentials, jwtConfig } = require('../lib/config');
 
 const { knex, disconnect } = require('../db/knex-database-connection');

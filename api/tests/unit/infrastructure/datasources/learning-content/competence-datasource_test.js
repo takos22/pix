@@ -3,7 +3,7 @@ const {
   competenceDatasource,
 } = require('../../../../../lib/infrastructure/datasources/learning-content/competence-datasource');
 const lcms = require('../../../../../lib/infrastructure/lcms');
-const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
+const { cache } = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Unit | Infrastructure | Datasource | Learning Content | CompetenceDatasource', function () {
   beforeEach(function () {
