@@ -1,5 +1,5 @@
 const JurySession = require('../../../../lib/domain/models/JurySession');
-const domainBuilder = require('../domain-builder');
+const { buildCertificationCenter } = require('./index.js');
 const _ = require('lodash');
 
 const buildJurySession = function ({
@@ -27,7 +27,7 @@ const buildJurySession = function ({
   hasJoiningIssue = false,
 } = {}) {
   if (_.isUndefined(certificationCenterId)) {
-    const certificationCenter = domainBuilder.buildCertificationCenter();
+    const certificationCenter = buildCertificationCenter();
     certificationCenterId = certificationCenter.id;
     certificationCenterName = certificationCenter.id;
     certificationCenterType = certificationCenter.type;
