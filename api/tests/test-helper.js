@@ -29,6 +29,10 @@ const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 const { ROLES } = require('../lib/domain/constants').PIX_ADMIN;
 const { createTempFile, removeTempFile } = require('./tooling/temporary-file');
 
+const domainBuilder = require('./tooling/domain-builder/factory');
+const HttpTestServer = require('./tooling/server/http-test-server');
+const testErr = new Error('Fake Error');
+
 /* eslint-disable mocha/no-top-level-hooks */
 afterEach(function () {
   sinon.restore();
@@ -244,13 +248,13 @@ global.chaiErr = function globalErr(fn, val) {
 module.exports = {
   EMPTY_BLANK_AND_NULL,
   expect,
-  domainBuilder: require('./tooling/domain-builder/factory'),
+  domainBuilder,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   generateValidRequestAuthorizationHeaderForApplication,
   generateIdTokenForExternalUser,
   hFake,
-  HttpTestServer: require('./tooling/server/http-test-server'),
+  HttpTestServer,
   insertOrganizationUserWithRoleAdmin,
   insertUserWithRoleSuperAdmin,
   insertUserWithRoleCertif,
@@ -261,7 +265,7 @@ module.exports = {
   streamToPromise,
   catchErr,
   catchErrSync,
-  testErr: new Error('Fake Error'),
+  testErr,
   mockLearningContent,
   learningContentBuilder,
   createTempFile,
