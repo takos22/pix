@@ -69,4 +69,4 @@ valuesToExport.positiveInteger32bits = {
   max: postgreSQLSequenceEnd,
 };
 
-export { valuesToExport };
+export { valuesToExport as identifiersType };
