@@ -6,7 +6,7 @@ import { InvalidExternalAPIResponseError, OidcMissingFieldsError, OidcUserInfoFo
 
 import { AuthenticationMethod } from '../../models/AuthenticationMethod.js';
 import { AuthenticationSessionContent } from '../../models/AuthenticationSessionContent.js';
-import { settings } from '../../../config.js';
+import { config } from '../../../config.js';
 import { httpAgent } from '../../../infrastructure/http/http-agent.js';
 import { httpErrorsHelper } from '../../../infrastructure/http/errors-helper.js';
 import { DomainTransaction } from '../../../infrastructure/DomainTransaction.js';
@@ -47,7 +47,7 @@ class OidcAuthenticationService {
   }
 
   createAccessToken(userId) {
-    return jsonwebtoken.sign({ user_id: userId }, settings.authentication.secret, this.jwtOptions);
+    return jsonwebtoken.sign({ user_id: userId }, config.authentication.secret, this.jwtOptions);
   }
 
   createAuthenticationComplement() {
@@ -71,7 +71,7 @@ class OidcAuthenticationService {
       url: this.tokenUrl,
       payload: querystring.stringify(data),
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      timeout: settings.partner.fetchTimeOut,
+      timeout: config.partner.fetchTimeOut,
     });
 
     if (!response.isSuccessful) {
@@ -112,7 +112,7 @@ class OidcAuthenticationService {
     const response = await httpAgent.get({
       url: userInfoUrl,
       headers: { Authorization: `Bearer ${accessToken}` },
-      timeout: settings.partner.fetchTimeOut,
+      timeout: config.partner.fetchTimeOut,
     });
 
     if (!response.isSuccessful) {

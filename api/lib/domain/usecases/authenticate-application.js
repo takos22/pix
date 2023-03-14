@@ -5,7 +5,9 @@ import {
 } from '../../domain/errors.js';
 
 import { find } from 'lodash';
-import { graviteeRegisterApplicationsCredentials, jwtConfig } from '../../config.js';
+import { config } from '../../config.js';
+
+const { graviteeRegisterApplicationsCredentials, jwtConfig } = config;
 
 function _checkClientId(application, clientId) {
   if (!application || application.clientId !== clientId) {

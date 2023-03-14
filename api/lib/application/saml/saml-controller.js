@@ -2,7 +2,7 @@ import { saml } from '../../infrastructure/saml.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { logger } from '../../infrastructure/logger.js';
 import * as tokenService from '../../domain/services/token-service.js';
-import { settings } from '../../config.js';
+import { config } from '../../config.js';
 
 const metadata = function (request, h) {
   return h.response(saml.getServiceProviderMetadata()).type('application/xml');

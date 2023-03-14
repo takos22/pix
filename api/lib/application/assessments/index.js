@@ -1,9 +1,11 @@
 import Joi from 'joi';
-import { featureToggles } from '../../config.js';
+import { config } from '../../config.js';
 import * as assessmentController from './assessment-controller.js';
 import * as securityPreHandlers from '../security-pre-handlers.js';
 import { assessmentAuthorization } from '../preHandlers/assessment-authorization.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
+
+const { featureToggles } = config;
 
 const register = async function (server) {
   const routes = [

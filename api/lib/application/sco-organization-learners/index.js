@@ -7,9 +7,9 @@ import * as scoOrganizationLearnerController from './sco-organization-learner-co
 import XRegExp from 'xregexp';
 import * as securityPreHandlers from '../security-pre-handlers.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
-import { account } from '../../config.js';
+import { config } from '../../config.js';
 
-const { passwordValidationPattern } = account;
+const { passwordValidationPattern } = config.account;
 
 const inePattern = new RegExp('^[0-9]{9}[a-zA-Z]{2}$');
 const inaPattern = new RegExp('^[0-9]{10}[a-zA-Z]{1}$');

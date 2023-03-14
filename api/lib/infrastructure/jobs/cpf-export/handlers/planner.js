@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
-import { cpf } from '../../../../config.js';
+import { config } from '../../../../config.js';
 
-const { plannerJob } = cpf;
+const { plannerJob } = config.cpf;
 
 import _ from 'lodash';
 
