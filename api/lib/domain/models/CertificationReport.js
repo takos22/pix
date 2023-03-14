@@ -74,5 +74,4 @@ class CertificationReport {
   }
 }
 
-export { CertificationReport };
-module.exports.NO_EXAMINER_COMMENT = NO_EXAMINER_COMMENT;
+export { CertificationReport, NO_EXAMINER_COMMENT };

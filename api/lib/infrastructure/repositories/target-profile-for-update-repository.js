@@ -1,4 +1,4 @@
-import { targetProfileForUpdate } from '../../domain/models/TargetProfileForUpdate.js';
+import { TargetProfileForUpdate } from '../../domain/models/TargetProfileForUpdate.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { NotFoundError } from '../../domain/errors.js';
 
@@ -12,7 +12,7 @@ const get = async function (id) {
     throw new NotFoundError(`Le profil cible avec l'id ${id} n'existe pas`);
   }
 
-  return new targetProfileForUpdate(row);
+  return new TargetProfileForUpdate(row);
 };
 
 const update = async function (targetProfile) {
