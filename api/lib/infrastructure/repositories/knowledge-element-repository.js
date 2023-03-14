@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import bluebird from 'bluebird';
-import { constants } from '../constants.js';
+import * as constants from '../constants.js';
 import { knex } from '../../../db/knex-database-connection.js';
 import { KnowledgeElement } from '../../domain/models/KnowledgeElement.js';
 import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';

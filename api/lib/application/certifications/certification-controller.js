@@ -1,9 +1,9 @@
 import { usecases } from '../../domain/usecases/index.js';
-import { events } from '../../domain/events/index.js';
+import * as events from '../../domain/events/index.js';
 import * as privateCertificateSerializer from '../../infrastructure/serializers/jsonapi/private-certificate-serializer.js';
 import * as shareableCertificateSerializer from '../../infrastructure/serializers/jsonapi/shareable-certificate-serializer.js';
-import { certificationAttestationPdf } from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
-import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
+import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
+import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
 import moment from 'moment';
 
@@ -17,7 +17,7 @@ const findUserCertifications = async function (request) {
 const getCertification = async function (request) {
   const userId = request.auth.credentials.userId;
   const certificationId = request.params.id;
-  const locale = requestResponseUtils.extractLocaleFromRequest(request);
+  const locale = extractLocaleFromRequest(request);
 
   const privateCertificate = await usecases.getPrivateCertificate({
     userId,
@@ -29,7 +29,7 @@ const getCertification = async function (request) {
 
 const getCertificationByVerificationCode = async function (request) {
   const verificationCode = request.payload.verificationCode;
-  const locale = requestResponseUtils.extractLocaleFromRequest(request);
+  const locale = extractLocaleFromRequest(request);
 
   const shareableCertificate = await usecases.getShareableCertificate({ verificationCode, locale });
   return shareableCertificateSerializer.serialize(shareableCertificate);

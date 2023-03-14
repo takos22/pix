@@ -1,5 +1,5 @@
 import * as membershipSerializer from '../../infrastructure/serializers/jsonapi/membership-serializer.js';
-import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
+import { extractUserIdFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { BadRequestError } from '../http-errors.js';
 
@@ -15,7 +15,7 @@ const create = async function (request, h) {
 
 const update = async function (request, h) {
   const membershipId = request.params.id;
-  const userId = requestResponseUtils.extractUserIdFromRequest(request);
+  const userId = extractUserIdFromRequest(request);
   const membership = membershipSerializer.deserialize(request.payload);
   // eslint-disable-next-line no-restricted-syntax
   const membershipIdFromPayload = parseInt(membership.id);
@@ -32,7 +32,7 @@ const update = async function (request, h) {
 
 const disable = async function (request, h) {
   const membershipId = request.params.id;
-  const userId = requestResponseUtils.extractUserIdFromRequest(request);
+  const userId = extractUserIdFromRequest(request);
 
   await usecases.disableMembership({ membershipId, userId });
   return h.response().code(204);

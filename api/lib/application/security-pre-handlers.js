@@ -20,7 +20,7 @@ import * as checkPix1dEnabled from './usecases/checkPix1dEnabled.js';
 import * as certificationIssueReportRepository from '../infrastructure/repositories/certification-issue-report-repository.js';
 import { Organization } from '../../lib/domain/models/Organization.js';
 import { ForbiddenAccess } from '../..//lib/domain/errors.js';
-import { apps } from '../..//lib/domain/constants.js';
+import { PIX_ADMIN } from '../..//lib/domain/constants.js';
 
 const JSONAPIError = require('jsonapi-serializer').Error;
 import has from 'lodash/has';
@@ -57,7 +57,7 @@ async function checkAdminMemberHasRoleSuperAdmin(request, h) {
   try {
     const hasRoleSuperAdmin = await checkAdminMemberHasRoleSuperAdminUseCase.execute(userId);
     if (!hasRoleSuperAdmin) {
-      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
+      throw new ForbiddenAccess(PIX_ADMIN.NOT_ALLOWED_MSG);
     }
     return h.response(true);
   } catch (e) {
@@ -75,7 +75,7 @@ async function checkAdminMemberHasRoleCertif(request, h) {
   try {
     const hasRoleCertif = await checkAdminMemberHasRoleCertifUseCase.execute(userId);
     if (!hasRoleCertif) {
-      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
+      throw new ForbiddenAccess(PIX_ADMIN.NOT_ALLOWED_MSG);
     }
     return h.response(true);
   } catch (e) {
@@ -93,7 +93,7 @@ async function checkAdminMemberHasRoleSupport(request, h) {
   try {
     const hasRoleSupport = await checkAdminMemberHasRoleSupportUseCase.execute(userId);
     if (!hasRoleSupport) {
-      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
+      throw new ForbiddenAccess(PIX_ADMIN.NOT_ALLOWED_MSG);
     }
     return h.response(true);
   } catch (e) {
@@ -111,7 +111,7 @@ async function checkAdminMemberHasRoleMetier(request, h) {
   try {
     const hasRoleMetier = await checkAdminMemberHasRoleMetierUseCase.execute(userId);
     if (!hasRoleMetier) {
-      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
+      throw new ForbiddenAccess(PIX_ADMIN.NOT_ALLOWED_MSG);
     }
     return h.response(true);
   } catch (e) {

@@ -3,7 +3,7 @@ import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-conver
 import { BookshelfBadge } from '../orm-models/Badge.js';
 import { Badge } from '../../domain/models/Badge.js';
 import omit from 'lodash/omit';
-import { bookshelfUtils } from '../utils/knex-utils.js';
+import * as knexUtils from '../utils/knex-utils.js';
 import { AlreadyExistingEntityError } from '../../domain/errors.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
@@ -53,7 +53,7 @@ const save = async function (badge, { knexTransaction } = DomainTransaction.empt
     const [savedBadge] = await (knexTransaction ?? knex)(TABLE_NAME).insert(_adaptModelToDb(badge)).returning('*');
     return new Badge(savedBadge);
   } catch (err) {
-    if (bookshelfUtils.isUniqConstraintViolated(err)) {
+    if (knexUtils.isUniqConstraintViolated(err)) {
       throw new AlreadyExistingEntityError(`The badge key ${badge.key} already exists`);
     }
     throw err;

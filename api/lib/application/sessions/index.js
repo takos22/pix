@@ -4,10 +4,10 @@ import * as sessionController from './session-controller.js';
 import * as sessionForSupervisingController from './session-for-supervising-controller.js';
 import * as sessionWithCleaCertifiedCandidateController from './session-with-clea-certified-candidate-controller.js';
 import * as finalizedSessionController from './finalized-session-controller.js';
-import { authorization } from '../preHandlers/authorization.js';
+import * as authorization from '../preHandlers/authorization.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 import { sendJsonApiError, UnprocessableEntityError } from '../http-errors.js';
-import { assessmentSupervisorAuthorization } from '../preHandlers/session-supervisor-authorization.js';
+import * as assessmentSupervisorAuthorization from '../preHandlers/session-supervisor-authorization.js';
 
 const register = async function (server) {
   server.route([

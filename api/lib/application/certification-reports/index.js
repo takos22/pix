@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import * as certificationReportController from './certification-report-controller.js';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
-import { authorization } from '../preHandlers/authorization.js';
+import * as authorization from '../preHandlers/authorization.js';
 import * as securityPreHandlers from '../security-pre-handlers.js';
 
 const register = async function (server) {

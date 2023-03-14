@@ -1,7 +1,4 @@
-import {
-  authenticationServiceRegistry,
-  authenticationRegistry,
-} from '../../../domain/services/authentication/authentication-service-registry.js';
+import * as authenticationServiceRegistry from '../../../domain/services/authentication/authentication-service-registry.js';
 import * as serializer from '../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer.js';
 import { usecases } from '../../../domain/usecases/index.js';
 import { UnauthorizedError } from '../../http-errors.js';
@@ -39,7 +36,7 @@ const findUserForReconciliation = async function (request, h) {
 
 const reconcileUser = async function (request, h) {
   const { identityProvider, authenticationKey } = request.deserializedPayload;
-  const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(identityProvider);
+  const oidcAuthenticationService = authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
 
   const result = await usecases.reconcileOidcUser({
     authenticationKey,
@@ -51,7 +48,7 @@ const reconcileUser = async function (request, h) {
 
 const getAuthenticationUrl = async function (request, h) {
   const { identity_provider: identityProvider } = request.query;
-  const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(identityProvider);
+  const oidcAuthenticationService = authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
   const result = oidcAuthenticationService.getAuthenticationUrl({ redirectUri: request.query['redirect_uri'] });
   return h.response(result).code(200);
 };
@@ -59,7 +56,7 @@ const getAuthenticationUrl = async function (request, h) {
 const authenticateUser = async function (request, h) {
   const { code, identityProvider, redirectUri, stateSent, stateReceived } = request.deserializedPayload;
 
-  const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(identityProvider);
+  const oidcAuthenticationService = authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
 
   const result = await usecases.authenticateOidcUser({
     code,

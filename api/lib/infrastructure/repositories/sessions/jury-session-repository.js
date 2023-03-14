@@ -1,4 +1,4 @@
-import { knex } from '../../bookshelf.js';
+import { Bookshelf as bookshelf } from '../../bookshelf.js';
 import { fetchPage } from '../../utils/knex-utils.js';
 import { NotFoundError } from '../../../domain/errors.js';
 import { JurySession, statuses } from '../../../domain/models/JurySession.js';
@@ -18,7 +18,7 @@ const ALIASED_COLUMNS = Object.freeze({
 });
 
 const get = async function (id) {
-  const jurySessionDTO = await knex
+  const jurySessionDTO = await bookshelf
     .select(COLUMNS)
     .select(ALIASED_COLUMNS)
     .from('sessions')
@@ -34,7 +34,7 @@ const get = async function (id) {
 };
 
 const findPaginatedFiltered = async function ({ filters, page }) {
-  const query = knex
+  const query = bookshelf
     .select(COLUMNS)
     .select(ALIASED_COLUMNS)
     .from('sessions')
@@ -57,7 +57,7 @@ const findPaginatedFiltered = async function ({ filters, page }) {
 
 const assignCertificationOfficer = async function ({ id, assignedCertificationOfficerId }) {
   try {
-    await knex('sessions').where({ id }).update({ assignedCertificationOfficerId }).returning('*');
+    await bookshelf('sessions').where({ id }).update({ assignedCertificationOfficerId }).returning('*');
     return this.get(id);
   } catch (error) {
     if (error.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {

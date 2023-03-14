@@ -4,7 +4,7 @@ import { knex } from '../../../db/knex-database-connection.js';
 import { CampaignCollectiveResult } from '../../domain/read-models/CampaignCollectiveResult.js';
 import { CampaignParticipationStatuses } from '../../domain/models/CampaignParticipationStatuses.js';
 import * as knowledgeElementRepository from './knowledge-element-repository.js';
-import { constants } from '../constants.js';
+import * as constants from '../constants.js';
 
 const { SHARED } = CampaignParticipationStatuses;
 

@@ -9,8 +9,8 @@ import {
 } from '../errors.js';
 
 import { User } from '../models/User.js';
-import { passwordValidator } from '../validators/password-validator.js';
-import { userValidator } from '../validators/user-validator.js';
+import * as passwordValidator from '../validators/password-validator.js';
+import * as userValidator from '../validators/user-validator.js';
 import { getCampaignUrl } from '../../infrastructure/utils/url-builder.js';
 import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 

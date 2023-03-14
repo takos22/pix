@@ -1,4 +1,4 @@
-import { monitoringTools } from '../../infrastructure/monitoring-tools.js';
+import * as monitoringTools from '../../infrastructure/monitoring-tools.js';
 import { ParticipationResultCalculationJob } from '../jobs/campaign-result/ParticipationResultCalculationJob.js';
 import { SendSharedParticipationResultsToPoleEmploiJob } from '../jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js';
 

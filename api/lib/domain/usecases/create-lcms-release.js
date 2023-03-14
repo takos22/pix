@@ -1,4 +1,4 @@
-import { lcms } from '../../infrastructure/lcms.js';
+import * as lcms from '../../infrastructure/lcms.js';
 import { learningContentCache } from '../../infrastructure/caches/learning-content-cache.js';
 
 const createLcmsRelease = async function () {

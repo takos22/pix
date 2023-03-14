@@ -2,8 +2,8 @@ import { usecases } from '../../domain/usecases/index.js';
 import * as userSavedTutorialSerializer from '../../infrastructure/serializers/jsonapi/user-saved-tutorial-serializer.js';
 import * as tutorialSerializer from '../../infrastructure/serializers/jsonapi/tutorial-serializer.js';
 import * as userSavedTutorialRepository from '../../infrastructure/repositories/user-saved-tutorial-repository.js';
-import { queryParamsUtils } from '../../infrastructure/utils/query-params-utils.js';
-import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
+import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
+import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
 const add = async function (request, h) {
   const { userId } = request.auth.credentials;
@@ -17,8 +17,8 @@ const add = async function (request, h) {
 
 const find = async function (request) {
   const { userId } = request.auth.credentials;
-  const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
-  const locale = requestResponseUtils.extractLocaleFromRequest(request);
+  const { page, filter: filters } = extractParameters(request.query);
+  const locale = extractLocaleFromRequest(request);
   const { tutorials, meta } = await usecases.findPaginatedFilteredTutorials({
     userId,
     filters,

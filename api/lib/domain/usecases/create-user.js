@@ -1,6 +1,6 @@
 import { AlreadyRegisteredEmailError, EntityValidationError } from '../errors.js';
-import { userValidator } from '../validators/user-validator.js';
-import { passwordValidator } from '../validators/password-validator.js';
+import * as userValidator from '../validators/user-validator.js';
+import * as passwordValidator from '../validators/password-validator.js';
 import { getCampaignUrl } from '../../infrastructure/utils/url-builder.js';
 
 function _manageEmailAvailabilityError(error) {

@@ -1,13 +1,13 @@
 import { config } from '../../config.js';
 import * as accountRecoveryDemandRepository from '../../infrastructure/repositories/account-recovery-demand-repository.js';
 import * as adminMemberRepository from '../../infrastructure/repositories/admin-member-repository.js';
-import { algorithmDataFetcherService } from '../../domain/services/algorithm-methods/data-fetcher.js';
+import * as algorithmDataFetcherService from '../../domain/services/algorithm-methods/data-fetcher.js';
 import * as answerRepository from '../../infrastructure/repositories/answer-repository.js';
 import * as areaRepository from '../../infrastructure/repositories/area-repository.js';
 import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
 import * as assessmentResultRepository from '../../infrastructure/repositories/assessment-result-repository.js';
 import * as authenticationMethodRepository from '../../infrastructure/repositories/authentication-method-repository.js';
-import { authenticationServiceRegistry } from '../services/authentication/authentication-service-registry.js';
+import * as authenticationServiceRegistry from '../services/authentication/authentication-service-registry.js';
 import * as authenticationSessionService from '../../domain/services/authentication/authentication-session-service.js';
 import * as badgeAcquisitionRepository from '../../infrastructure/repositories/badge-acquisition-repository.js';
 import * as badgeCriteriaRepository from '../../infrastructure/repositories/badge-criteria-repository.js';
@@ -37,7 +37,7 @@ import * as campaignToJoinRepository from '../../infrastructure/repositories/cam
 import * as campaignCsvExportService from '../../domain/services/campaign-csv-export-service.js';
 import * as certificateRepository from '../../infrastructure/repositories/certificate-repository.js';
 import * as certificationAssessmentRepository from '../../infrastructure/repositories/certification-assessment-repository.js';
-import { certificationAttestationPdf } from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
+import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
 import * as certificationBadgesService from '../../domain/services/certification-badges-service.js';
 import * as certificationCandidateRepository from '../../infrastructure/repositories/certification-candidate-repository.js';
 import * as certificationCandidateForSupervisingRepository from '../../infrastructure/repositories/certification-candidate-for-supervising-repository.js';
@@ -79,7 +79,7 @@ import * as dataProtectionOfficerRepository from '../../infrastructure/repositor
 import * as divisionRepository from '../../infrastructure/repositories/division-repository.js';
 import * as encryptionService from '../../domain/services/encryption-service.js';
 import * as flashAssessmentResultRepository from '../../infrastructure/repositories/flash-assessment-result-repository.js';
-import { flashAlgorithmService } from '../../domain/services/algorithm-methods/flash.js';
+import * as flashAlgorithmService from '../../domain/services/algorithm-methods/flash.js';
 import * as frameworkRepository from '../../infrastructure/repositories/framework-repository.js';
 import { getCompetenceLevel } from '../../domain/services/get-competence-level.js';
 import * as sessionForSupervisorKitRepository from '../../infrastructure/repositories/sessions/session-for-supervisor-kit-repository.js';
@@ -117,7 +117,7 @@ import * as participationsForCampaignManagementRepository from '../../infrastruc
 import * as participationsForUserManagementRepository from '../../infrastructure/repositories/participations-for-user-management-repository.js';
 import * as userOrganizationsForAdminRepository from '../../infrastructure/repositories/user-organizations-for-admin-repository.js';
 import * as partnerCertificationScoringRepository from '../../infrastructure/repositories/partner-certification-scoring-repository.js';
-import { passwordGenerator } from '../../domain/services/password-generator.js';
+import * as passwordGenerator from '../../domain/services/password-generator.js';
 import * as pickChallengeService from '../services/pick-challenge-service.js';
 import * as pixAuthenticationService from '../../domain/services/authentication/pix-authentication-service.js';
 import * as placementProfileService from '../../domain/services/placement-profile-service.js';
@@ -169,8 +169,8 @@ import * as userService from '../../domain/services/user-service.js';
 import * as userSavedTutorialRepository from '../../infrastructure/repositories/user-saved-tutorial-repository.js';
 import * as verifyCertificateCodeService from '../../domain/services/verify-certificate-code-service.js';
 import * as participantResultsSharedRepository from '../../infrastructure/repositories/participant-results-shared-repository.js';
-import { poleEmploiNotifier } from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
-import { disabledPoleEmploiNotifier } from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
+import * as poleEmploiNotifier from '../../infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
+import * as disabledPoleEmploiNotifier from '../../infrastructure/externals/pole-emploi/disabled-pole-emploi-notifier.js';
 
 function requirePoleEmploiNotifier() {
   if (config.poleEmploi.pushEnabled) {
@@ -322,7 +322,7 @@ const dependencies = {
   sessionForSupervisingRepository,
   sessionJuryCommentRepository,
   sessionSummaryRepository,
-  settings,
+  config,
   skillRepository,
   skillSetRepository,
   studentRepository,
@@ -382,7 +382,7 @@ import { authenticateUser } from './authenticate-user.js';
 import { authorizeCertificationCandidateToResume } from './authorize-certification-candidate-to-resume.js';
 import { authorizeCertificationCandidateToStart } from './authorize-certification-candidate-to-start.js';
 import { beginCampaignParticipationImprovement } from './begin-campaign-participation-improvement.js';
-import { campaignAdministrationArchiveCampaign } from './campaigns-administration/archive-campaigns.js';
+import { archiveCampaigns } from './campaigns-administration/archive-campaigns.js';
 import { cancelCertificationCenterInvitation } from './cancel-certification-center-invitation.js';
 import { cancelCertificationCourse } from './cancel-certification-course.js';
 import { cancelOrganizationInvitation } from './cancel-organization-invitation.js';
@@ -407,7 +407,7 @@ import { createMembership } from './create-membership.js';
 import { createOidcUser } from './create-oidc-user.js';
 import { createOrUpdateCertificationCenterInvitationForAdmin } from './create-or-update-certification-center-invitation-for-admin.js';
 import { createOrUpdateTrainingTrigger } from './create-or-update-training-trigger.js';
-import { createOrUpdateUserOrgaSettings } from './create-or-update-user-orga-config.js';
+import { createOrUpdateUserOrgaSettings } from './create-or-update-user-orga-settings';
 import { createOrganization } from './create-organization.js';
 import { createOrganizationInvitationByAdmin } from './create-organization-invitation-by-admin.js';
 import { createOrganizationInvitations } from './create-organization-invitations.js';
@@ -458,7 +458,7 @@ import { findDivisionsByCertificationCenter } from './find-divisions-by-certific
 import { findDivisionsByOrganization } from './find-divisions-by-organization.js';
 import { findFinalizedSessionsToPublish } from './find-finalized-sessions-to-publish.js';
 import { findFinalizedSessionsWithRequiredAction } from './find-finalized-sessions-with-required-action.js';
-import { findGroupsByOrganization } from './find-groups-by-organization.js';
+import { findGroupByOrganization } from './find-groups-by-organization.js';
 import { findLatestOngoingUserCampaignParticipations } from './find-latest-ongoing-user-campaign-participations.js';
 import { findOrganizationPlacesLot } from './find-organization-places-lot.js';
 import { findOrganizationTargetProfileSummariesForAdmin } from './find-organization-target-profile-summaries-for-admin.js';
@@ -471,7 +471,7 @@ import { findPaginatedFilteredOrganizationMemberships } from './find-paginated-f
 import { findPaginatedFilteredOrganizations } from './find-paginated-filtered-organizations.js';
 import { findPaginatedFilteredScoParticipants } from './find-paginated-filtered-sco-participants.js';
 import { findPaginatedFilteredSupParticipants } from './find-paginated-filtered-sup-participants.js';
-import { findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
+import { findTargetProfileOrganizations as findPaginatedFilteredTargetProfileOrganizations } from './find-paginated-filtered-target-profile-organizations.js';
 import { findPaginatedFilteredTargetProfileSummariesForAdmin } from './find-paginated-filtered-target-profile-summaries-for-admin.js';
 import { findPaginatedFilteredTutorials } from './find-paginated-filtered-tutorials.js';
 import { findPaginatedFilteredUsers } from './find-paginated-filtered-users.js';
@@ -503,7 +503,7 @@ import { getCampaign } from './get-campaign.js';
 import { getCampaignAssessmentParticipation } from './get-campaign-assessment-participation.js';
 import { getCampaignAssessmentParticipationResult } from './get-campaign-assessment-participation-result.js';
 import { getCampaignByCode } from './get-campaign-by-code.js';
-import { getCampaignDetailsManagement } from './get-campaign-details-management.js';
+import { getCampaignManagement as getCampaignDetailsManagement } from './get-campaign-details-management.js';
 import { getCampaignParticipationsActivityByDay } from './get-campaign-participations-activity-by-day.js';
 import { getCampaignParticipationsCountByStage } from './get-campaign-participations-counts-by-stage.js';
 import { getCampaignParticipationsCountsByStatus } from './get-campaign-participations-counts-by-status.js';
@@ -671,7 +671,7 @@ const usecasesWithoutInjectedDependencies = {
   authorizeCertificationCandidateToResume,
   authorizeCertificationCandidateToStart,
   beginCampaignParticipationImprovement,
-  campaignAdministrationArchiveCampaign,
+  archiveCampaigns,
   cancelCertificationCenterInvitation,
   cancelCertificationCourse,
   cancelOrganizationInvitation,
@@ -746,7 +746,7 @@ const usecasesWithoutInjectedDependencies = {
   findDivisionsByOrganization,
   findFinalizedSessionsToPublish,
   findFinalizedSessionsWithRequiredAction,
-  findGroupsByOrganization,
+  findGroupByOrganization,
   findLatestOngoingUserCampaignParticipations,
   findOrganizationPlacesLot,
   findOrganizationTargetProfileSummariesForAdmin,

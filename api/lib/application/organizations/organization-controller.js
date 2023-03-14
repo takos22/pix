@@ -20,7 +20,7 @@ import * as supOrganizationParticipantsSerializer from '../../infrastructure/ser
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
 import { SupOrganizationLearnerParser } from '../../infrastructure/serializers/csv/sup-organization-learner-parser.js';
-import { queryParamsUtils } from '../../infrastructure/utils/query-params-utils.js';
+import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import {
   extractLocaleFromRequest,
   extractUserIdFromRequest,
@@ -28,8 +28,8 @@ import {
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
-import { certificationResultUtils } from '../../infrastructure/utils/csv/certification-results.js';
-import { certificationAttestationPdf } from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
+import * as certificationResultUtils from '../../infrastructure/utils/csv/certification-results.js';
+import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
 import * as organizationForAdminSerializer from '../../infrastructure/serializers/jsonapi/organization-for-admin-serializer.js';
 
 import { mapCertificabilityByLabel } from './helpers.js';
@@ -72,7 +72,7 @@ const updateOrganizationInformation = async function (request) {
 };
 
 const findPaginatedFilteredOrganizations = async function (request) {
-  const options = queryParamsUtils.extractParameters(request.query);
+  const options = extractParameters(request.query);
 
   const { models: organizations, pagination } = await usecases.findPaginatedFilteredOrganizations({
     filter: options.filter,
@@ -83,7 +83,7 @@ const findPaginatedFilteredOrganizations = async function (request) {
 
 const findPaginatedFilteredCampaigns = async function (request) {
   const organizationId = request.params.id;
-  const options = queryParamsUtils.extractParameters(request.query);
+  const options = extractParameters(request.query);
   const userId = request.auth.credentials.userId;
 
   if (options.filter.status === 'archived') {
@@ -101,7 +101,7 @@ const findPaginatedFilteredCampaigns = async function (request) {
 
 const findPaginatedCampaignManagements = async function (request) {
   const organizationId = request.params.id;
-  const { filter, page } = queryParamsUtils.extractParameters(request.query);
+  const { filter, page } = extractParameters(request.query);
 
   const { models: campaigns, meta } = await usecases.findPaginatedCampaignManagements({
     organizationId,
@@ -113,7 +113,7 @@ const findPaginatedCampaignManagements = async function (request) {
 
 const findPaginatedFilteredMembershipsForAdmin = async function (request) {
   const organizationId = request.params.id;
-  const options = queryParamsUtils.extractParameters(request.query);
+  const options = extractParameters(request.query);
 
   const { models: memberships, pagination } = await usecases.findPaginatedFilteredOrganizationMemberships({
     organizationId,
@@ -125,7 +125,7 @@ const findPaginatedFilteredMembershipsForAdmin = async function (request) {
 
 const findPaginatedFilteredMemberships = async function (request) {
   const organizationId = request.params.id;
-  const options = queryParamsUtils.extractParameters(request.query);
+  const options = extractParameters(request.query);
 
   const { models: memberships, pagination } = await usecases.findPaginatedFilteredOrganizationMemberships({
     organizationId,
@@ -242,7 +242,7 @@ const getGroups = async function (request) {
 
 const findPaginatedFilteredScoParticipants = async function (request) {
   const organizationId = request.params.id;
-  const { filter, page, sort } = queryParamsUtils.extractParameters(request.query);
+  const { filter, page, sort } = extractParameters(request.query);
   if (filter.divisions && !Array.isArray(filter.divisions)) {
     filter.divisions = [filter.divisions];
   }
@@ -266,7 +266,7 @@ const findPaginatedFilteredScoParticipants = async function (request) {
 
 const findPaginatedFilteredSupParticipants = async function (request) {
   const organizationId = request.params.id;
-  const { filter, page, sort } = queryParamsUtils.extractParameters(request.query);
+  const { filter, page, sort } = extractParameters(request.query);
   if (filter.groups && !Array.isArray(filter.groups)) {
     filter.groups = [filter.groups];
   }
@@ -394,7 +394,7 @@ const archiveOrganization = async function (request) {
 
 const getPaginatedParticipantsForAnOrganization = async function (request) {
   const organizationId = request.params.id;
-  const { page, filter: filters, sort } = queryParamsUtils.extractParameters(request.query);
+  const { page, filter: filters, sort } = extractParameters(request.query);
 
   if (filters.certificability) {
     filters.certificability = mapCertificabilityByLabel(filters.certificability);

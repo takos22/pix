@@ -8,7 +8,7 @@ import {
 import { Examiner } from '../models/Examiner.js';
 import { KnowledgeElement } from '../models/KnowledgeElement.js';
 import { logger } from '../../infrastructure/logger.js';
-import { dateUtils } from '../../infrastructure/utils/date-utils.js';
+import * as dateUtils from '../../infrastructure/utils/date-utils.js';
 
 const correctAnswerThenUpdateAssessment = async function ({
   answer,

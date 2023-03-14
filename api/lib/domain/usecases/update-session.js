@@ -1,4 +1,4 @@
-import { sessionValidator } from '../validators/session-validator.js';
+import * as sessionValidator from '../validators/session-validator.js';
 
 const updateSession = async function ({ session, sessionRepository }) {
   sessionValidator.validate(session);

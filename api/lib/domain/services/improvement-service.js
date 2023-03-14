@@ -1,4 +1,4 @@
-import { constants } from '../constants.js';
+import * as constants from '../constants.js';
 import moment from 'moment';
 
 function _keepKnowledgeElementsRecentOrValidated({ currentUserKnowledgeElements, assessment, minimumDelayInDays }) {

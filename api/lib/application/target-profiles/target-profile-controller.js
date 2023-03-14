@@ -4,18 +4,18 @@ import * as targetProfileSerializer from '../../infrastructure/serializers/jsona
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 import * as targetProfileForAdminOldSerializer from '../../infrastructure/serializers/jsonapi/target-profile-for-admin-old-format-serializer.js';
 import * as targetProfileForAdminNewSerializer from '../../infrastructure/serializers/jsonapi/target-profile-for-admin-new-format-serializer.js';
-import { queryParamsUtils } from '../../infrastructure/utils/query-params-utils.js';
-import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
+import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
+import { escapeFileName } from '../../infrastructure/utils/request-response-utils.js';
 import * as organizationSerializer from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
 import * as badgeSerializer from '../../infrastructure/serializers/jsonapi/badge-serializer.js';
 import * as badgeCreationSerializer from '../../infrastructure/serializers/jsonapi/badge-creation-serializer.js';
 import * as stageSerializer from '../../infrastructure/serializers/jsonapi/stage-serializer.js';
 import * as targetProfileAttachOrganizationSerializer from '../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
-import { learningContentPDFPresenter } from './presenter/pdf/learning-content-pdf-presenter.js';
+import * as learningContentPDFPresenter from './presenter/pdf/learning-content-pdf-presenter.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
 const findPaginatedFilteredTargetProfileSummariesForAdmin = async function (request) {
-  const options = queryParamsUtils.extractParameters(request.query);
+  const options = extractParameters(request.query);
 
   const { models: targetProfileSummaries, meta } = await usecases.findPaginatedFilteredTargetProfileSummariesForAdmin({
     filter: options.filter,
@@ -33,7 +33,7 @@ const getTargetProfileForAdmin = async function (request) {
 
 const findPaginatedFilteredTargetProfileOrganizations = async function (request) {
   const targetProfileId = request.params.id;
-  const options = queryParamsUtils.extractParameters(request.query);
+  const options = extractParameters(request.query);
 
   const { models: organizations, pagination } = await usecases.findPaginatedFilteredTargetProfileOrganizations({
     targetProfileId,
@@ -50,7 +50,7 @@ const getContentAsJsonFile = async function (request, h) {
 
   const { jsonContent, fileName } = await usecases.getTargetProfileContentAsJson({ userId, targetProfileId });
 
-  const escapedFilename = requestResponseUtils.escapeFileName(fileName);
+  const escapedFilename = escapeFileName(fileName);
 
   return h
     .response(jsonContent)

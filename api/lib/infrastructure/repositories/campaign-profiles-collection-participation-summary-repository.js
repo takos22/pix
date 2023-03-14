@@ -4,7 +4,7 @@ import { knex } from '../../../db/knex-database-connection.js';
 import * as placementProfileService from '../../domain/services/placement-profile-service.js';
 import { CampaignProfilesCollectionParticipationSummary } from '../../domain/read-models/CampaignProfilesCollectionParticipationSummary.js';
 import * as competenceRepository from '../../infrastructure/repositories/competence-repository.js';
-import { constants } from '../constants.js';
+import * as constants from '../constants.js';
 import { fetchPage } from '../utils/knex-utils.js';
 import { filterByFullName } from '../utils/filter-utils.js';
 

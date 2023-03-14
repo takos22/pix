@@ -1,4 +1,4 @@
-import { organizationCreationValidator } from '../validators/organization-creation-validator.js';
+import * as organizationCreationValidator from '../validators/organization-creation-validator.js';
 
 const createOrganization = async function ({
   organization,

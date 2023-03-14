@@ -13,8 +13,8 @@ import * as campaignParticipantsActivitySerializer from '../../infrastructure/se
 import * as divisionSerializer from '../../infrastructure/serializers/jsonapi/division-serializer.js';
 import * as groupSerializer from '../../infrastructure/serializers/jsonapi/group-serializer.js';
 
-import { queryParamsUtils } from '../../infrastructure/utils/query-params-utils.js';
-import { requestResponseUtils, extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
+import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
+import { escapeFileName, extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 import { ForbiddenAccess } from '../../domain/errors.js';
 
 const save = async function (request, h) {
@@ -51,7 +51,7 @@ const save = async function (request, h) {
 };
 
 const getByCode = async function (request) {
-  const filters = queryParamsUtils.extractParameters(request.query).filter;
+  const filters = extractParameters(request.query).filter;
   await _validateFilters(filters);
 
   const campaignToJoin = await usecases.getCampaignByCode({ code: filters.code });
@@ -85,7 +85,7 @@ const getCsvAssessmentResults = async function (request) {
     writableStream,
     i18n: request.i18n,
   });
-  const escapedFileName = requestResponseUtils.escapeFileName(fileName);
+  const escapedFileName = escapeFileName(fileName);
 
   writableStream.headers = {
     'content-type': 'text/csv;charset=utf-8',
@@ -116,7 +116,7 @@ const getCsvProfilesCollectionResults = async function (request) {
     writableStream,
     i18n: request.i18n,
   });
-  const escapedFileName = requestResponseUtils.escapeFileName(fileName);
+  const escapedFileName = escapeFileName(fileName);
 
   writableStream.headers = {
     'content-type': 'text/csv;charset=utf-8',
@@ -174,7 +174,7 @@ const getAnalysis = async function (request) {
 const findProfilesCollectionParticipations = async function (request) {
   const { userId } = request.auth.credentials;
   const campaignId = request.params.id;
-  const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
+  const { page, filter: filters } = extractParameters(request.query);
   if (filters.divisions && !Array.isArray(filters.divisions)) {
     filters.divisions = [filters.divisions];
   }
@@ -193,7 +193,7 @@ const findProfilesCollectionParticipations = async function (request) {
 const findParticipantsActivity = async function (request) {
   const campaignId = request.params.id;
 
-  const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
+  const { page, filter: filters } = extractParameters(request.query);
   if (filters.divisions && !Array.isArray(filters.divisions)) {
     filters.divisions = [filters.divisions];
   }

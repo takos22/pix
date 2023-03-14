@@ -1,12 +1,12 @@
 import _ from 'lodash';
 import { NotFoundError } from '../../../domain/errors.js';
-import { knex } from '../../bookshelf.js';
+import { Bookshelf as bookshelf } from '../../bookshelf.js';
 import { BookshelfFinalizedSession } from '../../orm-models/FinalizedSession.js';
 
 import * as bookshelfToDomainConverter from '../../utils/bookshelf-to-domain-converter.js';
 
 const save = async function (finalizedSession) {
-  await knex('finalized-sessions').insert(_toDTO(finalizedSession)).onConflict('sessionId').merge();
+  await bookshelf('finalized-sessions').insert(_toDTO(finalizedSession)).onConflict('sessionId').merge();
   return finalizedSession;
 };
 

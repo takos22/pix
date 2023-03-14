@@ -1,7 +1,7 @@
 const types = require('pg').types;
 import _, { get } from 'lodash';
 import { logger } from '../lib/infrastructure/logger.js';
-import { monitoringTools } from '../lib/infrastructure/monitoring-tools.js';
+import * as monitoringTools from '../lib/infrastructure/monitoring-tools.js';
 import { config } from '../lib/config.js';
 import { performance } from 'perf_hooks';
 /*

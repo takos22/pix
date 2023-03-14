@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { lcms } from '../../lcms.js';
+import * as lcms from '../../lcms.js';
 import { LearningContentResourceNotFound } from './LearningContentResourceNotFound.js';
 import { learningContentCache } from '../../caches/learning-content-cache.js';
 

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
-import { writeOdsUtils } from '../../infrastructure/utils/ods/write-ods-utils.js';
-import { readOdsUtils } from '../../infrastructure/utils/ods/read-ods-utils.js';
+import * as writeOdsUtils from '../../infrastructure/utils/ods/write-ods-utils.js';
+import * as readOdsUtils from '../../infrastructure/utils/ods/read-ods-utils.js';
 import * as sessionXmlService from '../services/session-xml-service.js';
 import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
 

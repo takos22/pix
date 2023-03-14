@@ -3,8 +3,8 @@ import { BadRequestError, SessionPublicationBatchError } from '../http-errors.js
 import { usecases } from '../../domain/usecases/index.js';
 import * as tokenService from '../../domain/services/token-service.js';
 import * as sessionResultsLinkService from '../../domain/services/session-results-link-service.js';
-import { sessionValidator } from '../../domain/validators/session-validator.js';
-import { events } from '../../domain/events/index.js';
+import * as sessionValidator from '../../domain/validators/session-validator.js';
+import * as events from '../../domain/events/index.js';
 import { CertificationCandidateAlreadyLinkedToUserError } from '../../domain/errors.js';
 import * as sessionSerializer from '../../infrastructure/serializers/jsonapi/session-serializer.js';
 import * as jurySessionSerializer from '../../infrastructure/serializers/jsonapi/jury-session-serializer.js';
@@ -13,17 +13,17 @@ import * as certificationReportSerializer from '../../infrastructure/serializers
 import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
 import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
 import * as jurySessionRepository from '../../infrastructure/repositories/sessions/jury-session-repository.js';
-import { queryParamsUtils } from '../../infrastructure/utils/query-params-utils.js';
-import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
-import { certificationResultUtils } from '../../infrastructure/utils/csv/certification-results.js';
+import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
+import { extractUserIdFromRequest } from '../../infrastructure/utils/request-response-utils.js';
+import * as certificationResultUtils from '../../infrastructure/utils/csv/certification-results.js';
 import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
-import { supervisorKitPdf } from '../../infrastructure/utils/pdf/supervisor-kit-pdf.js';
+import * as supervisorKitPdf from '../../infrastructure/utils/pdf/supervisor-kit-pdf.js';
 import trim from 'lodash/trim';
 import { UserLinkedToCertificationCandidate } from '../../domain/events/UserLinkedToCertificationCandidate.js';
 import { logger } from '../../infrastructure/logger.js';
 
 const findPaginatedFilteredJurySessions = async function (request) {
-  const { filter, page } = queryParamsUtils.extractParameters(request.query);
+  const { filter, page } = extractParameters(request.query);
   const normalizedFilters = sessionValidator.validateAndNormalizeFilters(filter);
   const jurySessionsForPaginatedList = await jurySessionRepository.findPaginatedFiltered({
     filters: normalizedFilters,
@@ -137,7 +137,7 @@ const deleteCertificationCandidate = async function (request) {
 
 const getJuryCertificationSummaries = async function (request) {
   const sessionId = request.params.id;
-  const { page } = queryParamsUtils.extractParameters(request.query);
+  const { page } = extractParameters(request.query);
 
   const { juryCertificationSummaries, pagination } = await juryCertificationSummaryRepository.findBySessionIdPaginated({
     sessionId,
@@ -218,7 +218,7 @@ const importCertificationCandidatesFromCandidatesImportSheet = async function (r
 };
 
 const enrollStudentsToSession = async function (request, h) {
-  const referentId = requestResponseUtils.extractUserIdFromRequest(request);
+  const referentId = extractUserIdFromRequest(request);
   const sessionId = request.params.id;
   const studentIds = request.deserializedPayload.organizationLearnerIds;
 

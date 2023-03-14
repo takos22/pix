@@ -1,5 +1,5 @@
 import { config } from '../../config.js';
-import { monitoringTools } from '../monitoring-tools.js';
+import * as monitoringTools from '../monitoring-tools.js';
 import hapiPino from 'hapi-pino';
 import { logger } from '../logger.js';
 import crypto from 'crypto';

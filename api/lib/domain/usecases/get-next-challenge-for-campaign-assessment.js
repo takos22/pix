@@ -1,7 +1,7 @@
 import { AssessmentEndedError } from '../errors.js';
-import { smartRandom } from '../services/algorithm-methods/smart-random.js';
-import { flash } from '../services/algorithm-methods/flash.js';
-import { dataFetcher } from '../services/algorithm-methods/data-fetcher.js';
+import * as smartRandom from '../services/algorithm-methods/smart-random.js';
+import * as flash from '../services/algorithm-methods/flash.js';
+import * as dataFetcher from '../services/algorithm-methods/data-fetcher.js';
 
 const getNextChallengeForCampaignAssessment = async function ({
   challengeRepository,

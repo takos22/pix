@@ -1,4 +1,4 @@
-import { campaignCodeGenerator } from '../services/campaigns/campaign-code-generator.js';
+import * as campaignCodeGenerator from '../services/campaigns/campaign-code-generator.js';
 
 const createCampaign = async function ({ campaign, campaignRepository, campaignCreatorRepository }) {
   const generatedCampaignCode = await campaignCodeGenerator.generate(campaignRepository);

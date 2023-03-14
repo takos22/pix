@@ -1,8 +1,8 @@
 import * as supervisorAccessRepository from '../../infrastructure/repositories/supervisor-access-repository.js';
-import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
+import { extractUserIdFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
 const verifyByCertificationCandidateId = async function (request, h) {
-  const supervisorUserId = requestResponseUtils.extractUserIdFromRequest(request);
+  const supervisorUserId = extractUserIdFromRequest(request);
   const candidateId = request.params.id;
   const isSupervisorForSession = await supervisorAccessRepository.isUserSupervisorForSessionCandidate({
     supervisorId: supervisorUserId,
@@ -17,7 +17,7 @@ const verifyByCertificationCandidateId = async function (request, h) {
 };
 
 const verifyBySessionId = async function (request, h) {
-  const userId = requestResponseUtils.extractUserIdFromRequest(request);
+  const userId = extractUserIdFromRequest(request);
   const sessionId = request.params.id;
 
   const isSupervisorForSession = await supervisorAccessRepository.isUserSupervisorForSession({

@@ -2,7 +2,7 @@ import { isEmpty, uniqBy } from 'lodash';
 import bluebird from 'bluebird';
 import { Organization } from '../models/Organization.js';
 import { OrganizationTag } from '../models/OrganizationTag.js';
-import { organizationValidator } from '../validators/organization-with-tags-and-target-profiles-script.js';
+import * as organizationValidator from '../validators/organization-with-tags-and-target-profiles-script.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
 import {

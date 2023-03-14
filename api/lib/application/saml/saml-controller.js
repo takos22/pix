@@ -1,4 +1,4 @@
-import { saml } from '../../infrastructure/saml.js';
+import * as saml from '../../infrastructure/saml.js';
 import { usecases } from '../../domain/usecases/index.js';
 import { logger } from '../../infrastructure/logger.js';
 import * as tokenService from '../../domain/services/token-service.js';
@@ -25,7 +25,7 @@ const assert = async function (request, h) {
     const redirectionUrl = await usecases.getExternalAuthenticationRedirectionUrl({
       userAttributes,
       tokenService,
-      settings,
+      config,
     });
 
     return h.redirect(redirectionUrl);

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { performance } from 'perf_hooks';
 
-import { monitoringTools } from '../monitoring-tools.js';
+import * as monitoringTools from '../monitoring-tools.js';
 
 class HttpResponse {
   constructor({ code, data, isSuccessful }) {
@@ -11,7 +11,7 @@ class HttpResponse {
   }
 }
 
-const HttpAgent = {
+const httpAgent = {
   async post({ url, payload, headers, timeout }) {
     const startTime = performance.now();
     let responseTime = null;
@@ -113,4 +113,4 @@ const HttpAgent = {
   },
 };
 
-export { HttpAgent };
+export { httpAgent };

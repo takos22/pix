@@ -1,4 +1,4 @@
-import { campaignValidator } from '../validators/campaign-validator.js';
+import * as campaignValidator from '../validators/campaign-validator.js';
 import { EntityValidationError } from '../errors.js';
 
 const updateCampaignDetailsManagement = async function ({

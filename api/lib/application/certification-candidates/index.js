@@ -1,5 +1,5 @@
 import * as certificationCandidatesController from './certification-candidates-controller.js';
-import { assessmentSupervisorAuthorization } from '../preHandlers/session-supervisor-authorization.js';
+import * as assessmentSupervisorAuthorization from '../preHandlers/session-supervisor-authorization.js';
 import Joi from 'joi';
 import { identifiersType } from '../../domain/types/identifiers-type.js';
 

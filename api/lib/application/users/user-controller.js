@@ -19,8 +19,8 @@ import * as certificationCenterMembershipSerializer from '../../infrastructure/s
 import * as trainingSerializer from '../../infrastructure/serializers/jsonapi/training-serializer.js';
 import * as userLoginSerializer from '../../infrastructure/serializers/jsonapi/user-login-serializer.js';
 
-import { queryParamsUtils } from '../../infrastructure/utils/query-params-utils.js';
-import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
+import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
+import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 import { usecases } from '../../domain/usecases/index.js';
 import * as localeService from '../../domain/services/locale-service.js';
 
@@ -29,7 +29,7 @@ const save = async function (request, h) {
   const canonicalLocaleFromCookie = localeFromCookie ? localeService.getCanonicalLocale(localeFromCookie) : undefined;
   const campaignCode = request.payload.meta ? request.payload.meta['campaign-code'] : null;
   const user = { ...userSerializer.deserialize(request.payload), locale: canonicalLocaleFromCookie };
-  const localeFromHeader = requestResponseUtils.extractLocaleFromRequest(request);
+  const localeFromHeader = extractLocaleFromRequest(request);
 
   const password = request.payload.data.attributes.password;
 
@@ -146,7 +146,7 @@ const rememberUserHasSeenChallengeTooltip = async function (request) {
 };
 
 const findPaginatedFilteredUsers = async function (request) {
-  const options = queryParamsUtils.extractParameters(request.query);
+  const options = extractParameters(request.query);
 
   const { models: users, pagination } = await usecases.findPaginatedFilteredUsers({
     filter: options.filter,
@@ -156,8 +156,8 @@ const findPaginatedFilteredUsers = async function (request) {
 };
 
 const findPaginatedUserRecommendedTrainings = async function (request) {
-  const locale = requestResponseUtils.extractLocaleFromRequest(request);
-  const { page } = queryParamsUtils.extractParameters(request.query);
+  const locale = extractLocaleFromRequest(request);
+  const { page } = extractParameters(request.query);
   const { userRecommendedTrainings, meta } = await usecases.findPaginatedUserRecommendedTrainings({
     userId: request.auth.credentials.userId,
     locale,
@@ -177,7 +177,7 @@ const getCampaignParticipations = function (request) {
 
 const getCampaignParticipationOverviews = async function (request) {
   const authenticatedUserId = request.auth.credentials.userId;
-  const query = queryParamsUtils.extractParameters(request.query);
+  const query = extractParameters(request.query);
 
   const userCampaignParticipationOverviews = await usecases.findUserCampaignParticipationOverviews({
     userId: authenticatedUserId,
@@ -197,14 +197,14 @@ const isCertifiable = async function (request) {
 
 const getProfile = function (request) {
   const authenticatedUserId = request.auth.credentials.userId;
-  const locale = requestResponseUtils.extractLocaleFromRequest(request);
+  const locale = extractLocaleFromRequest(request);
 
   return usecases.getUserProfile({ userId: authenticatedUserId, locale }).then(profileSerializer.serialize);
 };
 
 const getProfileForAdmin = function (request) {
   const userId = request.params.id;
-  const locale = requestResponseUtils.extractLocaleFromRequest(request);
+  const locale = extractLocaleFromRequest(request);
 
   return usecases.getUserProfile({ userId, locale }).then(profileSerializer.serialize);
 };
@@ -212,7 +212,7 @@ const getProfileForAdmin = function (request) {
 const resetScorecard = function (request) {
   const authenticatedUserId = request.auth.credentials.userId;
   const competenceId = request.params.competenceId;
-  const locale = requestResponseUtils.extractLocaleFromRequest(request);
+  const locale = extractLocaleFromRequest(request);
 
   return usecases
     .resetScorecard({ userId: authenticatedUserId, competenceId, locale })
@@ -231,7 +231,7 @@ const getUserCampaignParticipationToCampaign = function (request) {
 const getUserProfileSharedForCampaign = async function (request) {
   const authenticatedUserId = request.auth.credentials.userId;
   const campaignId = request.params.campaignId;
-  const locale = requestResponseUtils.extractLocaleFromRequest(request);
+  const locale = extractLocaleFromRequest(request);
 
   const sharedProfileForCampaign = await usecases.getUserProfileSharedForCampaign({
     userId: authenticatedUserId,
@@ -245,7 +245,7 @@ const getUserProfileSharedForCampaign = async function (request) {
 const getUserCampaignAssessmentResult = async function (request) {
   const authenticatedUserId = request.auth.credentials.userId;
   const campaignId = request.params.campaignId;
-  const locale = requestResponseUtils.extractLocaleFromRequest(request);
+  const locale = extractLocaleFromRequest(request);
 
   const campaignAssessmentResult = await usecases.getUserCampaignAssessmentResult({
     userId: authenticatedUserId,
@@ -277,7 +277,7 @@ const removeAuthenticationMethod = async function (request, h) {
 };
 
 const sendVerificationCode = async function (request, h) {
-  const locale = requestResponseUtils.extractLocaleFromRequest(request);
+  const locale = extractLocaleFromRequest(request);
   const i18n = request.i18n;
   const userId = request.params.id;
   const { newEmail, password } = await emailVerificationSerializer.deserialize(request.payload);

@@ -1,5 +1,5 @@
 import { usecases } from '../../domain/usecases/index.js';
-import { csvCampaingsIdsParser } from '../../infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser.js';
+import { extractCampaignsIds as csvCampaingsIdsParser } from '../../infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser.js';
 
 const archiveCampaigns = async function (request, h) {
   const { userId } = request.auth.credentials;

@@ -1,6 +1,6 @@
 import { SharedProfileForCampaign } from '../read-models/SharedProfileForCampaign.js';
 import { NoCampaignParticipationForUserAndCampaign } from '../errors.js';
-import { constants } from '../constants.js';
+import * as constants from '../constants.js';
 
 const getUserProfileSharedForCampaign = async function ({
   userId,
