@@ -8,7 +8,7 @@ import { extractParameters } from '../../infrastructure/utils/query-params-utils
 import { escapeFileName } from '../../infrastructure/utils/request-response-utils.js';
 import * as organizationSerializer from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
 import * as badgeSerializer from '../../infrastructure/serializers/jsonapi/badge-serializer.js';
-import * as badgeCreationSerializer from '../../infrastructure/serializers/jsonapi/badge-creation-serializer.js';
+import { deserializer as badgeCreationDeserializer } from '../../infrastructure/serializers/jsonapi/badge-creation-serializer.js';
 import * as stageSerializer from '../../infrastructure/serializers/jsonapi/stage-serializer.js';
 import * as targetProfileAttachOrganizationSerializer from '../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
 import * as learningContentPDFPresenter from './presenter/pdf/learning-content-pdf-presenter.js';
@@ -108,7 +108,7 @@ const findStages = async function (request) {
 
 const createBadge = async function (request, h) {
   const targetProfileId = request.params.id;
-  const badgeCreation = await badgeCreationSerializer.deserialize(request.payload);
+  const badgeCreation = await badgeCreationDeserializer.deserialize(request.payload);
 
   const createdBadge = await usecases.createBadge({ targetProfileId, badgeCreation });
 
