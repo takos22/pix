@@ -69,7 +69,7 @@ const register = async function (server) {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
-        handler: stagesController.delete,
+        handler: stagesController.remove,
         tags: ['api', 'admin', 'stages'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +

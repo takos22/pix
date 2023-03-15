@@ -28,7 +28,7 @@ const remove = async function (request, h) {
 
   const deletedStage = usecases.deleteStage({ stageCollection, targetProfileId: stage.targetProfileId, stageId });
 
-  await stageCollectionRepository.delete(deletedStage);
+  await stageCollectionRepository.remove(deletedStage);
   return h.response({}).code(204);
 };
 
