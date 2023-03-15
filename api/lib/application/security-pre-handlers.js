@@ -21,8 +21,8 @@ import * as certificationIssueReportRepository from '../infrastructure/repositor
 import { Organization } from '../../lib/domain/models/Organization.js';
 import { ForbiddenAccess } from '../..//lib/domain/errors.js';
 import { PIX_ADMIN } from '../..//lib/domain/constants.js';
+import { Error as JSONAPIError } from 'jsonapi-serializer';
 
-const JSONAPIError = require('jsonapi-serializer').Error;
 import has from 'lodash/has';
 
 function _replyForbiddenError(h) {

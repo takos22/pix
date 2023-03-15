@@ -1,5 +1,5 @@
 import _ from 'lodash';
-const JSONAPIError = require('jsonapi-serializer').Error;
+import { Error as JSONAPIError } from 'jsonapi-serializer';
 import * as HttpErrors from './http-errors.js';
 import * as DomainErrors from '../domain/errors.js';
 import * as errorSerializer from '../infrastructure/serializers/jsonapi/error-serializer.js';
