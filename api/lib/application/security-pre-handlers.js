@@ -125,7 +125,7 @@ function checkRequestedUserIsAuthenticatedUser(request, h) {
   }
 
   const authenticatedUserId = request.auth.credentials.userId;
-  const requestedUserId = parseInt(request.params.userId) || parseInt(request.params.id);
+  const requestedUserId = request.params.userId || request.params.id;
 
   return authenticatedUserId === requestedUserId ? h.response(true) : _replyForbiddenError(h);
 }
@@ -141,7 +141,7 @@ function checkUserIsAdminInOrganization(request, h) {
   const organizationId =
     request.path && request.path.includes('memberships')
       ? request.payload.data.relationships.organization.data.id
-      : parseInt(request.params.id);
+      : request.params.id;
 
   return checkUserIsAdminInOrganizationUseCase
     .execute(userId, organizationId)
@@ -160,7 +160,7 @@ function checkUserIsMemberOfCertificationCenter(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
-  const certificationCenterId = parseInt(request.params.certificationCenterId);
+  const certificationCenterId = request.params.certificationCenterId;
 
   return checkUserIsMemberOfCertificationCenterUsecase
     .execute(userId, certificationCenterId)
@@ -179,7 +179,7 @@ async function checkUserIsMemberOfCertificationCenterSessionFromCertificationIss
   }
 
   const userId = request.auth.credentials.userId;
-  const certificationIssueReportId = parseInt(request.params.id);
+  const certificationIssueReportId = request.params.id;
 
   try {
     const certificationIssueReport = await certificationIssueReportRepository.get(certificationIssueReportId);
@@ -199,7 +199,7 @@ async function checkUserIsMemberOfCertificationCenterSessionFromCertificationCou
   }
 
   const userId = request.auth.credentials.userId;
-  const certificationCourseId = parseInt(request.params.id);
+  const certificationCourseId = request.params.id;
 
   try {
     const isMemberOfSession = await checkUserIsMemberOfCertificationCenterSessionUsecase.execute({
@@ -218,7 +218,7 @@ async function checkUserBelongsToOrganizationManagingStudents(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id);
+  const organizationId = request.params.id;
 
   try {
     if (await checkUserBelongsToOrganizationManagingStudentsUseCase.execute(userId, organizationId)) {
@@ -236,7 +236,7 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id) || parseInt(request.payload.data.attributes['organization-id']);
+  const organizationId = request.params.id || request.payload.data.attributes['organization-id'];
 
   let belongsToScoOrganizationAndManageStudents;
   try {
@@ -259,7 +259,7 @@ async function checkUserBelongsToSupOrganizationAndManagesStudents(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id) || parseInt(request.payload.data.attributes['organization-id']);
+  const organizationId = request.params.id || request.payload.data.attributes['organization-id'];
 
   let belongsToSupOrganizationAndManageStudents;
   try {
@@ -278,7 +278,7 @@ async function checkUserBelongsToSupOrganizationAndManagesStudents(request, h) {
 
 async function checkUserIsAdminInSCOOrganizationManagingStudents(request, h) {
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id);
+  const organizationId = request.params.id;
 
   if (
     await checkUserIsAdminAndManagingStudentsForOrganization.execute(userId, organizationId, Organization.types.SCO)
@@ -290,7 +290,7 @@ async function checkUserIsAdminInSCOOrganizationManagingStudents(request, h) {
 
 async function checkUserIsAdminInSUPOrganizationManagingStudents(request, h) {
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id);
+  const organizationId = request.params.id;
 
   if (
     await checkUserIsAdminAndManagingStudentsForOrganization.execute(userId, organizationId, Organization.types.SUP)
@@ -307,7 +307,7 @@ async function checkUserBelongsToLearnersOrganization(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationLearnerId = parseInt(request.params.id);
+  const organizationLearnerId = request.params.id;
 
   let belongsToLearnersOrganization;
 
@@ -331,7 +331,7 @@ async function checkUserBelongsToOrganization(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id);
+  const organizationId = request.params.id;
 
   const belongsToOrganization = await checkUserBelongsToOrganizationUseCase.execute(userId, organizationId);
   if (belongsToOrganization) {
@@ -392,7 +392,7 @@ async function checkUserOwnsCertificationCourse(request, h) {
   }
 
   const userId = request.auth.credentials.userId;
-  const certificationCourseId = parseInt(request.params.id);
+  const certificationCourseId = request.params.id;
 
   try {
     const ownsCertificationCourse = await checkUserOwnsCertificationCourseUseCase.execute({
