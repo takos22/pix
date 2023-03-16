@@ -1,8 +1,8 @@
-import { promises } from 'node:dns';
+import { config } from '../config.js';
+import { promises } from 'dns';
 
 const { Resolver } = promises;
-
-import { mailing } from '../config.js';
+const { mailing } = config;
 
 const checkDomainIsValid = function (address) {
   if (!mailing.enabled) {

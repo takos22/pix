@@ -1,4 +1,7 @@
-import { find } from 'lodash';
+import lodash from 'lodash';
+
+const { find } = lodash;
+
 import boom from 'boom';
 
 import * as tokenService from '../domain/services/token-service.js';

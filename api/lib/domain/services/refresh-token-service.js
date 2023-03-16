@@ -1,5 +1,8 @@
 import bluebird from 'bluebird';
-import { v4 as uuidv4 } from 'uuid';
+import uuid from 'uuid';
+
+const { v4 } = uuid;
+
 import { config } from '../../config.js';
 import * as tokenService from './token-service.js';
 import { UnauthorizedError } from '../../application/http-errors.js';

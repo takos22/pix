@@ -2,7 +2,9 @@ import { knex } from '../../../../db/knex-database-connection.js';
 import { skillDatasource } from '../../datasources/learning-content/skill-datasource.js';
 import { TargetProfileForSpecifier } from '../../../domain/read-models/campaign/TargetProfileForSpecifier.js';
 import bluebird from 'bluebird';
-import { uniqBy } from 'lodash';
+import lodash from 'lodash';
+
+const { uniqBy } = lodash;
 
 async function availableForOrganization(organizationId) {
   const targetProfileRows = await _fetchTargetProfiles(organizationId);
