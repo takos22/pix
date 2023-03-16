@@ -3,8 +3,6 @@ import fs from 'fs';
 
 const { isEmpty, chunk } = lodash;
 
-const { promises } = fs;
-
 import bluebird from 'bluebird';
 import { ORGANIZATION_LEARNER_CHUNK_SIZE } from '../../infrastructure/constants.js';
 import lodash from 'lodash';
