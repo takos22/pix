@@ -21,11 +21,12 @@ import * as certificationIssueReportRepository from '../infrastructure/repositor
 import { Organization } from '../../lib/domain/models/Organization.js';
 import { ForbiddenAccess } from '../..//lib/domain/errors.js';
 import { PIX_ADMIN } from '../..//lib/domain/constants.js';
+
 import jsonapiSerializer from 'jsonapi-serializer';
 
-const { has } = lodash;
+const { Error: JSONAPIError } = jsonapiSerializer;
 
-const { Error } = jsonapiSerializer;
+const { has } = lodash;
 
 import lodash from 'lodash';
 

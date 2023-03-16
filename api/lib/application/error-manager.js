@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import jsonapiSerializer from 'jsonapi-serializer';
 
-const { Error } = jsonapiSerializer;
+const { Error: JSONAPIError } = jsonapiSerializer;
 
 import * as HttpErrors from './http-errors.js';
 import * as DomainErrors from '../domain/errors.js';
