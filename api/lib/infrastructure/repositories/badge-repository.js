@@ -2,7 +2,7 @@ import { knex } from '../../../db/knex-database-connection.js';
 import * as bookshelfToDomainConverter from '../utils/bookshelf-to-domain-converter.js';
 import { BookshelfBadge } from '../orm-models/Badge.js';
 import { Badge } from '../../domain/models/Badge.js';
-import omit from 'lodash/omit';
+import { omit } from 'lodash';
 import * as knexUtils from '../utils/knex-utils.js';
 import { AlreadyExistingEntityError } from '../../domain/errors.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';

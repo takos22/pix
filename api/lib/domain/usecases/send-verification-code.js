@@ -1,7 +1,7 @@
 import * as codeUtils from '../../infrastructure/utils/code-utils.js';
 import { AuthenticationMethod } from '../models/AuthenticationMethod.js';
 import { InvalidPasswordForUpdateEmailError, UserNotAuthorizedToUpdateEmailError } from '../errors.js';
-import get from 'lodash/get';
+import { get } from 'lodash';
 
 const sendVerificationCode = async function ({
   i18n,
