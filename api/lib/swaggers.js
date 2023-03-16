@@ -1,5 +1,5 @@
 import HapiSwagger from 'hapi-swagger';
-import * as packageJSON from '../package.json';
+import * as packageJSON from '../package.json' assert { type: 'json' };
 
 const swaggerOptionsAuthorizationServer = {
   routeTag: 'authorization-server',
