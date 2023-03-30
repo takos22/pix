@@ -60,7 +60,13 @@ export default class FillInCampaignCodeController extends Controller {
       });
       const isGARCampaign = this.campaign.identityProvider === IDENTITY_PROVIDER_ID_GAR;
       const isUserAuthenticatedByGAR = this.session.get('data.externalUser');
-      if (_shouldShowGARModal(isGARCampaign, isUserAuthenticatedByGAR, this.isUserAuthenticatedByPix)) {
+      if (
+        _shouldShowGARModal({
+          isGARCampaign,
+          isUserAuthenticatedByGAR,
+          isUserAuthenticatedByPix: this.isUserAuthenticatedByPix,
+        })
+      ) {
         this.showGARModal = true;
         return;
       }
@@ -104,7 +110,7 @@ export default class FillInCampaignCodeController extends Controller {
   }
 }
 
-function _shouldShowGARModal(isGARCampaign, isUserAuthenticatedByGAR, isUserAuthenticatedByPix) {
+function _shouldShowGARModal({ isGARCampaign, isUserAuthenticatedByGAR, isUserAuthenticatedByPix }) {
   if (!isGARCampaign) {
     return false;
   }
