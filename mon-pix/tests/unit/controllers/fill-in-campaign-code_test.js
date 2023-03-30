@@ -119,6 +119,31 @@ module('Unit | Controller | Fill in Campaign Code', function (hooks) {
           });
         });
       });
+
+      module('campaign is simplified access', function () {
+        module('user is not authenticated', function () {
+          test('does not show GAR modal', async function (assert) {
+            // given
+            const campaignCode = 'LINKTOTHEPAST';
+            const storeStub = {
+              queryRecord: sinon
+                .stub()
+                .withArgs('campaign', { filter: { code: campaignCode } })
+                .resolves({ code: campaignCode, identityProvider: 'GAR', isSimplifiedAccess: true }),
+            };
+            const sessionStub = Service.create({ isAuthenticated: false });
+            controller.set('store', storeStub);
+            controller.set('campaignCode', campaignCode);
+            controller.set('session', sessionStub);
+
+            // when
+            await controller.actions.startCampaign.call(controller, eventStub);
+
+            // then
+            assert.false(controller.showGARModal);
+          });
+        });
+      });
     });
 
     test('should set error when campaign code is empty', async function (assert) {

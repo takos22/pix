@@ -63,6 +63,7 @@ export default class FillInCampaignCodeController extends Controller {
       if (
         _shouldShowGARModal({
           isGARCampaign,
+          isSimplifiedAccessCampaign: this.campaign.isSimplifiedAccess,
           isUserAuthenticatedByGAR,
           isUserAuthenticatedByPix: this.isUserAuthenticatedByPix,
         })
@@ -110,8 +111,17 @@ export default class FillInCampaignCodeController extends Controller {
   }
 }
 
-function _shouldShowGARModal({ isGARCampaign, isUserAuthenticatedByGAR, isUserAuthenticatedByPix }) {
+function _shouldShowGARModal({
+  isGARCampaign,
+  isSimplifiedAccessCampaign,
+  isUserAuthenticatedByGAR,
+  isUserAuthenticatedByPix,
+}) {
   if (!isGARCampaign) {
+    return false;
+  }
+
+  if (isGARCampaign && isSimplifiedAccessCampaign) {
     return false;
   }
 
