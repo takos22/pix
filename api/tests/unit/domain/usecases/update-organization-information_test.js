@@ -4,7 +4,7 @@ import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Tag } from '../../../../lib/domain/models/Tag.js';
 import { OrganizationTag } from '../../../../lib/domain/models/OrganizationTag.js';
 import { OrganizationForAdmin } from '../../../../lib/domain/models/OrganizationForAdmin.js';
-import { OidcIdentityProviders } from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 
 const { updateOrganizationInformation } = usecases;
 

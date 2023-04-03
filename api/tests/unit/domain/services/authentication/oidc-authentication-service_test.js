@@ -15,7 +15,7 @@ import {
 import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
 import { UserToCreate } from '../../../../../lib/domain/models/UserToCreate.js';
 import { AuthenticationMethod } from '../../../../../lib/domain/models/AuthenticationMethod.js';
-import { OidcIdentityProviders } from '../../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc-identity-providers.js';
 import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
 import { OIDC_ERRORS } from '../../../../../lib/domain/constants.js';
 

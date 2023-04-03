@@ -4,7 +4,7 @@ import * as securityPreHandlers from '../../../../lib/application/security-pre-h
 import { userVerification } from '../../../../lib/application/preHandlers/user-existence-verification.js';
 import * as userController from '../../../../lib/application/users/user-controller.js';
 import { moduleUnderTest } from '../../../../lib/application/users.js';
-import { OidcIdentityProviders } from '../../../../lib/domain/constants/oidc-identity-providers.js';
+import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 
 describe('Unit | Router | user-router', function () {
   describe('POST /api/users', function () {
