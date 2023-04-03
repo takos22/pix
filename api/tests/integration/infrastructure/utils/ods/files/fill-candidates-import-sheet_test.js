@@ -16,6 +16,9 @@ import {
   PIX_PLUS_EDU_2ND_DEGRE,
 } from '../../../../../../lib/domain/models/ComplementaryCertification.js';
 
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet', function () {
   let userId;
   let sessionId;

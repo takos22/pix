@@ -10,6 +10,8 @@ import { readOdsUtils } from '../../../../../lib/infrastructure/utils/ods/read-o
 import * as sessionRepository from '../../../../../lib/infrastructure/repositories/sessions/session-repository.js';
 import * as sessionForAttendanceSheetRepository from '../../../../../lib/infrastructure/repositories/sessions/session-for-attendance-sheet-repository.js';
 import { getAttendanceSheet } from '../../../../../lib/domain/usecases/get-attendance-sheet.js';
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Integration | UseCases | getAttendanceSheet', function () {
   describe('when certification center is not sco', function () {

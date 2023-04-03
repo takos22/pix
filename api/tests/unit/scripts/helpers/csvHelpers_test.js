@@ -11,6 +11,9 @@ import {
 
 import { batchOrganizationOptionsWithHeader } from '../../../../scripts/create-organizations-with-tags-and-target-profiles.js';
 
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
   const notExistFilePath = 'notExist.csv';
   const emptyFilePath = `${__dirname}/files/organizations-empty-file.csv`;

@@ -14,6 +14,8 @@ import * as finalizedSessionController from '../../../../lib/application/session
 import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
 import * as moduleUnderTest from '../../../../lib/application/sessions/index.js';
 import { sessionSupervisorAuthorization } from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('Unit | Application | Sessions | Routes', function () {
   describe('GET /api/sessions/{id}', function () {

@@ -21,6 +21,9 @@ const { readFile } = promises;
 
 import _ from 'lodash';
 
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 describe('Integration | Services | extractCertificationCandidatesFromCandidatesImportSheet', function () {
   let userId;
   let sessionId;
