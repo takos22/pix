@@ -1,7 +1,9 @@
 import { catchErr, expect, sinon } from '../../../test-helper.js';
-import { disableMembership } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
 import { MembershipUpdateError } from '../../../../lib/domain/errors.js';
+
+const { disableMembership } = usecases;
 
 describe('Unit | UseCase | disable-membership', function () {
   beforeEach(function () {

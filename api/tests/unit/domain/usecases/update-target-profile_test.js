@@ -1,6 +1,8 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { updateTargetProfile } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { TargetProfileForUpdate } from '../../../../lib/domain/models/TargetProfileForUpdate.js';
+
+const { updateTargetProfile } = usecases;
 
 describe('Unit | UseCase | update-target-profile', function () {
   it('should call repository method to update a target profile', async function () {

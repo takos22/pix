@@ -1,10 +1,12 @@
 import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
-import { updateOrganizationInformation } from '../../../../lib/domain/usecases/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { Tag } from '../../../../lib/domain/models/Tag.js';
 import { OrganizationTag } from '../../../../lib/domain/models/OrganizationTag.js';
 import { OrganizationForAdmin } from '../../../../lib/domain/models/OrganizationForAdmin.js';
 import { OidcIdentityProviders } from '../../../../lib/domain/constants/oidc-identity-providers.js';
+
+const { updateOrganizationInformation } = usecases;
 
 describe('Unit | UseCase | update-organization-information', function () {
   let dataProtectionOfficerRepository;
