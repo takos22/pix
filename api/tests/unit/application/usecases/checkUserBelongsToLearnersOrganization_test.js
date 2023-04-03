@@ -5,8 +5,8 @@ import * as organizationLearnerRepository from '../../../../lib/infrastructure/r
 
 describe('Unit | Application | Use Case | checkUserBelongsToLearnersOrganization', function () {
   beforeEach(function () {
-    membershipRepository.findByUserIdAndOrganizationId = sinon.stub();
-    organizationLearnerRepository.get = sinon.stub();
+    sinon.stub(membershipRepository, 'findByUserIdAndOrganizationId');
+    sinon.stub(organizationLearnerRepository, 'get');
   });
 
   it('should return true when user belongs to the same organization as learner', async function () {

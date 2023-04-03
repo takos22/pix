@@ -40,7 +40,7 @@ describe('Unit | UseCase | session-publication-service', function () {
       getRefererEmails: sinon.stub(),
     };
     sessionRepository.flagResultsAsSentToPrescriber = sinon.stub();
-    mailService.sendCertificationResultEmail = sinon.stub();
+    sinon.stub(mailService, 'sendCertificationResultEmail');
   });
 
   afterEach(function () {
@@ -307,7 +307,7 @@ describe('Unit | UseCase | session-publication-service', function () {
       context('when there is a referer', function () {
         it('should send an email to the referer', async function () {
           // given
-          mailService.sendNotificationToCertificationCenterRefererForCleaResults = sinon.stub();
+          sinon.stub(mailService, 'sendNotificationToCertificationCenterRefererForCleaResults');
           const session = domainBuilder.buildSession({
             certificationCenterId: 101,
             finalizedAt: now,
@@ -364,7 +364,7 @@ describe('Unit | UseCase | session-publication-service', function () {
         context('when an email sending attempt fails', function () {
           it('should throw an error', async function () {
             // given
-            mailService.sendNotificationToCertificationCenterRefererForCleaResults = sinon.stub();
+            sinon.stub(mailService, 'sendNotificationToCertificationCenterRefererForCleaResults');
             const session = domainBuilder.buildSession({
               certificationCenterId: 101,
               finalizedAt: now,

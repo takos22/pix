@@ -4,7 +4,7 @@ import * as certificationCenterMembershipRepository from '../../../../lib/infras
 
 describe('Unit | Application | Use Case | CheckUserIsMemberOfCertificationCenter', function () {
   beforeEach(function () {
-    certificationCenterMembershipRepository.isMemberOfCertificationCenter = sinon.stub();
+    sinon.stub(certificationCenterMembershipRepository, 'isMemberOfCertificationCenter');
   });
 
   context('When user is member in certification center', function () {

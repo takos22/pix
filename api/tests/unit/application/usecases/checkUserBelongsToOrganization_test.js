@@ -4,7 +4,7 @@ import * as membershipRepository from '../../../../lib/infrastructure/repositori
 
 describe('Unit | Application | Use Case | checkUserBelongsToOrganization', function () {
   beforeEach(function () {
-    membershipRepository.findByUserIdAndOrganizationId = sinon.stub();
+    sinon.stub(membershipRepository, 'findByUserIdAndOrganizationId');
   });
 
   context('When user is in the organization', function () {

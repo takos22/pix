@@ -34,9 +34,9 @@ describe('Unit | UseCase | sessions-mass-import | validate-sessions', function (
     sessionRepository = sinon.stub();
     sinon.stub(sessionCodeService, 'getNewSessionCode');
     sessionCodeService.getNewSessionCode.returns(accessCode);
-    sessionsImportValidationService.getValidatedCandidateBirthInformation = sinon.stub();
-    sessionsImportValidationService.validateSession = sinon.stub();
-    temporarySessionsStorageForMassImportService.save = sinon.stub();
+    sinon.stub(sessionsImportValidationService, 'getValidatedCandidateBirthInformation');
+    sinon.stub(sessionsImportValidationService, 'validateSession');
+    sinon.stub(temporarySessionsStorageForMassImportService, 'save');
     certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
   });
 

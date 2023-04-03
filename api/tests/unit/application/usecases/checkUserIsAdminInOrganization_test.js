@@ -5,7 +5,7 @@ import { Membership } from '../../../../lib/domain/models/Membership.js';
 
 describe('Unit | Application | Use Case | CheckUserIsAdminInOrganization', function () {
   beforeEach(function () {
-    membershipRepository.findByUserIdAndOrganizationId = sinon.stub();
+    sinon.stub(membershipRepository, 'findByUserIdAndOrganizationId');
   });
 
   context('When user is admin in organization', function () {

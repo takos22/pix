@@ -10,8 +10,8 @@ describe('Unit | Scripts | add-tags-to-organizations.js', function () {
       const tagsByName = new Map([['tagName', new Tag({ name: 'tagName' })]]);
       const checkedData = [{ organizationId: 1, tagName: 'tagName' }];
 
-      organizationTagRepository.create = sinon.stub();
-      organizationTagRepository.isExistingByOrganizationIdAndTagId = sinon.stub().resolves(true);
+      sinon.stub(organizationTagRepository, 'create');
+      sinon.stub(organizationTagRepository, 'isExistingByOrganizationIdAndTagId').resolves(true);
 
       // when
       await addTagsToOrganizations({ tagsByName, checkedData });

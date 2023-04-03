@@ -9,7 +9,7 @@ describe('Unit | UseCase | create-or-update-user-orga-settings', function () {
   const organizationId = 3;
 
   beforeEach(function () {
-    membershipRepository.findByUserIdAndOrganizationId = sinon.stub();
+    sinon.stub(membershipRepository, 'findByUserIdAndOrganizationId');
     sinon.stub(userOrgaSettingsRepository, 'createOrUpdate');
   });
 

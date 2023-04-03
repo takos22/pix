@@ -22,8 +22,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
   context('when there are no cached sessions matching the key', function () {
     it('should throw a NotFound error', async function () {
       // given
-      temporarySessionsStorageForMassImportService.getByKeyAndUserId = sinon.stub();
-      temporarySessionsStorageForMassImportService.getByKeyAndUserId.resolves(undefined);
+      sinon.stub(temporarySessionsStorageForMassImportService, 'getByKeyAndUserId').resolves(undefined);
       const userId = 1234;
       const cachedValidatedSessionsKey = 'uuid';
 
@@ -60,8 +59,8 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
               certificationCandidates: [],
             },
           ];
-          temporarySessionsStorageForMassImportService.getByKeyAndUserId = sinon
-            .stub()
+          sinon
+            .stub(temporarySessionsStorageForMassImportService, 'getByKeyAndUserId')
             .resolves(temporaryCachedSessions);
           const userId = 1234;
           const cachedValidatedSessionsKey = 'uuid';
@@ -103,8 +102,8 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
               certificationCandidates: [certificationCandidate],
             },
           ];
-          temporarySessionsStorageForMassImportService.getByKeyAndUserId = sinon
-            .stub()
+          sinon
+            .stub(temporarySessionsStorageForMassImportService, 'getByKeyAndUserId')
             .resolves(temporaryCachedSessions);
           const userId = 1234;
           const cachedValidatedSessionsKey = 'uuid';
@@ -141,7 +140,7 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
             certificationCandidates: [{ ...certificationCandidate }],
           },
         ];
-        temporarySessionsStorageForMassImportService.getByKeyAndUserId = sinon.stub().resolves(temporaryCachedSessions);
+        sinon.stub(temporarySessionsStorageForMassImportService, 'getByKeyAndUserId').resolves(temporaryCachedSessions);
         const userId = 1234;
         const cachedValidatedSessionsKey = 'uuid';
         const domainTransaction = Symbol('trx');
@@ -176,8 +175,8 @@ describe('Unit | UseCase | sessions-mass-import | create-sessions', function () 
           certificationCandidates: [{ ...certificationCandidate }],
         },
       ];
-      temporarySessionsStorageForMassImportService.getByKeyAndUserId = sinon.stub().resolves(temporaryCachedSessions);
-      temporarySessionsStorageForMassImportService.delete = sinon.stub();
+      sinon.stub(temporarySessionsStorageForMassImportService, 'getByKeyAndUserId').resolves(temporaryCachedSessions);
+      sinon.stub(temporarySessionsStorageForMassImportService, 'delete');
       const userId = 1234;
       const cachedValidatedSessionsKey = 'uuid';
       const domainTransaction = Symbol('trx');
