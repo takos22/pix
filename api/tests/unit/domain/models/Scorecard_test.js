@@ -1,7 +1,7 @@
 import { expect, sinon } from '../../../test-helper.js';
 import { KnowledgeElement } from '../../../../lib/domain/models/KnowledgeElement.js';
 import { Scorecard } from '../../../../lib/domain/models/Scorecard.js';
-import { constants } from '../../../../lib/domain/constants.js';
+import * as constants from '../../../../lib/domain/constants.js';
 
 describe('Unit | Domain | Models | Scorecard', function () {
   let computeDaysSinceLastKnowledgeElementStub;

@@ -1,7 +1,7 @@
 import { expect, domainBuilder } from '../../../test-helper.js';
 import _ from 'lodash';
 import * as improvementService from '../../../../lib/domain/services/improvement-service.js';
-import { constants } from '../../../../lib/domain/constants.js';
+import * as constants from '../../../../lib/domain/constants.js';
 
 describe('Unit | Service | ImprovementService', function () {
   describe('#filterKnowledgeElementsIfImproving', function () {

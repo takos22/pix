@@ -1,5 +1,5 @@
 import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
-import { constants } from '../../../../../lib/domain/constants.js';
+import * as constants from '../../../../../lib/domain/constants.js';
 import { AssessmentResult } from '../../../../../lib/domain/read-models/participant-results/AssessmentResult.js';
 import { KnowledgeElement } from '../../../../../lib/domain/models/KnowledgeElement.js';
 import { StageCollection } from '../../../../../lib/domain/models/user-campaign-results/StageCollection.js';

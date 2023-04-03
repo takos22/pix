@@ -4,11 +4,12 @@ import * as knowlegeElementSnapshotRepository from '../../lib/infrastructure/rep
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
 import { ParticipantResultsShared } from '../../lib/domain/models/ParticipantResultsShared.js';
 import { CampaignParticipationStatuses } from '../../lib/domain/models/CampaignParticipationStatuses.js';
+
 const { SHARED } = CampaignParticipationStatuses;
 import { knex, disconnect } from '../../db/knex-database-connection.js';
 import _ from 'lodash';
 import bluebird from 'bluebird';
-import { constants } from '../../lib/infrastructure/constants.js';
+import * as constants from '../../lib/infrastructure/constants.js';
 import * as placementProfileService from '../../lib/domain/services/placement-profile-service.js';
 import * as competenceRepository from '../../lib/infrastructure/repositories/competence-repository.js';
 
