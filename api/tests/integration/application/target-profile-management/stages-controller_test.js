@@ -344,7 +344,7 @@ describe('Integration | Application | Target Profile Management | stages-control
       };
 
       // when
-      const response = await stagesController.delete(request, hFake);
+      const response = await stagesController.remove(request, hFake);
 
       // then
       const stageCollection = await stageCollectionRepository.getByTargetProfileId(targetProfileId);

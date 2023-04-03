@@ -322,7 +322,7 @@ describe('Integration | Application | Target Profile Management | Routes', funct
       await httpTestServer.request(method, url, null, null, headers);
 
       // then
-      expect(stagesController.delete).to.have.been.calledOnce;
+      expect(stagesController.remove).to.have.been.calledOnce;
     });
 
     it('should reach handler when trying to call route with an admin user with role metier', async function () {
@@ -337,7 +337,7 @@ describe('Integration | Application | Target Profile Management | Routes', funct
       await httpTestServer.request(method, url, null, null, headers);
 
       // then
-      expect(stagesController.delete).to.have.been.calledOnce;
+      expect(stagesController.remove).to.have.been.calledOnce;
     });
   });
 });
