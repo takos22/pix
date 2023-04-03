@@ -1,8 +1,10 @@
 import { expect, sinon } from '../../../test-helper.js';
 import { cpfExternalStorage } from '../../../../lib/infrastructure/external-storage/cpf-external-storage.js';
-import { cpf } from '../../../../lib/config.js';
+import { config } from '../../../../lib/config.js';
 import { s3Utils } from '../../../../lib/infrastructure/external-storage/s3-utils.js';
 import _ from 'lodash';
+
+const { cpf } = config;
 
 describe('Unit | Infrastructure | external-storage | cpf-external-storage', function () {
   context('#upload', function () {

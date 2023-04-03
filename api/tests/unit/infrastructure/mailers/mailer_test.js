@@ -1,11 +1,12 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { mailing } from '../../../../lib/config.js';
+import { config } from '../../../../lib/config.js';
 import { mailCheck } from '../../../../lib/infrastructure/mail-check.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { mailer } from '../../../../lib/infrastructure/mailers/mailer.js';
 import { EmailingAttempt } from '../../../../lib/domain/models/EmailingAttempt.js';
 import { MailingProviderInvalidEmailError } from '../../../../lib/infrastructure/mailers/MailingProviderInvalidEmailError.js';
 
+const { mailing } = config;
 let mailCheckDomainIsValidStub;
 
 describe('Unit | Infrastructure | Mailers | mailer', function () {

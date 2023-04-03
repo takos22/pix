@@ -11,7 +11,7 @@ import {
   ForbiddenAccess,
 } from '../../../../lib/domain/errors.js';
 
-import { settings } from '../../../../lib/config.js';
+import { config as settings } from '../../../../lib/config.js';
 import * as tokenService from '../../../../lib/domain/services/token-service.js';
 
 describe('Unit | Domain | Service | Token Service', function () {
