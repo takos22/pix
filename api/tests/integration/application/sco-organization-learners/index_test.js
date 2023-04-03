@@ -1,7 +1,7 @@
 import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
 
 import * as scoOrganizationLearnerController from '../../../../lib/application/sco-organization-learners/sco-organization-learner-controller.js';
-import { moduleUnderTest } from '../../../../lib/application/sco-organization-learners.js';
+import * as moduleUnderTest from '../../../../lib/application/sco-organization-learners/index.js';
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 
 describe('Integration | Application | Route | sco-organization-learners', function () {

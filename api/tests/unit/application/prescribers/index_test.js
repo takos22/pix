@@ -1,7 +1,7 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
-import { moduleUnderTest } from '../../../../lib/application/prescribers.js';
+import * as moduleUnderTest from '../../../../lib/application/prescribers/index.js';
 import * as prescriberController from '../../../../lib/application/prescribers/prescriber-controller.js';
 
 describe('Unit | Router | prescriber-router', function () {

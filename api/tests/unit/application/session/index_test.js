@@ -12,7 +12,7 @@ import * as sessionForSupervisingController from '../../../../lib/application/se
 import * as sessionWithCleaCertifiedCandidateController from '../../../../lib/application/sessions/session-with-clea-certified-candidate-controller.js';
 import * as finalizedSessionController from '../../../../lib/application/sessions/finalized-session-controller.js';
 import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
-import { moduleUnderTest } from '../../../../lib/application/sessions.js';
+import * as moduleUnderTest from '../../../../lib/application/sessions/index.js';
 import { sessionSupervisorAuthorization } from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
 
 describe('Unit | Application | Sessions | Routes', function () {

@@ -7,7 +7,7 @@ import {
 } from '../../../test-helper.js';
 
 import * as stagesController from '../../../../lib/application/target-profile-management/stages-controller.js';
-import { moduleUnderTest } from '../../../../lib/application/target-profile-management.js';
+import * as moduleUnderTest from '../../../../lib/application/target-profile-management/index.js';
 
 describe('Integration | Application | Target Profile Management | Routes', function () {
   describe('POST /api/admin/stages', function () {

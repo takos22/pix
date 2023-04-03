@@ -1,7 +1,7 @@
 import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
-import { targetProfilesRouter } from '../../../../lib/application/target-profiles.js';
+import * as targetProfilesRouter from '../../../../lib/application/target-profiles/index.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
 import { TargetProfileForAdminNewFormat } from '../../../../lib/domain/models/TargetProfileForAdminNewFormat.js';
 

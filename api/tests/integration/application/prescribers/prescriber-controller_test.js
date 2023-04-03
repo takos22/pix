@@ -2,7 +2,7 @@ import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-help
 
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { moduleUnderTest } from '../../../../lib/application/prescribers.js';
+import * as moduleUnderTest from '../../../../lib/application/prescribers/index.js';
 
 describe('Integration | Application | Prescribers | prescriber-controller', function () {
   let sandbox;

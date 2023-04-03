@@ -1,5 +1,5 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { moduleUnderTest } from '../../../../lib/application/certification-point-of-contacts.js';
+import * as moduleUnderTest from '../../../../lib/application/certification-point-of-contacts/index.js';
 import * as certificationPointOfContactController from '../../../../lib/application/certification-point-of-contacts/certification-point-of-contact-controller.js';
 
 describe('Unit | Router | certification-point-of-contact-router', function () {

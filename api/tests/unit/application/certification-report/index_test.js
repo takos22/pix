@@ -2,7 +2,7 @@ import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import * as certificationReportController from '../../../../lib/application/certification-reports/certification-report-controller.js';
 import { NotFoundError } from '../../../../lib/application/http-errors.js';
 import { authorization } from '../../../../lib/application/preHandlers/authorization.js';
-import { moduleUnderTest } from '../../../../lib/application/certification-reports.js';
+import * as moduleUnderTest from '../../../../lib/application/certification-reports/index.js';
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 
 describe('Unit | Application | Certifications Report | Route', function () {

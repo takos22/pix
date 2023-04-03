@@ -1,7 +1,7 @@
 import { expect, sinon, HttpTestServer, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
 
 import * as supOrganizationLearnerController from '../../../../lib/application/sup-organization-learners/sup-organization-learner-controller.js';
-import { moduleUnderTest } from '../../../../lib/application/sup-organization-learners.js';
+import * as moduleUnderTest from '../../../../lib/application/sup-organization-learners/index.js';
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 
 describe('Integration | Application | Route | sup-organization-learners', function () {

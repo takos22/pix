@@ -2,7 +2,7 @@ import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 
-import { moduleUnderTest } from '../../../../lib/application/lcms.js';
+import * as moduleUnderTest from '../../../../lib/application/lcms/index.js';
 
 import * as lcmsController from '../../../../lib/application/lcms/lcms-controller.js';
 

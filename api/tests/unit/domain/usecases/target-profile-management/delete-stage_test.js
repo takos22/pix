@@ -1,5 +1,5 @@
 import { expect, domainBuilder, catchErrSync } from '../../../../test-helper.js';
-import { usecases } from '../../../../../lib/domain/usecases.js';
+import { usecases } from '../../../../../lib/domain/usecases/index.js';
 import { DomainError } from '../../../../../lib/domain/errors.js';
 
 describe('Unit | UseCases | delete-stage', function () {

@@ -1,5 +1,5 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { moduleUnderTest } from '../../../../lib/application/complementary-certifications.js';
+import * as moduleUnderTest from '../../../../lib/application/complementary-certifications/index.js';
 import * as complementaryCertificationController from '../../../../lib/application/complementary-certifications/complementary-certification-controller.js';
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 

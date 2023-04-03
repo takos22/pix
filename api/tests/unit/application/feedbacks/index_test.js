@@ -1,5 +1,5 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { moduleUnderTest } from '../../../../lib/application/feedbacks.js';
+import * as moduleUnderTest from '../../../../lib/application/feedbacks/index.js';
 import * as feedbackController from '../../../../lib/application/feedbacks/feedback-controller.js';
 
 describe('Unit | Router | feedback-router', function () {

@@ -3,7 +3,7 @@ import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import * as ChallengeRepository from '../../../../lib/infrastructure/repositories/challenge-repository.js';
 import * as ChallengeSerializer from '../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer.js';
 
-import { moduleUnderTest } from '../../../../lib/application/challenges.js';
+import * as moduleUnderTest from '../../../../lib/application/challenges/index.js';
 
 describe('Unit | Controller | challenge-controller', function () {
   let httpTestServer;

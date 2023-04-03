@@ -1,5 +1,5 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { moduleUnderTest } from '../../../../lib/application/organization-invitations/index.js';
+import * as moduleUnderTest from '../../../../lib/application/organization-invitations/index.js';
 
 import * as organisationInvitationController from '../../../../lib/application/organization-invitations/organization-invitation-controller.js';
 

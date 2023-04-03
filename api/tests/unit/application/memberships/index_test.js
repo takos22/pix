@@ -2,7 +2,7 @@ import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 
-import { moduleUnderTest } from '../../../../lib/application/memberships.js';
+import * as moduleUnderTest from '../../../../lib/application/memberships/index.js';
 
 import * as membershipController from '../../../../lib/application/memberships/membership-controller.js';
 

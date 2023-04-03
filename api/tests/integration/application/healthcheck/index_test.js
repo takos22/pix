@@ -1,5 +1,5 @@
 import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
-import { moduleUnderTest } from '../../../../lib/application/healthcheck.js';
+import * as moduleUnderTest from '../../../../lib/application/healthcheck/index.js';
 import * as healthCheckController from '../../../../lib/application/healthcheck/healthcheck-controller.js';
 
 describe('Integration | Application | Route | healthcheckRouter', function () {

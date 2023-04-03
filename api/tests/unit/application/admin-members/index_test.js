@@ -4,7 +4,7 @@ import { PIX_ADMIN } from '../../../../lib/domain/constants.js';
 const { ROLES } = PIX_ADMIN;
 
 import * as adminMemberController from '../../../../lib/application/admin-members/admin-member-controller.js';
-import { adminMembersRouter } from '../../../../lib/application/admin-members.js';
+import * as adminMembersRouter from '../../../../lib/application/admin-members/index.js';
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 
 describe('Unit | Application | Router | admin-members-router', function () {

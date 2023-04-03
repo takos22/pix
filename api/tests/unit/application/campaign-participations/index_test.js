@@ -1,7 +1,7 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 
-import { moduleUnderTest } from '../../../../lib/application/campaign-participations.js';
+import * as moduleUnderTest from '../../../../lib/application/campaign-participations/index.js';
 import * as campaignParticipationController from '../../../../lib/application/campaign-participations/campaign-participation-controller.js';
 
 describe('Unit | Application | Router | campaign-participation-router ', function () {

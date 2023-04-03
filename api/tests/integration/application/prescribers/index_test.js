@@ -2,7 +2,7 @@ import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
 
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 import * as prescriberController from '../../../../lib/application/prescribers/prescriber-controller.js';
-import { moduleUnderTest } from '../../../../lib/application/prescribers.js';
+import * as moduleUnderTest from '../../../../lib/application/prescribers/index.js';
 
 describe('Integration | Application | Prescribers | Routes', function () {
   let httpTestServer;

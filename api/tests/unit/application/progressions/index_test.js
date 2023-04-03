@@ -1,5 +1,5 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { moduleUnderTest } from '../../../../lib/application/progressions.js';
+import * as moduleUnderTest from '../../../../lib/application/progressions/index.js';
 import * as progressionController from '../../../../lib/application/progressions/progression-controller.js';
 
 describe('Unit | Router | progression-router', function () {

@@ -2,7 +2,7 @@ import { expect, HttpTestServer, sinon, generateValidRequestAuthorizationHeader 
 
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 import * as frameworksController from '../../../../lib/application/frameworks/frameworks-controller.js';
-import { moduleUnderTest } from '../../../../lib/application/frameworks.js';
+import * as moduleUnderTest from '../../../../lib/application/frameworks/index.js';
 
 describe('Unit | Application | Frameworks | Routes', function () {
   describe('GET /api/admin/frameworks', function () {

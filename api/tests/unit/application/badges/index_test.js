@@ -1,6 +1,6 @@
 import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
 import * as badgesController from '../../../../lib/application/badges/badges-controller.js';
-import { badgesRouter } from '../../../../lib/application/badges.js';
+import * as badgesRouter from '../../../../lib/application/badges/index.js';
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 
 describe('Unit | Application | Badges | Routes', function () {

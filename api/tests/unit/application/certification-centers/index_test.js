@@ -4,7 +4,7 @@ import { writeFile, stat, unlink } from 'fs/promises';
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
-import { moduleUnderTest } from '../../../../lib/application/certification-centers.js';
+import * as moduleUnderTest from '../../../../lib/application/certification-centers/index.js';
 import * as certificationCenterController from '../../../../lib/application/certification-centers/certification-center-controller.js';
 import FormData from 'form-data';
 import streamToPromise from 'stream-to-promise';

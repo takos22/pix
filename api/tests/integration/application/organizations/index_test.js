@@ -2,7 +2,7 @@ import { expect, sinon, HttpTestServer } from '../../../test-helper.js';
 
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 import * as organizationController from '../../../../lib/application/organizations/organization-controller.js';
-import { moduleUnderTest } from '../../../../lib/application/organizations.js';
+import * as moduleUnderTest from '../../../../lib/application/organizations/index.js';
 
 describe('Integration | Application | Organizations | Routes', function () {
   describe('POST /api/admin/organizations', function () {

@@ -1,5 +1,5 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { moduleUnderTest } from '../../../../lib/application/campaigns.js';
+import * as moduleUnderTest from '../../../../lib/application/campaigns/index.js';
 
 import * as campaignController from '../../../../lib/application/campaigns/campaign-controller.js';
 

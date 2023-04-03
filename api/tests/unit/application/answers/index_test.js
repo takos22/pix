@@ -1,5 +1,5 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { moduleUnderTest } from '../../../../lib/application/answers.js';
+import * as moduleUnderTest from '../../../../lib/application/answers/index.js';
 import * as answerController from '../../../../lib/application/answers/answer-controller.js';
 import { config } from '../../../../lib/config.js';
 

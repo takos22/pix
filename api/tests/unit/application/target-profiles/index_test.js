@@ -1,7 +1,7 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 import * as targetProfileController from '../../../../lib/application/target-profiles/target-profile-controller.js';
-import { moduleUnderTest } from '../../../../lib/application/target-profiles.js';
+import * as moduleUnderTest from '../../../../lib/application/target-profiles/index.js';
 
 describe('Unit | Application | Target Profiles | Routes', function () {
   describe('GET /api/admin/target-profile-summaries', function () {

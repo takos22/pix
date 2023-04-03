@@ -1,7 +1,7 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 import { NotFoundError } from '../../../../lib/domain/errors.js';
-import { moduleUnderTest } from '../../../../lib/application/campaigns.js';
+import * as moduleUnderTest from '../../../../lib/application/campaigns/index.js';
 import * as campaignController from '../../../../lib/application/campaigns/campaign-controller.js';
 import * as campaignStatsController from '../../../../lib/application/campaigns/campaign-stats-controller.js';
 import * as campaignManagementController from '../../../../lib/application/campaigns/campaign-management-controller.js';

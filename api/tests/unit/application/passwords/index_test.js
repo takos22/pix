@@ -1,5 +1,5 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
-import { moduleUnderTest } from '../../../../lib/application/passwords.js';
+import * as moduleUnderTest from '../../../../lib/application/passwords/index.js';
 import * as passwordController from '../../../../lib/application/passwords/password-controller.js';
 
 describe('Unit | Router | Password router', function () {

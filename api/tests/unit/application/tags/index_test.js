@@ -1,5 +1,5 @@
 import { domainBuilder, expect, sinon, HttpTestServer } from '../../../test-helper.js';
-import { moduleUnderTest } from '../../../../lib/application/tags.js';
+import * as moduleUnderTest from '../../../../lib/application/tags/index.js';
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 import * as tagController from '../../../../lib/application/tags/tag-controller.js';
 
