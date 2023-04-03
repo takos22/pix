@@ -1,13 +1,12 @@
 require('dotenv').config({ path: `${__dirname}/../../../.env` });
-const fs = require('fs').promises;
+import fs from 'fs';
 import _ from 'lodash';
 import papa from 'papaparse';
 import perf_hooks from 'perf_hooks';
 
-const {
-  performance
-} = perf_hooks;
-
+const { performance } = perf_hooks;
+import * as skillRepository from '../../../lib/infrastructure/repositories/skill-repository.js';
+import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
 import { logger } from '../../../lib/infrastructure/logger.js';
 import { cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
 import { knex, disconnect } from '../../../db/knex-database-connection.js';
@@ -64,9 +63,7 @@ const allSkillIds = [
 let allSkills;
 let allTubes;
 async function _cacheLearningContentData() {
-  import * as skillRepository from '../../../lib/infrastructure/repositories/skill-repository.js';
   allSkills = await skillRepository.list();
-  import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
   allTubes = await tubeRepository.list();
 }
 

@@ -1,14 +1,5 @@
 import fs from 'fs';
-
-const {
-  promises
-} = fs;
-
-const {
-  writeFile,
-  stat,
-  unlink,
-} = promises;
+import { writeFile, stat, unlink } from 'fs/promises';
 
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
@@ -16,7 +7,6 @@ import * as securityPreHandlers from '../../../../lib/application/security-pre-h
 import { moduleUnderTest } from '../../../../lib/application/certification-centers.js';
 import * as certificationCenterController from '../../../../lib/application/certification-centers/certification-center-controller.js';
 import FormData from 'form-data';
-import fs from 'fs';
 import streamToPromise from 'stream-to-promise';
 
 describe('Unit | Router | certification-center-router', function () {
