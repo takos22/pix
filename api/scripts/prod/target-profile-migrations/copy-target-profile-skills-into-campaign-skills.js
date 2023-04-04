@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+
 dotenv.config();
 import perf_hooks from 'perf_hooks';
 
@@ -10,6 +11,7 @@ import _ from 'lodash';
 import { logger } from '../../../lib/infrastructure/logger.js';
 import { cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
 import { knex, disconnect } from '../../../db/knex-database-connection.js';
+import * as url from 'url';
 
 const DEFAULT_MAX_CAMPAIGNS_COUNT = 50000;
 const DEFAULT_CONCURRENCY = 3;
@@ -17,6 +19,7 @@ const DEFAULT_CONCURRENCY = 3;
 const MEMO = {};
 
 let progression = 0;
+
 function _logProgression(totalCount) {
   ++progression;
   process.stdout.cursorTo(0);
@@ -67,7 +70,8 @@ async function getEligibleCampaigns(maxCampaignCount) {
     .limit(maxCampaignCount);
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const startTime = performance.now();

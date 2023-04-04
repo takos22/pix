@@ -459,7 +459,8 @@ async function _checkTP2005() {
     console.log('PC 2005 KO');
 }
 
-const isLaunchedFromCommandLine = require.main === module;
+const modulePath = url.fileURLToPath(import.meta.url);
+const isLaunchedFromCommandLine = process.argv[1] === modulePath;
 
 async function main() {
   const startTime = performance.now();
