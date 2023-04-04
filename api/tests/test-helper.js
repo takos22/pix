@@ -1,43 +1,53 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable node/no-unpublished-import */
 import * as url from 'url';
+
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 import * as domainBuilder from './tooling/domain-builder/factory/index.js';
 import { HttpTestServer } from './tooling/server/http-test-server.js';
 import * as dotenv from 'dotenv';
+
 dotenv.config({ path: `${__dirname}/../.env` });
 import _ from 'lodash';
 import MockDate from 'mockdate';
 import chai from 'chai';
+
 const expect = chai.expect;
 import sinon from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
 import chaiSorted from 'chai-sorted';
 import sinonChai from 'sinon-chai';
+
 chai.use(chaiAsPromised);
 chai.use(chaiSorted);
 chai.use(sinonChai);
-import customChaiHelpers from './tooling/chai-custom-helpers/index.js';
+import * as customChaiHelpers from './tooling/chai-custom-helpers/index.js';
+
 _.each(customChaiHelpers, chai.use);
 import { learningContentCache } from '../lib/infrastructure/caches/learning-content-cache.js';
 
 import { config } from '../lib/config.js';
+
 const { graviteeRegisterApplicationsCredentials, jwtConfig } = config;
 import { knex, disconnect } from '../db/knex-database-connection.js';
 
 import { DatabaseBuilder } from '../db/database-builder/database-builder.js';
+
 const databaseBuilder = new DatabaseBuilder({ knex });
 
 import nock from 'nock';
+
 nock.disableNetConnect();
 
 import { buildLearningContent as learningContentBuilder } from './tooling/learning-content-builder/index.js';
 
 import * as tokenService from '../lib/domain/services/token-service.js';
 import { Membership } from '../lib/domain/models/Membership.js';
+
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
 import { PIX_ADMIN } from '../lib/domain/constants.js';
+
 const { ROLES } = PIX_ADMIN;
 import { createTempFile, removeTempFile } from './tooling/temporary-file.js';
 
@@ -56,6 +66,7 @@ afterEach(function () {
 after(function () {
   return disconnect();
 });
+
 /* eslint-enable mocha/no-top-level-hooks */
 
 function generateValidRequestAuthorizationHeader(userId = 1234, source = 'pix') {
