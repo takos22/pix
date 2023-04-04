@@ -1,4 +1,10 @@
-require('dotenv').config({ path: `${__dirname}/../../../.env` });
+import * as url from 'url';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+import * as dotenv from 'dotenv';
+
+dotenv.config({ path: `${__dirname}/../../../.env` });
+
 import fs from 'fs';
 import _ from 'lodash';
 import papa from 'papaparse';
@@ -62,6 +68,7 @@ const allSkillIds = [
 
 let allSkills;
 let allTubes;
+
 async function _cacheLearningContentData() {
   allSkills = await skillRepository.list();
   allTubes = await tubeRepository.list();
