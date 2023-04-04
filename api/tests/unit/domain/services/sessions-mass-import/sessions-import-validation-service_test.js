@@ -3,7 +3,8 @@ import * as sessionsImportValidationService from '../../../../../lib/domain/serv
 import { CpfBirthInformationValidation } from '../../../../../lib/domain/services/certification-cpf-service.js';
 import * as certificationCpfService from '../../../../../lib/domain/services/certification-cpf-service.js';
 import { CERTIFICATION_CANDIDATES_ERRORS } from '../../../../../lib/domain/constants/certification-candidates-errors.js';
-import noop from 'lodash/noop';
+import lodash from 'lodash';
+const { noop } = lodash;
 
 describe('Unit | Service | sessions import validation Service', function () {
   describe('#validateSession', function () {
