@@ -8,8 +8,8 @@ import {
   EXTRA_EMPTY_CANDIDATE_ROWS,
 } from '../../../../lib/infrastructure/files/attendance-sheet/attendance-sheet-placeholders.js';
 
-import { writeOdsUtils } from '../../../../lib/infrastructure/utils/ods/write-ods-utils.js';
-import { readOdsUtils } from '../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
+import * as writeOdsUtils from '../../../../lib/infrastructure/utils/ods/write-ods-utils.js';
+import * as readOdsUtils from '../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
 import * as sessionXmlService from '../../../../lib/domain/services/session-xml-service.js';
 import _ from 'lodash';
 import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';

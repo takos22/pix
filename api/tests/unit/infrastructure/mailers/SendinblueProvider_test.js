@@ -1,5 +1,5 @@
 import { sinon, expect, nock, catchErr } from '../../../test-helper.js';
-import { mailCheck } from '../../../../lib/infrastructure/mail-check.js';
+import * as mailCheck from '../../../../lib/infrastructure/mail-check.js';
 import { config } from '../../../../lib/config.js';
 import { SendinblueProvider } from '../../../../lib/infrastructure/mailers/SendinblueProvider.js';
 import { MailingProviderInvalidEmailError } from '../../../../lib/infrastructure/mailers/MailingProviderInvalidEmailError.js';

@@ -5,7 +5,7 @@ const { noop } = _;
 
 import { createSession } from '../../../../lib/domain/usecases/create-session.js';
 import * as sessionCodeService from '../../../../lib/domain/services/session-code-service.js';
-import { sessionValidator } from '../../../../lib/domain/validators/session-validator.js';
+import * as sessionValidator from '../../../../lib/domain/validators/session-validator.js';
 import { ForbiddenAccess } from '../../../../lib/domain/errors.js';
 import { Session } from '../../../../lib/domain/models/Session.js';
 

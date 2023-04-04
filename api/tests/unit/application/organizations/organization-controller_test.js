@@ -19,9 +19,9 @@ import * as organizationPlacesLotSerializer from '../../../../lib/infrastructure
 import * as organizationForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer.js';
 import * as TargetProfileForSpecifierSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer.js';
 import * as organizationMemberIdentitySerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization-member-identity-serializer.js';
-import { certificationResultUtils } from '../../../../lib/infrastructure/utils/csv/certification-results.js';
-import { queryParamsUtils } from '../../../../lib/infrastructure/utils/query-params-utils.js';
-import { certificationAttestationPdf } from '../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
+import * as certificationResultUtils from '../../../../lib/infrastructure/utils/csv/certification-results.js';
+import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import * as certificationAttestationPdf from '../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 import * as scoOrganizationParticipantsSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization/sco-organization-participants-serializer.js';
 import * as supOrganizationParticipantsSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization/sup-organization-participants-serializer.js';

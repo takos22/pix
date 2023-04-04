@@ -1,5 +1,5 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
-import { usecase } from '../../../../lib/application/usecases/checkUserBelongsToLearnersOrganization.js';
+import * as usecase from '../../../../lib/application/usecases/checkUserBelongsToLearnersOrganization.js';
 import * as membershipRepository from '../../../../lib/infrastructure/repositories/membership-repository.js';
 import * as organizationLearnerRepository from '../../../../lib/infrastructure/repositories/organization-learner-repository.js';
 

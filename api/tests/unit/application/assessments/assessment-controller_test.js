@@ -1,7 +1,7 @@
 import { sinon, expect, hFake, domainBuilder } from '../../../test-helper.js';
 import * as assessmentController from '../../../../lib/application/assessments/assessment-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { events } from '../../../../lib/domain/events/index.js';
+import * as events from '../../../../lib/domain/events/index.js';
 import * as assessmentSerializer from '../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer.js';
 import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';

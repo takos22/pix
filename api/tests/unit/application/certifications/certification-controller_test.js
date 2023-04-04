@@ -2,11 +2,11 @@ import { expect, sinon, domainBuilder, hFake } from '../../../test-helper.js';
 
 import * as certificationController from '../../../../lib/application/certifications/certification-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { certificationAttestationPdf } from '../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
-import { events } from '../../../../lib/domain/events/index.js';
+import * as certificationAttestationPdf from '../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
+import * as events from '../../../../lib/domain/events/index.js';
 import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
 import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
-import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 
 describe('Unit | Controller | certifications-controller', function () {
   describe('#findUserCertifications', function () {

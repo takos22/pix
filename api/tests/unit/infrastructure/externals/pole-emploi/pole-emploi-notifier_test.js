@@ -8,7 +8,7 @@ import * as OidcIdentityProviders from '../../../../../lib/domain/constants/oidc
 import { notify } from '../../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier.js';
 import { httpAgent } from '../../../../../lib/infrastructure/http/http-agent.js';
 import * as authenticationMethodRepository from '../../../../../lib/infrastructure/repositories/authentication-method-repository.js';
-import { monitoringTools } from '../../../../../lib/infrastructure/monitoring-tools.js';
+import * as monitoringTools from '../../../../../lib/infrastructure/monitoring-tools.js';
 
 describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier', function () {
   describe('#notify', function () {

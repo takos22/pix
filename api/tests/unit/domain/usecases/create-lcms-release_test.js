@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { lcms } from '../../../../lib/infrastructure/lcms.js';
+import * as lcms from '../../../../lib/infrastructure/lcms.js';
 import { learningContentCache } from '../../../../lib/infrastructure/caches/learning-content-cache.js';
 import { createLcmsRelease } from '../../../../lib/domain/usecases/create-lcms-release.js';
 

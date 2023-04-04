@@ -5,8 +5,8 @@ import * as campaignAssessmentParticipationResultSerializer from '../../../../li
 import * as campaignParticipationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
 import * as campaignProfileSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
 import * as trainingSerializer from '../../../../lib/infrastructure/serializers/jsonapi/training-serializer.js';
-import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
-import { events } from '../../../../lib/domain/events/index.js';
+import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import * as events from '../../../../lib/domain/events/index.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { CampaignParticipationResultsShared } from '../../../../lib/domain/events/CampaignParticipationResultsShared.js';
 import { CampaignParticipationStarted } from '../../../../lib/domain/events/CampaignParticipationStarted.js';
@@ -15,7 +15,7 @@ import { LOCALE } from '../../../../lib/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
 
-import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
+import * as monitoringTools from '../../../../lib/infrastructure/monitoring-tools.js';
 
 describe('Unit | Application | Controller | Campaign-Participation', function () {
   describe('#shareCampaignResult', function () {

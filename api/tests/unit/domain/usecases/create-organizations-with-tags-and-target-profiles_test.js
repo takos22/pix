@@ -2,11 +2,11 @@ import { expect, catchErr, sinon, domainBuilder } from '../../../test-helper.js'
 import { Membership } from '../../../../lib/domain/models/Membership.js';
 import { Organization } from '../../../../lib/domain/models/Organization.js';
 import { OrganizationTag } from '../../../../lib/domain/models/OrganizationTag.js';
-import { domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction as domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import { createOrganizationsWithTagsAndTargetProfiles } from '../../../../lib/domain/usecases/create-organizations-with-tags-and-target-profiles.js';
 import * as organizationInvitationService from '../../../../lib/domain/services/organization-invitation-service.js';
 
-import { organizationValidator } from '../../../../lib/domain/validators/organization-with-tags-and-target-profiles-script.js';
+import * as organizationValidator from '../../../../lib/domain/validators/organization-with-tags-and-target-profiles-script.js';
 
 import {
   ManyOrganizationsFoundError,

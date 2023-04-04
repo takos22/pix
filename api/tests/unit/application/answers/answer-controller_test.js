@@ -5,7 +5,7 @@ import * as answerRepository from '../../../../lib/infrastructure/repositories/a
 import * as answerSerializer from '../../../../lib/infrastructure/serializers/jsonapi/answer-serializer.js';
 import * as correctionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/correction-serializer.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 
 describe('Unit | Controller | answer-controller', function () {
   beforeEach(function () {

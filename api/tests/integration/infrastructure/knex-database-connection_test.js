@@ -1,5 +1,6 @@
 import { expect, databaseBuilder } from '../../test-helper.js';
-import { knexDatabaseConnection } from '../../../db/knex-database-connection.js';
+import { knex as knexDatabaseConnection } from '../../../db/knex-database-connection.js';
+
 const knex = knexDatabaseConnection.knex;
 
 import { UserNotFoundError } from '../../../lib/domain/errors.js';

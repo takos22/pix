@@ -1,8 +1,8 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { getNextChallengeForCampaignAssessment } from '../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment.js';
-import { smartRandom } from '../../../../lib/domain/services/algorithm-methods/smart-random.js';
-import { flash } from '../../../../lib/domain/services/algorithm-methods/flash.js';
-import { dataFetcher } from '../../../../lib/domain/services/algorithm-methods/data-fetcher.js';
+import * as smartRandom from '../../../../lib/domain/services/algorithm-methods/smart-random.js';
+import * as flash from '../../../../lib/domain/services/algorithm-methods/flash.js';
+import * as dataFetcher from '../../../../lib/domain/services/algorithm-methods/data-fetcher.js';
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function () {
   describe('#get-next-challenge-for-campaign-assessment', function () {

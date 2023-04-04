@@ -1,5 +1,5 @@
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
-import { solutionServiceQcm } from '../../../../lib/domain/services/solution-service-qcm.js';
+import * as solutionServiceQcm from '../../../../lib/domain/services/solution-service-qcm.js';
 import { Validation } from '../../../../lib/domain/models/Validation.js';
 import { ValidatorQCM } from '../../../../lib/domain/models/ValidatorQCM.js';
 import { expect, domainBuilder, sinon } from '../../../test-helper.js';

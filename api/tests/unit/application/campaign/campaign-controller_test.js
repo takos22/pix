@@ -8,7 +8,7 @@ import * as campaignParticipantsActivitySerializer from '../../../../lib/infrast
 import * as tokenService from '../../../../lib/domain/services/token-service.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { UserNotAuthorizedToAccessEntityError, ForbiddenAccess } from '../../../../lib/domain/errors.js';
-import { queryParamsUtils } from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
 import { LOCALE } from '../../../../lib/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;

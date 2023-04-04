@@ -1,5 +1,5 @@
 import { sinon, expect, hFake } from '../../../test-helper.js';
-import { csvCampaingsIdsParser } from '../../../../lib/infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser.js';
+import * as csvCampaingsIdsParser from '../../../../lib/infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser.js';
 import * as campaignController from '../../../../lib/application/campaigns-administration/campaign-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 

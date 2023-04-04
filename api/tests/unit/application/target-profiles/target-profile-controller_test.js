@@ -3,7 +3,7 @@ import * as targetProfileController from '../../../../lib/application/target-pro
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as tokenService from '../../../../lib/domain/services/token-service.js';
 import * as targetProfileAttachOrganizationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer.js';
-import { learningContentPDFPresenter } from '../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter.js';
+import * as learningContentPDFPresenter from '../../../../lib/application/target-profiles/presenter/pdf/learning-content-pdf-presenter.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Unit | Controller | target-profile-controller', function () {

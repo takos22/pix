@@ -1,7 +1,7 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
-import { userVerification } from '../../../../lib/application/preHandlers/user-existence-verification.js';
+import * as userVerification from '../../../../lib/application/preHandlers/user-existence-verification.js';
 import * as userController from '../../../../lib/application/users/user-controller.js';
 import * as OidcIdentityProviders from '../../../../lib/domain/constants/oidc-identity-providers.js';
 import * as moduleUnderTest from '../../../../lib/application/users/index.js';

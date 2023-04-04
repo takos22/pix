@@ -6,7 +6,7 @@ import * as sessionSerializer from '../../../../lib/infrastructure/serializers/j
 import { Session } from '../../../../lib/domain/models/Session.js';
 
 import * as certificationCenterController from '../../../../lib/application/certification-centers/certification-center-controller.js';
-import { csvHelpers } from '../../../../scripts/helpers/csvHelpers.js';
+import * as csvHelpers from '../../../../scripts/helpers/csvHelpers.js';
 import * as csvSerializer from '../../../../lib/infrastructure/serializers/csv/csv-serializer.js';
 import { UnprocessableEntityError } from '../../../../lib/application/http-errors.js';
 

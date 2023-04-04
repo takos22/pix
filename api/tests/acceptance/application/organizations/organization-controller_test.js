@@ -1,6 +1,6 @@
 import _map from 'lodash/map';
 import _omit from 'lodash/omit';
-import { dragonLogo } from '../../../../db/seeds/src/dragonAndCoBase64.js';
+import { logoUrl as dragonLogo } from '../../../../db/seeds/src/dragonAndCoBase64.js';
 
 import {
   expect,

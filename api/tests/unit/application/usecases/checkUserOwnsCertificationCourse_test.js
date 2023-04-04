@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { usecase } from '../../../../lib/application/usecases/checkUserOwnsCertificationCourse.js';
+import * as usecase from '../../../../lib/application/usecases/checkUserOwnsCertificationCourse.js';
 import * as certificationCourseRepository from '../../../../lib/infrastructure/repositories/certification-course-repository.js';
 import * as sessionRepository from '../../../../lib/infrastructure/repositories/sessions/session-repository.js';
 

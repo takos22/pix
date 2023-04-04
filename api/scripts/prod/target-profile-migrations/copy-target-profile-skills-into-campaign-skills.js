@@ -9,7 +9,7 @@ import yargs from 'yargs';
 import bluebird from 'bluebird';
 import _ from 'lodash';
 import { logger } from '../../../lib/infrastructure/logger.js';
-import { cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
+import { learningContentCache as cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
 import { knex, disconnect } from '../../../db/knex-database-connection.js';
 import * as url from 'url';
 

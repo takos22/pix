@@ -1,5 +1,5 @@
 import { sinon, expect, hFake, catchErr, domainBuilder } from '../../../../test-helper.js';
-import { authenticationServiceRegistry } from '../../../../../lib/domain/services/authentication/authentication-service-registry.js';
+import * as authenticationServiceRegistry from '../../../../../lib/domain/services/authentication/authentication-service-registry.js';
 import * as oidcController from '../../../../../lib/application/authentication/oidc/oidc-controller.js';
 import * as oidcSerializer from '../../../../../lib/infrastructure/serializers/jsonapi/oidc-serializer.js';
 import { usecases } from '../../../../../lib/domain/usecases/index.js';

@@ -3,7 +3,7 @@ import lodash from 'lodash';
 
 const { omit } = lodash;
 
-import { domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { DomainTransaction as domainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 import * as organizationInvitationRepository from '../../../../lib/infrastructure/repositories/organization-invitation-repository.js';
 import * as organizationRepository from '../../../../lib/infrastructure/repositories/organization-repository.js';
 import * as organizationTagRepository from '../../../../lib/infrastructure/repositories/organization-tag-repository.js';

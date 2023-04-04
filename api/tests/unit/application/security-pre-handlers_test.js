@@ -2,20 +2,20 @@ import { expect, sinon, hFake, domainBuilder } from '../../test-helper.js';
 
 import * as securityPreHandlers from '../../../lib/application/security-pre-handlers.js';
 import * as tokenService from '../../../lib/domain/services/token-service.js';
-import { checkAdminMemberHasRoleSuperAdminUseCase } from '../../../lib/application/usecases/checkAdminMemberHasRoleSuperAdmin.js';
-import { checkAdminMemberHasRoleCertifUseCase } from '../../../lib/application/usecases/checkAdminMemberHasRoleCertif.js';
-import { checkAdminMemberHasRoleSupportUseCase } from '../../../lib/application/usecases/checkAdminMemberHasRoleSupport.js';
-import { checkAdminMemberHasRoleMetierUseCase } from '../../../lib/application/usecases/checkAdminMemberHasRoleMetier.js';
-import { checkUserIsAdminInOrganizationUseCase } from '../../../lib/application/usecases/checkUserIsAdminInOrganization.js';
-import { checkUserBelongsToLearnersOrganizationUseCase } from '../../../lib/application/usecases/checkUserBelongsToLearnersOrganization.js';
-import { checkUserBelongsToOrganizationManagingStudentsUseCase } from '../../../lib/application/usecases/checkUserBelongsToOrganizationManagingStudents.js';
-import { checkUserBelongsToScoOrganizationAndManagesStudentsUseCase } from '../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents.js';
-import { checkUserIsMemberOfAnOrganizationUseCase } from '../../../lib/application/usecases/checkUserIsMemberOfAnOrganization.js';
-import { checkUserIsMemberOfCertificationCenterUseCase } from '../../../lib/application/usecases/checkUserIsMemberOfCertificationCenter.js';
-import { checkAuthorizationToManageCampaignUsecase } from '../../../lib/application/usecases/checkAuthorizationToManageCampaign.js';
-import { checkUserIsMemberOfCertificationCenterSessionUsecase } from '../../../lib/application/usecases/checkUserIsMemberOfCertificationCenterSession.js';
+import * as checkAdminMemberHasRoleSuperAdminUseCase from '../../../lib/application/usecases/checkAdminMemberHasRoleSuperAdmin.js';
+import * as checkAdminMemberHasRoleCertifUseCase from '../../../lib/application/usecases/checkAdminMemberHasRoleCertif.js';
+import * as checkAdminMemberHasRoleSupportUseCase from '../../../lib/application/usecases/checkAdminMemberHasRoleSupport.js';
+import * as checkAdminMemberHasRoleMetierUseCase from '../../../lib/application/usecases/checkAdminMemberHasRoleMetier.js';
+import * as checkUserIsAdminInOrganizationUseCase from '../../../lib/application/usecases/checkUserIsAdminInOrganization.js';
+import * as checkUserBelongsToLearnersOrganizationUseCase from '../../../lib/application/usecases/checkUserBelongsToLearnersOrganization.js';
+import * as checkUserBelongsToOrganizationManagingStudentsUseCase from '../../../lib/application/usecases/checkUserBelongsToOrganizationManagingStudents.js';
+import * as checkUserBelongsToScoOrganizationAndManagesStudentsUseCase from '../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents.js';
+import * as checkUserIsMemberOfAnOrganizationUseCase from '../../../lib/application/usecases/checkUserIsMemberOfAnOrganization.js';
+import * as checkUserIsMemberOfCertificationCenterUseCase from '../../../lib/application/usecases/checkUserIsMemberOfCertificationCenter.js';
+import * as checkAuthorizationToManageCampaignUsecase from '../../../lib/application/usecases/checkAuthorizationToManageCampaign.js';
+import * as checkUserIsMemberOfCertificationCenterSessionUsecase from '../../../lib/application/usecases/checkUserIsMemberOfCertificationCenterSession.js';
 import * as certificationIssueReportRepository from '../../../lib/infrastructure/repositories/certification-issue-report-repository.js';
-import { checkUserOwnsCertificationCourseUseCase } from '../../../lib/application/usecases/checkUserOwnsCertificationCourse.js';
+import * as checkUserOwnsCertificationCourseUseCase from '../../../lib/application/usecases/checkUserOwnsCertificationCourse.js';
 describe('Unit | Application | SecurityPreHandlers', function () {
   describe('#checkAdminMemberHasRoleSuperAdmin', function () {
     let hasRoleSuperAdminStub;

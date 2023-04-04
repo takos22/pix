@@ -1,6 +1,6 @@
 import { expect, sinon } from '../../../test-helper.js';
 import { createCampaign } from '../../../../lib/domain/usecases/create-campaign.js';
-import { campaignCodeGenerator } from '../../../../lib/domain/services/campaigns/campaign-code-generator.js';
+import * as campaignCodeGenerator from '../../../../lib/domain/services/campaigns/campaign-code-generator.js';
 import { CampaignTypes } from '../../../../lib/domain/models/CampaignTypes.js';
 import { CampaignCreator } from '../../../../lib/domain/models/CampaignCreator.js';
 import { CampaignForCreation } from '../../../../lib/domain/models/CampaignForCreation.js';

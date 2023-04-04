@@ -1,7 +1,7 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { cpfExternalStorage } from '../../../../lib/infrastructure/external-storage/cpf-external-storage.js';
+import * as cpfExternalStorage from '../../../../lib/infrastructure/external-storage/cpf-external-storage.js';
 import { config } from '../../../../lib/config.js';
-import { s3Utils } from '../../../../lib/infrastructure/external-storage/s3-utils.js';
+import * as s3Utils from '../../../../lib/infrastructure/external-storage/s3-utils.js';
 import _ from 'lodash';
 
 const { cpf } = config;

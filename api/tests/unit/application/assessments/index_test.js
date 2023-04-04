@@ -1,6 +1,6 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import { config as settings } from '../../../../lib/config.js';
-import { assessmentAuthorization } from '../../../../lib/application/preHandlers/assessment-authorization.js';
+import * as assessmentAuthorization from '../../../../lib/application/preHandlers/assessment-authorization.js';
 import * as moduleUnderTest from '../../../../lib/application/assessments/index.js';
 import * as assessmentController from '../../../../lib/application/assessments/assessment-controller.js';
 import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { expect, sinon } from '../../../../test-helper.js';
-import { lcms } from '../../../../../lib/infrastructure/lcms.js';
+import * as lcms from '../../../../../lib/infrastructure/lcms.js';
 import { challengeDatasource } from '../../../../../lib/infrastructure/datasources/learning-content/challenge-datasource.js';
 import { learningContentCache } from '../../../../../lib/infrastructure/caches/learning-content-cache.js';
 

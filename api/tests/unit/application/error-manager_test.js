@@ -41,7 +41,7 @@ import {
   LocaleNotSupportedError,
 } from '../../../lib/domain/errors.js';
 
-import { HttpErrors } from '../../../lib/application/http-errors.js';
+import * as HttpErrors from '../../../lib/application/http-errors.js';
 import { handle } from '../../../lib/application/error-manager.js';
 import { SESSION_SUPERVISING } from '../../../lib/domain/constants/session-supervising.js';
 

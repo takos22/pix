@@ -1,5 +1,5 @@
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
-import { solutionServiceQcu } from '../../../../lib/domain/services/solution-service-qcu.js';
+import * as solutionServiceQcu from '../../../../lib/domain/services/solution-service-qcu.js';
 import { Validation } from '../../../../lib/domain/models/Validation.js';
 import { ValidatorQCU } from '../../../../lib/domain/models/ValidatorQCU.js';
 import { expect, domainBuilder, sinon } from '../../../test-helper.js';

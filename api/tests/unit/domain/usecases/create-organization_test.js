@@ -1,7 +1,7 @@
 import { expect, sinon, catchErr } from '../../../test-helper.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { OrganizationForAdmin } from '../../../../lib/domain/models/OrganizationForAdmin.js';
-import { organizationCreationValidator } from '../../../../lib/domain/validators/organization-creation-validator.js';
+import * as organizationCreationValidator from '../../../../lib/domain/validators/organization-creation-validator.js';
 import { EntityValidationError } from '../../../../lib/domain/errors.js';
 
 const { createOrganization } = usecases;

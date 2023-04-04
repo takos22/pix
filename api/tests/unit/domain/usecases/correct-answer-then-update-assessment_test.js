@@ -12,7 +12,7 @@ import {
   CertificationEndedByFinalizationError,
 } from '../../../../lib/domain/errors.js';
 
-import { dateUtils } from '../../../../lib/infrastructure/utils/date-utils.js';
+import * as dateUtils from '../../../../lib/infrastructure/utils/date-utils.js';
 
 describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', function () {
   const userId = 1;

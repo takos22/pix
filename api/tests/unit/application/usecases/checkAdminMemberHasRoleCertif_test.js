@@ -1,5 +1,5 @@
 import { expect, sinon } from '../../../test-helper.js';
-import { useCase } from '../../../../lib/application/usecases/checkAdminMemberHasRoleCertif.js';
+import * as useCase from '../../../../lib/application/usecases/checkAdminMemberHasRoleCertif.js';
 import * as tokenService from '../../../../lib/domain/services/token-service.js';
 import * as adminMemberRepository from '../../../../lib/infrastructure/repositories/admin-member-repository.js';
 

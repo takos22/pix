@@ -2,7 +2,7 @@ import { buildArea } from './build-area.js';
 import { buildCompetence } from './build-competence.js';
 import { buildThematic } from './build-thematic.js';
 import { buildTube } from './build-tube.js';
-import { TargetProfileForAdmin } from '../../../../lib/domain/models/TargetProfileForAdminNewFormat.js';
+import { TargetProfileForAdminNewFormat as TargetProfileForAdmin } from '../../../../lib/domain/models/TargetProfileForAdminNewFormat.js';
 
 const buildTargetProfileForAdmin = function ({
   id = 123,

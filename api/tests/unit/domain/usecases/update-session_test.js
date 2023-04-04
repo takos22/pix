@@ -1,6 +1,6 @@
 import { expect, sinon } from '../../../test-helper.js';
 import { updateSession } from '../../../../lib/domain/usecases/update-session.js';
-import { sessionValidator } from '../../../../lib/domain/validators/session-validator.js';
+import * as sessionValidator from '../../../../lib/domain/validators/session-validator.js';
 
 describe('Unit | UseCase | update-session', function () {
   let originalSession;

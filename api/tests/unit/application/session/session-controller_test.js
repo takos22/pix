@@ -6,19 +6,19 @@ import * as jurySessionSerializer from '../../../../lib/infrastructure/serialize
 import * as certificationCandidateSerializer from '../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
 import * as certificationReportSerializer from '../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer.js';
 import * as juryCertificationSummarySerializer from '../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
-import { queryParamsUtils } from '../../../../lib/infrastructure/utils/query-params-utils.js';
-import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
-import { sessionValidator } from '../../../../lib/domain/validators/session-validator.js';
+import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import * as sessionValidator from '../../../../lib/domain/validators/session-validator.js';
 import * as juryCertificationSummaryRepository from '../../../../lib/infrastructure/repositories/jury-certification-summary-repository.js';
 import * as jurySessionRepository from '../../../../lib/infrastructure/repositories/sessions/jury-session-repository.js';
 import { UserAlreadyLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate.js';
 import { UserLinkedToCertificationCandidate } from '../../../../lib/domain/events/UserLinkedToCertificationCandidate.js';
-import { certificationResults } from '../../../../lib/infrastructure/utils/csv/certification-results.js';
+import * as certificationResults from '../../../../lib/infrastructure/utils/csv/certification-results.js';
 import * as tokenService from '../../../../lib/domain/services/token-service.js';
 import { SessionPublicationBatchResult } from '../../../../lib/domain/models/SessionPublicationBatchResult.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 import { SessionPublicationBatchError } from '../../../../lib/application/http-errors.js';
-import { supervisorKitPdf } from '../../../../lib/infrastructure/utils/pdf/supervisor-kit-pdf.js';
+import * as supervisorKitPdf from '../../../../lib/infrastructure/utils/pdf/supervisor-kit-pdf.js';
 
 describe('Unit | Controller | sessionController', function () {
   let request;

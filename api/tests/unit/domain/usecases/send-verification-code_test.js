@@ -7,7 +7,7 @@ import {
 } from '../../../../lib/domain/errors.js';
 
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import { codeUtils } from '../../../../lib/infrastructure/utils/code-utils.js';
+import * as codeUtils from '../../../../lib/infrastructure/utils/code-utils.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 

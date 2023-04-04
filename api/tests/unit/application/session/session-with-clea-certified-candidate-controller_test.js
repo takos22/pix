@@ -1,6 +1,6 @@
 import { domainBuilder, sinon, hFake, expect } from '../../../test-helper.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import { certificationResultUtils } from '../../../../lib/infrastructure/utils/csv/certification-results.js';
+import * as certificationResultUtils from '../../../../lib/infrastructure/utils/csv/certification-results.js';
 import * as sessionWithCleaCertifiedCandidateController from '../../../../lib/application/sessions/session-with-clea-certified-candidate-controller.js';
 
 describe('Unit | Controller | session-with-clea-certified-candidate', function () {

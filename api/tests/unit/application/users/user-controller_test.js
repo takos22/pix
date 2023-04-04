@@ -1,8 +1,8 @@
 import { sinon, expect, domainBuilder, hFake } from '../../../test-helper.js';
 import { User } from '../../../../lib/domain/models/User.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import { queryParamsUtils } from '../../../../lib/infrastructure/utils/query-params-utils.js';
-import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import * as encryptionService from '../../../../lib/domain/services/encryption-service.js';
 import * as mailService from '../../../../lib/domain/services/mail-service.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';

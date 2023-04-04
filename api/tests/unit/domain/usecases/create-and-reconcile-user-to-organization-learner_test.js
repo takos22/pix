@@ -1,6 +1,6 @@
 import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
-import { passwordValidator } from '../../../../lib/domain/validators/password-validator.js';
-import { userValidator } from '../../../../lib/domain/validators/user-validator.js';
+import * as passwordValidator from '../../../../lib/domain/validators/password-validator.js';
+import * as userValidator from '../../../../lib/domain/validators/user-validator.js';
 
 import {
   AlreadyRegisteredEmailError,

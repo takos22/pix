@@ -1,5 +1,5 @@
 import { AnswerStatus } from '../../../../lib/domain/models/AnswerStatus.js';
-import { solutionServiceQrocmInd } from '../../../../lib/domain/services/solution-service-qrocm-ind.js';
+import * as solutionServiceQrocmInd from '../../../../lib/domain/services/solution-service-qrocm-ind.js';
 import { Validation } from '../../../../lib/domain/models/Validation.js';
 import { ValidatorQROCMInd } from '../../../../lib/domain/models/ValidatorQROCMInd.js';
 import { expect, domainBuilder, sinon } from '../../../test-helper.js';

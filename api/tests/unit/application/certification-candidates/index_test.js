@@ -1,6 +1,6 @@
 import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 import * as moduleUnderTest from '../../../../lib/application/certification-candidates/index.js';
-import { sessionSupervisorAuthorization } from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
+import * as sessionSupervisorAuthorization from '../../../../lib/application/preHandlers/session-supervisor-authorization.js';
 import * as certificationCandidatesController from '../../../../lib/application/certification-candidates/certification-candidates-controller.js';
 
 describe('Unit | Application | CertificationCandidates | Routes', function () {

@@ -4,7 +4,7 @@ import * as membershipController from '../../../../lib/application/memberships/m
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as membershipSerializer from '../../../../lib/infrastructure/serializers/jsonapi/membership-serializer.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
-import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 
 describe('Unit | Controller | membership-controller', function () {
   describe('#create', function () {

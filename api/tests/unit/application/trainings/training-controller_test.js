@@ -5,7 +5,7 @@ import * as trainingSerializer from '../../../../lib/infrastructure/serializers/
 import * as trainingSummarySerializer from '../../../../lib/infrastructure/serializers/jsonapi/training-summary-serializer.js';
 import * as trainingTriggerSerializer from '../../../../lib/infrastructure/serializers/jsonapi/training-trigger-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
-import { queryParamsUtils } from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
 import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
 
 describe('Unit | Controller | training-controller', function () {

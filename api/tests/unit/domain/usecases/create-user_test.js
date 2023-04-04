@@ -1,7 +1,7 @@
 import { catchErr, expect, sinon } from '../../../test-helper.js';
 import { AlreadyRegisteredEmailError, EntityValidationError } from '../../../../lib/domain/errors.js';
-import { passwordValidator } from '../../../../lib/domain/validators/password-validator.js';
-import { userValidator } from '../../../../lib/domain/validators/user-validator.js';
+import * as passwordValidator from '../../../../lib/domain/validators/password-validator.js';
+import * as userValidator from '../../../../lib/domain/validators/user-validator.js';
 import { User } from '../../../../lib/domain/models/User.js';
 import { createUser } from '../../../../lib/domain/usecases/create-user.js';
 

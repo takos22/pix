@@ -1,5 +1,5 @@
 import { expect, databaseBuilder, domainBuilder } from '../../../test-helper.js';
-import { knex } from '../../../../lib/infrastructure/bookshelf.js';
+import { Bookshelf as knex } from '../../../../lib/infrastructure/bookshelf.js';
 import _ from 'lodash';
 import * as complementaryCertificationCourseResultRepository from '../../../../lib/infrastructure/repositories/complementary-certification-course-result-repository.js';
 import { ComplementaryCertificationCourseResult } from '../../../../lib/domain/models/ComplementaryCertificationCourseResult.js';

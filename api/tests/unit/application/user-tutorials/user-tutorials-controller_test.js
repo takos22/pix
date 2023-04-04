@@ -3,8 +3,8 @@ import * as userTutorialsController from '../../../../lib/application/user-tutor
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as userSavedTutorialSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-saved-tutorial-serializer.js';
 import * as userSavedTutorialRepository from '../../../../lib/infrastructure/repositories/user-saved-tutorial-repository.js';
-import { queryParamsUtils } from '../../../../lib/infrastructure/utils/query-params-utils.js';
-import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 import * as tutorialSerializer from '../../../../lib/infrastructure/serializers/jsonapi/tutorial-serializer.js';
 
 describe('Unit | Controller | User-tutorials', function () {

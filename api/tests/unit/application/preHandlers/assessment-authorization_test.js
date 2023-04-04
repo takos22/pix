@@ -1,5 +1,5 @@
 import { expect, sinon, hFake } from '../../../test-helper.js';
-import { AssessmentAuthorization } from '../../../../lib/application/preHandlers/assessment-authorization.js';
+import * as AssessmentAuthorization from '../../../../lib/application/preHandlers/assessment-authorization.js';
 import * as tokenService from '../../../../lib/domain/services/token-service.js';
 import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
 

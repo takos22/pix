@@ -1,7 +1,7 @@
 import { expect, sinon } from '../../../../test-helper.js';
 import _ from 'lodash';
 import { skillDatasource } from '../../../../../lib/infrastructure/datasources/learning-content/skill-datasource.js';
-import { lcms } from '../../../../../lib/infrastructure/lcms.js';
+import * as lcms from '../../../../../lib/infrastructure/lcms.js';
 import { learningContentCache } from '../../../../../lib/infrastructure/caches/learning-content-cache.js';
 
 describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource', function () {

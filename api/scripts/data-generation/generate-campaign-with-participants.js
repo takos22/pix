@@ -14,7 +14,7 @@ import * as skillRepository from '../../lib/infrastructure/repositories/skill-re
 import * as targetProfileRepository from '../../lib/infrastructure/repositories/target-profile-repository.js';
 import * as campaignRepository from '../../lib/infrastructure/repositories/campaign-repository.js';
 import { CampaignParticipationStatuses } from '../../lib/domain/models/CampaignParticipationStatuses.js';
-import { computeParticipationResults } from '../prod/compute-participation-results.js';
+import { computeParticipantResultsShared as computeParticipationResults } from '../prod/compute-participation-results.js';
 import {
   getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
