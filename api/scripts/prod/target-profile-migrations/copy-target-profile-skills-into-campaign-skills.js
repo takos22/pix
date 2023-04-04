@@ -72,6 +72,7 @@ async function getEligibleCampaigns(maxCampaignCount) {
 
 const modulePath = url.fileURLToPath(import.meta.url);
 const isLaunchedFromCommandLine = process.argv[1] === modulePath;
+const __filename = modulePath;
 
 async function main() {
   const startTime = performance.now();
