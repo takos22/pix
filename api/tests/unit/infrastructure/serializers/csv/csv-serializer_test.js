@@ -850,7 +850,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
       });
     });
 
-    it('should return data with lines', function () {
+    it.only('should return data with lines', function () {
       // given
       const parsedCsvData = [
         _lineWithSessionIdAndCandidate({

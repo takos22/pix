@@ -27,12 +27,12 @@ function _csvSerializeValue(data) {
 
 function deserializeForSessionsImport(parsedCsvData) {
   const sessions = [];
-  const csvLineKeys = Object.keys(headers);
+  const validHeadersKeys = Object.keys(headers);
 
-  _verifyHeaders({ csvLineKeys, headers, parsedCsvLine: parsedCsvData[0] });
+  _verifyHeaders({ headers, parsedCsvLine: parsedCsvData[0] });
 
   parsedCsvData.forEach((lineDTO, index) => {
-    const dataFromColumnName = _getDataFromColumnNames({ csvLineKeys, headers, line: lineDTO });
+    const dataFromColumnName = _getDataFromColumnNames({ validHeadersKeys, headers, line: lineDTO });
     const FIRST_DATA_LINE = 2;
     const data = { ...dataFromColumnName, line: index + FIRST_DATA_LINE };
 
@@ -155,11 +155,11 @@ function _hasSessionIdAndCandidateInformation(data) {
   return _hasCandidateInformation(data) && data.sessionId;
 }
 
-function _getDataFromColumnNames({ csvLineKeys, headers, line }) {
+function _getDataFromColumnNames({ validHeadersKeys, headers, line }) {
   const data = {};
   data.complementaryCertifications = _extractComplementaryCertificationLabelsFromLine(line);
 
-  csvLineKeys.forEach((key) => {
+  validHeadersKeys.forEach((key) => {
     const headerKeyInCurrentLine = line[headers[key]];
     if (key === 'birthdate' || key === 'date') {
       data[key] =
@@ -212,9 +212,12 @@ function _getComplementaryCertificationLabel(key, COMPLEMENTARY_CERTIFICATION_SU
   return key.replace(COMPLEMENTARY_CERTIFICATION_SUFFIX, '').trim();
 }
 
-function _verifyHeaders({ csvLineKeys, parsedCsvLine, headers }) {
-  csvLineKeys.forEach((key) => {
-    if (parsedCsvLine[headers[key]] === undefined) {
+function _verifyHeaders({ parsedCsvLine, headers }) {
+  const parsedCsvLineKeys = Object.keys(parsedCsvLine);
+  const validHeadersEntries = Object.values(headers);
+
+  parsedCsvLineKeys.forEach((key) => {
+    if (validHeadersEntries[parsedCsvLine[key]] === undefined) {
       throw new FileValidationError('CSV_HEADERS_NOT_VALID');
     }
   });
