@@ -2,8 +2,6 @@ import _ from 'lodash';
 
 import {
   CERTIF_SUCCESS_USER_ID,
-  // eslint-disable-next-line import/named
-  CERTIF_SCO_STUDENT_ID,
   CERTIF_FAILURE_USER_ID,
   CERTIF_REGULAR_USER5_ID,
   CERTIF_EDU_FORMATION_INITIALE_1ER_DEGRE_USER_ID,
@@ -65,16 +63,6 @@ async function certificationCoursesBuilder({ databaseBuilder }) {
       examinerComment: null,
       hasSeenEndTestScreen: false,
       isPublished: false,
-    },
-    {
-      userId: CERTIF_SCO_STUDENT_ID,
-      sessionId: PUBLISHED_SCO_SESSION_ID,
-      assessmentId: ASSESSMENT_SUCCESS_PUBLISHED_SESSION_SCO_ID,
-      candidateData: CANDIDATE_SCO_DATA_SUCCESS,
-      examinerComment: null,
-      hasSeenEndTestScreen: true,
-      isPublished: true,
-      pixCertificationStatus: 'validated',
     },
     {
       userId: CERTIF_SUCCESS_USER_ID,
