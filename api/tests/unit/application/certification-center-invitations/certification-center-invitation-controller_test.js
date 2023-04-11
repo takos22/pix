@@ -54,12 +54,6 @@ describe('Unit | Application | Certification-center-Invitations | Certification-
           certificationCenterInvitationId: cancelledCertificationCenterInvitation.id,
         })
         .resolves(cancelledCertificationCenterInvitation);
-      const serializedResponse = Symbol('serializedCancelledCertificationCenterInvitation');
-
-      sinon
-        .stub(certificationCenterInvitationSerializer, 'serialize')
-        .withArgs(cancelledCertificationCenterInvitation)
-        .returns(serializedResponse);
 
       // when
       const response = await certificationCenterInvitationController.cancelCertificationCenterInvitation(
