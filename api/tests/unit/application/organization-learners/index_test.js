@@ -1,8 +1,8 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const organizationLearnerController = require('../../../../lib/application/organization-learners/organization-learner-controller');
-const moduleUnderTest = require('../../../../lib/application/organization-learners');
+import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
+import * as organizationLearnerController from '../../../../lib/application/organization-learners/organization-learner-controller.js';
+import { moduleUnderTest } from '../../../../lib/application/organization-learners.js';
 
 describe('Unit | Application | Router | organization-learner-router', function () {
   context('Routes /admin', function () {

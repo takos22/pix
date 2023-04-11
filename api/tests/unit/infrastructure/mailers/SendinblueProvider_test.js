@@ -1,12 +1,8 @@
-const { sinon, expect, nock, catchErr } = require('../../../test-helper');
-
-const mailCheck = require('../../../../lib/infrastructure/mail-check');
-const { mailing } = require('../../../../lib/config');
-
-const SendinblueProvider = require('../../../../lib/infrastructure/mailers/SendinblueProvider');
-const {
-  MailingProviderInvalidEmailError,
-} = require('../../../../lib/infrastructure/mailers/MailingProviderInvalidEmailError');
+import { sinon, expect, nock, catchErr } from '../../../test-helper.js';
+import { mailCheck } from '../../../../lib/infrastructure/mail-check.js';
+import { mailing } from '../../../../lib/config.js';
+import { SendinblueProvider } from '../../../../lib/infrastructure/mailers/SendinblueProvider.js';
+import { MailingProviderInvalidEmailError } from '../../../../lib/infrastructure/mailers/MailingProviderInvalidEmailError.js';
 
 describe('Unit | Class | SendinblueProvider', function () {
   beforeEach(function () {

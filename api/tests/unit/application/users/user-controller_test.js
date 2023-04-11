@@ -1,34 +1,31 @@
-const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
+import { sinon, expect, domainBuilder, hFake } from '../../../test-helper.js';
+import { User } from '../../../../lib/domain/models/User.js';
+import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
+import { queryParamsUtils } from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import * as encryptionService from '../../../../lib/domain/services/encryption-service.js';
+import * as mailService from '../../../../lib/domain/services/mail-service.js';
+import { getI18n } from '../../../tooling/i18n/i18n.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
-const User = require('../../../../lib/domain/models/User');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
-const encryptionService = require('../../../../lib/domain/services/encryption-service');
-const mailService = require('../../../../lib/domain/services/mail-service');
-const { getI18n } = require('../../../tooling/i18n/i18n');
-
-const usecases = require('../../../../lib/domain/usecases/index.js');
-
-const campaignParticipationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
-const campaignParticipationOverviewSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-overview-serializer');
-const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
-const profileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
-const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
-const userForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-for-admin-serializer');
-const userWithActivitySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-activity-serializer');
-const userAnonymizedDetailsForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer');
-const userDetailsForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
-const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-const updateEmailSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/update-email-serializer');
-const authenticationMethodsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/authentication-methods-serializer');
-const userOrganizationForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-organization-for-admin-serializer');
-const certificationCenterMembershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer');
-const trainingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-serializer');
-
-const userController = require('../../../../lib/application/users/user-controller');
-const UserOrganizationForAdmin = require('../../../../lib/domain/read-models/UserOrganizationForAdmin');
-const localeService = require('../../../../lib/domain/services/locale-service');
+import * as campaignParticipationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
+import * as campaignParticipationOverviewSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
+import * as scorecardSerializer from '../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer.js';
+import * as profileSerializer from '../../../../lib/infrastructure/serializers/jsonapi/profile-serializer.js';
+import * as userSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-serializer.js';
+import * as userForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-for-admin-serializer.js';
+import * as userWithActivitySerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-with-activity-serializer.js';
+import * as userAnonymizedDetailsForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer.js';
+import * as userDetailsForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer.js';
+import * as validationErrorSerializer from '../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer.js';
+import * as updateEmailSerializer from '../../../../lib/infrastructure/serializers/jsonapi/update-email-serializer.js';
+import * as authenticationMethodsSerializer from '../../../../lib/infrastructure/serializers/jsonapi/authentication-methods-serializer.js';
+import * as userOrganizationForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
+import * as certificationCenterMembershipSerializer from '../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
+import * as trainingSerializer from '../../../../lib/infrastructure/serializers/jsonapi/training-serializer.js';
+import * as userController from '../../../../lib/application/users/user-controller.js';
+import { UserOrganizationForAdmin } from '../../../../lib/domain/read-models/UserOrganizationForAdmin.js';
+import * as localeService from '../../../../lib/domain/services/locale-service.js';
 
 describe('Unit | Controller | user-controller', function () {
   describe('#save', function () {

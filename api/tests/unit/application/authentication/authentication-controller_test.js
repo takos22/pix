@@ -1,8 +1,8 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-const tokenService = require('../../../../lib/domain/services/token-service');
-const usecases = require('../../../../lib/domain/usecases/index.js');
+import { sinon, expect, hFake } from '../../../test-helper.js';
+import * as tokenService from '../../../../lib/domain/services/token-service.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
-const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
+import * as authenticationController from '../../../../lib/application/authentication/authentication-controller.js';
 
 describe('Unit | Application | Controller | Authentication', function () {
   describe('#createToken', function () {

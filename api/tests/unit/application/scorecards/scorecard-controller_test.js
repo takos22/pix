@@ -1,11 +1,11 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
+import { sinon, expect, hFake } from '../../../test-helper.js';
 
-const scorecardController = require('../../../../lib/application/scorecards/scorecard-controller');
+import * as scorecardController from '../../../../lib/application/scorecards/scorecard-controller.js';
 
-const usecases = require('../../../../lib/domain/usecases/index.js');
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
-const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
-const tutorialSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/tutorial-serializer');
+import * as scorecardSerializer from '../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer.js';
+import * as tutorialSerializer from '../../../../lib/infrastructure/serializers/jsonapi/tutorial-serializer.js';
 
 describe('Unit | Controller | scorecard-controller', function () {
   const authenticatedUserId = '12';

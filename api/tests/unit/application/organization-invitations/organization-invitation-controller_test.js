@@ -1,9 +1,8 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-
-const { MissingQueryParamError } = require('../../../../lib/application/http-errors');
-const organizationInvitationController = require('../../../../lib/application/organization-invitations/organization-invitation-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
+import { MissingQueryParamError } from '../../../../lib/application/http-errors.js';
+import * as organizationInvitationController from '../../../../lib/application/organization-invitations/organization-invitation-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import * as organizationInvitationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer.js';
 
 describe('Unit | Application | Organization-Invitations | organization-invitation-controller', function () {
   describe('#acceptOrganizationInvitation', function () {

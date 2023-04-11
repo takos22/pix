@@ -1,18 +1,21 @@
-const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
-const campaignParticipationController = require('../../../../lib/application/campaign-participations/campaign-participation-controller');
-const campaignAnalysisSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-analysis-serializer');
-const campaignAssessmentParticipationResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer');
-const campaignParticipationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
-const campaignProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-profile-serializer');
-const trainingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-serializer');
-const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
-const events = require('../../../../lib/domain/events/index.js');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
-const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
-const monitoringTools = require('../../../../lib/infrastructure/monitoring-tools');
+import { sinon, expect, domainBuilder, hFake } from '../../../test-helper.js';
+import * as campaignParticipationController from '../../../../lib/application/campaign-participations/campaign-participation-controller.js';
+import * as campaignAnalysisSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
+import * as campaignAssessmentParticipationResultSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer.js';
+import * as campaignParticipationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
+import * as campaignProfileSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-profile-serializer.js';
+import * as trainingSerializer from '../../../../lib/infrastructure/serializers/jsonapi/training-serializer.js';
+import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
+import { events } from '../../../../lib/domain/events/index.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { CampaignParticipationResultsShared } from '../../../../lib/domain/events/CampaignParticipationResultsShared.js';
+import { CampaignParticipationStarted } from '../../../../lib/domain/events/CampaignParticipationStarted.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { LOCALE } from '../../../../lib/domain/constants.js';
+
+const { FRENCH_SPOKEN } = LOCALE;
+
+import { monitoringTools } from '../../../../lib/infrastructure/monitoring-tools.js';
 
 describe('Unit | Application | Controller | Campaign-Participation', function () {
   describe('#shareCampaignResult', function () {

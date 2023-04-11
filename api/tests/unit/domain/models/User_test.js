@@ -1,7 +1,7 @@
-const { sinon, expect, domainBuilder } = require('../../../test-helper');
-const config = require('../../../../lib/config');
-const localeService = require('../../../../lib/domain/services/locale-service');
-const User = require('../../../../lib/domain/models/User');
+import { sinon, expect, domainBuilder } from '../../../test-helper.js';
+import { config } from '../../../../lib/config.js';
+import * as localeService from '../../../../lib/domain/services/locale-service.js';
+import { User } from '../../../../lib/domain/models/User.js';
 
 describe('Unit | Domain | Models | User', function () {
   describe('constructor', function () {

@@ -1,7 +1,7 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { CertificationCandidateAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
-const importCertificationCandidatesFromCandidatesImportSheet = require('../../../../lib/domain/usecases/import-certification-candidates-from-candidates-import-sheet');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+import { expect, sinon, catchErr, domainBuilder } from '../../../test-helper.js';
+import { CertificationCandidateAlreadyLinkedToUserError } from '../../../../lib/domain/errors.js';
+import { importCertificationCandidatesFromCandidatesImportSheet } from '../../../../lib/domain/usecases/import-certification-candidates-from-candidates-import-sheet.js';
+import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet', function () {
   let certificationCandidateRepository;

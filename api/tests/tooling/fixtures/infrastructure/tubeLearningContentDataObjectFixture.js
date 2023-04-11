@@ -1,4 +1,4 @@
-module.exports = function TubeLearningContentDataObjectFixture({
+const TubeLearningContentDataObjectFixture = function ({
   id = 'recTIddrkopID23Fp',
   name = '@Moteur',
   title = 'Moteur de recherche',
@@ -25,3 +25,5 @@ module.exports = function TubeLearningContentDataObjectFixture({
     competenceId,
   };
 };
+
+export { TubeLearningContentDataObjectFixture };

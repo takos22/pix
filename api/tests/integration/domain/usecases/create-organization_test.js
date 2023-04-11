@@ -1,10 +1,9 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
+import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 
-const organizationForAdminRepository = require('../../../../lib/infrastructure/repositories/organization-for-admin-repository');
-const dataProtectionOfficerRepository = require('../../../../lib/infrastructure/repositories/data-protection-officer-repository');
-const OrganizationForAdmin = require('../../../../lib/domain/models/OrganizationForAdmin');
-
-const createOrganization = require('../../../../lib/domain/usecases/create-organization');
+import * as organizationForAdminRepository from '../../../../lib/infrastructure/repositories/organization-for-admin-repository.js';
+import * as dataProtectionOfficerRepository from '../../../../lib/infrastructure/repositories/data-protection-officer-repository.js';
+import { OrganizationForAdmin } from '../../../../lib/domain/models/OrganizationForAdmin.js';
+import { createOrganization } from '../../../../lib/domain/usecases/create-organization.js';
 
 describe('Integration | UseCases | create-organization', function () {
   afterEach(async function () {

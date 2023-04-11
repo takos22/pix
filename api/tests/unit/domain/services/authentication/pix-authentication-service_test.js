@@ -1,11 +1,10 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../../test-helper');
-const { PasswordNotMatching, UserNotFoundError } = require('../../../../../lib/domain/errors');
-
-const User = require('../../../../../lib/domain/models/User');
-const UserLogin = require('../../../../../lib/domain/models/UserLogin');
-const encryptionService = require('../../../../../lib/domain/services/encryption-service');
-const pixAuthenticationService = require('../../../../../lib/domain/services/authentication/pix-authentication-service');
-const userLoginRepository = require('../../../../../lib/infrastructure/repositories/user-login-repository');
+import { expect, sinon, domainBuilder, catchErr } from '../../../../test-helper.js';
+import { PasswordNotMatching, UserNotFoundError } from '../../../../../lib/domain/errors.js';
+import { User } from '../../../../../lib/domain/models/User.js';
+import { UserLogin } from '../../../../../lib/domain/models/UserLogin.js';
+import * as encryptionService from '../../../../../lib/domain/services/encryption-service.js';
+import * as pixAuthenticationService from '../../../../../lib/domain/services/authentication/pix-authentication-service.js';
+import * as userLoginRepository from '../../../../../lib/infrastructure/repositories/user-login-repository.js';
 
 describe('Unit | Domain | Services | pix-authentication-service', function () {
   describe('#getUserByUsernameAndPassword', function () {

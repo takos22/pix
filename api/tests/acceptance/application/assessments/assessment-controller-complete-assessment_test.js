@@ -1,4 +1,4 @@
-const {
+import {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
@@ -6,12 +6,13 @@ const {
   mockLearningContent,
   learningContentBuilder,
   sinon,
-} = require('../../../test-helper');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
-const config = require('../../../../lib/config');
-const createServer = require('../../../../server');
-const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
+} from '../../../test-helper.js';
+
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
+import * as badgeAcquisitionRepository from '../../../../lib/infrastructure/repositories/badge-acquisition-repository.js';
+import { config } from '../../../../lib/config.js';
+import { createServer } from '../../../../server.js';
+import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
 
 describe('Acceptance | Controller | assessment-controller-complete-assessment', function () {
   let options;

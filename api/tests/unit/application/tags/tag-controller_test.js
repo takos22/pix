@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
+import { expect, sinon, domainBuilder, hFake } from '../../../test-helper.js';
 
-const tagController = require('../../../../lib/application/tags/tag-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const tagSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/tag-serializer');
+import * as tagController from '../../../../lib/application/tags/tag-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import * as tagSerializer from '../../../../lib/infrastructure/serializers/jsonapi/tag-serializer.js';
 
 describe('Unit | Application | Tags | tag-controller', function () {
   describe('#create', function () {

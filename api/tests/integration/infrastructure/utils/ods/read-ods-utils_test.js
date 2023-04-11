@@ -1,19 +1,21 @@
-const { readFile } = require('fs').promises;
-const _ = require('lodash');
+import fs from 'fs';
 
-const { expect, catchErr } = require('../../../../test-helper');
-const { UnprocessableEntityError } = require('../../../../../lib/application/http-errors');
+const { promises } = fs;
 
-const {
-  getTransformationStructsForPixCertifCandidatesImport,
-} = require('../../../../../lib/infrastructure/files/candidates-import/candidates-import-transformation-structures');
+const { readFile } = promises;
 
-const {
+import _ from 'lodash';
+
+import { expect, catchErr } from '../../../../test-helper.js';
+import { UnprocessableEntityError } from '../../../../../lib/application/http-errors.js';
+import { getTransformationStructsForPixCertifCandidatesImport } from '../../../../../lib/infrastructure/files/candidates-import/candidates-import-transformation-structures.js';
+
+import {
   getContentXml,
   extractTableDataFromOdsFile,
   validateOdsHeaders,
   getSheetDataRowsFromOdsBuffer,
-} = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
+} from '../../../../../lib/infrastructure/utils/ods/read-ods-utils.js';
 
 describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function () {
   const GET_CONTENT_ODS_FILE_PATH = `${__dirname}/files/get-content-xml_test.ods`;

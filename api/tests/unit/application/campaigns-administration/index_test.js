@@ -1,8 +1,8 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const campaignController = require('../../../../lib/application/campaigns-administration/campaign-controller');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
+import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
+import * as campaignController from '../../../../lib/application/campaigns-administration/campaign-controller.js';
 
-const moduleUnderTest = require('../../../../lib/application/campaigns-administration');
+import { moduleUnderTest } from '../../../../lib/application/campaigns-administration.js';
 
 describe('Unit | Application | Router | campaign-participation-router ', function () {
   describe('PATCH /api/admin/campaigns/archive-campaigns', function () {

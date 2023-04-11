@@ -1,9 +1,9 @@
-const buildCampaign = require('./build-campaign');
-const buildTargetProfile = require('./build-target-profile');
-const buildTargetProfileSkill = require('./build-target-profile-skill');
-const CampaignTypes = require('../../../lib/domain/models/CampaignTypes');
+import { buildCampaign } from './build-campaign.js';
+import { buildTargetProfile } from './build-target-profile.js';
+import { buildTargetProfileSkill } from './build-target-profile-skill.js';
+import { CampaignTypes } from '../../../lib/domain/models/CampaignTypes.js';
 
-module.exports = function buildAssessmentCampaignForSkills(attributes, skillSet) {
+const buildAssessmentCampaignForSkills = function (attributes, skillSet) {
   const targetProfileId = buildTargetProfile().id;
   skillSet.forEach((skill) => buildTargetProfileSkill({ targetProfileId, skillId: skill.id }));
 
@@ -12,3 +12,5 @@ module.exports = function buildAssessmentCampaignForSkills(attributes, skillSet)
 
   return buildCampaign(attributes);
 };
+
+export { buildAssessmentCampaignForSkills };

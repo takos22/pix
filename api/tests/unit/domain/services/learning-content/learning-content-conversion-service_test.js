@@ -1,8 +1,6 @@
-const { expect, domainBuilder, sinon } = require('../../../../test-helper');
-const skillRepository = require('../../../../../lib/infrastructure/repositories/skill-repository');
-const {
-  findActiveSkillsForCappedTubes,
-} = require('../../../../../lib/domain/services/learning-content/learning-content-conversion-service');
+import { expect, domainBuilder, sinon } from '../../../../test-helper.js';
+import * as skillRepository from '../../../../../lib/infrastructure/repositories/skill-repository.js';
+import { findActiveSkillsForCappedTubes } from '../../../../../lib/domain/services/learning-content/learning-content-conversion-service.js';
 
 describe('Unit | Service | learning-content-conversion-service', function () {
   describe('#findActiveSkillsForCappedTubes', function () {

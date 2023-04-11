@@ -1,12 +1,11 @@
-const { expect, sinon } = require('../../../test-helper');
+import { expect, sinon } from '../../../test-helper.js';
 
-const service = require('../../../../lib/domain/services/assessment-result-service');
+import * as service from '../../../../lib/domain/services/assessment-result-service.js';
+import * as assessmentResultRepository from '../../../../lib/infrastructure/repositories/assessment-result-repository.js';
+import * as competenceMarkRepository from '../../../../lib/infrastructure/repositories/competence-mark-repository.js';
 
-const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
-const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
-
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
+import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
+import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
 
 describe('Unit | Domain | Services | assessment-results', function () {
   describe('#save', function () {

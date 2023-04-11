@@ -1,21 +1,21 @@
-const { expect, sinon, hFake, domainBuilder } = require('../../test-helper');
+import { expect, sinon, hFake, domainBuilder } from '../../test-helper.js';
 
-const securityPreHandlers = require('../../../lib/application/security-pre-handlers');
-const tokenService = require('../../../lib/domain/services/token-service');
-const checkAdminMemberHasRoleSuperAdminUseCase = require('../../../lib/application/usecases/checkAdminMemberHasRoleSuperAdmin');
-const checkAdminMemberHasRoleCertifUseCase = require('../../../lib/application/usecases/checkAdminMemberHasRoleCertif');
-const checkAdminMemberHasRoleSupportUseCase = require('../../../lib/application/usecases/checkAdminMemberHasRoleSupport');
-const checkAdminMemberHasRoleMetierUseCase = require('../../../lib/application/usecases/checkAdminMemberHasRoleMetier');
-const checkUserIsAdminInOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsAdminInOrganization');
-const checkUserBelongsToLearnersOrganizationUseCase = require('../../../lib/application/usecases/checkUserBelongsToLearnersOrganization');
-const checkUserBelongsToOrganizationManagingStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganizationManagingStudents');
-const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
-const checkUserIsMemberOfAnOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsMemberOfAnOrganization');
-const checkUserIsMemberOfCertificationCenterUseCase = require('../../../lib/application/usecases/checkUserIsMemberOfCertificationCenter');
-const checkAuthorizationToManageCampaignUsecase = require('../../../lib/application/usecases/checkAuthorizationToManageCampaign');
-const checkUserIsMemberOfCertificationCenterSessionUsecase = require('../../../lib/application/usecases/checkUserIsMemberOfCertificationCenterSession');
-const certificationIssueReportRepository = require('../../../lib/infrastructure/repositories/certification-issue-report-repository');
-const checkUserOwnsCertificationCourseUseCase = require('../../../lib/application/usecases/checkUserOwnsCertificationCourse');
+import * as securityPreHandlers from '../../../lib/application/security-pre-handlers.js';
+import * as tokenService from '../../../lib/domain/services/token-service.js';
+import { checkAdminMemberHasRoleSuperAdminUseCase } from '../../../lib/application/usecases/checkAdminMemberHasRoleSuperAdmin.js';
+import { checkAdminMemberHasRoleCertifUseCase } from '../../../lib/application/usecases/checkAdminMemberHasRoleCertif.js';
+import { checkAdminMemberHasRoleSupportUseCase } from '../../../lib/application/usecases/checkAdminMemberHasRoleSupport.js';
+import { checkAdminMemberHasRoleMetierUseCase } from '../../../lib/application/usecases/checkAdminMemberHasRoleMetier.js';
+import { checkUserIsAdminInOrganizationUseCase } from '../../../lib/application/usecases/checkUserIsAdminInOrganization.js';
+import { checkUserBelongsToLearnersOrganizationUseCase } from '../../../lib/application/usecases/checkUserBelongsToLearnersOrganization.js';
+import { checkUserBelongsToOrganizationManagingStudentsUseCase } from '../../../lib/application/usecases/checkUserBelongsToOrganizationManagingStudents.js';
+import { checkUserBelongsToScoOrganizationAndManagesStudentsUseCase } from '../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents.js';
+import { checkUserIsMemberOfAnOrganizationUseCase } from '../../../lib/application/usecases/checkUserIsMemberOfAnOrganization.js';
+import { checkUserIsMemberOfCertificationCenterUseCase } from '../../../lib/application/usecases/checkUserIsMemberOfCertificationCenter.js';
+import { checkAuthorizationToManageCampaignUsecase } from '../../../lib/application/usecases/checkAuthorizationToManageCampaign.js';
+import { checkUserIsMemberOfCertificationCenterSessionUsecase } from '../../../lib/application/usecases/checkUserIsMemberOfCertificationCenterSession.js';
+import * as certificationIssueReportRepository from '../../../lib/infrastructure/repositories/certification-issue-report-repository.js';
+import { checkUserOwnsCertificationCourseUseCase } from '../../../lib/application/usecases/checkUserOwnsCertificationCourse.js';
 describe('Unit | Application | SecurityPreHandlers', function () {
   describe('#checkAdminMemberHasRoleSuperAdmin', function () {
     let hasRoleSuperAdminStub;

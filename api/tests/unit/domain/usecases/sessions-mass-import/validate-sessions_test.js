@@ -1,13 +1,13 @@
-const { domainBuilder, expect, sinon } = require('../../../../test-helper');
-const validateSessions = require('../../../../../lib/domain/usecases/sessions-mass-import/validate-sessions');
-const sessionCodeService = require('../../../../../lib/domain/services/session-code-service');
-const Session = require('../../../../../lib/domain/models/Session');
-const sessionsImportValidationService = require('../../../../../lib/domain/services/sessions-mass-import/sessions-import-validation-service');
-const temporarySessionsStorageForMassImportService = require('../../../../../lib/domain/services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
-const { CpfBirthInformationValidation } = require('../../../../../lib/domain/services/certification-cpf-service');
-const CertificationCandidate = require('../../../../../lib/domain/models/CertificationCandidate');
-const { CERTIFICATION_SESSIONS_ERRORS } = require('../../../../../lib/domain/constants/sessions-errors');
-const SessionMassImportReport = require('../../../../../lib/domain/models/SessionMassImportReport');
+import { domainBuilder, expect, sinon } from '../../../../test-helper.js';
+import { validateSessions } from '../../../../../lib/domain/usecases/sessions-mass-import/validate-sessions.js';
+import * as sessionCodeService from '../../../../../lib/domain/services/session-code-service.js';
+import { Session } from '../../../../../lib/domain/models/Session.js';
+import * as sessionsImportValidationService from '../../../../../lib/domain/services/sessions-mass-import/sessions-import-validation-service.js';
+import * as temporarySessionsStorageForMassImportService from '../../../../../lib/domain/services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service.js';
+import { CpfBirthInformationValidation } from '../../../../../lib/domain/services/certification-cpf-service.js';
+import { CertificationCandidate } from '../../../../../lib/domain/models/CertificationCandidate.js';
+import { CERTIFICATION_SESSIONS_ERRORS } from '../../../../../lib/domain/constants/sessions-errors.js';
+import { SessionMassImportReport } from '../../../../../lib/domain/models/SessionMassImportReport.js';
 
 describe('Unit | UseCase | sessions-mass-import | validate-sessions', function () {
   let accessCode;

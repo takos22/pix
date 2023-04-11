@@ -1,9 +1,8 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
+import { sinon, expect, hFake } from '../../../test-helper.js';
 
-const controller = require('../../../../lib/application/assessments/assessment-controller');
-
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const Assessment = require('../../../../lib/domain/models/Assessment');
+import * as controller from '../../../../lib/application/assessments/assessment-controller.js';
+import * as assessmentRepository from '../../../../lib/infrastructure/repositories/assessment-repository.js';
+import { Assessment } from '../../../../lib/domain/models/Assessment.js';
 
 describe('Unit | Controller | assessment-controller-save', function () {
   describe('#save', function () {

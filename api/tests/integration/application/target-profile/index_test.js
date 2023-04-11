@@ -1,9 +1,9 @@
-const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const targetProfilesRouter = require('../../../../lib/application/target-profiles');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-const TargetProfileForAdminNewFormat = require('../../../../lib/domain/models/TargetProfileForAdminNewFormat');
+import { expect, sinon, domainBuilder, HttpTestServer } from '../../../test-helper.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
+import { targetProfilesRouter } from '../../../../lib/application/target-profiles.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
+import { TargetProfileForAdminNewFormat } from '../../../../lib/domain/models/TargetProfileForAdminNewFormat.js';
 
 describe('Integration | Application | Route | target-profile-router', function () {
   let httpTestServer;

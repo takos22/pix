@@ -1,10 +1,8 @@
-const { expect, hFake, sinon, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-
-const Course = require('../../../../lib/domain/models/Course');
-const courseService = require('../../../../lib/domain/services/course-service');
-const courseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
-
-const courseController = require('../../../../lib/application/courses/course-controller');
+import { expect, hFake, sinon, generateValidRequestAuthorizationHeader } from '../../../test-helper.js';
+import { Course } from '../../../../lib/domain/models/Course.js';
+import * as courseService from '../../../../lib/domain/services/course-service.js';
+import * as courseSerializer from '../../../../lib/infrastructure/serializers/jsonapi/course-serializer.js';
+import * as courseController from '../../../../lib/application/courses/course-controller.js';
 
 describe('Unit | Controller | course-controller', function () {
   beforeEach(function () {

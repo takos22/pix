@@ -1,6 +1,6 @@
-const { expect, domainBuilder, catchErrSync } = require('../../../../test-helper');
-const usecases = require('../../../../../lib/domain/usecases');
-const { DomainError } = require('../../../../../lib/domain/errors');
+import { expect, domainBuilder, catchErrSync } from '../../../../test-helper.js';
+import { usecases } from '../../../../../lib/domain/usecases.js';
+import { DomainError } from '../../../../../lib/domain/errors.js';
 
 describe('Unit | UseCases | delete-stage', function () {
   let stageCollection;

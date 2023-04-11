@@ -1,10 +1,10 @@
-const { sinon, expect } = require('../../../test-helper');
+import { sinon, expect } from '../../../test-helper.js';
 
-const userOrgaSettingsController = require('../../../../lib/application/user-orga-settings/user-orga-settings-controller');
+import * as userOrgaSettingsController from '../../../../lib/application/user-orga-settings/user-orga-settings-controller.js';
 
-const usecases = require('../../../../lib/domain/usecases/index.js');
+import { usecases } from '../../../../lib/domain/usecases/index.js';
 
-const userOrgaSettingsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-orga-settings-serializer');
+import * as userOrgaSettingsSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-orga-settings-serializer.js';
 
 describe('Unit | Controller | user-orga-settings-controller', function () {
   describe('#createOrUpdate', function () {

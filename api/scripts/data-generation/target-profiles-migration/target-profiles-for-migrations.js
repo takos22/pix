@@ -1,12 +1,17 @@
 require('dotenv').config({ path: `${__dirname}/../../../.env` });
 const fs = require('fs').promises;
-const _ = require('lodash');
-const papa = require('papaparse');
-const { performance } = require('perf_hooks');
-const logger = require('../../../lib/infrastructure/logger');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
-const { knex, disconnect } = require('../../../db/knex-database-connection');
-const DatabaseBuilder = require('../../../db/database-builder/database-builder');
+import _ from 'lodash';
+import papa from 'papaparse';
+import perf_hooks from 'perf_hooks';
+
+const {
+  performance
+} = perf_hooks;
+
+import { logger } from '../../../lib/infrastructure/logger.js';
+import { cache } from '../../../lib/infrastructure/caches/learning-content-cache.js';
+import { knex, disconnect } from '../../../db/knex-database-connection.js';
+import { DatabaseBuilder } from '../../../db/database-builder/database-builder.js';
 
 const HEADERS = {
   ID: 'id',
@@ -59,9 +64,9 @@ const allSkillIds = [
 let allSkills;
 let allTubes;
 async function _cacheLearningContentData() {
-  const skillRepository = require('../../../lib/infrastructure/repositories/skill-repository');
+  import * as skillRepository from '../../../lib/infrastructure/repositories/skill-repository.js';
   allSkills = await skillRepository.list();
-  const tubeRepository = require('../../../lib/infrastructure/repositories/tube-repository');
+  import * as tubeRepository from '../../../lib/infrastructure/repositories/tube-repository.js';
   allTubes = await tubeRepository.list();
 }
 
@@ -481,4 +486,4 @@ async function main() {
   }
 })();
 
-module.exports = { prepareData, doThingForPRO, checkData };
+export { prepareData, doThingForPRO, checkData };

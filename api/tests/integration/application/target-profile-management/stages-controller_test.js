@@ -1,7 +1,7 @@
-const _ = require('lodash');
-const { expect, hFake, databaseBuilder, knex } = require('../../../test-helper');
-const stagesController = require('../../../../lib/application/target-profile-management/stages-controller');
-const stageCollectionRepository = require('../../../../lib/infrastructure/repositories/target-profile-management/stage-collection-repository');
+import _ from 'lodash';
+import { expect, hFake, databaseBuilder, knex } from '../../../test-helper.js';
+import * as stagesController from '../../../../lib/application/target-profile-management/stages-controller.js';
+import * as stageCollectionRepository from '../../../../lib/infrastructure/repositories/target-profile-management/stage-collection-repository.js';
 
 describe('Integration | Application | Target Profile Management | stages-controller', function () {
   describe('#create', function () {

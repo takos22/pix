@@ -1,8 +1,8 @@
-const handleTrainingRecommendation = require('../../../../lib/domain/usecases/handle-training-recommendation');
-const trainingRepository = require('../../../../lib/infrastructure/repositories/training-repository');
-const userRecommendedTrainingRepository = require('../../../../lib/infrastructure/repositories/user-recommended-training-repository');
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const config = require('../../../../lib/config.js');
+import { handleTrainingRecommendation } from '../../../../lib/domain/usecases/handle-training-recommendation.js';
+import * as trainingRepository from '../../../../lib/infrastructure/repositories/training-repository.js';
+import * as userRecommendedTrainingRepository from '../../../../lib/infrastructure/repositories/user-recommended-training-repository.js';
+import { expect, sinon, domainBuilder } from '../../../test-helper.js';
+import { config } from '../../../../lib/config.js';
 
 describe('Unit | UseCase | handle-training-recommendation', function () {
   let findWithTriggersByCampaignParticipationIdAndLocaleStub;

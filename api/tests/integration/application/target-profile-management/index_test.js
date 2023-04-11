@@ -1,12 +1,13 @@
-const {
+import {
   expect,
   sinon,
   HttpTestServer,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
-const stagesController = require('../../../../lib/application/target-profile-management/stages-controller');
-const moduleUnderTest = require('../../../../lib/application/target-profile-management');
+} from '../../../test-helper.js';
+
+import * as stagesController from '../../../../lib/application/target-profile-management/stages-controller.js';
+import { moduleUnderTest } from '../../../../lib/application/target-profile-management.js';
 
 describe('Integration | Application | Target Profile Management | Routes', function () {
   describe('POST /api/admin/stages', function () {

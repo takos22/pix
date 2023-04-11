@@ -1,10 +1,10 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
+import { sinon, expect, hFake } from '../../../test-helper.js';
 
-const assessmentResultController = require('../../../../lib/application/assessment-results/assessment-result-controller');
-const assessmentResultService = require('../../../../lib/domain/services/assessment-result-service');
+import * as assessmentResultController from '../../../../lib/application/assessment-results/assessment-result-controller.js';
+import * as assessmentResultService from '../../../../lib/domain/services/assessment-result-service.js';
 
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
+import { AssessmentResult } from '../../../../lib/domain/models/AssessmentResult.js';
+import { CompetenceMark } from '../../../../lib/domain/models/CompetenceMark.js';
 
 describe('Unit | Controller | assessment-results', function () {
   describe('#save', function () {

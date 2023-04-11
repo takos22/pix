@@ -1,12 +1,12 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
-const trainingController = require('../../../../lib/application/trainings/training-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const trainingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-serializer');
-const trainingSummarySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-summary-serializer');
-const trainingTriggerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-trigger-serializer');
-const targetProfileSummaryForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer');
-const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-const TrainingTrigger = require('../../../../lib/domain/models/TrainingTrigger');
+import { sinon, expect, hFake } from '../../../test-helper.js';
+import * as trainingController from '../../../../lib/application/trainings/training-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import * as trainingSerializer from '../../../../lib/infrastructure/serializers/jsonapi/training-serializer.js';
+import * as trainingSummarySerializer from '../../../../lib/infrastructure/serializers/jsonapi/training-summary-serializer.js';
+import * as trainingTriggerSerializer from '../../../../lib/infrastructure/serializers/jsonapi/training-trigger-serializer.js';
+import * as targetProfileSummaryForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
+import { queryParamsUtils } from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
 
 describe('Unit | Controller | training-controller', function () {
   describe('#findPaginatedTrainingSummaries', function () {

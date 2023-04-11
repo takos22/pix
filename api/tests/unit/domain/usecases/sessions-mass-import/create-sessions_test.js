@@ -1,9 +1,9 @@
-const { expect, sinon, catchErr, domainBuilder } = require('../../../../test-helper');
-const { NotFoundError } = require('../../../../../lib/domain/errors');
-const createSessions = require('../../../../../lib/domain/usecases/sessions-mass-import/create-sessions');
-const temporarySessionsStorageForMassImportService = require('../../../../../lib/domain/services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service');
-const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
-const Session = require('../../../../../lib/domain/models/Session');
+import { expect, sinon, catchErr, domainBuilder } from '../../../../test-helper.js';
+import { NotFoundError } from '../../../../../lib/domain/errors.js';
+import { createSessions } from '../../../../../lib/domain/usecases/sessions-mass-import/create-sessions.js';
+import * as temporarySessionsStorageForMassImportService from '../../../../../lib/domain/services/sessions-mass-import/temporary-sessions-storage-for-mass-import-service.js';
+import { DomainTransaction } from '../../../../../lib/infrastructure/DomainTransaction.js';
+import { Session } from '../../../../../lib/domain/models/Session.js';
 
 describe('Unit | UseCase | sessions-mass-import | create-sessions', function () {
   let certificationCandidateRepository;

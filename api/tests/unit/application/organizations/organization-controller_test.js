@@ -1,38 +1,30 @@
-const {
-  domainBuilder,
-  expect,
-  generateValidRequestAuthorizationHeader,
-  hFake,
-  sinon,
-} = require('../../../test-helper');
+import { domainBuilder, expect, generateValidRequestAuthorizationHeader, hFake, sinon } from '../../../test-helper.js';
 
-const Organization = require('../../../../lib/domain/models/Organization');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
-const Membership = require('../../../../lib/domain/models/Membership');
-const ScoOrganizationParticipant = require('../../../../lib/domain/read-models/ScoOrganizationParticipant');
-const SupOrganizationParticipant = require('../../../../lib/domain/read-models/SupOrganizationParticipant');
+import { Organization } from '../../../../lib/domain/models/Organization.js';
+import { OrganizationInvitation } from '../../../../lib/domain/models/OrganizationInvitation.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { ScoOrganizationParticipant } from '../../../../lib/domain/read-models/ScoOrganizationParticipant.js';
+import { SupOrganizationParticipant } from '../../../../lib/domain/read-models/SupOrganizationParticipant.js';
 
-const organizationController = require('../../../../lib/application/organizations/organization-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const tokenService = require('../../../../lib/domain/services/token-service');
-
-const campaignManagementSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-management-serializer');
-const campaignReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer');
-const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
-const organizationParticipantsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/organization-participants-serializer');
-const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
-const organizationPlacesLotManagementSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer');
-const organizationPlacesLotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer');
-const organizationForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer');
-const TargetProfileForSpecifierSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
-const organizationMemberIdentitySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-member-identity-serializer');
-const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
-const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
-
-const { getI18n } = require('../../../tooling/i18n/i18n');
-const scoOrganizationParticipantsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/sco-organization-participants-serializer');
-const supOrganizationParticipantsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/sup-organization-participants-serializer');
+import * as organizationController from '../../../../lib/application/organizations/organization-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import * as tokenService from '../../../../lib/domain/services/token-service.js';
+import * as campaignManagementSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-management-serializer.js';
+import * as campaignReportSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer.js';
+import * as organizationInvitationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer.js';
+import * as organizationParticipantsSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization/organization-participants-serializer.js';
+import * as organizationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization-serializer.js';
+import * as organizationPlacesLotManagementSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer.js';
+import * as organizationPlacesLotSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer.js';
+import * as organizationForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer.js';
+import * as TargetProfileForSpecifierSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer.js';
+import * as organizationMemberIdentitySerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization-member-identity-serializer.js';
+import { certificationResultUtils } from '../../../../lib/infrastructure/utils/csv/certification-results.js';
+import { queryParamsUtils } from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import { certificationAttestationPdf } from '../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
+import { getI18n } from '../../../tooling/i18n/i18n.js';
+import * as scoOrganizationParticipantsSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization/sco-organization-participants-serializer.js';
+import * as supOrganizationParticipantsSerializer from '../../../../lib/infrastructure/serializers/jsonapi/organization/sup-organization-participants-serializer.js';
 
 describe('Unit | Application | Organizations | organization-controller', function () {
   let request;

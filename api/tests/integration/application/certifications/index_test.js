@@ -1,10 +1,10 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
+import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 
-const moduleUnderTest = require('../../../../lib/application/certifications');
+import { moduleUnderTest } from '../../../../lib/application/certifications.js';
 
-const certificationController = require('../../../../lib/application/certifications/certification-controller');
+import * as certificationController from '../../../../lib/application/certifications/certification-controller.js';
 
 describe('Integration | Application | Route | Certifications', function () {
   let httpTestServer;

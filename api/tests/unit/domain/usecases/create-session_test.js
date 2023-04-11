@@ -1,10 +1,15 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const { noop } = require('lodash/noop');
-const createSession = require('../../../../lib/domain/usecases/create-session');
-const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
-const sessionValidator = require('../../../../lib/domain/validators/session-validator');
-const { ForbiddenAccess } = require('../../../../lib/domain/errors');
-const Session = require('../../../../lib/domain/models/Session');
+import { expect, sinon, catchErr } from '../../../test-helper.js';
+import lodash/noop from 'lodash/noop';
+
+const {
+  noop
+} = lodash/noop;
+
+import { createSession } from '../../../../lib/domain/usecases/create-session.js';
+import * as sessionCodeService from '../../../../lib/domain/services/session-code-service.js';
+import { sessionValidator } from '../../../../lib/domain/validators/session-validator.js';
+import { ForbiddenAccess } from '../../../../lib/domain/errors.js';
+import { Session } from '../../../../lib/domain/models/Session.js';
 
 describe('Unit | UseCase | create-session', function () {
   describe('#save', function () {

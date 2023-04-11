@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
+import { expect, sinon } from '../../../test-helper.js';
 
-const organizationInvitationService = require('../../../../lib/domain/services/organization-invitation-service');
-const resendOrganizationInvitation = require('../../../../lib/domain/usecases/resend-organization-invitation');
+import * as organizationInvitationService from '../../../../lib/domain/services/organization-invitation-service.js';
+import { resendOrganizationInvitation } from '../../../../lib/domain/usecases/resend-organization-invitation.js';
 
 describe('Unit | UseCase | resend-organization-invitation', function () {
   describe('#resendOrganizationInvitation', function () {

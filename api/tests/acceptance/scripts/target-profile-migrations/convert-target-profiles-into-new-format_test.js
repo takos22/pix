@@ -1,8 +1,7 @@
-const { expect, databaseBuilder, sinon, mockLearningContent } = require('../../../test-helper');
-const { knex } = require('../../../../db/knex-database-connection');
-const logger = require('../../../../lib/infrastructure/logger');
-
-const { doJob } = require('../../../../scripts/prod/target-profile-migrations/convert-target-profiles-into-new-format');
+import { expect, databaseBuilder, sinon, mockLearningContent } from '../../../test-helper.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { logger } from '../../../../lib/infrastructure/logger.js';
+import { doJob } from '../../../../scripts/prod/target-profile-migrations/convert-target-profiles-into-new-format.js';
 
 describe('Acceptance | Scripts | convert-target-profiles-into-new-format', function () {
   it('should execute the script as expected', async function () {

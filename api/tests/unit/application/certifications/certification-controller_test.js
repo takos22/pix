@@ -1,12 +1,12 @@
-const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
+import { expect, sinon, domainBuilder, hFake } from '../../../test-helper.js';
 
-const certificationController = require('../../../../lib/application/certifications/certification-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
-const events = require('../../../../lib/domain/events/index.js');
-const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
-const ChallengeDeneutralized = require('../../../../lib/domain/events/ChallengeDeneutralized');
-const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
+import * as certificationController from '../../../../lib/application/certifications/certification-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { certificationAttestationPdf } from '../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf.js';
+import { events } from '../../../../lib/domain/events/index.js';
+import { ChallengeNeutralized } from '../../../../lib/domain/events/ChallengeNeutralized.js';
+import { ChallengeDeneutralized } from '../../../../lib/domain/events/ChallengeDeneutralized.js';
+import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 
 describe('Unit | Controller | certifications-controller', function () {
   describe('#findUserCertifications', function () {

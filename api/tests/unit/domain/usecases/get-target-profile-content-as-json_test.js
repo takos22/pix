@@ -1,7 +1,7 @@
-const { expect, sinon, catchErr, domainBuilder, MockDate } = require('../../../test-helper');
-const { ForbiddenAccess } = require('../../../../lib/domain/errors');
-const learningContentConversionService = require('../../../../lib/domain/services/learning-content/learning-content-conversion-service');
-const getTargetProfileContentAsJson = require('../../../../lib/domain/usecases/get-target-profile-content-as-json');
+import { expect, sinon, catchErr, domainBuilder, MockDate } from '../../../test-helper.js';
+import { ForbiddenAccess } from '../../../../lib/domain/errors.js';
+import * as learningContentConversionService from '../../../../lib/domain/services/learning-content/learning-content-conversion-service.js';
+import { getTargetProfileContentAsJson } from '../../../../lib/domain/usecases/get-target-profile-content-as-json.js';
 
 describe('Unit | UseCase | get-target-profile-content-as-json', function () {
   let targetProfileForAdminRepository;

@@ -1,8 +1,8 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const moduleUnderTest = require('../../../../lib/application/cache');
-const cacheController = require('../../../../lib/application/cache/cache-controller');
+import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
+import { moduleUnderTest } from '../../../../lib/application/cache.js';
+import * as cacheController from '../../../../lib/application/cache/cache-controller.js';
 
 describe('Unit | Router | cache-router', function () {
   describe('PATCH /api/cache/{model}/{id}', function () {

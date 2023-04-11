@@ -1,11 +1,11 @@
-const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
+import { expect, sinon, domainBuilder, hFake } from '../../../test-helper.js';
 
-const answerController = require('../../../../lib/application/answers/answer-controller');
-const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
-const answerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
-const correctionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/correction-serializer');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
+import * as answerController from '../../../../lib/application/answers/answer-controller.js';
+import * as answerRepository from '../../../../lib/infrastructure/repositories/answer-repository.js';
+import * as answerSerializer from '../../../../lib/infrastructure/serializers/jsonapi/answer-serializer.js';
+import * as correctionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/correction-serializer.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 
 describe('Unit | Controller | answer-controller', function () {
   beforeEach(function () {

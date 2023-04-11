@@ -1,17 +1,17 @@
-const { sinon, expect, domainBuilder, hFake, catchErr } = require('../../../test-helper');
+import { sinon, expect, domainBuilder, hFake, catchErr } from '../../../test-helper.js';
 
-const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
+import * as campaignController from '../../../../lib/application/campaigns/campaign-controller.js';
+import * as campaignAnalysisSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-analysis-serializer.js';
+import * as campaignReportSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer.js';
+import * as campaignCollectiveResultSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-collective-result-serializer.js';
+import * as campaignParticipantsActivitySerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-participant-activity-serializer.js';
+import * as tokenService from '../../../../lib/domain/services/token-service.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import { UserNotAuthorizedToAccessEntityError, ForbiddenAccess } from '../../../../lib/domain/errors.js';
+import { queryParamsUtils } from '../../../../lib/infrastructure/utils/query-params-utils.js';
+import { LOCALE } from '../../../../lib/domain/constants.js';
 
-const campaignAnalysisSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-analysis-serializer');
-const campaignReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer');
-const campaignCollectiveResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
-const campaignParticipantsActivitySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participant-activity-serializer');
-
-const tokenService = require('../../../../lib/domain/services/token-service');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const { UserNotAuthorizedToAccessEntityError, ForbiddenAccess } = require('../../../../lib/domain/errors');
-const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+const { FRENCH_SPOKEN } = LOCALE;
 
 describe('Unit | Application | Controller | Campaign', function () {
   describe('#save', function () {

@@ -1,8 +1,8 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const trainingController = require('../../../../lib/application/trainings/training-controller');
-const moduleUnderTest = require('../../../../lib/application/trainings');
+import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
+import * as trainingController from '../../../../lib/application/trainings/training-controller.js';
+import { moduleUnderTest } from '../../../../lib/application/trainings.js';
 
 describe('Unit | Router | training-router', function () {
   describe('GET /api/admin/trainings/${trainingId}', function () {

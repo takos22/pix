@@ -1,8 +1,8 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const { createOrganization } = require('../../../../lib/domain/usecases/index.js');
-const OrganizationForAdmin = require('../../../../lib/domain/models/OrganizationForAdmin');
-const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
+import { expect, sinon, catchErr } from '../../../test-helper.js';
+import { createOrganization } from '../../../../lib/domain/usecases/index.js';
+import { OrganizationForAdmin } from '../../../../lib/domain/models/OrganizationForAdmin.js';
+import { organizationCreationValidator } from '../../../../lib/domain/validators/organization-creation-validator.js';
+import { EntityValidationError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | UseCase | create-organization', function () {
   beforeEach(function () {

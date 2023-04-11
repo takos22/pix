@@ -1,10 +1,10 @@
-const { expect, HttpTestServer, sinon } = require('../../../test-helper');
+import { expect, HttpTestServer, sinon } from '../../../test-helper.js';
 
-const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
+import * as securityPreHandlers from '../../../../lib/application/security-pre-handlers.js';
 
-const moduleUnderTest = require('../../../../lib/application/memberships');
+import { moduleUnderTest } from '../../../../lib/application/memberships.js';
 
-const membershipController = require('../../../../lib/application/memberships/membership-controller');
+import * as membershipController from '../../../../lib/application/memberships/membership-controller.js';
 
 describe('Unit | Router | membership-router', function () {
   describe('PATCH /api/admin/memberships/{id}', function () {

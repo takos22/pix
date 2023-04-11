@@ -1,10 +1,10 @@
-const { expect, sinon, hFake, domainBuilder } = require('../../../test-helper');
+import { expect, sinon, hFake, domainBuilder } from '../../../test-helper.js';
 
-const membershipController = require('../../../../lib/application/memberships/membership-controller');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const membershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
-const Membership = require('../../../../lib/domain/models/Membership');
-const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
+import * as membershipController from '../../../../lib/application/memberships/membership-controller.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import * as membershipSerializer from '../../../../lib/infrastructure/serializers/jsonapi/membership-serializer.js';
+import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { requestResponseUtils } from '../../../../lib/infrastructure/utils/request-response-utils.js';
 
 describe('Unit | Controller | membership-controller', function () {
   describe('#create', function () {

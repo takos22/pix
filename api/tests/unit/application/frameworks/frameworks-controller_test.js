@@ -1,8 +1,8 @@
-const { expect, sinon } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases/index.js');
-const frameworkAreasSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/framework-areas-serializer');
-const frameworkSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/framework-serializer');
-const frameworksController = require('../../../../lib/application/frameworks/frameworks-controller');
+import { expect, sinon } from '../../../test-helper.js';
+import { usecases } from '../../../../lib/domain/usecases/index.js';
+import * as frameworkAreasSerializer from '../../../../lib/infrastructure/serializers/jsonapi/framework-areas-serializer.js';
+import * as frameworkSerializer from '../../../../lib/infrastructure/serializers/jsonapi/framework-serializer.js';
+import * as frameworksController from '../../../../lib/application/frameworks/frameworks-controller.js';
 
 describe('Unit | Controller | frameworks-controller', function () {
   let frameworks;

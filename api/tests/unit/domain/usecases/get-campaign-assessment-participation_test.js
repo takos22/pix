@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const getCampaignAssessmentParticipation = require('../../../../lib/domain/usecases/get-campaign-assessment-participation');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
-const CampaignAssessmentParticipation = require('../../../../lib/domain/read-models/CampaignAssessmentParticipation');
-const stageCollectionRepository = require('../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository');
+import { expect, sinon, domainBuilder, catchErr } from '../../../test-helper.js';
+import { getCampaignAssessmentParticipation } from '../../../../lib/domain/usecases/get-campaign-assessment-participation.js';
+import { UserNotAuthorizedToAccessEntityError } from '../../../../lib/domain/errors.js';
+import { CampaignAssessmentParticipation } from '../../../../lib/domain/read-models/CampaignAssessmentParticipation.js';
+import * as stageCollectionRepository from '../../../../lib/infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 
 describe('Unit | UseCase | get-campaign-assessment-participation', function () {
   let campaignRepository, campaignAssessmentParticipationRepository, badgeAcquisitionRepository;

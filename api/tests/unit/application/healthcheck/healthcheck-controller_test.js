@@ -1,8 +1,8 @@
-const { expect, sinon, hFake } = require('../../../test-helper');
-const { knex } = require('../../../../db/knex-database-connection');
-const { redisMonitor } = require('../../../../lib/infrastructure/utils/redis-monitor');
+import { expect, sinon, hFake } from '../../../test-helper.js';
+import { knex } from '../../../../db/knex-database-connection.js';
+import { redisMonitor } from '../../../../lib/infrastructure/utils/redis-monitor.js';
 
-const healthcheckController = require('../../../../lib/application/healthcheck/healthcheck-controller');
+import * as healthcheckController from '../../../../lib/application/healthcheck/healthcheck-controller.js';
 
 describe('Unit | Controller | healthcheckController', function () {
   describe('#get', function () {

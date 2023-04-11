@@ -1,7 +1,7 @@
-const { expect, catchErr } = require('../../../test-helper');
-const TargetProfileForUpdate = require('../../../../lib/domain/models/TargetProfileForUpdate');
-const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
+import { expect, catchErr } from '../../../test-helper.js';
+import { TargetProfileForUpdate } from '../../../../lib/domain/models/TargetProfileForUpdate.js';
+import { TargetProfile } from '../../../../lib/domain/models/TargetProfile.js';
+import { EntityValidationError } from '../../../../lib/domain/errors.js';
 
 describe('Unit | Domain | Models | TargetProfileForUpdate', function () {
   describe('#update', function () {
