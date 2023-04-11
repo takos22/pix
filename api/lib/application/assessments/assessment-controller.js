@@ -15,11 +15,11 @@ import {
 import { Examiner } from '../../domain/models/Examiner.js';
 import { ValidatorAlwaysOK } from '../../domain/models/ValidatorAlwaysOK.js';
 
-const save = async function (request, h) {
+const save = async function (request, h, dependencies = { assessmentRepository }) {
   const assessment = assessmentSerializer.deserialize(request.payload);
   assessment.userId = extractUserIdFromRequest(request);
   assessment.state = 'started';
-  const createdAssessment = await assessmentRepository.save({ assessment });
+  const createdAssessment = await dependencies.assessmentRepository.save({ assessment });
   return h.response(assessmentSerializer.serialize(createdAssessment)).created();
 };
 
