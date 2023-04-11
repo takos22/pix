@@ -9,10 +9,17 @@ const getIdentityProviders = async function (request, h) {
   return h.response(serializer.serialize(identityProviders)).code(200);
 };
 
-const getRedirectLogoutUrl = async function (request, h) {
+const getRedirectLogoutUrl = async function (
+  request,
+  h,
+  dependencies = {
+    authenticationServiceRegistry,
+  }
+) {
   const userId = request.auth.credentials.userId;
   const { identity_provider: identityProvider, logout_url_uuid: logoutUrlUUID } = request.query;
-  const oidcAuthenticationService = authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
+  const oidcAuthenticationService =
+    dependencies.authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
   const redirectLogoutUrl = await oidcAuthenticationService.getRedirectLogoutUrl({
     userId,
     logoutUrlUUID,
@@ -21,7 +28,13 @@ const getRedirectLogoutUrl = async function (request, h) {
   return h.response({ redirectLogoutUrl }).code(200);
 };
 
-const findUserForReconciliation = async function (request, h) {
+const findUserForReconciliation = async function (
+  request,
+  h,
+  dependencies = {
+    oidcSerializer,
+  }
+) {
   const { email, password, identityProvider, authenticationKey } = request.deserializedPayload;
 
   const result = await usecases.findUserForOidcReconciliation({
@@ -31,12 +44,19 @@ const findUserForReconciliation = async function (request, h) {
     authenticationKey,
   });
 
-  return h.response(oidcSerializer.serialize(result)).code(200);
+  return h.response(dependencies.oidcSerializer.serialize(result)).code(200);
 };
 
-const reconcileUser = async function (request, h) {
+const reconcileUser = async function (
+  request,
+  h,
+  dependencies = {
+    authenticationServiceRegistry,
+  }
+) {
   const { identityProvider, authenticationKey } = request.deserializedPayload;
-  const oidcAuthenticationService = authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
+  const oidcAuthenticationService =
+    dependencies.authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
 
   const result = await usecases.reconcileOidcUser({
     authenticationKey,
@@ -46,17 +66,31 @@ const reconcileUser = async function (request, h) {
   return h.response({ access_token: result.accessToken, logout_url_uuid: result.logoutUrlUUID }).code(200);
 };
 
-const getAuthenticationUrl = async function (request, h) {
+const getAuthenticationUrl = async function (
+  request,
+  h,
+  dependencies = {
+    authenticationServiceRegistry,
+  }
+) {
   const { identity_provider: identityProvider } = request.query;
-  const oidcAuthenticationService = authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
+  const oidcAuthenticationService =
+    dependencies.authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
   const result = oidcAuthenticationService.getAuthenticationUrl({ redirectUri: request.query['redirect_uri'] });
   return h.response(result).code(200);
 };
 
-const authenticateUser = async function (request, h) {
+const authenticateUser = async function (
+  request,
+  h,
+  dependencies = {
+    authenticationServiceRegistry,
+  }
+) {
   const { code, identityProvider, redirectUri, stateSent, stateReceived } = request.deserializedPayload;
 
-  const oidcAuthenticationService = authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
+  const oidcAuthenticationService =
+    dependencies.authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
 
   const result = await usecases.authenticateOidcUser({
     code,
@@ -77,11 +111,18 @@ const authenticateUser = async function (request, h) {
   }
 };
 
-const createUser = async function (request, h) {
+const createUser = async function (
+  request,
+  h,
+  dependencies = {
+    authenticationServiceRegistry,
+  }
+) {
   const { identityProvider, authenticationKey } = request.deserializedPayload;
   const localeFromCookie = request.state?.locale;
 
-  const oidcAuthenticationService = await authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
+  const oidcAuthenticationService =
+    dependencies.authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
   const { accessToken, logoutUrlUUID } = await usecases.createOidcUser({
     authenticationKey,
     identityProvider,
