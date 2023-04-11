@@ -106,25 +106,37 @@ const getDivisions = async function (request) {
   return divisionSerializer.serialize(divisions);
 };
 
-const findCertificationCenterMembershipsByCertificationCenter = async function (request) {
+const findCertificationCenterMembershipsByCertificationCenter = async function (
+  request,
+  h,
+  dependencies = { certificationCenterMembershipSerializer }
+) {
   const certificationCenterId = request.params.certificationCenterId;
   const certificationCenterMemberships = await usecases.findCertificationCenterMembershipsByCertificationCenter({
     certificationCenterId,
   });
 
-  return certificationCenterMembershipSerializer.serialize(certificationCenterMemberships);
+  return dependencies.certificationCenterMembershipSerializer.serialize(certificationCenterMemberships);
 };
 
-const findCertificationCenterMemberships = async function (request) {
+const findCertificationCenterMemberships = async function (
+  request,
+  h,
+  dependencies = { certificationCenterMembershipSerializer }
+) {
   const certificationCenterId = request.params.certificationCenterId;
   const certificationCenterMemberships = await usecases.findCertificationCenterMembershipsByCertificationCenter({
     certificationCenterId,
   });
 
-  return certificationCenterMembershipSerializer.serializeMembers(certificationCenterMemberships);
+  return dependencies.certificationCenterMembershipSerializer.serializeMembers(certificationCenterMemberships);
 };
 
-const createCertificationCenterMembershipByEmail = async function (request, h) {
+const createCertificationCenterMembershipByEmail = async function (
+  request,
+  h,
+  dependencies = { certificationCenterMembershipSerializer }
+) {
   const certificationCenterId = request.params.certificationCenterId;
   const { email } = request.payload;
 
@@ -132,7 +144,9 @@ const createCertificationCenterMembershipByEmail = async function (request, h) {
     certificationCenterId,
     email,
   });
-  return h.response(certificationCenterMembershipSerializer.serialize(certificationCenterMembership)).created();
+  return h
+    .response(dependencies.certificationCenterMembershipSerializer.serialize(certificationCenterMembership))
+    .created();
 };
 
 const findPendingInvitationsForAdmin = async function (request, h) {
@@ -156,7 +170,7 @@ const updateReferer = async function (request, h) {
   return h.response().code(204);
 };
 
-const sendInvitationForAdmin = async function (request, h) {
+const sendInvitationForAdmin = async function (request, h, dependencies = { certificationCenterInvitationSerializer }) {
   const certificationCenterId = request.params.certificationCenterId;
   const invitationInformation = await certificationCenterInvitationSerializer.deserializeForAdmin(request.payload);
 
@@ -168,7 +182,7 @@ const sendInvitationForAdmin = async function (request, h) {
     });
 
   const serializedCertificationCenterInvitation =
-    certificationCenterInvitationSerializer.serializeForAdmin(certificationCenterInvitation);
+    dependencies.certificationCenterInvitationSerializer.serializeForAdmin(certificationCenterInvitation);
   if (isInvitationCreated) {
     return h.response(serializedCertificationCenterInvitation).created();
   }
@@ -192,15 +206,15 @@ const getSessionsImportTemplate = async function (request, h) {
     .code(200);
 };
 
-const validateSessionsForMassImport = async function (request, h) {
+const validateSessionsForMassImport = async function (request, h, dependencies = { csvHelpers, csvSerializer }) {
   const certificationCenterId = request.params.certificationCenterId;
   const authenticatedUserId = request.auth.credentials.userId;
 
-  const parsedCsvData = await csvHelpers.parseCsvWithHeader(request.payload.path);
+  const parsedCsvData = await dependencies.csvHelpers.parseCsvWithHeader(request.payload.path);
   if (parsedCsvData.length === 0) {
     throw new UnprocessableEntityError('No session data in csv');
   }
-  const sessions = csvSerializer.deserializeForSessionsImport(parsedCsvData);
+  const sessions = dependencies.csvSerializer.deserializeForSessionsImport(parsedCsvData);
   const sessionMassImportReport = await usecases.validateSessions({
     sessions,
     certificationCenterId,

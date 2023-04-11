@@ -196,10 +196,12 @@ describe('Unit | Controller | certifications-center-controller', function () {
         certificationCenterId,
       },
     };
-
+    let certificationCenterMembershipSerializerStub;
     beforeEach(function () {
       sinon.stub(usecases, 'findCertificationCenterMembershipsByCertificationCenter');
-      sinon.stub(certificationCenterMembershipSerializer, 'serialize');
+      certificationCenterMembershipSerializerStub = {
+        serialize: sinon.stub(),
+      };
     });
 
     it('should call usecase and serializer and return ok', async function () {
@@ -209,11 +211,13 @@ describe('Unit | Controller | certifications-center-controller', function () {
           certificationCenterId,
         })
         .resolves({});
-      certificationCenterMembershipSerializer.serialize.withArgs({}).returns('ok');
+      certificationCenterMembershipSerializerStub.serialize.withArgs({}).returns('ok');
 
       // when
       const response = await certificationCenterController.findCertificationCenterMembershipsByCertificationCenter(
-        request
+        request,
+        hFake,
+        { certificationCenterMembershipSerializer: certificationCenterMembershipSerializerStub }
       );
 
       // then
@@ -245,13 +249,17 @@ describe('Unit | Controller | certifications-center-controller', function () {
         })
         .resolves(certificationCenterMembership);
 
-      sinon
-        .stub(certificationCenterMembershipSerializer, 'serializeMembers')
+      const certificationCenterMembershipSerializerStub = {
+        serializeMembers: sinon.stub(),
+      };
+      certificationCenterMembershipSerializerStub.serializeMembers
         .withArgs(certificationCenterMembership)
         .returns(serializedCertificationCenterMembership);
 
       // when
-      const response = await certificationCenterController.findCertificationCenterMemberships(request);
+      const response = await certificationCenterController.findCertificationCenterMemberships(request, hFake, {
+        certificationCenterMembershipSerializer: certificationCenterMembershipSerializerStub,
+      });
 
       // then
       expect(usecases.findCertificationCenterMembershipsByCertificationCenter).to.have.been.calledOnce;
@@ -268,17 +276,21 @@ describe('Unit | Controller | certifications-center-controller', function () {
       payload: { email },
     };
 
+    let certificationCenterMembershipSerializerStub;
+
     beforeEach(function () {
       sinon.stub(usecases, 'createCertificationCenterMembershipByEmail');
-      sinon.stub(certificationCenterMembershipSerializer, 'serialize');
-
+      certificationCenterMembershipSerializerStub = {
+        serialize: sinon.stub().returns('ok'),
+      };
       usecases.createCertificationCenterMembershipByEmail.resolves();
-      certificationCenterMembershipSerializer.serialize.returns('ok');
     });
 
     it('should call usecase and serializer and return 201 HTTP code', async function () {
       // when
-      const response = await certificationCenterController.createCertificationCenterMembershipByEmail(request, hFake);
+      const response = await certificationCenterController.createCertificationCenterMembershipByEmail(request, hFake, {
+        certificationCenterMembershipSerializer: certificationCenterMembershipSerializerStub,
+      });
 
       // then
       expect(usecases.createCertificationCenterMembershipByEmail).calledWith({ certificationCenterId, email });
@@ -389,10 +401,14 @@ describe('Unit | Controller | certifications-center-controller', function () {
   });
 
   describe('#sendInvitationForAdmin', function () {
+    let certificationCenterInvitationSerializerStub;
     beforeEach(function () {
-      sinon.stub(certificationCenterInvitationSerializer, 'deserializeForAdmin');
+      certificationCenterInvitationSerializerStub = {
+        deserializeForAdmin: sinon.stub(),
+        serializeForAdmin: sinon.stub(),
+      };
+
       sinon.stub(usecases, 'createOrUpdateCertificationCenterInvitationForAdmin');
-      sinon.stub(certificationCenterInvitationSerializer, 'serializeForAdmin');
     });
 
     it('should return 201 HTTP status code with data if there isn’t an already pending invitation', async function () {
@@ -410,7 +426,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
         },
       };
 
-      certificationCenterInvitationSerializer.deserializeForAdmin.withArgs(payload).resolves({
+      certificationCenterInvitationSerializerStub.deserializeForAdmin.withArgs(payload).resolves({
         email,
         language,
       });
@@ -425,7 +441,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
           isInvitationCreated: true,
         });
       const serializedData = Symbol();
-      certificationCenterInvitationSerializer.serializeForAdmin.withArgs('an invitation').returns(serializedData);
+      certificationCenterInvitationSerializerStub.serializeForAdmin.withArgs('an invitation').returns(serializedData);
 
       // when
       const response = await certificationCenterController.sendInvitationForAdmin(
@@ -433,7 +449,10 @@ describe('Unit | Controller | certifications-center-controller', function () {
           params: { certificationCenterId },
           payload,
         },
-        hFake
+        hFake,
+        {
+          certificationCenterInvitationSerializer: certificationCenterInvitationSerializerStub,
+        }
       );
 
       // then
@@ -446,13 +465,13 @@ describe('Unit | Controller | certifications-center-controller', function () {
       const email = 'some.user@example.net';
       const language = 'fr-fr';
 
-      certificationCenterInvitationSerializer.deserializeForAdmin.resolves({ email, language });
+      certificationCenterInvitationSerializerStub.deserializeForAdmin.resolves({ email, language });
       usecases.createOrUpdateCertificationCenterInvitationForAdmin.resolves({
         certificationCenterInvitation: 'an invitation',
         isInvitationCreated: false,
       });
       const serializedData = Symbol();
-      certificationCenterInvitationSerializer.serializeForAdmin.returns(serializedData);
+      certificationCenterInvitationSerializerStub.serializeForAdmin.returns(serializedData);
 
       // when
       const response = await certificationCenterController.sendInvitationForAdmin(
@@ -468,7 +487,10 @@ describe('Unit | Controller | certifications-center-controller', function () {
             },
           },
         },
-        hFake
+        hFake,
+        {
+          certificationCenterInvitationSerializer: certificationCenterInvitationSerializerStub,
+        }
       );
 
       // then
@@ -487,16 +509,21 @@ describe('Unit | Controller | certifications-center-controller', function () {
       };
       const cachedValidatedSessionsKey = 'uuid';
 
-      sinon.stub(csvHelpers, 'parseCsvWithHeader');
-      sinon.stub(csvSerializer, 'deserializeForSessionsImport');
-      sinon.stub(usecases, 'validateSessions');
+      const csvHelpersStub = {
+        parseCsvWithHeader: sinon.stub().resolves(['result data']),
+      };
+      const csvSerializerStub = {
+        deserializeForSessionsImport: sinon.stub().returns(['session']),
+      };
 
-      csvHelpers.parseCsvWithHeader.resolves(['result data']);
-      csvSerializer.deserializeForSessionsImport.returns(['session']);
+      sinon.stub(usecases, 'validateSessions');
       usecases.validateSessions.resolves({ cachedValidatedSessionsKey });
 
       // when
-      await certificationCenterController.validateSessionsForMassImport(request, hFake);
+      await certificationCenterController.validateSessionsForMassImport(request, hFake, {
+        csvHelpers: csvHelpersStub,
+        csvSerializer: csvSerializerStub,
+      });
 
       // then
       expect(usecases.validateSessions).to.have.been.calledWith({
@@ -518,12 +545,15 @@ describe('Unit | Controller | certifications-center-controller', function () {
       const sessionsWithoutCandidatesCount = 1;
       const candidatesCount = 12;
 
-      sinon.stub(csvHelpers, 'parseCsvWithHeader');
-      sinon.stub(csvSerializer, 'deserializeForSessionsImport');
+      const csvHelpersStub = {
+        parseCsvWithHeader: sinon.stub().resolves(['result data']),
+      };
+      const csvSerializerStub = {
+        deserializeForSessionsImport: sinon.stub().returns(['session']),
+      };
+
       sinon.stub(usecases, 'validateSessions');
 
-      csvHelpers.parseCsvWithHeader.resolves(['result data']);
-      csvSerializer.deserializeForSessionsImport.returns(['session']);
       usecases.validateSessions.resolves({
         cachedValidatedSessionsKey,
         sessionsCount,
@@ -532,7 +562,10 @@ describe('Unit | Controller | certifications-center-controller', function () {
       });
 
       // when
-      const result = await certificationCenterController.validateSessionsForMassImport(request, hFake);
+      const result = await certificationCenterController.validateSessionsForMassImport(request, hFake, {
+        csvHelpers: csvHelpersStub,
+        csvSerializer: csvSerializerStub,
+      });
 
       // then
       expect(result.source).to.deep.equal({
@@ -552,12 +585,14 @@ describe('Unit | Controller | certifications-center-controller', function () {
           auth: { credentials: { userId: 2 } },
         };
 
-        sinon.stub(csvHelpers, 'parseCsvWithHeader');
-
-        csvHelpers.parseCsvWithHeader.resolves([]);
+        const csvHelpersStub = {
+          parseCsvWithHeader: sinon.stub().resolves([]),
+        };
 
         // when
-        const error = await catchErr(certificationCenterController.validateSessionsForMassImport)(request, hFake);
+        const error = await catchErr(certificationCenterController.validateSessionsForMassImport)(request, hFake, {
+          csvHelpers: csvHelpersStub,
+        });
 
         // then
         expect(error).to.be.instanceOf(UnprocessableEntityError);
