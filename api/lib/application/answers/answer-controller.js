@@ -1,38 +1,35 @@
 import * as answerSerializer from '../../infrastructure/serializers/jsonapi/answer-serializer.js';
 import * as correctionSerializer from '../../infrastructure/serializers/jsonapi/correction-serializer.js';
 import { usecases } from '../../domain/usecases/index.js';
-import {
-  extractUserIdFromRequest,
-  extractLocaleFromRequest,
-} from '../../infrastructure/utils/request-response-utils.js';
+import * as requestResponseUtils from '../../infrastructure/utils/request-response-utils.js';
 
-const save = async function (request, h) {
-  const answer = answerSerializer.deserialize(request.payload);
-  const userId = extractUserIdFromRequest(request);
-  const locale = extractLocaleFromRequest(request);
+const save = async function (request, h, dependencies = { answerSerializer, requestResponseUtils }) {
+  const answer = dependencies.answerSerializer.deserialize(request.payload);
+  const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
+  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
   const createdAnswer = await usecases.correctAnswerThenUpdateAssessment({ answer, userId, locale });
 
-  return h.response(answerSerializer.serialize(createdAnswer)).created();
+  return h.response(dependencies.answerSerializer.serialize(createdAnswer)).created();
 };
 
-const get = async function (request) {
-  const userId = extractUserIdFromRequest(request);
+const get = async function (request, _h, dependencies = { requestResponseUtils }) {
+  const userId = dependencies.extractUserIdFromRequest(request);
   const answerId = request.params.id;
   const answer = await usecases.getAnswer({ answerId, userId });
 
   return answerSerializer.serialize(answer);
 };
 
-const update = async function (request) {
-  const userId = extractUserIdFromRequest(request);
+const update = async function (request, _h, dependencies = { requestResponseUtils }) {
+  const userId = dependencies.extractUserIdFromRequest(request);
   const answerId = request.params.id;
   const answer = await usecases.getAnswer({ answerId, userId });
 
   return answerSerializer.serialize(answer);
 };
 
-const find = async function (request) {
-  const userId = extractUserIdFromRequest(request);
+const find = async function (request, _h, dependencies = { requestResponseUtils }) {
+  const userId = dependencies.extractUserIdFromRequest(request);
   const challengeId = request.query.challengeId;
   const assessmentId = request.query.assessmentId;
   let answers = [];
@@ -46,9 +43,9 @@ const find = async function (request) {
   return answerSerializer.serialize(answers);
 };
 
-const getCorrection = async function (request) {
-  const userId = extractUserIdFromRequest(request);
-  const locale = extractLocaleFromRequest(request);
+const getCorrection = async function (request, _h, dependencies = { correctionSerializer, requestResponseUtils }) {
+  const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
+  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
   const answerId = request.params.id;
 
   const correction = await usecases.getCorrectionForAnswer({
@@ -57,7 +54,7 @@ const getCorrection = async function (request) {
     locale,
   });
 
-  return correctionSerializer.serialize(correction);
+  return dependencies.correctionSerializer.serialize(correction);
 };
 
 export { save, get, update, find, getCorrection };

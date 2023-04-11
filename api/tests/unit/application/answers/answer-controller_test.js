@@ -1,19 +1,22 @@
 import { expect, sinon, domainBuilder, hFake } from '../../../test-helper.js';
 
 import * as answerController from '../../../../lib/application/answers/answer-controller.js';
-import * as answerRepository from '../../../../lib/infrastructure/repositories/answer-repository.js';
-import * as answerSerializer from '../../../../lib/infrastructure/serializers/jsonapi/answer-serializer.js';
-import * as correctionSerializer from '../../../../lib/infrastructure/serializers/jsonapi/correction-serializer.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
 
 describe('Unit | Controller | answer-controller', function () {
+  let answerSerializerStub;
+  let requestResponseUtilsStub;
+
   beforeEach(function () {
-    sinon.stub(answerSerializer, 'serialize');
-    sinon.stub(answerRepository, 'findByChallengeAndAssessment');
+    answerSerializerStub = {
+      serialize: sinon.stub(),
+      deserialize: sinon.stub(),
+    };
+    requestResponseUtilsStub = {
+      extractUserIdFromRequest: sinon.stub(),
+      extractLocaleFromRequest: sinon.stub(),
+    };
     sinon.stub(usecases, 'correctAnswerThenUpdateAssessment');
-    sinon.stub(requestResponseUtils, 'extractUserIdFromRequest');
-    sinon.stub(requestResponseUtils, 'extractLocaleFromRequest');
   });
 
   describe('#save', function () {
@@ -111,13 +114,17 @@ describe('Unit | Controller | answer-controller', function () {
         deserializedAnswer.id = undefined;
         deserializedAnswer.timeSpent = undefined;
         createdAnswer = domainBuilder.buildAnswer({ assessmentId });
-        answerSerializer.serialize.returns(serializedAnswer);
+        answerSerializerStub.serialize.returns(serializedAnswer);
+        answerSerializerStub.deserialize.returns(deserializedAnswer);
         usecases.correctAnswerThenUpdateAssessment.resolves(createdAnswer);
-        requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(userId);
-        requestResponseUtils.extractLocaleFromRequest.withArgs(request).returns(locale);
+        requestResponseUtilsStub.extractUserIdFromRequest.withArgs(request).returns(userId);
+        requestResponseUtilsStub.extractLocaleFromRequest.withArgs(request).returns(locale);
 
         // when
-        response = await answerController.save(request, hFake);
+        response = await answerController.save(request, hFake, {
+          answerSerializer: answerSerializerStub,
+          requestResponseUtils: requestResponseUtilsStub,
+        });
       });
 
       it('should call the usecase to save the answer', function () {
@@ -131,7 +138,7 @@ describe('Unit | Controller | answer-controller', function () {
 
       it('should serialize the answer', function () {
         // then
-        expect(answerSerializer.serialize).to.have.been.calledWith(createdAnswer);
+        expect(answerSerializerStub.serialize).to.have.been.calledWith(createdAnswer);
       });
       it('should return the serialized answer', function () {
         // then
@@ -145,21 +152,25 @@ describe('Unit | Controller | answer-controller', function () {
     const answerId = 1;
     const userId = 'userId';
     const locale = 'lang-country';
+    let correctionSerializerStub;
 
     beforeEach(function () {
       sinon.stub(usecases, 'getCorrectionForAnswer');
-      sinon.stub(correctionSerializer, 'serialize');
+      correctionSerializerStub = { serialize: sinon.stub() };
     });
 
     it('should return ok', async function () {
       // given
-      requestResponseUtils.extractUserIdFromRequest.returns(userId);
-      requestResponseUtils.extractLocaleFromRequest.returns(locale);
+      requestResponseUtilsStub.extractUserIdFromRequest.returns(userId);
+      requestResponseUtilsStub.extractLocaleFromRequest.returns(locale);
       usecases.getCorrectionForAnswer.withArgs({ answerId, userId, locale }).resolves({});
-      correctionSerializer.serialize.withArgs({}).returns('ok');
+      correctionSerializerStub.serialize.withArgs({}).returns('ok');
 
       // when
-      const response = await answerController.getCorrection({ params: { id: answerId } });
+      const response = await answerController.getCorrection({ params: { id: answerId } }, hFake, {
+        correctionSerializer: correctionSerializerStub,
+        requestResponseUtils: requestResponseUtilsStub,
+      });
 
       // then
       expect(response).to.be.equal('ok');
