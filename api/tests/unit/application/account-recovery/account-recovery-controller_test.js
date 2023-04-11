@@ -2,7 +2,6 @@ import { expect, sinon, hFake, domainBuilder } from '../../../test-helper.js';
 
 import * as accountRecoveryController from '../../../../lib/application/account-recovery/account-recovery-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import * as studentInformationForAccountRecoverySerializer from '../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
 describe('Unit | Controller | account-recovery-controller', function () {
@@ -64,15 +63,23 @@ describe('Unit | Controller | account-recovery-controller', function () {
         params: { temporaryKey },
       };
       sinon.stub(usecases, 'getAccountRecoveryDetails');
-      sinon.stub(studentInformationForAccountRecoverySerializer, 'serializeAccountRecovery');
+
+      const studentInformationForAccountRecoverySerializerStub = {
+        serializeAccountRecovery: sinon.stub(),
+      };
+
+      const dependencies = {
+        studentInformationForAccountRecoverySerializer: studentInformationForAccountRecoverySerializerStub,
+      };
+
       usecases.getAccountRecoveryDetails.resolves(studentInformation);
 
       // when
-      await accountRecoveryController.checkAccountRecoveryDemand(request, hFake);
+      await accountRecoveryController.checkAccountRecoveryDemand(request, hFake, dependencies);
 
       // then
       expect(usecases.getAccountRecoveryDetails).to.have.been.calledWith({ temporaryKey });
-      expect(studentInformationForAccountRecoverySerializer.serializeAccountRecovery).to.have.been.calledWith(
+      expect(studentInformationForAccountRecoverySerializerStub.serializeAccountRecovery).to.have.been.calledWith(
         studentInformation
       );
     });

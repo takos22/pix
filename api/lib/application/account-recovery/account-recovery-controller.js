@@ -16,10 +16,14 @@ const sendEmailForAccountRecovery = async function (
   return h.response().code(204);
 };
 
-const checkAccountRecoveryDemand = async function (request) {
+const checkAccountRecoveryDemand = async function (
+  request,
+  h,
+  dependencies = { studentInformationForAccountRecoverySerializer }
+) {
   const temporaryKey = request.params.temporaryKey;
   const studentInformation = await usecases.getAccountRecoveryDetails({ temporaryKey });
-  return studentInformationForAccountRecoverySerializer.serializeAccountRecovery(studentInformation);
+  return dependencies.studentInformationForAccountRecoverySerializer.serializeAccountRecovery(studentInformation);
 };
 
 const updateUserAccountFromRecoveryDemand = async function (request, h) {
