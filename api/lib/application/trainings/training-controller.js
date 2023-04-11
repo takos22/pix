@@ -5,10 +5,14 @@ import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/se
 import { usecases } from '../../domain/usecases/index.js';
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 
-const findPaginatedTrainingSummaries = async function (request) {
-  const { page } = extractParameters(request.query);
+const findPaginatedTrainingSummaries = async function (
+  request,
+  h,
+  dependencies = { trainingSummarySerializer, extractParameters }
+) {
+  const { page } = dependencies.extractParameters(request.query);
   const { trainings, meta } = await usecases.findPaginatedTrainingSummaries({ page });
-  return trainingSummarySerializer.serialize(trainings, meta);
+  return dependencies.trainingSummarySerializer.serialize(trainings, meta);
 };
 
 const findTargetProfileSummaries = async function (request) {
@@ -17,16 +21,16 @@ const findTargetProfileSummaries = async function (request) {
   return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
 };
 
-const getById = async function (request) {
+const getById = async function (request, h, dependencies = { trainingSerializer }) {
   const { trainingId } = request.params;
   const training = await usecases.getTraining({ trainingId });
-  return trainingSerializer.serializeForAdmin(training);
+  return dependencies.trainingSerializer.serializeForAdmin(training);
 };
 
-const create = async function (request, h) {
-  const deserializedTraining = await trainingSerializer.deserialize(request.payload);
+const create = async function (request, h, dependencies = { trainingSerializer }) {
+  const deserializedTraining = await dependencies.trainingSerializer.deserialize(request.payload);
   const createdTraining = await usecases.createTraining({ training: deserializedTraining });
-  return h.response(trainingSerializer.serialize(createdTraining)).created();
+  return h.response(dependencies.trainingSerializer.serialize(createdTraining)).created();
 };
 
 const update = async function (request) {
