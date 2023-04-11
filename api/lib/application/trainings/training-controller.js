@@ -33,11 +33,11 @@ const create = async function (request, h, dependencies = { trainingSerializer }
   return h.response(dependencies.trainingSerializer.serialize(createdTraining)).created();
 };
 
-const update = async function (request) {
+const update = async function (request, h, dependencies = { trainingSerializer }) {
   const { trainingId } = request.params;
-  const training = await trainingSerializer.deserialize(request.payload);
+  const training = await dependencies.trainingSerializer.deserialize(request.payload);
   const updatedTraining = await usecases.updateTraining({ training: { ...training, id: trainingId } });
-  return trainingSerializer.serialize(updatedTraining);
+  return dependencies.trainingSerializer.serialize(updatedTraining);
 };
 
 const createOrUpdateTrigger = async function (request) {
