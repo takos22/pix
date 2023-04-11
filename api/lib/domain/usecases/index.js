@@ -382,7 +382,7 @@ import { authenticateUser } from './authenticate-user.js';
 import { authorizeCertificationCandidateToResume } from './authorize-certification-candidate-to-resume.js';
 import { authorizeCertificationCandidateToStart } from './authorize-certification-candidate-to-start.js';
 import { beginCampaignParticipationImprovement } from './begin-campaign-participation-improvement.js';
-import { archiveCampaigns } from './campaigns-administration/archive-campaigns.js';
+import { archiveCampaigns as campaignAdministrationArchiveCampaign } from './campaigns-administration/archive-campaigns.js';
 import { cancelCertificationCenterInvitation } from './cancel-certification-center-invitation.js';
 import { cancelCertificationCourse } from './cancel-certification-course.js';
 import { cancelOrganizationInvitation } from './cancel-organization-invitation.js';
@@ -671,7 +671,7 @@ const usecasesWithoutInjectedDependencies = {
   authorizeCertificationCandidateToResume,
   authorizeCertificationCandidateToStart,
   beginCampaignParticipationImprovement,
-  archiveCampaigns,
+  campaignAdministrationArchiveCampaign,
   cancelCertificationCenterInvitation,
   cancelCertificationCourse,
   cancelOrganizationInvitation,

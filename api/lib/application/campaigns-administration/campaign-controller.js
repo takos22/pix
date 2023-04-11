@@ -1,9 +1,9 @@
 import { usecases } from '../../domain/usecases/index.js';
-import { extractCampaignsIds as csvCampaingsIdsParser } from '../../infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser.js';
+import { extractCampaignsIds as csvCampaignsIdsParser } from '../../infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser.js';
 
-const archiveCampaigns = async function (request, h) {
+const archiveCampaigns = async function (request, h, dependencies = { csvCampaignsIdsParser }) {
   const { userId } = request.auth.credentials;
-  const campaignIds = await csvCampaingsIdsParser.extractCampaignsIds(request.payload.path);
+  const campaignIds = await dependencies.csvCampaignsIdsParser.extractCampaignsIds(request.payload.path);
 
   await usecases.campaignAdministrationArchiveCampaign({
     userId,
