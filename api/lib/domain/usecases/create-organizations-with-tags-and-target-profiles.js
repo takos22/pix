@@ -1,22 +1,22 @@
-const { isEmpty, uniqBy } = require('lodash');
-const bluebird = require('bluebird');
-const Organization = require('../models/Organization.js');
-const OrganizationTag = require('../models/OrganizationTag.js');
-const organizationValidator = require('../validators/organization-with-tags-and-target-profiles-script.js');
-const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
+import { isEmpty, uniqBy } from 'lodash';
+import bluebird from 'bluebird';
+import { Organization } from '../models/Organization.js';
+import { OrganizationTag } from '../models/OrganizationTag.js';
+import { organizationValidator } from '../validators/organization-with-tags-and-target-profiles-script.js';
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
-const {
+import {
   ManyOrganizationsFoundError,
   OrganizationAlreadyExistError,
   OrganizationTagNotFound,
   ObjectValidationError,
   TargetProfileInvalidError,
-} = require('../errors.js');
+} from '../errors.js';
 
 const SEPARATOR = '_';
-const organizationInvitationService = require('../../domain/services/organization-invitation-service.js');
+import * as organizationInvitationService from '../../domain/services/organization-invitation-service.js';
 
-module.exports = async function createOrganizationsWithTagsAndTargetProfiles({
+const createOrganizationsWithTagsAndTargetProfiles = async function ({
   organizations,
   domainTransaction = DomainTransaction,
   organizationRepository,
@@ -122,6 +122,8 @@ module.exports = async function createOrganizationsWithTagsAndTargetProfiles({
 
   return createdOrganizations;
 };
+
+export { createOrganizationsWithTagsAndTargetProfiles };
 
 function _checkIfOrganizationsDataAreUnique(organizations) {
   const uniqOrganizations = uniqBy(organizations, 'externalId');

@@ -1,12 +1,16 @@
-const { Resolver } = require('node:dns').promises;
-const { mailing } = require('../config.js');
-module.exports = {
-  checkDomainIsValid(address) {
-    if (!mailing.enabled) {
-      return Promise.resolve(true);
-    }
+import { promises } from 'node:dns';
 
-    const domain = address.replace(/.*@/g, '');
-    return Resolver.resolveMx(domain).then(() => true);
-  },
+const { Resolver } = promises;
+
+import { mailing } from '../config.js';
+
+const checkDomainIsValid = function (address) {
+  if (!mailing.enabled) {
+    return Promise.resolve(true);
+  }
+
+  const domain = address.replace(/.*@/g, '');
+  return Resolver.resolveMx(domain).then(() => true);
 };
+
+export { checkDomainIsValid };

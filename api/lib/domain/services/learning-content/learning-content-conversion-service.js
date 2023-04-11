@@ -1,4 +1,4 @@
-const skillRepository = require('../../../infrastructure/repositories/skill-repository.js');
+import * as skillRepository from '../../../infrastructure/repositories/skill-repository.js';
 
 async function findActiveSkillsForCappedTubes(cappedTubes) {
   const skills = [];
@@ -10,6 +10,4 @@ async function findActiveSkillsForCappedTubes(cappedTubes) {
   return skills;
 }
 
-module.exports = {
-  findActiveSkillsForCappedTubes,
-};
+export { findActiveSkillsForCappedTubes };

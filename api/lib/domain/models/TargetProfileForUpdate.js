@@ -1,4 +1,4 @@
-const { validate } = require('../validators/target-profile/base-validation.js');
+import { validate } from '../validators/target-profile/base-validation.js';
 class TargetProfileForUpdate {
   constructor({ id, name, description, comment, category }) {
     this.id = id;
@@ -17,4 +17,4 @@ class TargetProfileForUpdate {
   }
 }
 
-module.exports = TargetProfileForUpdate;
+export { TargetProfileForUpdate };

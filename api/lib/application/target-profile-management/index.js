@@ -1,9 +1,9 @@
-const securityPreHandlers = require('../security-pre-handlers.js');
-const stagesController = require('./stages-controller.js');
-const Joi = require('joi');
-const identifiersType = require('../../domain/types/identifiers-type.js');
+import * as securityPreHandlers from '../security-pre-handlers.js';
+import * as stagesController from './stages-controller.js';
+import Joi from 'joi';
+import { identifiersType } from '../../domain/types/identifiers-type.js';
 
-exports.register = async function (server) {
+const register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -80,4 +80,5 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'stages-api';
+const name = 'stages-api';
+export { register, name };

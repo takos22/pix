@@ -156,7 +156,7 @@ function sendJsonApiError(httpError, h) {
   return h.response(jsonApiError).code(httpError.status).takeover();
 }
 
-module.exports = {
+export {
   BadRequestError,
   BaseHttpError,
   ConflictError,

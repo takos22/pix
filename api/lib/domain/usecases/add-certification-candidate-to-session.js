@@ -1,11 +1,11 @@
-const {
+import {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CpfBirthInformationValidationError,
   CertificationCandidateAddError,
   CertificationCandidateOnFinalizedSessionError,
-} = require('../errors.js');
+} from '../errors.js';
 
-module.exports = async function addCertificationCandidateToSession({
+const addCertificationCandidateToSession = async function ({
   sessionId,
   certificationCandidate,
   complementaryCertifications,
@@ -62,3 +62,5 @@ module.exports = async function addCertificationCandidateToSession({
     sessionId: certificationCandidate.sessionId,
   });
 };
+
+export { addCertificationCandidateToSession };

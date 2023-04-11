@@ -1,8 +1,8 @@
-const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository.js');
+import * as certificationCourseRepository from '../../infrastructure/repositories/certification-course-repository.js';
 
-module.exports = {
-  async execute({ userId, certificationCourseId }) {
-    const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
-    return certificationCourse.doesBelongTo(userId);
-  },
+const execute = async function ({ userId, certificationCourseId }) {
+  const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
+  return certificationCourse.doesBelongTo(userId);
 };
+
+export { execute };

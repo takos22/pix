@@ -1,4 +1,4 @@
-module.exports = async function getUserByResetPasswordDemand({
+const getUserByResetPasswordDemand = async function ({
   temporaryKey,
   resetPasswordService,
   tokenService,
@@ -8,3 +8,5 @@ module.exports = async function getUserByResetPasswordDemand({
   const { email } = await resetPasswordService.verifyDemand(temporaryKey);
   return userRepository.getByEmail(email);
 };
+
+export { getUserByResetPasswordDemand };

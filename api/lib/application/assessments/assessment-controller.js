@@ -1,143 +1,152 @@
-const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
+import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
-const { AssessmentEndedError } = require('../../domain/errors.js');
-const usecases = require('../../domain/usecases/index.js');
-const events = require('../../domain/events/index.js');
-const logger = require('../../infrastructure/logger.js');
-const assessmentRepository = require('../../infrastructure/repositories/assessment-repository.js');
-const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer.js');
-const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer.js');
-const competenceEvaluationSerializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer.js');
-const {
+import { AssessmentEndedError } from '../../domain/errors.js';
+import { usecases } from '../../domain/usecases/index.js';
+import { events } from '../../domain/events/index.js';
+import { logger } from '../../infrastructure/logger.js';
+import * as assessmentRepository from '../../infrastructure/repositories/assessment-repository.js';
+import * as assessmentSerializer from '../../infrastructure/serializers/jsonapi/assessment-serializer.js';
+import * as challengeSerializer from '../../infrastructure/serializers/jsonapi/challenge-serializer.js';
+import * as competenceEvaluationSerializer from '../../infrastructure/serializers/jsonapi/competence-evaluation-serializer.js';
+import {
   extractLocaleFromRequest,
   extractUserIdFromRequest,
-} = require('../../infrastructure/utils/request-response-utils.js');
+} from '../../infrastructure/utils/request-response-utils.js';
+import { Examiner } from '../../domain/models/Examiner.js';
+import { ValidatorAlwaysOK } from '../../domain/models/ValidatorAlwaysOK.js';
 
-const Examiner = require('../../domain/models/Examiner.js');
-const ValidatorAlwaysOK = require('../../domain/models/ValidatorAlwaysOK.js');
+const save = async function (request, h) {
+  const assessment = assessmentSerializer.deserialize(request.payload);
+  assessment.userId = extractUserIdFromRequest(request);
+  assessment.state = 'started';
+  const createdAssessment = await assessmentRepository.save({ assessment });
+  return h.response(assessmentSerializer.serialize(createdAssessment)).created();
+};
 
-module.exports = {
-  async save(request, h) {
-    const assessment = assessmentSerializer.deserialize(request.payload);
-    assessment.userId = extractUserIdFromRequest(request);
-    assessment.state = 'started';
-    const createdAssessment = await assessmentRepository.save({ assessment });
-    return h.response(assessmentSerializer.serialize(createdAssessment)).created();
-  },
+const get = async function (request) {
+  const assessmentId = request.params.id;
+  const locale = extractLocaleFromRequest(request);
 
-  async get(request) {
-    const assessmentId = request.params.id;
-    const locale = extractLocaleFromRequest(request);
+  const assessment = await usecases.getAssessment({ assessmentId, locale });
 
-    const assessment = await usecases.getAssessment({ assessmentId, locale });
+  return assessmentSerializer.serialize(assessment);
+};
 
-    return assessmentSerializer.serialize(assessment);
-  },
+const getLastChallengeId = async function (request, h) {
+  const assessmentId = request.params.id;
 
-  async getLastChallengeId(request, h) {
-    const assessmentId = request.params.id;
+  const lastChallengeId = await usecases.getLastChallengeIdFromAssessmentId({ assessmentId });
 
-    const lastChallengeId = await usecases.getLastChallengeIdFromAssessmentId({ assessmentId });
+  return h.response(lastChallengeId).code(200);
+};
 
-    return h.response(lastChallengeId).code(200);
-  },
+const getChallengeForPixAutoAnswer = async function (request, h) {
+  const assessmentId = request.params.id;
 
-  async getChallengeForPixAutoAnswer(request, h) {
-    const assessmentId = request.params.id;
+  const challenge = await usecases.getChallengeForPixAutoAnswer({ assessmentId });
 
-    const challenge = await usecases.getChallengeForPixAutoAnswer({ assessmentId });
+  return h.response(challenge).code(200);
+};
 
-    return h.response(challenge).code(200);
-  },
+const getNextChallenge = async function (request) {
+  const assessmentId = request.params.id;
 
-  async getNextChallenge(request) {
-    const assessmentId = request.params.id;
+  const logContext = {
+    zone: 'assessmentController.getNextChallenge',
+    type: 'controller',
+    assessmentId,
+  };
+  logger.trace(logContext, 'tracing assessmentController.getNextChallenge()');
 
-    const logContext = {
-      zone: 'assessmentController.getNextChallenge',
-      type: 'controller',
-      assessmentId,
-    };
-    logger.trace(logContext, 'tracing assessmentController.getNextChallenge()');
+  try {
+    const assessment = await assessmentRepository.get(assessmentId);
+    logContext.assessmentType = assessment.type;
+    logger.trace(logContext, 'assessment loaded');
 
-    try {
-      const assessment = await assessmentRepository.get(assessmentId);
-      logContext.assessmentType = assessment.type;
-      logger.trace(logContext, 'assessment loaded');
+    const challenge = await _getChallenge(assessment, request);
+    logContext.challenge = challenge;
+    logger.trace(logContext, 'replying with challenge');
 
-      const challenge = await _getChallenge(assessment, request);
-      logContext.challenge = challenge;
-      logger.trace(logContext, 'replying with challenge');
-
-      return challengeSerializer.serialize(challenge);
-    } catch (error) {
-      if (error instanceof AssessmentEndedError) {
-        const object = new JSONAPISerializer('', {});
-        return object.serialize(null);
-      }
-      throw error;
+    return challengeSerializer.serialize(challenge);
+  } catch (error) {
+    if (error instanceof AssessmentEndedError) {
+      const object = new JSONAPISerializer('', {});
+      return object.serialize(null);
     }
-  },
+    throw error;
+  }
+};
 
-  async completeAssessment(request) {
-    const assessmentId = request.params.id;
-    const locale = extractLocaleFromRequest(request);
+const completeAssessment = async function (request) {
+  const assessmentId = request.params.id;
+  const locale = extractLocaleFromRequest(request);
 
-    let event;
-    await DomainTransaction.execute(async (domainTransaction) => {
-      const result = await usecases.completeAssessment({ assessmentId, domainTransaction });
-      await usecases.handleBadgeAcquisition({ assessment: result.assessment, domainTransaction });
-      await usecases.handleTrainingRecommendation({ assessment: result.assessment, locale, domainTransaction });
-      event = result.event;
-    });
+  let event;
+  await DomainTransaction.execute(async (domainTransaction) => {
+    const result = await usecases.completeAssessment({ assessmentId, domainTransaction });
+    await usecases.handleBadgeAcquisition({ assessment: result.assessment, domainTransaction });
+    await usecases.handleTrainingRecommendation({ assessment: result.assessment, locale, domainTransaction });
+    event = result.event;
+  });
 
-    await events.eventDispatcher.dispatch(event);
+  await events.eventDispatcher.dispatch(event);
 
-    return null;
-  },
+  return null;
+};
 
-  async updateLastChallengeState(request) {
-    const assessmentId = request.params.id;
-    const lastQuestionState = request.params.state;
-    const challengeId = request.payload?.data?.attributes?.['challenge-id'];
+const updateLastChallengeState = async function (request) {
+  const assessmentId = request.params.id;
+  const lastQuestionState = request.params.state;
+  const challengeId = request.payload?.data?.attributes?.['challenge-id'];
 
-    await DomainTransaction.execute(async (domainTransaction) => {
-      await usecases.updateLastQuestionState({ assessmentId, challengeId, lastQuestionState, domainTransaction });
-    });
+  await DomainTransaction.execute(async (domainTransaction) => {
+    await usecases.updateLastQuestionState({ assessmentId, challengeId, lastQuestionState, domainTransaction });
+  });
 
-    return null;
-  },
+  return null;
+};
 
-  async findCompetenceEvaluations(request) {
-    const userId = request.auth.credentials.userId;
-    const assessmentId = request.params.id;
+const findCompetenceEvaluations = async function (request) {
+  const userId = request.auth.credentials.userId;
+  const assessmentId = request.params.id;
 
-    const competenceEvaluations = await usecases.findCompetenceEvaluationsByAssessment({ userId, assessmentId });
+  const competenceEvaluations = await usecases.findCompetenceEvaluationsByAssessment({ userId, assessmentId });
 
-    return competenceEvaluationSerializer.serialize(competenceEvaluations);
-  },
+  return competenceEvaluationSerializer.serialize(competenceEvaluations);
+};
 
-  async autoValidateNextChallenge(request, h) {
-    const assessmentId = request.params.id;
-    const locale = extractLocaleFromRequest(request);
-    const assessment = await usecases.getAssessment({ assessmentId, locale });
-    const userId = assessment.userId;
-    const fakeAnswer = {
-      assessmentId,
-      challengeId: assessment.lastChallengeId,
-      value: 'FAKE_ANSWER_WITH_AUTO_VALIDATE_NEXT_CHALLENGE',
-    };
-    const validatorAlwaysOK = new ValidatorAlwaysOK();
-    const alwaysTrueExaminer = new Examiner({ validator: validatorAlwaysOK });
-    await usecases.correctAnswerThenUpdateAssessment({
-      answer: fakeAnswer,
-      userId,
-      locale,
-      examiner: alwaysTrueExaminer,
-    });
-    return h.response().code(204);
-  },
+const autoValidateNextChallenge = async function (request, h) {
+  const assessmentId = request.params.id;
+  const locale = extractLocaleFromRequest(request);
+  const assessment = await usecases.getAssessment({ assessmentId, locale });
+  const userId = assessment.userId;
+  const fakeAnswer = {
+    assessmentId,
+    challengeId: assessment.lastChallengeId,
+    value: 'FAKE_ANSWER_WITH_AUTO_VALIDATE_NEXT_CHALLENGE',
+  };
+  const validatorAlwaysOK = new ValidatorAlwaysOK();
+  const alwaysTrueExaminer = new Examiner({ validator: validatorAlwaysOK });
+  await usecases.correctAnswerThenUpdateAssessment({
+    answer: fakeAnswer,
+    userId,
+    locale,
+    examiner: alwaysTrueExaminer,
+  });
+  return h.response().code(204);
+};
+
+export {
+  save,
+  get,
+  getLastChallengeId,
+  getChallengeForPixAutoAnswer,
+  getNextChallenge,
+  completeAssessment,
+  updateLastChallengeState,
+  findCompetenceEvaluations,
+  autoValidateNextChallenge,
 };
 
 async function _getChallenge(assessment, request) {

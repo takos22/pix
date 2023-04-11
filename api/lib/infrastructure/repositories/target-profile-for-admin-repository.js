@@ -1,54 +1,57 @@
-const _ = require('lodash');
-const { knex } = require('../../../db/knex-database-connection.js');
-const { NotFoundError, TargetProfileInvalidError } = require('../../domain/errors.js');
-const { FRENCH_FRANCE } = require('../../domain/constants.js').LOCALE;
-const areaRepository = require('./area-repository.js');
-const competenceRepository = require('./competence-repository.js');
-const targetProfileRepository = require('./target-profile-repository.js');
-const thematicRepository = require('./thematic-repository.js');
-const tubeRepository = require('./tube-repository.js');
-const skillRepository = require('./skill-repository.js');
-const TargetProfileForAdminOldFormat = require('../../domain/models/TargetProfileForAdminOldFormat.js');
-const TargetProfileForAdminNewFormat = require('../../domain/models/TargetProfileForAdminNewFormat.js');
-const { BadgeDetails, BadgeCriterion, SkillSet, CappedTube, SCOPES } = require('../../domain/models/BadgeDetails.js');
+import _ from 'lodash';
+import { knex } from '../../../db/knex-database-connection.js';
+import { NotFoundError, TargetProfileInvalidError } from '../../domain/errors.js';
+import { LOCALE } from '../../domain/constants.js';
 
-module.exports = {
-  async get({ id, locale = FRENCH_FRANCE }) {
-    const targetProfileDTO = await knex('target-profiles')
-      .select(
-        'target-profiles.id',
-        'target-profiles.name',
-        'target-profiles.outdated',
-        'target-profiles.isPublic',
-        'target-profiles.imageUrl',
-        'target-profiles.createdAt',
-        'target-profiles.description',
-        'target-profiles.comment',
-        'target-profiles.ownerOrganizationId',
-        'target-profiles.category',
-        'target-profiles.isSimplifiedAccess'
-      )
-      .where('id', id)
-      .first();
+const { FRENCH_FRANCE } = LOCALE;
 
-    if (targetProfileDTO == null) {
-      throw new NotFoundError("Le profil cible n'existe pas");
+import * as areaRepository from './area-repository.js';
+import * as competenceRepository from './competence-repository.js';
+import * as targetProfileRepository from './target-profile-repository.js';
+import * as thematicRepository from './thematic-repository.js';
+import * as tubeRepository from './tube-repository.js';
+import * as skillRepository from './skill-repository.js';
+import { TargetProfileForAdminOldFormat } from '../../domain/models/TargetProfileForAdminOldFormat.js';
+import { TargetProfileForAdminNewFormat } from '../../domain/models/TargetProfileForAdminNewFormat.js';
+import { BadgeDetails, BadgeCriterion, SkillSet, CappedTube, SCOPES } from '../../domain/models/BadgeDetails.js';
+
+const get = async function ({ id, locale = FRENCH_FRANCE }) {
+  const targetProfileDTO = await knex('target-profiles')
+    .select(
+      'target-profiles.id',
+      'target-profiles.name',
+      'target-profiles.outdated',
+      'target-profiles.isPublic',
+      'target-profiles.imageUrl',
+      'target-profiles.createdAt',
+      'target-profiles.description',
+      'target-profiles.comment',
+      'target-profiles.ownerOrganizationId',
+      'target-profiles.category',
+      'target-profiles.isSimplifiedAccess'
+    )
+    .where('id', id)
+    .first();
+
+  if (targetProfileDTO == null) {
+    throw new NotFoundError("Le profil cible n'existe pas");
+  }
+
+  const tubesData = await knex('target-profile_tubes')
+    .select('tubeId', 'level')
+    .where('targetProfileId', targetProfileDTO.id);
+  if (_.isEmpty(tubesData)) {
+    // OLD target profile
+    const skillIds = await targetProfileRepository.getTargetProfileSkillIds(targetProfileDTO.id);
+    if (_.isEmpty(skillIds)) {
+      throw new TargetProfileInvalidError();
     }
-
-    const tubesData = await knex('target-profile_tubes')
-      .select('tubeId', 'level')
-      .where('targetProfileId', targetProfileDTO.id);
-    if (_.isEmpty(tubesData)) {
-      // OLD target profile
-      const skillIds = await targetProfileRepository.getTargetProfileSkillIds(targetProfileDTO.id);
-      if (_.isEmpty(skillIds)) {
-        throw new TargetProfileInvalidError();
-      }
-      return _toDomainOldFormat(targetProfileDTO, skillIds, locale);
-    }
-    return _toDomainNewFormat(targetProfileDTO, tubesData, locale);
-  },
+    return _toDomainOldFormat(targetProfileDTO, skillIds, locale);
+  }
+  return _toDomainNewFormat(targetProfileDTO, tubesData, locale);
 };
+
+export { get };
 
 async function _toDomainOldFormat(targetProfileDTO, skillIds, locale) {
   const { areas, competences, tubes, skills } = await _getLearningContent_old(skillIds, locale);

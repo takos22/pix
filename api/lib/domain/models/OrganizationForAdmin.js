@@ -64,4 +64,4 @@ class OrganizationForAdmin {
   }
 }
 
-module.exports = OrganizationForAdmin;
+export { OrganizationForAdmin };

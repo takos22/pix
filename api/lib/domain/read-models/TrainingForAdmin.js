@@ -24,4 +24,4 @@ class TrainingForAdmin {
   }
 }
 
-module.exports = TrainingForAdmin;
+export { TrainingForAdmin };

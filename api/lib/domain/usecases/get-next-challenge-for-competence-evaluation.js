@@ -1,14 +1,8 @@
-const { AssessmentEndedError, UserNotAuthorizedToAccessEntityError } = require('../errors.js');
+import { AssessmentEndedError, UserNotAuthorizedToAccessEntityError } from '../errors.js';
+import { smartRandom } from '../services/algorithm-methods/smart-random.js';
+import { dataFetcher } from '../services/algorithm-methods/data-fetcher.js';
 
-const smartRandom = require('../services/algorithm-methods/smart-random.js');
-const dataFetcher = require('../services/algorithm-methods/data-fetcher.js');
-
-module.exports = async function getNextChallengeForCompetenceEvaluation({
-  pickChallengeService,
-  assessment,
-  userId,
-  locale,
-}) {
+const getNextChallengeForCompetenceEvaluation = async function ({ pickChallengeService, assessment, userId, locale }) {
   _checkIfAssessmentBelongsToUser(assessment, userId);
   const inputValues = await dataFetcher.fetchForCompetenceEvaluations(...arguments);
 
@@ -27,6 +21,8 @@ module.exports = async function getNextChallengeForCompetenceEvaluation({
     locale: locale,
   });
 };
+
+export { getNextChallengeForCompetenceEvaluation };
 
 function _checkIfAssessmentBelongsToUser(assessment, userId) {
   if (assessment.userId !== userId) {

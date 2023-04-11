@@ -1,6 +1,6 @@
-const organizationInvitationService = require('../../domain/services/organization-invitation-service.js');
+import * as organizationInvitationService from '../../domain/services/organization-invitation-service.js';
 
-module.exports = async function resendOrganizationInvitation({
+const resendOrganizationInvitation = async function ({
   organizationId,
   email,
   locale,
@@ -15,3 +15,5 @@ module.exports = async function resendOrganizationInvitation({
     locale,
   });
 };
+
+export { resendOrganizationInvitation };

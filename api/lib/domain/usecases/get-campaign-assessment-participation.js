@@ -1,7 +1,7 @@
-const { UserNotAuthorizedToAccessEntityError } = require('../errors.js');
-const stageCollectionRepository = require('../../infrastructure/repositories/user-campaign-results/stage-collection-repository');
+import { UserNotAuthorizedToAccessEntityError } from '../errors.js';
+import * as stageCollectionRepository from '../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js';
 
-module.exports = async function getCampaignAssessmentParticipation({
+const getCampaignAssessmentParticipation = async function ({
   userId,
   campaignId,
   campaignParticipationId,
@@ -35,3 +35,5 @@ module.exports = async function getCampaignAssessmentParticipation({
 
   return campaignAssessmentParticipation;
 };
+
+export { getCampaignAssessmentParticipation };

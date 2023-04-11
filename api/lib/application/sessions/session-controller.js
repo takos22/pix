@@ -1,342 +1,369 @@
-const moment = require('moment');
-const { BadRequestError, SessionPublicationBatchError } = require('../http-errors.js');
-const usecases = require('../../domain/usecases/index.js');
-const tokenService = require('../../domain/services/token-service.js');
-const sessionResultsLinkService = require('../../domain/services/session-results-link-service.js');
-const sessionValidator = require('../../domain/validators/session-validator.js');
-const events = require('../../domain/events/index.js');
-const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors.js');
-const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer.js');
-const jurySessionSerializer = require('../../infrastructure/serializers/jsonapi/jury-session-serializer.js');
-const certificationCandidateSerializer = require('../../infrastructure/serializers/jsonapi/certification-candidate-serializer.js');
-const certificationReportSerializer = require('../../infrastructure/serializers/jsonapi/certification-report-serializer.js');
-const juryCertificationSummarySerializer = require('../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js');
-const juryCertificationSummaryRepository = require('../../infrastructure/repositories/jury-certification-summary-repository.js');
-const jurySessionRepository = require('../../infrastructure/repositories/sessions/jury-session-repository.js');
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils.js');
-const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
-const certificationResultUtils = require('../../infrastructure/utils/csv/certification-results.js');
-const fillCandidatesImportSheet = require('../../infrastructure/files/candidates-import/fill-candidates-import-sheet.js');
-const supervisorKitPdf = require('../../infrastructure/utils/pdf/supervisor-kit-pdf.js');
-const trim = require('lodash/trim');
-const UserLinkedToCertificationCandidate = require('../../domain/events/UserLinkedToCertificationCandidate.js');
-const logger = require('../../infrastructure/logger.js');
+import moment from 'moment';
+import { BadRequestError, SessionPublicationBatchError } from '../http-errors.js';
+import { usecases } from '../../domain/usecases/index.js';
+import * as tokenService from '../../domain/services/token-service.js';
+import * as sessionResultsLinkService from '../../domain/services/session-results-link-service.js';
+import { sessionValidator } from '../../domain/validators/session-validator.js';
+import { events } from '../../domain/events/index.js';
+import { CertificationCandidateAlreadyLinkedToUserError } from '../../domain/errors.js';
+import * as sessionSerializer from '../../infrastructure/serializers/jsonapi/session-serializer.js';
+import * as jurySessionSerializer from '../../infrastructure/serializers/jsonapi/jury-session-serializer.js';
+import * as certificationCandidateSerializer from '../../infrastructure/serializers/jsonapi/certification-candidate-serializer.js';
+import * as certificationReportSerializer from '../../infrastructure/serializers/jsonapi/certification-report-serializer.js';
+import * as juryCertificationSummarySerializer from '../../infrastructure/serializers/jsonapi/jury-certification-summary-serializer.js';
+import * as juryCertificationSummaryRepository from '../../infrastructure/repositories/jury-certification-summary-repository.js';
+import * as jurySessionRepository from '../../infrastructure/repositories/sessions/jury-session-repository.js';
+import { queryParamsUtils } from '../../infrastructure/utils/query-params-utils.js';
+import { requestResponseUtils } from '../../infrastructure/utils/request-response-utils.js';
+import { certificationResultUtils } from '../../infrastructure/utils/csv/certification-results.js';
+import { fillCandidatesImportSheet } from '../../infrastructure/files/candidates-import/fill-candidates-import-sheet.js';
+import { supervisorKitPdf } from '../../infrastructure/utils/pdf/supervisor-kit-pdf.js';
+import trim from 'lodash/trim';
+import { UserLinkedToCertificationCandidate } from '../../domain/events/UserLinkedToCertificationCandidate.js';
+import { logger } from '../../infrastructure/logger.js';
 
-module.exports = {
-  async findPaginatedFilteredJurySessions(request) {
-    const { filter, page } = queryParamsUtils.extractParameters(request.query);
-    const normalizedFilters = sessionValidator.validateAndNormalizeFilters(filter);
-    const jurySessionsForPaginatedList = await jurySessionRepository.findPaginatedFiltered({
-      filters: normalizedFilters,
-      page,
-    });
+const findPaginatedFilteredJurySessions = async function (request) {
+  const { filter, page } = queryParamsUtils.extractParameters(request.query);
+  const normalizedFilters = sessionValidator.validateAndNormalizeFilters(filter);
+  const jurySessionsForPaginatedList = await jurySessionRepository.findPaginatedFiltered({
+    filters: normalizedFilters,
+    page,
+  });
 
-    return jurySessionSerializer.serializeForPaginatedList(jurySessionsForPaginatedList);
-  },
+  return jurySessionSerializer.serializeForPaginatedList(jurySessionsForPaginatedList);
+};
 
-  async getJurySession(request) {
-    const sessionId = request.params.id;
-    const { jurySession, hasSupervisorAccess } = await usecases.getJurySession({ sessionId });
+const getJurySession = async function (request) {
+  const sessionId = request.params.id;
+  const { jurySession, hasSupervisorAccess } = await usecases.getJurySession({ sessionId });
 
-    return jurySessionSerializer.serialize(jurySession, hasSupervisorAccess);
-  },
+  return jurySessionSerializer.serialize(jurySession, hasSupervisorAccess);
+};
 
-  async get(request) {
-    const sessionId = request.params.id;
-    const { session, hasSupervisorAccess, hasSomeCleaAcquired } = await usecases.getSession({ sessionId });
-    return sessionSerializer.serialize({ session, hasSupervisorAccess, hasSomeCleaAcquired });
-  },
+const get = async function (request) {
+  const sessionId = request.params.id;
+  const { session, hasSupervisorAccess, hasSomeCleaAcquired } = await usecases.getSession({ sessionId });
+  return sessionSerializer.serialize({ session, hasSupervisorAccess, hasSomeCleaAcquired });
+};
 
-  async update(request) {
-    const userId = request.auth.credentials.userId;
-    const session = sessionSerializer.deserialize(request.payload);
-    session.id = request.params.id;
+const update = async function (request) {
+  const userId = request.auth.credentials.userId;
+  const session = sessionSerializer.deserialize(request.payload);
+  session.id = request.params.id;
 
-    const updatedSession = await usecases.updateSession({ userId, session });
+  const updatedSession = await usecases.updateSession({ userId, session });
 
-    return sessionSerializer.serialize({ session: updatedSession });
-  },
+  return sessionSerializer.serialize({ session: updatedSession });
+};
 
-  async getAttendanceSheet(request, h) {
-    const sessionId = request.params.id;
-    const token = request.query.accessToken;
-    const userId = tokenService.extractUserId(token);
-    const attendanceSheet = await usecases.getAttendanceSheet({ sessionId, userId });
+const getAttendanceSheet = async function (request, h) {
+  const sessionId = request.params.id;
+  const token = request.query.accessToken;
+  const userId = tokenService.extractUserId(token);
+  const attendanceSheet = await usecases.getAttendanceSheet({ sessionId, userId });
 
-    const fileName = `feuille-emargement-session-${sessionId}.ods`;
-    return h
-      .response(attendanceSheet)
-      .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
-      .header('Content-Disposition', `attachment; filename=${fileName}`);
-  },
+  const fileName = `feuille-emargement-session-${sessionId}.ods`;
+  return h
+    .response(attendanceSheet)
+    .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
+    .header('Content-Disposition', `attachment; filename=${fileName}`);
+};
 
-  async getSupervisorKitPdf(request, h) {
-    const sessionId = request.params.id;
-    const token = request.query.accessToken;
-    const userId = tokenService.extractUserId(token);
-    const sessionForSupervisorKit = await usecases.getSupervisorKitSessionInfo({ sessionId, userId });
+const getSupervisorKitPdf = async function (request, h) {
+  const sessionId = request.params.id;
+  const token = request.query.accessToken;
+  const userId = tokenService.extractUserId(token);
+  const sessionForSupervisorKit = await usecases.getSupervisorKitSessionInfo({ sessionId, userId });
 
-    const { buffer, fileName } = await supervisorKitPdf.getSupervisorKitPdfBuffer({
-      sessionForSupervisorKit,
-    });
+  const { buffer, fileName } = await supervisorKitPdf.getSupervisorKitPdfBuffer({
+    sessionForSupervisorKit,
+  });
 
-    return h
-      .response(buffer)
-      .header('Content-Disposition', `attachment; filename=${fileName}`)
-      .header('Content-Type', 'application/pdf');
-  },
+  return h
+    .response(buffer)
+    .header('Content-Disposition', `attachment; filename=${fileName}`)
+    .header('Content-Type', 'application/pdf');
+};
 
-  async getCandidatesImportSheet(request, h) {
-    const sessionId = request.params.id;
-    const token = request.query.accessToken;
-    const userId = tokenService.extractUserId(token);
+const getCandidatesImportSheet = async function (request, h) {
+  const sessionId = request.params.id;
+  const token = request.query.accessToken;
+  const userId = tokenService.extractUserId(token);
 
-    const { session, certificationCenterHabilitations, isScoCertificationCenter } =
-      await usecases.getCandidateImportSheetData({
-        sessionId,
-        userId,
-      });
-    const candidateImportSheet = await fillCandidatesImportSheet({
-      session,
-      certificationCenterHabilitations,
-      isScoCertificationCenter,
-    });
-
-    return h
-      .response(candidateImportSheet)
-      .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
-      .header('Content-Disposition', 'attachment; filename=liste-candidats-session-' + sessionId + '.ods');
-  },
-
-  async getCertificationCandidates(request) {
-    const sessionId = request.params.id;
-
-    const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
-    return certificationCandidateSerializer.serialize(certificationCandidates);
-  },
-
-  async addCertificationCandidate(request, h) {
-    const sessionId = request.params.id;
-    const certificationCandidate = await certificationCandidateSerializer.deserialize(request.payload);
-    const complementaryCertifications = request.payload.data.attributes['complementary-certifications'] ?? [];
-    const addedCertificationCandidate = await usecases.addCertificationCandidateToSession({
+  const { session, certificationCenterHabilitations, isScoCertificationCenter } =
+    await usecases.getCandidateImportSheetData({
       sessionId,
-      certificationCandidate,
-      complementaryCertifications,
-    });
-
-    return h.response(certificationCandidateSerializer.serialize(addedCertificationCandidate)).created();
-  },
-
-  async deleteCertificationCandidate(request) {
-    const certificationCandidateId = request.params.certificationCandidateId;
-
-    await usecases.deleteUnlinkedCertificationCandidate({ certificationCandidateId });
-
-    return null;
-  },
-
-  async getJuryCertificationSummaries(request) {
-    const sessionId = request.params.id;
-    const { page } = queryParamsUtils.extractParameters(request.query);
-
-    const { juryCertificationSummaries, pagination } =
-      await juryCertificationSummaryRepository.findBySessionIdPaginated({
-        sessionId,
-        page,
-      });
-    return juryCertificationSummarySerializer.serialize(juryCertificationSummaries, pagination);
-  },
-
-  async generateSessionResultsDownloadLink(request, h) {
-    const sessionId = request.params.id;
-    const sessionResultsLink = sessionResultsLinkService.generateResultsLink(sessionId);
-
-    return h.response({ sessionResultsLink });
-  },
-
-  async getSessionResultsToDownload(request, h) {
-    const token = request.params.token;
-    const { sessionId } = tokenService.extractSessionId(token);
-    const { session, certificationResults } = await usecases.getSessionResults({ sessionId });
-
-    const csvResult = await certificationResultUtils.getSessionCertificationResultsCsv({
-      session,
-      certificationResults,
-    });
-
-    const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
-    const fileName = `${dateWithTime.format('YYYYMMDD_HHmm')}_resultats_session_${sessionId}.csv`;
-
-    return h
-      .response(csvResult)
-      .header('Content-Type', 'text/csv;charset=utf-8')
-      .header('Content-Disposition', `attachment; filename=${fileName}`);
-  },
-
-  async getSessionResultsByRecipientEmail(request, h) {
-    const token = request.params.token;
-    const { resultRecipientEmail, sessionId } = tokenService.extractResultRecipientEmailAndSessionId(token);
-    const { session, certificationResults } = await usecases.getSessionResultsByResultRecipientEmail({
-      sessionId,
-      resultRecipientEmail,
-    });
-    const csvResult = await certificationResultUtils.getSessionCertificationResultsCsv({
-      session,
-      certificationResults,
-    });
-
-    const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
-    const fileName = `${dateWithTime.format('YYYYMMDD_HHmm')}_resultats_session_${sessionId}.csv`;
-
-    return h
-      .response(csvResult)
-      .header('Content-Type', 'text/csv;charset=utf-8')
-      .header('Content-Disposition', `attachment; filename=${fileName}`);
-  },
-
-  async getCertificationReports(request) {
-    const sessionId = request.params.id;
-
-    return usecases
-      .getSessionCertificationReports({ sessionId })
-      .then((certificationReports) => certificationReportSerializer.serialize(certificationReports));
-  },
-
-  async importCertificationCandidatesFromCandidatesImportSheet(request) {
-    const sessionId = request.params.id;
-    const odsBuffer = request.payload;
-
-    try {
-      await usecases.importCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer });
-    } catch (err) {
-      if (err instanceof CertificationCandidateAlreadyLinkedToUserError) {
-        throw new BadRequestError(err.message);
-      }
-      throw err;
-    }
-
-    return null;
-  },
-
-  async enrollStudentsToSession(request, h) {
-    const referentId = requestResponseUtils.extractUserIdFromRequest(request);
-    const sessionId = request.params.id;
-    const studentIds = request.deserializedPayload.organizationLearnerIds;
-
-    await usecases.enrollStudentsToSession({ sessionId, referentId, studentIds });
-    const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
-    const certificationCandidatesSerialized = certificationCandidateSerializer.serialize(certificationCandidates);
-    return h.response(certificationCandidatesSerialized).created();
-  },
-
-  async createCandidateParticipation(request, h) {
-    const userId = request.auth.credentials.userId;
-    const sessionId = request.params.id;
-    const firstName = trim(request.payload.data.attributes['first-name']);
-    const lastName = trim(request.payload.data.attributes['last-name']);
-    const birthdate = request.payload.data.attributes['birthdate'];
-
-    const event = await usecases.linkUserToSessionCertificationCandidate({
       userId,
-      sessionId,
-      firstName,
-      lastName,
-      birthdate,
     });
+  const candidateImportSheet = await fillCandidatesImportSheet({
+    session,
+    certificationCenterHabilitations,
+    isScoCertificationCenter,
+  });
 
-    const certificationCandidate = await usecases.getCertificationCandidate({ userId, sessionId });
-    const serialized = await certificationCandidateSerializer.serialize(certificationCandidate);
-    return event instanceof UserLinkedToCertificationCandidate ? h.response(serialized).created() : serialized;
-  },
+  return h
+    .response(candidateImportSheet)
+    .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
+    .header('Content-Disposition', 'attachment; filename=liste-candidats-session-' + sessionId + '.ods');
+};
 
-  async finalize(request, h) {
-    const sessionId = request.params.id;
-    const examinerGlobalComment = request.payload.data.attributes['examiner-global-comment'];
-    const hasIncident = request.payload.data.attributes['has-incident'];
-    const hasJoiningIssue = request.payload.data.attributes['has-joining-issue'];
-    const certificationReports = await Promise.all(
-      (request.payload.data.included || [])
-        .filter((data) => data.type === 'certification-reports')
-        .map((data) => certificationReportSerializer.deserialize({ data }))
-    );
+const getCertificationCandidates = async function (request) {
+  const sessionId = request.params.id;
 
-    const event = await usecases.finalizeSession({
-      sessionId,
-      examinerGlobalComment,
-      hasIncident,
-      hasJoiningIssue,
-      certificationReports,
-    });
-    await events.eventDispatcher.dispatch(event);
-    return h.response().code(200);
-  },
+  const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
+  return certificationCandidateSerializer.serialize(certificationCandidates);
+};
 
-  async publish(request) {
-    const sessionId = request.params.id;
+const addCertificationCandidate = async function (request, h) {
+  const sessionId = request.params.id;
+  const certificationCandidate = await certificationCandidateSerializer.deserialize(request.payload);
+  const complementaryCertifications = request.payload.data.attributes['complementary-certifications'] ?? [];
+  const addedCertificationCandidate = await usecases.addCertificationCandidateToSession({
+    sessionId,
+    certificationCandidate,
+    complementaryCertifications,
+  });
 
-    const session = await usecases.publishSession({ sessionId });
+  return h.response(certificationCandidateSerializer.serialize(addedCertificationCandidate)).created();
+};
 
-    return sessionSerializer.serialize({ session });
-  },
+const deleteCertificationCandidate = async function (request) {
+  const certificationCandidateId = request.params.certificationCandidateId;
 
-  async publishInBatch(request, h) {
-    const sessionIds = request.payload.data.attributes.ids;
-    const result = await usecases.publishSessionsInBatch({
-      sessionIds,
-    });
-    if (result.hasPublicationErrors()) {
-      _logSessionBatchPublicationErrors(result);
-      throw new SessionPublicationBatchError(result.batchId);
+  await usecases.deleteUnlinkedCertificationCandidate({ certificationCandidateId });
+
+  return null;
+};
+
+const getJuryCertificationSummaries = async function (request) {
+  const sessionId = request.params.id;
+  const { page } = queryParamsUtils.extractParameters(request.query);
+
+  const { juryCertificationSummaries, pagination } = await juryCertificationSummaryRepository.findBySessionIdPaginated({
+    sessionId,
+    page,
+  });
+  return juryCertificationSummarySerializer.serialize(juryCertificationSummaries, pagination);
+};
+
+const generateSessionResultsDownloadLink = async function (request, h) {
+  const sessionId = request.params.id;
+  const sessionResultsLink = sessionResultsLinkService.generateResultsLink(sessionId);
+
+  return h.response({ sessionResultsLink });
+};
+
+const getSessionResultsToDownload = async function (request, h) {
+  const token = request.params.token;
+  const { sessionId } = tokenService.extractSessionId(token);
+  const { session, certificationResults } = await usecases.getSessionResults({ sessionId });
+
+  const csvResult = await certificationResultUtils.getSessionCertificationResultsCsv({
+    session,
+    certificationResults,
+  });
+
+  const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
+  const fileName = `${dateWithTime.format('YYYYMMDD_HHmm')}_resultats_session_${sessionId}.csv`;
+
+  return h
+    .response(csvResult)
+    .header('Content-Type', 'text/csv;charset=utf-8')
+    .header('Content-Disposition', `attachment; filename=${fileName}`);
+};
+
+const getSessionResultsByRecipientEmail = async function (request, h) {
+  const token = request.params.token;
+  const { resultRecipientEmail, sessionId } = tokenService.extractResultRecipientEmailAndSessionId(token);
+  const { session, certificationResults } = await usecases.getSessionResultsByResultRecipientEmail({
+    sessionId,
+    resultRecipientEmail,
+  });
+  const csvResult = await certificationResultUtils.getSessionCertificationResultsCsv({
+    session,
+    certificationResults,
+  });
+
+  const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
+  const fileName = `${dateWithTime.format('YYYYMMDD_HHmm')}_resultats_session_${sessionId}.csv`;
+
+  return h
+    .response(csvResult)
+    .header('Content-Type', 'text/csv;charset=utf-8')
+    .header('Content-Disposition', `attachment; filename=${fileName}`);
+};
+
+const getCertificationReports = async function (request) {
+  const sessionId = request.params.id;
+
+  return usecases
+    .getSessionCertificationReports({ sessionId })
+    .then((certificationReports) => certificationReportSerializer.serialize(certificationReports));
+};
+
+const importCertificationCandidatesFromCandidatesImportSheet = async function (request) {
+  const sessionId = request.params.id;
+  const odsBuffer = request.payload;
+
+  try {
+    await usecases.importCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer });
+  } catch (err) {
+    if (err instanceof CertificationCandidateAlreadyLinkedToUserError) {
+      throw new BadRequestError(err.message);
     }
-    return h.response().code(204);
-  },
+    throw err;
+  }
 
-  async unpublish(request) {
-    const sessionId = request.params.id;
+  return null;
+};
 
-    const session = await usecases.unpublishSession({ sessionId });
+const enrollStudentsToSession = async function (request, h) {
+  const referentId = requestResponseUtils.extractUserIdFromRequest(request);
+  const sessionId = request.params.id;
+  const studentIds = request.deserializedPayload.organizationLearnerIds;
 
-    return sessionSerializer.serialize({ session });
-  },
+  await usecases.enrollStudentsToSession({ sessionId, referentId, studentIds });
+  const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
+  const certificationCandidatesSerialized = certificationCandidateSerializer.serialize(certificationCandidates);
+  return h.response(certificationCandidatesSerialized).created();
+};
 
-  async flagResultsAsSentToPrescriber(request, h) {
-    const sessionId = request.params.id;
-    const { resultsFlaggedAsSent, session } = await usecases.flagSessionResultsAsSentToPrescriber({ sessionId });
-    const serializedSession = await sessionSerializer.serialize({ session });
-    return resultsFlaggedAsSent ? h.response(serializedSession).created() : serializedSession;
-  },
+const createCandidateParticipation = async function (request, h) {
+  const userId = request.auth.credentials.userId;
+  const sessionId = request.params.id;
+  const firstName = trim(request.payload.data.attributes['first-name']);
+  const lastName = trim(request.payload.data.attributes['last-name']);
+  const birthdate = request.payload.data.attributes['birthdate'];
 
-  async assignCertificationOfficer(request) {
-    const sessionId = request.params.id;
-    const certificationOfficerId = request.auth.credentials.userId;
-    const jurySession = await usecases.assignCertificationOfficerToJurySession({ sessionId, certificationOfficerId });
-    return jurySessionSerializer.serialize(jurySession);
-  },
+  const event = await usecases.linkUserToSessionCertificationCandidate({
+    userId,
+    sessionId,
+    firstName,
+    lastName,
+    birthdate,
+  });
 
-  async commentAsJury(request, h) {
-    const sessionId = request.params.id;
-    const juryCommentAuthorId = request.auth.credentials.userId;
-    const juryComment = request.payload['jury-comment'];
-    await usecases.commentSessionAsJury({ sessionId, juryCommentAuthorId, juryComment });
+  const certificationCandidate = await usecases.getCertificationCandidate({ userId, sessionId });
+  const serialized = await certificationCandidateSerializer.serialize(certificationCandidate);
+  return event instanceof UserLinkedToCertificationCandidate ? h.response(serialized).created() : serialized;
+};
 
-    return h.response().code(204);
-  },
+const finalize = async function (request, h) {
+  const sessionId = request.params.id;
+  const examinerGlobalComment = request.payload.data.attributes['examiner-global-comment'];
+  const hasIncident = request.payload.data.attributes['has-incident'];
+  const hasJoiningIssue = request.payload.data.attributes['has-joining-issue'];
+  const certificationReports = await Promise.all(
+    (request.payload.data.included || [])
+      .filter((data) => data.type === 'certification-reports')
+      .map((data) => certificationReportSerializer.deserialize({ data }))
+  );
 
-  async delete(request, h) {
-    const sessionId = request.params.id;
+  const event = await usecases.finalizeSession({
+    sessionId,
+    examinerGlobalComment,
+    hasIncident,
+    hasJoiningIssue,
+    certificationReports,
+  });
+  await events.eventDispatcher.dispatch(event);
+  return h.response().code(200);
+};
 
-    await usecases.deleteSession({ sessionId });
+const publish = async function (request) {
+  const sessionId = request.params.id;
 
-    return h.response().code(204);
-  },
+  const session = await usecases.publishSession({ sessionId });
 
-  async deleteJuryComment(request, h) {
-    const sessionId = request.params.id;
-    await usecases.deleteSessionJuryComment({ sessionId });
+  return sessionSerializer.serialize({ session });
+};
 
-    return h.response().code(204);
-  },
+const publishInBatch = async function (request, h) {
+  const sessionIds = request.payload.data.attributes.ids;
+  const result = await usecases.publishSessionsInBatch({
+    sessionIds,
+  });
+  if (result.hasPublicationErrors()) {
+    _logSessionBatchPublicationErrors(result);
+    throw new SessionPublicationBatchError(result.batchId);
+  }
+  return h.response().code(204);
+};
+
+const unpublish = async function (request) {
+  const sessionId = request.params.id;
+
+  const session = await usecases.unpublishSession({ sessionId });
+
+  return sessionSerializer.serialize({ session });
+};
+
+const flagResultsAsSentToPrescriber = async function (request, h) {
+  const sessionId = request.params.id;
+  const { resultsFlaggedAsSent, session } = await usecases.flagSessionResultsAsSentToPrescriber({ sessionId });
+  const serializedSession = await sessionSerializer.serialize({ session });
+  return resultsFlaggedAsSent ? h.response(serializedSession).created() : serializedSession;
+};
+
+const assignCertificationOfficer = async function (request) {
+  const sessionId = request.params.id;
+  const certificationOfficerId = request.auth.credentials.userId;
+  const jurySession = await usecases.assignCertificationOfficerToJurySession({ sessionId, certificationOfficerId });
+  return jurySessionSerializer.serialize(jurySession);
+};
+
+const commentAsJury = async function (request, h) {
+  const sessionId = request.params.id;
+  const juryCommentAuthorId = request.auth.credentials.userId;
+  const juryComment = request.payload['jury-comment'];
+  await usecases.commentSessionAsJury({ sessionId, juryCommentAuthorId, juryComment });
+
+  return h.response().code(204);
+};
+
+const remove = async function (request, h) {
+  const sessionId = request.params.id;
+
+  await usecases.deleteSession({ sessionId });
+
+  return h.response().code(204);
+};
+
+const deleteJuryComment = async function (request, h) {
+  const sessionId = request.params.id;
+  await usecases.deleteSessionJuryComment({ sessionId });
+
+  return h.response().code(204);
+};
+
+export {
+  findPaginatedFilteredJurySessions,
+  getJurySession,
+  get,
+  update,
+  getAttendanceSheet,
+  getSupervisorKitPdf,
+  getCandidatesImportSheet,
+  getCertificationCandidates,
+  addCertificationCandidate,
+  deleteCertificationCandidate,
+  getJuryCertificationSummaries,
+  generateSessionResultsDownloadLink,
+  getSessionResultsToDownload,
+  getSessionResultsByRecipientEmail,
+  getCertificationReports,
+  importCertificationCandidatesFromCandidatesImportSheet,
+  enrollStudentsToSession,
+  createCandidateParticipation,
+  finalize,
+  publish,
+  publishInBatch,
+  unpublish,
+  flagResultsAsSentToPrescriber,
+  assignCertificationOfficer,
+  commentAsJury,
+  remove,
+  deleteJuryComment,
 };
 
 function _logSessionBatchPublicationErrors(result) {

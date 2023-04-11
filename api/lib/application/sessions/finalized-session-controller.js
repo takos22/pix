@@ -1,15 +1,15 @@
-const usecases = require('../../domain/usecases/index.js');
-const toBePublishedSessionSerializer = require('../../infrastructure/serializers/jsonapi/to-be-published-session-serializer.js');
-const withRequiredActionSessionSerializer = require('../../infrastructure/serializers/jsonapi/with-required-action-session-serializer.js');
+import { usecases } from '../../domain/usecases/index.js';
+import * as toBePublishedSessionSerializer from '../../infrastructure/serializers/jsonapi/to-be-published-session-serializer.js';
+import * as withRequiredActionSessionSerializer from '../../infrastructure/serializers/jsonapi/with-required-action-session-serializer.js';
 
-module.exports = {
-  async findFinalizedSessionsToPublish() {
-    const finalizedSessionsToPublish = await usecases.findFinalizedSessionsToPublish();
-    return toBePublishedSessionSerializer.serialize(finalizedSessionsToPublish);
-  },
-
-  async findFinalizedSessionsWithRequiredAction() {
-    const finalizedSessionsWithRequiredAction = await usecases.findFinalizedSessionsWithRequiredAction();
-    return withRequiredActionSessionSerializer.serialize(finalizedSessionsWithRequiredAction);
-  },
+const findFinalizedSessionsToPublish = async function () {
+  const finalizedSessionsToPublish = await usecases.findFinalizedSessionsToPublish();
+  return toBePublishedSessionSerializer.serialize(finalizedSessionsToPublish);
 };
+
+const findFinalizedSessionsWithRequiredAction = async function () {
+  const finalizedSessionsWithRequiredAction = await usecases.findFinalizedSessionsWithRequiredAction();
+  return withRequiredActionSessionSerializer.serialize(finalizedSessionsWithRequiredAction);
+};
+
+export { findFinalizedSessionsToPublish, findFinalizedSessionsWithRequiredAction };

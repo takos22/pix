@@ -1,6 +1,6 @@
-const config = require('../../config');
+import { config } from '../../config.js';
 
-module.exports = async function handleTrainingRecommendation({
+const handleTrainingRecommendation = async function ({
   locale,
   assessment,
   campaignRepository,
@@ -55,3 +55,5 @@ module.exports = async function handleTrainingRecommendation({
     }
   }
 };
+
+export { handleTrainingRecommendation };

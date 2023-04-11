@@ -1,4 +1,4 @@
-module.exports = async function updateTargetProfile({
+const updateTargetProfile = async function ({
   id,
   name,
   description,
@@ -10,3 +10,5 @@ module.exports = async function updateTargetProfile({
   targetProfileForUpdate.update({ name, description, comment, category });
   await targetProfileForUpdateRepository.update(targetProfileForUpdate);
 };
+
+export { updateTargetProfile };

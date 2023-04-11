@@ -1,8 +1,11 @@
-const dayjs = require('dayjs');
-const { plannerJob } = require('../../../../config.js').cpf;
-const _ = require('lodash');
+import dayjs from 'dayjs';
+import { cpf } from '../../../../config.js';
 
-module.exports = async function planner({ job, pgBoss, cpfCertificationResultRepository, logger }) {
+const { plannerJob } = cpf;
+
+import _ from 'lodash';
+
+const planner = async function ({ job, pgBoss, cpfCertificationResultRepository, logger }) {
   const startDate = dayjs()
     .utc()
     .subtract(plannerJob.minimumReliabilityPeriod + (plannerJob.monthsToProcess - 1), 'months')
@@ -30,3 +33,5 @@ module.exports = async function planner({ job, pgBoss, cpfCertificationResultRep
     });
   }
 };
+
+export { planner };

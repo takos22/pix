@@ -1,8 +1,8 @@
-const { knex } = require('../../../../db/knex-database-connection.js');
-const { skillDatasource } = require('../../datasources/learning-content/skill-datasource.js');
-const TargetProfileForSpecifier = require('../../../domain/read-models/campaign/TargetProfileForSpecifier.js');
-const bluebird = require('bluebird');
-const { uniqBy } = require('lodash');
+import { knex } from '../../../../db/knex-database-connection.js';
+import { skillDatasource } from '../../datasources/learning-content/skill-datasource.js';
+import { TargetProfileForSpecifier } from '../../../domain/read-models/campaign/TargetProfileForSpecifier.js';
+import bluebird from 'bluebird';
+import { uniqBy } from 'lodash';
 
 async function availableForOrganization(organizationId) {
   const targetProfileRows = await _fetchTargetProfiles(organizationId);
@@ -66,6 +66,4 @@ async function _buildTargetProfileForSpecifier(row) {
   });
 }
 
-module.exports = {
-  availableForOrganization,
-};
+export { availableForOrganization };

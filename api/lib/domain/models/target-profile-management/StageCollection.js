@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const { InvalidStageError, DomainError } = require('../../errors.js');
+import _ from 'lodash';
+import { InvalidStageError, DomainError } from '../../errors.js';
 
 class StageCollection {
   constructor({ id, stages, maxLevel }) {
@@ -131,4 +131,4 @@ class StageCollection {
   }
 }
 
-module.exports = StageCollection;
+export { StageCollection };

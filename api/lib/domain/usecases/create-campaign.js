@@ -1,6 +1,6 @@
-const campaignCodeGenerator = require('../services/campaigns/campaign-code-generator.js');
+import { campaignCodeGenerator } from '../services/campaigns/campaign-code-generator.js';
 
-module.exports = async function createCampaign({ campaign, campaignRepository, campaignCreatorRepository }) {
+const createCampaign = async function ({ campaign, campaignRepository, campaignCreatorRepository }) {
   const generatedCampaignCode = await campaignCodeGenerator.generate(campaignRepository);
   const campaignCreator = await campaignCreatorRepository.get({
     userId: campaign.creatorId,
@@ -12,3 +12,5 @@ module.exports = async function createCampaign({ campaign, campaignRepository, c
 
   return campaignRepository.save(campaignForCreation);
 };
+
+export { createCampaign };

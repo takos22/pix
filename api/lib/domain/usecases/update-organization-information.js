@@ -1,7 +1,7 @@
-const bluebird = require('bluebird');
-const _ = require('lodash');
-const OrganizationTag = require('../models/OrganizationTag.js');
-const DataProtectionOfficer = require('../models/DataProtectionOfficer.js');
+import bluebird from 'bluebird';
+import _ from 'lodash';
+import { OrganizationTag } from '../models/OrganizationTag.js';
+import { DataProtectionOfficer } from '../models/DataProtectionOfficer.js';
 
 async function _updateOrganizationTags({
   organization,
@@ -50,7 +50,7 @@ async function _addOrUpdateDataProtectionOfficer({ organization, dataProtectionO
   return dataProtectionOfficerRepository.create(dataProtectionOfficer);
 }
 
-module.exports = async function updateOrganizationInformation({
+const updateOrganizationInformation = async function ({
   dataProtectionOfficerRepository,
   organization,
   organizationForAdminRepository,
@@ -89,3 +89,5 @@ module.exports = async function updateOrganizationInformation({
 
   return updatedOrganization;
 };
+
+export { updateOrganizationInformation };

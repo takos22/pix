@@ -1,11 +1,10 @@
-const jsYaml = require('js-yaml');
-const _ = require('../../infrastructure/utils/lodash-utils.js');
-const { applyPreTreatments, applyTreatments } = require('./validation-treatments.js');
-const { YamlParsingError } = require('../../domain/errors.js');
-const { getEnabledTreatments, useLevenshteinRatio } = require('./services-utils.js');
-const { validateAnswer } = require('./string-comparison-service.js');
-
-const AnswerStatus = require('../models/AnswerStatus.js');
+import jsYaml from 'js-yaml';
+import { _ } from '../../infrastructure/utils/lodash-utils.js';
+import { applyPreTreatments, applyTreatments } from './validation-treatments.js';
+import { YamlParsingError } from '../../domain/errors.js';
+import { getEnabledTreatments, useLevenshteinRatio } from './services-utils.js';
+import { validateAnswer } from './string-comparison-service.js';
+import { AnswerStatus } from '../models/AnswerStatus.js';
 
 function _applyTreatmentsToSolutions(solutions, enabledTreatments) {
   return _.mapValues(solutions, (validSolutions) => {
@@ -59,37 +58,37 @@ function _getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatm
   );
 }
 
-module.exports = {
-  match({ answerValue, solution }) {
-    const yamlSolution = solution.value;
-    const yamlScoring = solution.scoring;
-    const deactivations = solution.deactivations;
+const match = function ({ answerValue, solution }) {
+  const yamlSolution = solution.value;
+  const yamlScoring = solution.scoring;
+  const deactivations = solution.deactivations;
 
-    // Input checking
-    if (!_.isString(answerValue) || _.isEmpty(answerValue) || !_.includes(yamlSolution, '\n')) {
-      return AnswerStatus.KO;
-    }
+  // Input checking
+  if (!_.isString(answerValue) || _.isEmpty(answerValue) || !_.includes(yamlSolution, '\n')) {
+    return AnswerStatus.KO;
+  }
 
-    // Pre-Treatments
-    const preTreatedAnswers = applyPreTreatments(answerValue);
+  // Pre-Treatments
+  const preTreatedAnswers = applyPreTreatments(answerValue);
 
-    // Convert Yaml to JS objects
-    let answers, solutions, scoring;
-    try {
-      answers = jsYaml.load(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
-      solutions = jsYaml.load(yamlSolution, { schema: jsYaml.FAILSAFE_SCHEMA });
-      scoring = jsYaml.load(yamlScoring || '', { schema: jsYaml.FAILSAFE_SCHEMA });
-    } catch (error) {
-      throw new YamlParsingError();
-    }
+  // Convert Yaml to JS objects
+  let answers, solutions, scoring;
+  try {
+    answers = jsYaml.load(preTreatedAnswers, { schema: jsYaml.FAILSAFE_SCHEMA });
+    solutions = jsYaml.load(yamlSolution, { schema: jsYaml.FAILSAFE_SCHEMA });
+    scoring = jsYaml.load(yamlScoring || '', { schema: jsYaml.FAILSAFE_SCHEMA });
+  } catch (error) {
+    throw new YamlParsingError();
+  }
 
-    const enabledTreatments = getEnabledTreatments(true, deactivations);
+  const enabledTreatments = getEnabledTreatments(true, deactivations);
 
-    const treatedSolutions = _applyTreatmentsToSolutions(solutions, enabledTreatments);
-    const treatedAnswers = _applyTreatmentsToAnswers(answers, enabledTreatments);
+  const treatedSolutions = _applyTreatmentsToSolutions(solutions, enabledTreatments);
+  const treatedAnswers = _applyTreatmentsToAnswers(answers, enabledTreatments);
 
-    const numberOfGoodAnswers = _getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments);
+  const numberOfGoodAnswers = _getNumberOfGoodAnswers(treatedAnswers, treatedSolutions, enabledTreatments);
 
-    return _formatResult(scoring, numberOfGoodAnswers, _.size(answers));
-  },
+  return _formatResult(scoring, numberOfGoodAnswers, _.size(answers));
 };
+
+export { match };

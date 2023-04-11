@@ -1,6 +1,6 @@
-const errorManager = require('./error-manager.js');
-const { BaseHttpError } = require('./http-errors.js');
-const { DomainError } = require('../domain/errors.js');
+import { errorManager } from './error-manager.js';
+import { BaseHttpError } from './http-errors.js';
+import { DomainError } from '../domain/errors.js';
 
 function handleDomainAndHttpErrors(request, h) {
   const response = request.response;
@@ -12,6 +12,4 @@ function handleDomainAndHttpErrors(request, h) {
   return h.continue;
 }
 
-module.exports = {
-  handleDomainAndHttpErrors,
-};
+export { handleDomainAndHttpErrors };

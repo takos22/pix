@@ -1,20 +1,18 @@
-const isNil = require('lodash/isNil');
+import isNil from 'lodash/isNil';
 
-const {
+import {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   CampaignCodeError,
   EntityValidationError,
   OrganizationLearnerAlreadyLinkedToUserError,
-} = require('../errors.js');
+} from '../errors.js';
 
-const User = require('../models/User.js');
-
-const passwordValidator = require('../validators/password-validator.js');
-const userValidator = require('../validators/user-validator.js');
-
-const { getCampaignUrl } = require('../../infrastructure/utils/url-builder.js');
-const { STUDENT_RECONCILIATION_ERRORS } = require('../constants.js');
+import { User } from '../models/User.js';
+import { passwordValidator } from '../validators/password-validator.js';
+import { userValidator } from '../validators/user-validator.js';
+import { getCampaignUrl } from '../../infrastructure/utils/url-builder.js';
+import { STUDENT_RECONCILIATION_ERRORS } from '../constants.js';
 
 function _encryptPassword(userPassword, encryptionService) {
   const encryptedPassword = encryptionService.hashPassword(userPassword);
@@ -108,7 +106,7 @@ async function _validateData({ isUsernameMode, password, userAttributes, userRep
   }
 }
 
-module.exports = async function createAndReconcileUserToOrganizationLearner({
+const createAndReconcileUserToOrganizationLearner = async function ({
   campaignCode,
   locale,
   password,
@@ -177,3 +175,5 @@ module.exports = async function createAndReconcileUserToOrganizationLearner({
   }
   return createdUser;
 };
+
+export { createAndReconcileUserToOrganizationLearner };
