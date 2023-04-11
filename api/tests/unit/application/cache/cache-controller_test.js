@@ -1,7 +1,6 @@
 import { expect, sinon, hFake } from '../../../test-helper.js';
 import * as cacheController from '../../../../lib/application/cache/cache-controller.js';
 import * as learningContentDatasources from '../../../../lib/infrastructure/datasources/learning-content/index.js';
-import * as learningContentDatasource from '../../../../lib/infrastructure/datasources/learning-content/datasource.js';
 import { logger } from '../../../../lib/infrastructure/logger.js';
 
 describe('Unit | Controller | cache-controller', function () {
@@ -51,18 +50,23 @@ describe('Unit | Controller | cache-controller', function () {
 
   describe('#refreshCacheEntries', function () {
     const request = {};
+    let learningContentDatasourceStub;
+
+    beforeEach(function () {
+      learningContentDatasourceStub = { refreshLearningContentCacheRecords: sinon.stub()};
+    });
 
     context('nominal case', function () {
       it('should reply with http status 202', async function () {
         // given
         const numberOfDeletedKeys = 0;
-        sinon.stub(learningContentDatasource, 'refreshLearningContentCacheRecords').resolves(numberOfDeletedKeys);
+        learningContentDatasourceStub.refreshLearningContentCacheRecords.resolves(numberOfDeletedKeys);
 
         // when
-        const response = await cacheController.refreshCacheEntries(request, hFake);
+        const response = await cacheController.refreshCacheEntries(request, hFake, { learningContentDatasource: learningContentDatasourceStub});
 
         // then
-        expect(learningContentDatasource.refreshLearningContentCacheRecords).to.have.been.calledOnce;
+        expect(learningContentDatasourceStub.refreshLearningContentCacheRecords).to.have.been.calledOnce;
         expect(response.statusCode).to.equal(202);
       });
     });
@@ -73,10 +77,10 @@ describe('Unit | Controller | cache-controller', function () {
       beforeEach(async function () {
         // given
         sinon.stub(logger, 'error');
-        sinon.stub(learningContentDatasource, 'refreshLearningContentCacheRecords').rejects();
+        learningContentDatasourceStub.refreshLearningContentCacheRecords.rejects();
 
         // when
-        response = await cacheController.refreshCacheEntries(request, hFake);
+        response = await cacheController.refreshCacheEntries(request, hFake, { learningContentDatasource: learningContentDatasourceStub});
       });
 
       it('should reply with http status 202', async function () {

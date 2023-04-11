@@ -3,8 +3,8 @@ import * as learningContentDatasource from '../../infrastructure/datasources/lea
 import { logger } from '../../infrastructure/logger.js';
 import _ from 'lodash';
 
-const refreshCacheEntries = function (request, h) {
-  learningContentDatasource
+const refreshCacheEntries = function (_, h, dependencies = { learningContentDatasource }) {
+  dependencies.learningContentDatasource
     .refreshLearningContentCacheRecords()
     .catch((e) => logger.error('Error while reloading cache', e));
   return h.response({}).code(202);
