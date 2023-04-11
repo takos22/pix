@@ -12,12 +12,10 @@ import * as campaignParticipationSerializer from '../../../../lib/infrastructure
 import * as campaignParticipationOverviewSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
 import * as scorecardSerializer from '../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer.js';
 import * as profileSerializer from '../../../../lib/infrastructure/serializers/jsonapi/profile-serializer.js';
-import * as userSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-serializer.js';
 import * as userForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-for-admin-serializer.js';
 import * as userWithActivitySerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-with-activity-serializer.js';
 import * as userAnonymizedDetailsForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer.js';
 import * as userDetailsForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer.js';
-import * as validationErrorSerializer from '../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer.js';
 import * as updateEmailSerializer from '../../../../lib/infrastructure/serializers/jsonapi/update-email-serializer.js';
 import * as authenticationMethodsSerializer from '../../../../lib/infrastructure/serializers/jsonapi/authentication-methods-serializer.js';
 import * as userOrganizationForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
@@ -28,6 +26,15 @@ import { UserOrganizationForAdmin } from '../../../../lib/domain/read-models/Use
 import * as localeService from '../../../../lib/domain/services/locale-service.js';
 
 describe('Unit | Controller | user-controller', function () {
+  let userSerializer;
+
+  beforeEach(function () {
+    userSerializer = {
+      deserialize: sinon.stub(),
+      serialize: sinon.stub(),
+    };
+  });
+
   describe('#save', function () {
     const email = 'to-be-free@ozone.airplane';
     const password = 'Password123';
@@ -36,10 +43,17 @@ describe('Unit | Controller | user-controller', function () {
     const savedUser = new User({ email });
     const localeFromHeader = 'fr-fr';
 
+    let validationErrorSerializer;
+    let encryptionService;
+
     beforeEach(function () {
-      sinon.stub(userSerializer, 'deserialize').returns(deserializedUser);
-      sinon.stub(userSerializer, 'serialize');
-      sinon.stub(validationErrorSerializer, 'serialize');
+      userSerializer.deserialize.returns(deserializedUser);
+
+      validationErrorSerializer = {
+        deserialize: sinon.stub(),
+        serialize: sinon.stub(),
+      };
+
       sinon.stub(encryptionService, 'hashPassword');
       sinon.stub(mailService, 'sendAccountCreationEmail');
       sinon.stub(localeService, 'getCanonicalLocale');
@@ -151,8 +165,6 @@ describe('Unit | Controller | user-controller', function () {
 
     beforeEach(function () {
       sinon.stub(usecases, 'updateUserPassword');
-      sinon.stub(userSerializer, 'serialize');
-      sinon.stub(userSerializer, 'deserialize');
     });
 
     it('should update password', async function () {
@@ -255,7 +267,6 @@ describe('Unit | Controller | user-controller', function () {
       };
 
       sinon.stub(usecases, 'acceptPixLastTermsOfService');
-      sinon.stub(userSerializer, 'serialize');
     });
 
     it('should accept pix terms of service', async function () {
@@ -283,7 +294,6 @@ describe('Unit | Controller | user-controller', function () {
       };
 
       sinon.stub(usecases, 'acceptPixOrgaTermsOfService');
-      sinon.stub(userSerializer, 'serialize');
     });
 
     it('should accept pix orga terms of service', async function () {
@@ -331,7 +341,6 @@ describe('Unit | Controller | user-controller', function () {
       };
 
       sinon.stub(usecases, 'changeUserLang');
-      sinon.stub(userSerializer, 'serialize');
     });
 
     it('should modify lang of user', async function () {
@@ -358,7 +367,6 @@ describe('Unit | Controller | user-controller', function () {
       };
 
       sinon.stub(usecases, 'rememberUserHasSeenAssessmentInstructions');
-      sinon.stub(userSerializer, 'serialize');
     });
 
     it('should remember user has seen assessment instructions', async function () {
@@ -385,7 +393,6 @@ describe('Unit | Controller | user-controller', function () {
       };
 
       sinon.stub(usecases, 'rememberUserHasSeenNewDashboardInfo');
-      sinon.stub(userSerializer, 'serialize');
     });
 
     it('should remember user has seen new dashboard info', async function () {
@@ -408,7 +415,6 @@ describe('Unit | Controller | user-controller', function () {
 
     beforeEach(function () {
       sinon.stub(usecases, 'rememberUserHasSeenChallengeTooltip');
-      sinon.stub(userSerializer, 'serialize');
     });
 
     it('should remember user has seen focused challenge tooltip', async function () {
