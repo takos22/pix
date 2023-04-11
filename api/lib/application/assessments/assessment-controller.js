@@ -23,13 +23,13 @@ const save = async function (request, h, dependencies = { assessmentRepository }
   return h.response(assessmentSerializer.serialize(createdAssessment)).created();
 };
 
-const get = async function (request) {
+const get = async function (request, _, dependencies = { assessmentSerializer }) {
   const assessmentId = request.params.id;
   const locale = extractLocaleFromRequest(request);
 
   const assessment = await usecases.getAssessment({ assessmentId, locale });
 
-  return assessmentSerializer.serialize(assessment);
+  return dependencies.assessmentSerializer.serialize(assessment);
 };
 
 const getLastChallengeId = async function (request, h) {

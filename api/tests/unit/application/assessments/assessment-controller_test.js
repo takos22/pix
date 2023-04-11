@@ -2,7 +2,6 @@ import { sinon, expect, hFake, domainBuilder } from '../../../test-helper.js';
 import * as assessmentController from '../../../../lib/application/assessments/assessment-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import * as events from '../../../../lib/domain/events/index.js';
-import * as assessmentSerializer from '../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer.js';
 import { AssessmentCompleted } from '../../../../lib/domain/events/AssessmentCompleted.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
 
@@ -13,10 +12,12 @@ describe('Unit | Controller | assessment-controller', function () {
     const assessmentId = 104974;
 
     const assessment = { id: assessmentId, title: 'Ordinary Wizarding Level assessment' };
-
+    let assessmentSerializerStub;
+    
     beforeEach(function () {
       sinon.stub(usecases, 'getAssessment').withArgs({ assessmentId, locale }).resolves(assessment);
-      sinon.stub(assessmentSerializer, 'serialize').resolvesArg(0);
+      assessmentSerializerStub = { serialize : sinon.stub() };
+      assessmentSerializerStub.serialize.resolvesArg(0);
     });
 
     it('should call the expected usecase', async function () {
@@ -34,7 +35,7 @@ describe('Unit | Controller | assessment-controller', function () {
       };
 
       // when
-      const result = await assessmentController.get(request, hFake);
+      const result = await assessmentController.get(request, hFake, { assessmentSerializer: assessmentSerializerStub });
 
       // then
       expect(result).to.be.equal(assessment);
