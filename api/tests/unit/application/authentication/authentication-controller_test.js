@@ -1,5 +1,4 @@
 import { sinon, expect, hFake } from '../../../test-helper.js';
-import * as tokenService from '../../../../lib/domain/services/token-service.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 
 import * as authenticationController from '../../../../lib/application/authentication/authentication-controller.js';
@@ -33,10 +32,14 @@ describe('Unit | Application | Controller | Authentication', function () {
       };
 
       sinon.stub(usecases, 'authenticateUser').resolves({ accessToken, refreshToken, expirationDelaySeconds });
-      sinon.stub(tokenService, 'extractUserId').returns(USER_ID);
+
+      const tokenServiceStub = { extractUserId: sinon.stub() };
+      tokenServiceStub.extractUserId.withArgs(accessToken).returns(USER_ID);
+
+      const dependencies = { tokenService: tokenServiceStub };
 
       // when
-      const response = await authenticationController.createToken(request, hFake);
+      const response = await authenticationController.createToken(request, hFake, dependencies);
 
       // then
       const expectedResponseResult = {
@@ -76,10 +79,13 @@ describe('Unit | Application | Controller | Authentication', function () {
           },
         };
         sinon.stub(usecases, 'authenticateUser').resolves({ accessToken, refreshToken, expirationDelaySeconds });
-        sinon.stub(tokenService, 'extractUserId').returns(USER_ID);
+        const tokenServiceStub = { extractUserId: sinon.stub() };
+        tokenServiceStub.extractUserId.withArgs(accessToken).returns(USER_ID);
+
+        const dependencies = { tokenService: tokenServiceStub };
 
         // when
-        await authenticationController.createToken(request, hFake);
+        await authenticationController.createToken(request, hFake, dependencies);
 
         // then
         expect(usecases.authenticateUser).to.have.been.calledWithExactly({
@@ -178,14 +184,18 @@ describe('Unit | Application | Controller | Authentication', function () {
           scope,
         },
       };
-      sinon.stub(tokenService, 'extractClientId').returns(client_id);
+      const tokenServiceStub = { extractUserId: sinon.stub() };
+      tokenServiceStub.extractUserId.returns(client_id);
+
+      const dependencies = { tokenService: tokenServiceStub };
+
       sinon
         .stub(usecases, 'authenticateApplication')
         .withArgs({ clientId: client_id, clientSecret: client_secret, scope })
         .resolves(access_token);
 
       // when
-      const response = await authenticationController.authenticateApplication(request, hFake);
+      const response = await authenticationController.authenticateApplication(request, hFake, dependencies);
 
       // then
       const expectedResponseResult = {

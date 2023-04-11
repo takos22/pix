@@ -2,7 +2,7 @@ import { BadRequestError } from '../http-errors.js';
 import * as tokenService from '../../domain/services/token-service.js';
 import { usecases } from '../../domain/usecases/index.js';
 
-const createToken = async function (request, h) {
+const createToken = async function (request, h, dependencies = { tokenService }) {
   let accessToken, refreshToken;
   let expirationDelaySeconds;
 
@@ -34,7 +34,7 @@ const createToken = async function (request, h) {
     .response({
       token_type: 'bearer',
       access_token: accessToken,
-      user_id: tokenService.extractUserId(accessToken),
+      user_id: dependencies.tokenService.extractUserId(accessToken),
       refresh_token: refreshToken,
       expires_in: expirationDelaySeconds,
     })
