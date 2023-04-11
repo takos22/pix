@@ -1,7 +1,6 @@
 import { sinon, expect, hFake } from '../../../test-helper.js';
 import * as trainingController from '../../../../lib/application/trainings/training-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import * as trainingSerializer from '../../../../lib/infrastructure/serializers/jsonapi/training-serializer.js';
 import * as trainingTriggerSerializer from '../../../../lib/infrastructure/serializers/jsonapi/training-trigger-serializer.js';
 import * as targetProfileSummaryForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
@@ -51,8 +50,8 @@ describe('Unit | Controller | training-controller', function () {
       const trainingId = 1;
 
       sinon.stub(usecases, 'getTraining').resolves(training);
-      const stubedTrainingSerializer = { serializeForAdmin: sinon.stub() };
-      stubedTrainingSerializer.serializeForAdmin.returns(expectedResult);
+      const trainingSerializer = { serializeForAdmin: sinon.stub() };
+      trainingSerializer.serializeForAdmin.returns(expectedResult);
 
       // when
       const response = await trainingController.getById(
@@ -62,14 +61,12 @@ describe('Unit | Controller | training-controller', function () {
           },
         },
         hFake,
-        {
-          trainingSerializer: stubedTrainingSerializer,
-        }
+        { trainingSerializer }
       );
 
       // then
       expect(usecases.getTraining).to.have.been.calledWith({ trainingId });
-      expect(stubedTrainingSerializer.serializeForAdmin).to.have.been.calledOnce;
+      expect(trainingSerializer.serializeForAdmin).to.have.been.calledOnce;
       expect(response).to.deep.equal(expectedResult);
     });
   });
@@ -87,14 +84,14 @@ describe('Unit | Controller | training-controller', function () {
         minutes: 2,
       },
     };
-    let stubedTrainingSerializer;
+    let trainingSerializer;
 
     beforeEach(function () {
-      stubedTrainingSerializer = {
+      trainingSerializer = {
         deserialize: sinon.stub(),
         serialize: sinon.stub(),
       };
-      stubedTrainingSerializer.deserialize.returns(deserializedTraining);
+      trainingSerializer.deserialize.returns(deserializedTraining);
       sinon.stub(usecases, 'createTraining').resolves(createdTraining);
     });
 
@@ -115,10 +112,10 @@ describe('Unit | Controller | training-controller', function () {
       };
 
       // when
-      await trainingController.create({ payload }, hFake, { trainingSerializer: stubedTrainingSerializer });
+      await trainingController.create({ payload }, hFake, { trainingSerializer });
 
       // then
-      expect(stubedTrainingSerializer.deserialize).to.have.been.calledWith(payload);
+      expect(trainingSerializer.deserialize).to.have.been.calledWith(payload);
       expect(usecases.createTraining).to.have.been.calledOnceWithExactly({ training: deserializedTraining });
     });
 
@@ -131,7 +128,7 @@ describe('Unit | Controller | training-controller', function () {
         },
       };
 
-      stubedTrainingSerializer.serialize.returns(expectedSerializedTraining);
+      trainingSerializer.serialize.returns(expectedSerializedTraining);
 
       // when
       const response = await trainingController.create(
@@ -146,11 +143,11 @@ describe('Unit | Controller | training-controller', function () {
           },
         },
         hFake,
-        { trainingSerializer: stubedTrainingSerializer }
+        { trainingSerializer }
       );
 
       // then
-      expect(stubedTrainingSerializer.serialize).to.have.been.calledWith(createdTraining);
+      expect(trainingSerializer.serialize).to.have.been.calledWith(createdTraining);
       expect(response.source).to.deep.equal(expectedSerializedTraining);
     });
   });
@@ -159,9 +156,14 @@ describe('Unit | Controller | training-controller', function () {
     const deserializedTraining = { title: 'new title' };
     const updatedTraining = { title: 'new title' };
 
+    let trainingSerializer;
+
     beforeEach(function () {
-      sinon.stub(trainingSerializer, 'deserialize').returns(deserializedTraining);
-      sinon.stub(trainingSerializer, 'serialize');
+      trainingSerializer = {
+        serialize: sinon.stub(),
+        deserialize: sinon.stub(),
+      };
+      trainingSerializer.deserialize.returns(deserializedTraining);
       sinon.stub(usecases, 'updateTraining').resolves(updatedTraining);
     });
 
@@ -188,7 +190,8 @@ describe('Unit | Controller | training-controller', function () {
             },
             payload,
           },
-          hFake
+          hFake,
+          { trainingSerializer }
         );
 
         // then
@@ -217,7 +220,8 @@ describe('Unit | Controller | training-controller', function () {
             },
             payload,
           },
-          hFake
+          hFake,
+          { trainingSerializer }
         );
 
         // then
@@ -268,9 +272,13 @@ describe('Unit | Controller | training-controller', function () {
 
       const createdTrigger = Symbol('createdTrigger');
       const serializedTrigger = Symbol('serializedTrigger');
-      sinon.stub(trainingTriggerSerializer, 'deserialize').withArgs(payload).returns(deserializedTrigger);
       sinon.stub(usecases, 'createOrUpdateTrainingTrigger').resolves(createdTrigger);
-      sinon.stub(trainingTriggerSerializer, 'serialize').withArgs(createdTrigger).returns(serializedTrigger);
+      const stubedTrainingTriggerSerializer = {
+        deserialize: sinon.stub(),
+        serialize: sinon.stub(),
+      };
+      stubedTrainingTriggerSerializer.deserialize.withArgs(payload).returns(deserializedTrigger);
+      stubedTrainingTriggerSerializer.serialize.withArgs(createdTrigger).returns(serializedTrigger);
 
       // when
       const result = await trainingController.createOrUpdateTrigger(
@@ -278,7 +286,8 @@ describe('Unit | Controller | training-controller', function () {
           params: { trainingId: 145 },
           payload,
         },
-        hFake
+        hFake,
+        { trainingTriggerSerializer: stubedTrainingTriggerSerializer }
       );
 
       // then

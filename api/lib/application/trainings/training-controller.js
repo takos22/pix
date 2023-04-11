@@ -33,23 +33,23 @@ const create = async function (request, h, dependencies = { trainingSerializer }
   return h.response(dependencies.trainingSerializer.serialize(createdTraining)).created();
 };
 
-const update = async function (request) {
+const update = async function (request, h, dependencies = { trainingSerializer }) {
   const { trainingId } = request.params;
-  const training = await trainingSerializer.deserialize(request.payload);
+  const training = await dependencies.trainingSerializer.deserialize(request.payload);
   const updatedTraining = await usecases.updateTraining({ training: { ...training, id: trainingId } });
-  return trainingSerializer.serialize(updatedTraining);
+  return dependencies.trainingSerializer.serialize(updatedTraining);
 };
 
-const createOrUpdateTrigger = async function (request) {
+const createOrUpdateTrigger = async function (request, h, dependencies = { trainingTriggerSerializer }) {
   const { trainingId } = request.params;
-  const { threshold, tubes, type } = await trainingTriggerSerializer.deserialize(request.payload);
+  const { threshold, tubes, type } = await dependencies.trainingTriggerSerializer.deserialize(request.payload);
   const createdOrUpdatedTrainingTrigger = await usecases.createOrUpdateTrainingTrigger({
     trainingId,
     threshold,
     tubes,
     type,
   });
-  return trainingTriggerSerializer.serialize(createdOrUpdatedTrainingTrigger);
+  return dependencies.trainingTriggerSerializer.serialize(createdOrUpdatedTrainingTrigger);
 };
 
 const attachTargetProfiles = async function (request, h) {
