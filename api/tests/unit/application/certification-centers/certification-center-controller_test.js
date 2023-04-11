@@ -14,7 +14,9 @@ describe('Unit | Controller | certifications-center-controller', function () {
   describe('#saveSession', function () {
     let request;
     let expectedSession;
+    let sessionSerializerStub;
     const userId = 274939274;
+
     beforeEach(function () {
       expectedSession = new Session({
         certificationCenter: 'Université de dressage de loutres',
@@ -28,8 +30,11 @@ describe('Unit | Controller | certifications-center-controller', function () {
       });
 
       sinon.stub(usecases, 'createSession').resolves();
-      sinon.stub(sessionSerializer, 'deserialize').returns(expectedSession);
-      sinon.stub(sessionSerializer, 'serialize');
+      sessionSerializerStub = {
+        serialize: sinon.stub(),
+        deserialize: sinon.stub(),
+      }
+      sessionSerializerStub.deserialize.returns(expectedSession);
 
       request = {
         payload: {
@@ -56,7 +61,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
 
     it('should save the session', async function () {
       // when
-      await certificationCenterController.saveSession(request, hFake);
+      await certificationCenterController.saveSession(request, hFake, { sessionSerializer: sessionSerializerStub });
 
       // then
       expect(usecases.createSession).to.have.been.calledWith({ userId, session: expectedSession });
@@ -77,14 +82,14 @@ describe('Unit | Controller | certifications-center-controller', function () {
       });
 
       usecases.createSession.resolves(savedSession);
-      sessionSerializer.serialize.returns(jsonApiSession);
+      sessionSerializerStub.serialize.returns(jsonApiSession);
 
       // when
-      const response = await certificationCenterController.saveSession(request, hFake);
+      const response = await certificationCenterController.saveSession(request, hFake, { sessionSerializer: sessionSerializerStub });
 
       // then
       expect(response).to.deep.equal(jsonApiSession);
-      expect(sessionSerializer.serialize).to.have.been.calledWith({ session: savedSession });
+      expect(sessionSerializerStub.serialize).to.have.been.calledWith({ session: savedSession });
     });
   });
 
@@ -196,10 +201,13 @@ describe('Unit | Controller | certifications-center-controller', function () {
         certificationCenterId,
       },
     };
+    let certificationCenterMembershipSerializerStub;
 
     beforeEach(function () {
       sinon.stub(usecases, 'findCertificationCenterMembershipsByCertificationCenter');
-      sinon.stub(certificationCenterMembershipSerializer, 'serialize');
+      certificationCenterMembershipSerializerStub = {
+        serialize: sinon.stub(),
+      };
     });
 
     it('should call usecase and serializer and return ok', async function () {
@@ -213,7 +221,9 @@ describe('Unit | Controller | certifications-center-controller', function () {
 
       // when
       const response = await certificationCenterController.findCertificationCenterMembershipsByCertificationCenter(
-        request
+        request,
+        hFake,
+        { certificationCenterMembershipSerializer: certificationCenterMembershipSerializerStub }
       );
 
       // then

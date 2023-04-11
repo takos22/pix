@@ -19,13 +19,13 @@ import * as csvSerializer from '../../infrastructure/serializers/csv/csv-seriali
 import { getHeaders } from '../../infrastructure/files/sessions-import.js';
 import { UnprocessableEntityError } from '../../application/http-errors.js';
 
-const saveSession = async function (request) {
+const saveSession = async function (request, _h, dependencies = { sessionSerializer }) {
   const userId = request.auth.credentials.userId;
-  const session = sessionSerializer.deserialize(request.payload);
+  const session = dependencies.sessionSerializer.deserialize(request.payload);
 
   const newSession = await usecases.createSession({ userId, session });
 
-  return sessionSerializer.serialize({ session: newSession });
+  return dependencies.sessionSerializer.serialize({ session: newSession });
 };
 
 const create = async function (request) {
@@ -106,13 +106,13 @@ const getDivisions = async function (request) {
   return divisionSerializer.serialize(divisions);
 };
 
-const findCertificationCenterMembershipsByCertificationCenter = async function (request) {
+const findCertificationCenterMembershipsByCertificationCenter = async function (request, _h, dependencies = { certificationCenterMembershipSerializer }) {
   const certificationCenterId = request.params.certificationCenterId;
   const certificationCenterMemberships = await usecases.findCertificationCenterMembershipsByCertificationCenter({
     certificationCenterId,
   });
 
-  return certificationCenterMembershipSerializer.serialize(certificationCenterMemberships);
+  return dependencies.certificationCenterMembershipSerializer.serialize(certificationCenterMemberships);
 };
 
 const findCertificationCenterMemberships = async function (request) {
