@@ -24,12 +24,14 @@ import { extractLocaleFromRequest } from '../../infrastructure/utils/request-res
 import { usecases } from '../../domain/usecases/index.js';
 import * as localeService from '../../domain/services/locale-service.js';
 
-const save = async function (request, h, dependencies = { userSerializer }) {
+const save = async function (request, h, dependencies = { userSerializer, localeService, extractLocaleFromRequest }) {
   const localeFromCookie = request.state?.locale;
-  const canonicalLocaleFromCookie = localeFromCookie ? localeService.getCanonicalLocale(localeFromCookie) : undefined;
+  const canonicalLocaleFromCookie = localeFromCookie
+    ? dependencies.localeService.getCanonicalLocale(localeFromCookie)
+    : undefined;
   const campaignCode = request.payload.meta ? request.payload.meta['campaign-code'] : null;
   const user = { ...userSerializer.deserialize(request.payload), locale: canonicalLocaleFromCookie };
-  const localeFromHeader = extractLocaleFromRequest(request);
+  const localeFromHeader = dependencies.extractLocaleFromRequest(request);
 
   const password = request.payload.data.attributes.password;
 
@@ -149,8 +151,12 @@ const rememberUserHasSeenChallengeTooltip = async function (request, h, dependen
   return dependencies.userSerializer.serialize(updatedUser);
 };
 
-const findPaginatedFilteredUsers = async function (request, h, dependencies = { userForAdminSerializer }) {
-  const options = extractParameters(request.query);
+const findPaginatedFilteredUsers = async function (
+  request,
+  h,
+  dependencies = { userForAdminSerializer, extractParameters }
+) {
+  const options = dependencies.extractParameters(request.query);
 
   const { models: users, pagination } = await usecases.findPaginatedFilteredUsers({
     filter: options.filter,
@@ -159,9 +165,13 @@ const findPaginatedFilteredUsers = async function (request, h, dependencies = { 
   return dependencies.userForAdminSerializer.serialize(users, pagination);
 };
 
-const findPaginatedUserRecommendedTrainings = async function (request, h, dependencies = { trainingSerializer }) {
-  const locale = extractLocaleFromRequest(request);
-  const { page } = extractParameters(request.query);
+const findPaginatedUserRecommendedTrainings = async function (
+  request,
+  h,
+  dependencies = { trainingSerializer, extractLocaleFromRequest, extractParameters }
+) {
+  const locale = dependencies.extractLocaleFromRequest(request);
+  const { page } = dependencies.extractParameters(request.query);
   const { userRecommendedTrainings, meta } = await usecases.findPaginatedUserRecommendedTrainings({
     userId: request.auth.credentials.userId,
     locale,
@@ -182,10 +192,10 @@ const getCampaignParticipations = function (request, h, dependencies = { campaig
 const getCampaignParticipationOverviews = async function (
   request,
   h,
-  dependencies = { campaignParticipationOverviewSerializer }
+  dependencies = { campaignParticipationOverviewSerializer, extractParameters }
 ) {
   const authenticatedUserId = request.auth.credentials.userId;
-  const query = extractParameters(request.query);
+  const query = dependencies.extractParameters(request.query);
 
   const userCampaignParticipationOverviews = await usecases.findUserCampaignParticipationOverviews({
     userId: authenticatedUserId,
@@ -202,29 +212,30 @@ const isCertifiable = async function (request, h, dependencies = { certification
   const authenticatedUserId = request.auth.credentials.userId;
 
   const certificationEligibility = await usecases.getUserCertificationEligibility({ userId: authenticatedUserId });
+
   return dependencies.certificationEligibilitySerializer.serialize(certificationEligibility);
 };
 
-const getProfile = function (request, h, dependencies = { profileSerializer }) {
+const getProfile = function (request, h, dependencies = { profileSerializer, extractLocaleFromRequest }) {
   const authenticatedUserId = request.auth.credentials.userId;
-  const locale = extractLocaleFromRequest(request);
+  const locale = dependencies.extractLocaleFromRequest(request);
 
   return usecases
     .getUserProfile({ userId: authenticatedUserId, locale })
     .then(dependencies.profileSerializer.serialize);
 };
 
-const getProfileForAdmin = function (request, h, dependencies = { profileSerializer }) {
+const getProfileForAdmin = function (request, h, dependencies = { profileSerializer, extractLocaleFromRequest }) {
   const userId = request.params.id;
-  const locale = extractLocaleFromRequest(request);
+  const locale = dependencies.extractLocaleFromRequest(request);
 
   return usecases.getUserProfile({ userId, locale }).then(dependencies.profileSerializer.serialize);
 };
 
-const resetScorecard = function (request, h, dependencies = { scorecardSerializer }) {
+const resetScorecard = function (request, h, dependencies = { scorecardSerializer, extractLocaleFromRequest }) {
   const authenticatedUserId = request.auth.credentials.userId;
   const competenceId = request.params.competenceId;
-  const locale = extractLocaleFromRequest(request);
+  const locale = dependencies.extractLocaleFromRequest(request);
 
   return usecases
     .resetScorecard({ userId: authenticatedUserId, competenceId, locale })
@@ -296,8 +307,12 @@ const removeAuthenticationMethod = async function (request, h) {
   return h.response().code(204);
 };
 
-const sendVerificationCode = async function (request, h, dependencies = { emailVerificationSerializer }) {
-  const locale = extractLocaleFromRequest(request);
+const sendVerificationCode = async function (
+  request,
+  h,
+  dependencies = { emailVerificationSerializer, extractLocaleFromRequest }
+) {
+  const locale = dependencies.extractLocaleFromRequest(request);
   const i18n = request.i18n;
   const userId = request.params.id;
   const { newEmail, password } = await dependencies.emailVerificationSerializer.deserialize(request.payload);
@@ -402,6 +417,7 @@ const rememberUserHasSeenLastDataProtectionPolicyInformation = async function (
   const updatedUser = await usecases.rememberUserHasSeenLastDataProtectionPolicyInformation({
     userId: authenticatedUserId,
   });
+
   return dependencies.userSerializer.serialize(updatedUser);
 };
 

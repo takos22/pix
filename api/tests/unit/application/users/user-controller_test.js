@@ -1,29 +1,12 @@
 import { sinon, expect, domainBuilder, hFake } from '../../../test-helper.js';
 import { User } from '../../../../lib/domain/models/User.js';
 import { AuthenticationMethod } from '../../../../lib/domain/models/AuthenticationMethod.js';
-import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
-import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
-import * as encryptionService from '../../../../lib/domain/services/encryption-service.js';
-import * as mailService from '../../../../lib/domain/services/mail-service.js';
 import { getI18n } from '../../../tooling/i18n/i18n.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 
-import * as campaignParticipationSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer.js';
-import * as campaignParticipationOverviewSerializer from '../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-overview-serializer.js';
-import * as scorecardSerializer from '../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer.js';
-import * as profileSerializer from '../../../../lib/infrastructure/serializers/jsonapi/profile-serializer.js';
-import * as userForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-for-admin-serializer.js';
-import * as userWithActivitySerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-with-activity-serializer.js';
-import * as userAnonymizedDetailsForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer.js';
-import * as userDetailsForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer.js';
-import * as updateEmailSerializer from '../../../../lib/infrastructure/serializers/jsonapi/update-email-serializer.js';
-import * as authenticationMethodsSerializer from '../../../../lib/infrastructure/serializers/jsonapi/authentication-methods-serializer.js';
-import * as userOrganizationForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-organization-for-admin-serializer.js';
-import * as certificationCenterMembershipSerializer from '../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer.js';
-import * as trainingSerializer from '../../../../lib/infrastructure/serializers/jsonapi/training-serializer.js';
 import * as userController from '../../../../lib/application/users/user-controller.js';
 import { UserOrganizationForAdmin } from '../../../../lib/domain/read-models/UserOrganizationForAdmin.js';
-import * as localeService from '../../../../lib/domain/services/locale-service.js';
+import { LOCALE } from '../../../../lib/domain/constants.js';
 
 describe('Unit | Controller | user-controller', function () {
   let userSerializer;
@@ -39,24 +22,30 @@ describe('Unit | Controller | user-controller', function () {
     const email = 'to-be-free@ozone.airplane';
     const password = 'Password123';
 
-    const deserializedUser = new User();
+    const deserializedUser = new User({
+      firstName: 'John',
+      lastName: 'DoDoe',
+      email: 'john.dodoe@example.net',
+      cgu: true,
+      password,
+    });
     const savedUser = new User({ email });
     const localeFromHeader = 'fr-fr';
 
-    let validationErrorSerializer;
-    let encryptionService;
+    let localeService;
+    let requestResponseUtils;
 
     beforeEach(function () {
       userSerializer.deserialize.returns(deserializedUser);
 
-      validationErrorSerializer = {
-        deserialize: sinon.stub(),
-        serialize: sinon.stub(),
+      localeService = {
+        getCanonicalLocale: sinon.stub(),
       };
 
-      sinon.stub(encryptionService, 'hashPassword');
-      sinon.stub(mailService, 'sendAccountCreationEmail');
-      sinon.stub(localeService, 'getCanonicalLocale');
+      requestResponseUtils = {
+        extractLocaleFromRequest: sinon.stub(),
+      };
+
       sinon.stub(usecases, 'createUser').returns(savedUser);
     });
 
@@ -82,7 +71,8 @@ describe('Unit | Controller | user-controller', function () {
                 },
               },
             },
-            hFake
+            hFake,
+            { userSerializer, localeService, extractLocaleFromRequest: requestResponseUtils.extractLocaleFromRequest }
           );
 
           // then
@@ -109,6 +99,7 @@ describe('Unit | Controller | user-controller', function () {
 
           localeService.getCanonicalLocale.returns(localeFromCookie);
           userSerializer.serialize.returns(expectedSerializedUser);
+          requestResponseUtils.extractLocaleFromRequest.returns(LOCALE.FRENCH_FRANCE);
           usecases.createUser.resolves(savedUser);
 
           // when
@@ -129,7 +120,8 @@ describe('Unit | Controller | user-controller', function () {
                 locale: localeFromCookie,
               },
             },
-            hFake
+            hFake,
+            { userSerializer, localeService, extractLocaleFromRequest: requestResponseUtils.extractLocaleFromRequest }
           );
 
           // then
@@ -180,7 +172,7 @@ describe('Unit | Controller | user-controller', function () {
       userSerializer.serialize.withArgs({}).returns('ok');
 
       // when
-      const response = await userController.updatePassword(request);
+      const response = await userController.updatePassword(request, hFake, { userSerializer });
 
       // then
       expect(response).to.be.equal('ok');
@@ -190,11 +182,11 @@ describe('Unit | Controller | user-controller', function () {
   describe('#updateUserDetailsForAdministration', function () {
     const userId = 1132;
     const newEmail = 'partiel@update.com';
+    let userDetailsForAdminSerializer;
 
     beforeEach(function () {
       sinon.stub(usecases, 'updateUserDetailsForAdministration');
-      sinon.stub(userDetailsForAdminSerializer, 'serializeForUpdate');
-      sinon.stub(userDetailsForAdminSerializer, 'deserialize');
+      userDetailsForAdminSerializer = { serializeForUpdate: sinon.stub(), deserialize: sinon.stub() };
     });
 
     it('should update email,firstName,lastName', async function () {
@@ -222,7 +214,9 @@ describe('Unit | Controller | user-controller', function () {
       userDetailsForAdminSerializer.serializeForUpdate.returns('updated');
 
       // when
-      const response = await userController.updateUserDetailsForAdministration(request);
+      const response = await userController.updateUserDetailsForAdministration(request, hFake, {
+        userDetailsForAdminSerializer,
+      });
 
       // then
       expect(response).to.be.equal('updated');
@@ -249,7 +243,9 @@ describe('Unit | Controller | user-controller', function () {
       userDetailsForAdminSerializer.serializeForUpdate.returns(newEmail);
 
       // when
-      const response = await userController.updateUserDetailsForAdministration(request);
+      const response = await userController.updateUserDetailsForAdministration(request, hFake, {
+        userDetailsForAdminSerializer,
+      });
 
       // then
       expect(response).to.be.equal(newEmail);
@@ -276,7 +272,7 @@ describe('Unit | Controller | user-controller', function () {
       userSerializer.serialize.withArgs({}).returns(stubSerializedObject);
 
       // when
-      const response = await userController.acceptPixLastTermsOfService(request);
+      const response = await userController.acceptPixLastTermsOfService(request, hFake, { userSerializer });
 
       // then
       expect(response).to.be.equal(stubSerializedObject);
@@ -302,7 +298,7 @@ describe('Unit | Controller | user-controller', function () {
       userSerializer.serialize.withArgs({}).returns('ok');
 
       // when
-      const response = await userController.acceptPixOrgaTermsOfService(request);
+      const response = await userController.acceptPixOrgaTermsOfService(request, hFake, { userSerializer });
 
       // then
       expect(response).to.be.equal('ok');
@@ -349,7 +345,7 @@ describe('Unit | Controller | user-controller', function () {
       userSerializer.serialize.withArgs({}).returns('ok');
 
       // when
-      const response = await userController.changeLang(request);
+      const response = await userController.changeLang(request, hFake, { userSerializer });
 
       // then
       expect(response).to.be.equal('ok');
@@ -375,7 +371,9 @@ describe('Unit | Controller | user-controller', function () {
       userSerializer.serialize.withArgs({}).returns('ok');
 
       // when
-      const response = await userController.rememberUserHasSeenAssessmentInstructions(request);
+      const response = await userController.rememberUserHasSeenAssessmentInstructions(request, hFake, {
+        userSerializer,
+      });
 
       // then
       expect(response).to.be.equal('ok');
@@ -401,7 +399,7 @@ describe('Unit | Controller | user-controller', function () {
       userSerializer.serialize.withArgs({}).returns('ok');
 
       // when
-      const response = await userController.rememberUserHasSeenNewDashboardInfo(request);
+      const response = await userController.rememberUserHasSeenNewDashboardInfo(request, hFake, { userSerializer });
 
       // then
       expect(response).to.be.equal('ok');
@@ -429,7 +427,7 @@ describe('Unit | Controller | user-controller', function () {
       userSerializer.serialize.withArgs({}).returns('ok');
 
       // when
-      const response = await userController.rememberUserHasSeenChallengeTooltip(request);
+      const response = await userController.rememberUserHasSeenChallengeTooltip(request, hFake, { userSerializer });
 
       // then
       expect(response).to.be.equal('ok');
@@ -447,7 +445,7 @@ describe('Unit | Controller | user-controller', function () {
       userSerializer.serialize.withArgs({}).returns('ok');
 
       // when
-      const response = await userController.rememberUserHasSeenChallengeTooltip(request);
+      const response = await userController.rememberUserHasSeenChallengeTooltip(request, hFake, { userSerializer });
 
       // then
       expect(response).to.be.equal('ok');
@@ -460,29 +458,32 @@ describe('Unit | Controller | user-controller', function () {
       const request = { auth: { credentials: { userId: 1 } } };
       const currentUser = Symbol('current-user');
       const getCurrentUserStub = sinon.stub(usecases, 'getCurrentUser');
-      const userWithActivitySerializerStub = sinon.stub(userWithActivitySerializer, 'serialize');
+      const userWithActivitySerializer = { serialize: sinon.stub() };
 
       usecases.getCurrentUser.withArgs({ authenticatedUserId: 1 }).resolves(currentUser);
       userWithActivitySerializer.serialize.withArgs(currentUser).returns('ok');
 
       // when
-      const response = await userController.getCurrentUser(request);
+      const response = await userController.getCurrentUser(request, hFake, { userWithActivitySerializer });
 
       // then
       expect(response).to.be.equal('ok');
       expect(getCurrentUserStub).to.have.been.calledWithExactly({ authenticatedUserId: 1 });
-      expect(userWithActivitySerializerStub).to.have.been.calledWithExactly(currentUser);
+      expect(userWithActivitySerializer.serialize).to.have.been.calledWithExactly(currentUser);
     });
   });
 
   describe('#getUserDetailsForAdmin', function () {
     let request;
+    let userDetailsForAdminSerializer;
 
     beforeEach(function () {
       request = { params: { id: 123 } };
 
       sinon.stub(usecases, 'getUserDetailsForAdmin');
-      sinon.stub(userDetailsForAdminSerializer, 'serialize');
+      userDetailsForAdminSerializer = {
+        serialize: sinon.stub(),
+      };
     });
 
     it('should get the specified user for admin context', async function () {
@@ -491,7 +492,7 @@ describe('Unit | Controller | user-controller', function () {
       userDetailsForAdminSerializer.serialize.withArgs('userDetail').returns('ok');
 
       // when
-      const response = await userController.getUserDetailsForAdmin(request);
+      const response = await userController.getUserDetailsForAdmin(request, hFake, { userDetailsForAdminSerializer });
 
       // then
       expect(response).to.be.equal('ok');
@@ -499,10 +500,12 @@ describe('Unit | Controller | user-controller', function () {
   });
 
   describe('#findPaginatedFilteredUsers', function () {
+    let userForAdminSerializer;
+    let queryParamsUtils;
     beforeEach(function () {
-      sinon.stub(queryParamsUtils, 'extractParameters');
+      queryParamsUtils = { extractParameters: sinon.stub() };
       sinon.stub(usecases, 'findPaginatedFilteredUsers');
-      sinon.stub(userForAdminSerializer, 'serialize');
+      userForAdminSerializer = { serialize: sinon.stub() };
     });
 
     it('should return a list of JSON API users fetched from the data repository', async function () {
@@ -513,7 +516,10 @@ describe('Unit | Controller | user-controller', function () {
       userForAdminSerializer.serialize.returns({ data: {}, meta: {} });
 
       // when
-      await userController.findPaginatedFilteredUsers(request, hFake);
+      await userController.findPaginatedFilteredUsers(request, hFake, {
+        userForAdminSerializer,
+        extractParameters: queryParamsUtils.extractParameters,
+      });
 
       // then
       expect(usecases.findPaginatedFilteredUsers).to.have.been.calledOnce;
@@ -529,7 +535,10 @@ describe('Unit | Controller | user-controller', function () {
       usecases.findPaginatedFilteredUsers.resolves({ models: expectedResults, pagination: expectedPagination });
 
       // when
-      await userController.findPaginatedFilteredUsers(request, hFake);
+      await userController.findPaginatedFilteredUsers(request, hFake, {
+        userForAdminSerializer,
+        extractParameters: queryParamsUtils.extractParameters,
+      });
 
       // then
       expect(userForAdminSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedPagination);
@@ -543,7 +552,10 @@ describe('Unit | Controller | user-controller', function () {
       usecases.findPaginatedFilteredUsers.resolves({ models: {}, pagination: {} });
 
       // when
-      await userController.findPaginatedFilteredUsers(request, hFake);
+      await userController.findPaginatedFilteredUsers(request, hFake, {
+        userForAdminSerializer,
+        extractParameters: queryParamsUtils.extractParameters,
+      });
 
       // then
       expect(usecases.findPaginatedFilteredUsers).to.have.been.calledWithMatch(query);
@@ -557,7 +569,10 @@ describe('Unit | Controller | user-controller', function () {
       usecases.findPaginatedFilteredUsers.resolves({ models: {}, pagination: {} });
 
       // when
-      await userController.findPaginatedFilteredUsers(request, hFake);
+      await userController.findPaginatedFilteredUsers(request, hFake, {
+        userForAdminSerializer,
+        extractParameters: queryParamsUtils.extractParameters,
+      });
 
       // then
       expect(usecases.findPaginatedFilteredUsers).to.have.been.calledWithMatch(query);
@@ -571,7 +586,10 @@ describe('Unit | Controller | user-controller', function () {
       usecases.findPaginatedFilteredUsers.resolves({ models: {}, pagination: {} });
 
       // when
-      await userController.findPaginatedFilteredUsers(request, hFake);
+      await userController.findPaginatedFilteredUsers(request, hFake, {
+        userForAdminSerializer,
+        extractParameters: queryParamsUtils.extractParameters,
+      });
 
       // then
       expect(usecases.findPaginatedFilteredUsers).to.have.been.calledWithMatch(query);
@@ -585,7 +603,10 @@ describe('Unit | Controller | user-controller', function () {
       usecases.findPaginatedFilteredUsers.resolves({ models: {}, pagination: {} });
 
       // when
-      await userController.findPaginatedFilteredUsers(request, hFake);
+      await userController.findPaginatedFilteredUsers(request, hFake, {
+        userForAdminSerializer,
+        extractParameters: queryParamsUtils.extractParameters,
+      });
 
       // then
       expect(usecases.findPaginatedFilteredUsers).to.have.been.calledWithMatch(query);
@@ -610,13 +631,20 @@ describe('Unit | Controller | user-controller', function () {
       const expectedResult = Symbol('serialized-trainings');
       const userRecommendedTrainings = Symbol('userRecommendedTrainings');
       const meta = Symbol('meta');
-      sinon.stub(requestResponseUtils, 'extractLocaleFromRequest').withArgs(request).returns(locale);
-      sinon.stub(queryParamsUtils, 'extractParameters').withArgs(query).returns({ page });
       sinon.stub(usecases, 'findPaginatedUserRecommendedTrainings').resolves({ userRecommendedTrainings, meta });
-      sinon.stub(trainingSerializer, 'serialize').returns(expectedResult);
+      const requestResponseUtils = { extractLocaleFromRequest: sinon.stub() };
+      requestResponseUtils.extractLocaleFromRequest.withArgs(request).returns(locale);
+      const queryParamsUtils = { extractParameters: sinon.stub() };
+      queryParamsUtils.extractParameters.withArgs(query).returns({ page });
+      const trainingSerializer = { serialize: sinon.stub() };
+      trainingSerializer.serialize.returns(expectedResult);
 
       // when
-      const response = await userController.findPaginatedUserRecommendedTrainings(request);
+      const response = await userController.findPaginatedUserRecommendedTrainings(request, hFake, {
+        trainingSerializer,
+        extractLocaleFromRequest: requestResponseUtils.extractLocaleFromRequest,
+        extractParameters: queryParamsUtils.extractParameters,
+      });
 
       // then
       expect(queryParamsUtils.extractParameters).to.have.been.calledOnce;
@@ -646,8 +674,10 @@ describe('Unit | Controller | user-controller', function () {
       },
     };
 
+    let campaignParticipationSerializer;
+
     beforeEach(function () {
-      sinon.stub(campaignParticipationSerializer, 'serialize');
+      campaignParticipationSerializer = { serialize: sinon.stub() };
       sinon.stub(usecases, 'findLatestOngoingUserCampaignParticipations');
     });
 
@@ -657,7 +687,9 @@ describe('Unit | Controller | user-controller', function () {
       campaignParticipationSerializer.serialize.withArgs([]).returns({});
 
       // when
-      const response = await userController.getCampaignParticipations(request, hFake);
+      const response = await userController.getCampaignParticipations(request, hFake, {
+        campaignParticipationSerializer,
+      });
 
       // then
       expect(response).to.deep.equal({});
@@ -666,10 +698,12 @@ describe('Unit | Controller | user-controller', function () {
 
   describe('#getCampaignParticipationOverviews', function () {
     const userId = '1';
+    let campaignParticipationOverviewSerializer;
+    let queryParamsUtils;
 
     beforeEach(function () {
-      sinon.stub(campaignParticipationOverviewSerializer, 'serialize');
-      sinon.stub(campaignParticipationOverviewSerializer, 'serializeForPaginatedList');
+      campaignParticipationOverviewSerializer = { serialize: sinon.stub(), serializeForPaginatedList: sinon.stub() };
+      queryParamsUtils = { extractParameters: sinon.stub() };
       sinon.stub(usecases, 'findUserCampaignParticipationOverviews');
     });
 
@@ -685,13 +719,17 @@ describe('Unit | Controller | user-controller', function () {
           id: userId,
         },
       };
+      queryParamsUtils.extractParameters.returns({ filter: { states: undefined }, page: {} });
       usecases.findUserCampaignParticipationOverviews.withArgs({ userId, states: undefined, page: {} }).resolves([]);
       campaignParticipationOverviewSerializer.serializeForPaginatedList.withArgs([]).returns({
         id: 'campaignParticipationOverviews',
       });
 
       // when
-      const response = await userController.getCampaignParticipationOverviews(request, hFake);
+      const response = await userController.getCampaignParticipationOverviews(request, hFake, {
+        campaignParticipationOverviewSerializer,
+        extractParameters: queryParamsUtils.extractParameters,
+      });
 
       // then
       expect(response).to.deep.equal({
@@ -713,15 +751,19 @@ describe('Unit | Controller | user-controller', function () {
         },
         query: { 'filter[states][]': 'ONGOING', 'page[number]': 1, 'page[size]': 10 },
       };
+      queryParamsUtils.extractParameters.returns({ filter: { states: ['ONGOING'] }, page: { number: 1, size: 10 } });
       usecases.findUserCampaignParticipationOverviews
-        .withArgs({ userId, states: 'ONGOING', page: { number: 1, size: 10 } })
+        .withArgs({ userId, states: ['ONGOING'], page: { number: 1, size: 10 } })
         .resolves([]);
       campaignParticipationOverviewSerializer.serializeForPaginatedList.withArgs([]).returns({
         id: 'campaignParticipationOverviews',
       });
 
       // when
-      const response = await userController.getCampaignParticipationOverviews(request, hFake);
+      const response = await userController.getCampaignParticipationOverviews(request, hFake, {
+        campaignParticipationOverviewSerializer,
+        extractParameters: queryParamsUtils.extractParameters,
+      });
 
       // then
       expect(response).to.deep.equal({
@@ -731,18 +773,18 @@ describe('Unit | Controller | user-controller', function () {
     });
   });
 
-  describe('#isCertifiable', function () {
+  describe.only('#isCertifiable', function () {
     it('should return user certification eligibility', async function () {
       // given
-      const certificationEligibility = domainBuilder.buildCertificationEligibility({
-        id: 123,
-        pixCertificationEligible: true,
-        eligibleComplementaryCertifications: ['Pix+ Droit Maître', 'Pix+ Édu 1er degré Avancé'],
-      });
+      const certificationEligibility = Symbol('certificationEligibility');
       sinon
         .stub(usecases, 'getUserCertificationEligibility')
         .withArgs({ userId: 123 })
         .resolves(certificationEligibility);
+
+      const certificationEligibilitySerializer = { serialize: sinon.stub() };
+      certificationEligibilitySerializer.serialize.returns('ok');
+
       const request = {
         auth: {
           credentials: {
@@ -752,29 +794,28 @@ describe('Unit | Controller | user-controller', function () {
       };
 
       // when
-      const serializedEligibility = await userController.isCertifiable(request);
+      const serializedEligibility = await userController.isCertifiable(request, hFake, {
+        certificationEligibilitySerializer,
+      });
 
       // then
-      expect(serializedEligibility).to.deep.equal({
-        data: {
-          id: '123',
-          type: 'isCertifiables',
-          attributes: {
-            'is-certifiable': true,
-            'eligible-complementary-certifications': ['Pix+ Droit Maître', 'Pix+ Édu 1er degré Avancé'],
-          },
-        },
-      });
+      expect(serializedEligibility).to.equal('ok');
     });
   });
 
   describe('#getProfile', function () {
+    let profileSerializer;
+    let requestResponseUtils;
     beforeEach(function () {
       sinon.stub(usecases, 'getUserProfile').resolves({
         pixScore: 3,
         scorecards: [],
       });
-      sinon.stub(profileSerializer, 'serialize').resolves();
+      profileSerializer = { serialize: sinon.stub() };
+      profileSerializer.serialize.resolves();
+      requestResponseUtils = {
+        extractLocaleFromRequest: sinon.stub(),
+      };
     });
 
     it('should call the expected usecase', async function () {
@@ -793,9 +834,13 @@ describe('Unit | Controller | user-controller', function () {
         },
         headers: { 'accept-language': locale },
       };
+      requestResponseUtils.extractLocaleFromRequest.returns(locale);
 
       // when
-      await userController.getProfile(request);
+      await userController.getProfile(request, hFake, {
+        profileSerializer,
+        extractLocaleFromRequest: requestResponseUtils.extractLocaleFromRequest,
+      });
 
       // then
       expect(usecases.getUserProfile).to.have.been.calledWith({ userId, locale });
@@ -803,12 +848,18 @@ describe('Unit | Controller | user-controller', function () {
   });
 
   describe('#getProfileForAdmin', function () {
+    let profileSerializer;
+    let requestResponseUtils;
     beforeEach(function () {
       sinon.stub(usecases, 'getUserProfile').resolves({
         pixScore: 3,
         scorecards: [],
       });
-      sinon.stub(profileSerializer, 'serialize').resolves();
+      profileSerializer = { serialize: sinon.stub() };
+      profileSerializer.serialize.resolves();
+      requestResponseUtils = {
+        extractLocaleFromRequest: sinon.stub(),
+      };
     });
 
     it('should call the expected usecase', async function () {
@@ -822,9 +873,13 @@ describe('Unit | Controller | user-controller', function () {
         },
         headers: { 'accept-language': locale },
       };
+      requestResponseUtils.extractLocaleFromRequest.returns(locale);
 
       // when
-      await userController.getProfileForAdmin(request);
+      await userController.getProfileForAdmin(request, hFake, {
+        profileSerializer,
+        extractLocaleFromRequest: requestResponseUtils.extractLocaleFromRequest,
+      });
 
       // then
       expect(usecases.getUserProfile).to.have.been.calledWith({ userId, locale });
@@ -832,11 +887,17 @@ describe('Unit | Controller | user-controller', function () {
   });
 
   describe('#resetScorecard', function () {
+    let scorecardSerializer;
+    let requestResponseUtils;
     beforeEach(function () {
       sinon.stub(usecases, 'resetScorecard').resolves({
         name: 'Comp1',
       });
-      sinon.stub(scorecardSerializer, 'serialize').resolves();
+      scorecardSerializer = { serialize: sinon.stub() };
+      scorecardSerializer.serialize.resolves();
+      requestResponseUtils = {
+        extractLocaleFromRequest: sinon.stub(),
+      };
     });
 
     it('should call the expected usecase', async function () {
@@ -856,9 +917,13 @@ describe('Unit | Controller | user-controller', function () {
           competenceId,
         },
       };
+      requestResponseUtils.extractLocaleFromRequest.returns(locale);
 
       // when
-      await userController.resetScorecard(request);
+      await userController.resetScorecard(request, hFake, {
+        scorecardSerializer,
+        extractLocaleFromRequest: requestResponseUtils.extractLocaleFromRequest,
+      });
 
       // then
       expect(usecases.resetScorecard).to.have.been.calledWith({ userId, competenceId, locale });
@@ -887,8 +952,10 @@ describe('Unit | Controller | user-controller', function () {
       },
     };
 
+    let campaignParticipationSerializer;
+
     beforeEach(function () {
-      sinon.stub(campaignParticipationSerializer, 'serialize');
+      campaignParticipationSerializer = { serialize: sinon.stub() };
       sinon.stub(usecases, 'getUserCampaignParticipationToCampaign');
     });
 
@@ -898,7 +965,9 @@ describe('Unit | Controller | user-controller', function () {
       campaignParticipationSerializer.serialize.withArgs(campaignParticipation).returns(expectedCampaignParticipation);
 
       // when
-      const response = await userController.getUserCampaignParticipationToCampaign(request, hFake);
+      const response = await userController.getUserCampaignParticipationToCampaign(request, hFake, {
+        campaignParticipationSerializer,
+      });
 
       // then
       expect(response).to.equal(expectedCampaignParticipation);
@@ -913,7 +982,8 @@ describe('Unit | Controller | user-controller', function () {
       const anonymizedUserSerialized = Symbol('anonymizedUserSerialized');
       const userDetailsForAdmin = Symbol('userDetailsForAdmin');
       sinon.stub(usecases, 'anonymizeUser').resolves(userDetailsForAdmin);
-      sinon.stub(userAnonymizedDetailsForAdminSerializer, 'serialize').returns(anonymizedUserSerialized);
+      const userAnonymizedDetailsForAdminSerializer = { serialize: sinon.stub() };
+      userAnonymizedDetailsForAdminSerializer.serialize.returns(anonymizedUserSerialized);
 
       // when
       const response = await userController.anonymizeUser(
@@ -921,7 +991,10 @@ describe('Unit | Controller | user-controller', function () {
           auth: { credentials: { userId: updatedByUserId } },
           params: { id: userId },
         },
-        hFake
+        hFake,
+        {
+          userAnonymizedDetailsForAdminSerializer,
+        }
       );
 
       // then
@@ -964,9 +1037,16 @@ describe('Unit | Controller | user-controller', function () {
           },
         },
       };
+      const emailVerificationSerializer = { deserialize: sinon.stub() };
+      emailVerificationSerializer.deserialize.resolves({ newEmail, password });
+      const requestResponseUtils = { extractLocaleFromRequest: sinon.stub() };
+      requestResponseUtils.extractLocaleFromRequest.returns(locale);
 
       // when
-      await userController.sendVerificationCode(request, hFake);
+      await userController.sendVerificationCode(request, hFake, {
+        emailVerificationSerializer,
+        extractLocaleFromRequest: requestResponseUtils.extractLocaleFromRequest,
+      });
 
       // then
       expect(usecases.sendVerificationCode).to.have.been.calledWith({
@@ -988,7 +1068,7 @@ describe('Unit | Controller | user-controller', function () {
 
       const responseSerialized = Symbol('an response serialized');
       sinon.stub(usecases, 'updateUserEmailWithValidation');
-      sinon.stub(updateEmailSerializer, 'serialize');
+      const updateEmailSerializer = { serialize: sinon.stub() };
 
       usecases.updateUserEmailWithValidation.withArgs({ code, userId }).resolves(updatedEmail);
       updateEmailSerializer.serialize.withArgs(updatedEmail).returns(responseSerialized);
@@ -1013,7 +1093,7 @@ describe('Unit | Controller | user-controller', function () {
       };
 
       // when
-      const response = await userController.updateUserEmailWithValidation(request);
+      const response = await userController.updateUserEmailWithValidation(request, hFake, { updateEmailSerializer });
 
       // then
       expect(usecases.updateUserEmailWithValidation).to.have.been.calledWith({
@@ -1034,7 +1114,7 @@ describe('Unit | Controller | user-controller', function () {
 
       const responseSerialized = Symbol('an response serialized');
       sinon.stub(usecases, 'findUserAuthenticationMethods');
-      sinon.stub(authenticationMethodsSerializer, 'serialize');
+      const authenticationMethodsSerializer = { serialize: sinon.stub() };
 
       usecases.findUserAuthenticationMethods.withArgs({ userId: user.id }).resolves(authenticationMethods);
       authenticationMethodsSerializer.serialize.withArgs(authenticationMethods).returns(responseSerialized);
@@ -1051,7 +1131,9 @@ describe('Unit | Controller | user-controller', function () {
       };
 
       // when
-      const response = await userController.getUserAuthenticationMethods(request);
+      const response = await userController.getUserAuthenticationMethods(request, hFake, {
+        authenticationMethodsSerializer,
+      });
 
       // then
       expect(response).to.deep.equal(responseSerialized);
@@ -1069,7 +1151,8 @@ describe('Unit | Controller | user-controller', function () {
         .stub(usecases, 'addPixAuthenticationMethodByEmail')
         .withArgs({ userId: user.id, email: 'user@example.net' })
         .resolves(updatedUser);
-      sinon.stub(userDetailsForAdminSerializer, 'serialize').withArgs(updatedUser).returns(updatedUserSerialized);
+      const userDetailsForAdminSerializer = { serialize: sinon.stub() };
+      userDetailsForAdminSerializer.serialize.withArgs(updatedUser).returns(updatedUserSerialized);
 
       // when
       const request = {
@@ -1089,7 +1172,9 @@ describe('Unit | Controller | user-controller', function () {
           },
         },
       };
-      const result = await userController.addPixAuthenticationMethodByEmail(request, hFake);
+      const result = await userController.addPixAuthenticationMethodByEmail(request, hFake, {
+        userDetailsForAdminSerializer,
+      });
 
       // then
       expect(result.source).to.be.equal(updatedUserSerialized);
@@ -1147,8 +1232,8 @@ describe('Unit | Controller | user-controller', function () {
       const organizationMemberships = [new UserOrganizationForAdmin()];
       const organizationMembershipsSerialized = Symbol('an array of user’s organization memberships serialized');
 
-      sinon
-        .stub(userOrganizationForAdminSerializer, 'serialize')
+      const userOrganizationForAdminSerializer = { serialize: sinon.stub() };
+      userOrganizationForAdminSerializer.serialize
         .withArgs(organizationMemberships)
         .returns(organizationMembershipsSerialized);
 
@@ -1160,7 +1245,7 @@ describe('Unit | Controller | user-controller', function () {
           id: 1,
         },
       };
-      await userController.findUserOrganizationsForAdmin(request, hFake);
+      await userController.findUserOrganizationsForAdmin(request, hFake, { userOrganizationForAdminSerializer });
 
       // then
       expect(usecases.findUserOrganizationsForAdmin).to.have.been.calledWith({ userId: 1 });
@@ -1175,8 +1260,8 @@ describe('Unit | Controller | user-controller', function () {
         "a list of user's certification center memberships serialized"
       );
 
-      sinon
-        .stub(certificationCenterMembershipSerializer, 'serializeForAdmin')
+      const certificationCenterMembershipSerializer = { serializeForAdmin: sinon.stub() };
+      certificationCenterMembershipSerializer.serializeForAdmin
         .withArgs(certificationCenterMemberships)
         .returns(certificationCenterMembershipsSerialized);
 
@@ -1191,7 +1276,9 @@ describe('Unit | Controller | user-controller', function () {
           id: 12345,
         },
       };
-      const result = await userController.findCertificationCenterMembershipsByUser(request, hFake);
+      const result = await userController.findCertificationCenterMembershipsByUser(request, hFake, {
+        certificationCenterMembershipSerializer,
+      });
 
       // then
       expect(result.source).to.equal(certificationCenterMembershipsSerialized);
@@ -1203,14 +1290,17 @@ describe('Unit | Controller | user-controller', function () {
       // given
       sinon.stub(usecases, 'rememberUserHasSeenLastDataProtectionPolicyInformation');
       usecases.rememberUserHasSeenLastDataProtectionPolicyInformation.withArgs({ userId: 1 }).resolves({});
-      sinon.stub(userSerializer, 'serialize');
       userSerializer.serialize.withArgs({}).returns('ok');
 
       // when
-      const response = await userController.rememberUserHasSeenLastDataProtectionPolicyInformation({
-        auth: { credentials: { userId: 1 } },
-        params: { id: 1 },
-      });
+      const response = await userController.rememberUserHasSeenLastDataProtectionPolicyInformation(
+        {
+          auth: { credentials: { userId: 1 } },
+          params: { id: 1 },
+        },
+        hFake,
+        { userSerializer }
+      );
 
       // then
       expect(response).to.be.equal('ok');
