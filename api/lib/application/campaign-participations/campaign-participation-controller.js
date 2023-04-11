@@ -15,9 +15,9 @@ import {
 } from '../../infrastructure/utils/request-response-utils.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
-const save = async function (request, h) {
+const save = async function (request, h, dependencies = { campaignParticipationSerializer }) {
   const userId = request.auth.credentials.userId;
-  const campaignParticipation = await campaignParticipationSerializer.deserialize(request.payload);
+  const campaignParticipation = await dependencies.campaignParticipationSerializer.deserialize(request.payload);
 
   const { event, campaignParticipation: campaignParticipationCreated } = await DomainTransaction.execute(
     (domainTransaction) => {
@@ -27,9 +27,9 @@ const save = async function (request, h) {
 
   events.eventDispatcher
     .dispatch(event)
-    .catch((error) => monitoringTools.logErrorWithCorrelationIds({ message: error }));
+    .catch((error) => dependencies.monitoringTools.logErrorWithCorrelationIds({ message: error }));
 
-  return h.response(campaignParticipationSerializer.serialize(campaignParticipationCreated)).created();
+  return h.response(dependencies.campaignParticipationSerializer.serialize(campaignParticipationCreated)).created();
 };
 
 const shareCampaignResult = async function (request) {
@@ -63,7 +63,7 @@ const beginImprovement = async function (request) {
   });
 };
 
-const getAnalysis = async function (request) {
+const getAnalysis = async function (request, h, dependencies = { campaignAnalysisSerializer }) {
   const { userId } = request.auth.credentials;
   const campaignParticipationId = request.params.id;
   const locale = extractLocaleFromRequest(request);
@@ -73,16 +73,16 @@ const getAnalysis = async function (request) {
     campaignParticipationId,
     locale,
   });
-  return campaignAnalysisSerializer.serialize(campaignAnalysis);
+  return dependencies.campaignAnalysisSerializer.serialize(campaignAnalysis);
 };
 
-const getCampaignProfile = async function (request) {
+const getCampaignProfile = async function (request, h, depencies = { campaignProfileSerializer }) {
   const { userId } = request.auth.credentials;
   const { campaignId, campaignParticipationId } = request.params;
   const locale = extractLocaleFromRequest(request);
 
   const campaignProfile = await usecases.getCampaignProfile({ userId, campaignId, campaignParticipationId, locale });
-  return campaignProfileSerializer.serialize(campaignProfile);
+  return depencies.campaignProfileSerializer.serialize(campaignProfile);
 };
 
 const getCampaignAssessmentParticipation = async function (request) {
@@ -111,7 +111,11 @@ const deleteParticipation = async function (request, h) {
   return h.response({}).code(204);
 };
 
-const getCampaignAssessmentParticipationResult = async function (request) {
+const getCampaignAssessmentParticipationResult = async function (
+  request,
+  h,
+  dependencies = { campaignAssessmentParticipationResultSerializer }
+) {
   const { userId } = request.auth.credentials;
   const { campaignId, campaignParticipationId } = request.params;
   const locale = extractLocaleFromRequest(request);
@@ -122,7 +126,7 @@ const getCampaignAssessmentParticipationResult = async function (request) {
     campaignParticipationId,
     locale,
   });
-  return campaignAssessmentParticipationResultSerializer.serialize(campaignAssessmentParticipationResult);
+  return dependencies.campaignAssessmentParticipationResultSerializer.serialize(campaignAssessmentParticipationResult);
 };
 
 const findAssessmentParticipationResults = async function (request) {
@@ -171,13 +175,13 @@ const deleteCampaignParticipationForAdmin = async function (request, h) {
   return h.response({}).code(204);
 };
 
-const findTrainings = async function (request) {
+const findTrainings = async function (request, h, dependencies = { trainingSerializer }) {
   const { userId } = request.auth.credentials;
   const { id: campaignParticipationId } = request.params;
   const locale = extractLocaleFromRequest(request);
 
   const trainings = await usecases.findCampaignParticipationTrainings({ userId, campaignParticipationId, locale });
-  return trainingSerializer.serialize(trainings);
+  return dependencies.trainingSerializer.serialize(trainings);
 };
 
 export {
