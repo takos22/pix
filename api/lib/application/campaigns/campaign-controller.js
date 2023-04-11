@@ -19,7 +19,7 @@ import { extractParameters } from '../../infrastructure/utils/query-params-utils
 import { escapeFileName, extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 import { ForbiddenAccess } from '../../domain/errors.js';
 
-const save = async function (request, h) {
+const save = async function (request, h, dependencies = { campaignReportSerializer }) {
   const { userId: creatorId } = request.auth.credentials;
   const {
     name,
@@ -49,7 +49,7 @@ const save = async function (request, h) {
   };
 
   const createdCampaign = await usecases.createCampaign({ campaign });
-  return h.response(campaignReportSerializer.serialize(createdCampaign)).created();
+  return h.response(dependencies.campaignReportSerializer.serialize(createdCampaign)).created();
 };
 
 const getByCode = async function (request) {
@@ -60,19 +60,27 @@ const getByCode = async function (request) {
   return campaignToJoinSerializer.serialize(campaignToJoin);
 };
 
-const getById = async function (request) {
+const getById = async function (
+  request,
+  h,
+  dependencies = {
+    campaignReportSerializer,
+    tokenService,
+  }
+) {
   const { userId } = request.auth.credentials;
   const campaignId = request.params.id;
 
-  const tokenForCampaignResults = tokenService.createTokenForCampaignResults({ userId, campaignId });
+  const tokenForCampaignResults = dependencies.tokenService.createTokenForCampaignResults({ userId, campaignId });
 
   const campaign = await usecases.getCampaign({ campaignId, userId });
-  return campaignReportSerializer.serialize(campaign, {}, { tokenForCampaignResults });
+  return dependencies.campaignReportSerializer.serialize(campaign, {}, { tokenForCampaignResults });
 };
 
-const getCsvAssessmentResults = async function (request) {
+const getCsvAssessmentResults = async function (request, h, dependencies = { tokenService }) {
   const token = request.query.accessToken;
-  const { userId, campaignId: extractedCampaignId } = tokenService.extractCampaignResultsTokenContent(token);
+  const { userId, campaignId: extractedCampaignId } =
+    dependencies.tokenService.extractCampaignResultsTokenContent(token);
   const campaignId = request.params.id;
 
   if (extractedCampaignId !== campaignId) {
@@ -101,9 +109,10 @@ const getCsvAssessmentResults = async function (request) {
   return writableStream;
 };
 
-const getCsvProfilesCollectionResults = async function (request) {
+const getCsvProfilesCollectionResults = async function (request, h, dependencies = { tokenService }) {
   const token = request.query.accessToken;
-  const { userId, campaignId: extractedCampaignId } = tokenService.extractCampaignResultsTokenContent(token);
+  const { userId, campaignId: extractedCampaignId } =
+    dependencies.tokenService.extractCampaignResultsTokenContent(token);
   const campaignId = request.params.id;
 
   if (extractedCampaignId !== campaignId) {
@@ -132,45 +141,45 @@ const getCsvProfilesCollectionResults = async function (request) {
   return writableStream;
 };
 
-const update = function (request) {
+const update = function (request, h, dependencies = { campaignReportSerializer }) {
   const { userId } = request.auth.credentials;
   const campaignId = request.params.id;
 
   return usecases
     .updateCampaign({ userId, campaignId, ...request.deserializedPayload })
-    .then(campaignReportSerializer.serialize);
+    .then(dependencies.campaignReportSerializer.serialize);
 };
 
-const archiveCampaign = function (request) {
+const archiveCampaign = function (request, h, dependencies = { campaignReportSerializer }) {
   const { userId } = request.auth.credentials;
   const campaignId = request.params.id;
 
-  return usecases.archiveCampaign({ userId, campaignId }).then(campaignReportSerializer.serialize);
+  return usecases.archiveCampaign({ userId, campaignId }).then(dependencies.campaignReportSerializer.serialize);
 };
 
-const unarchiveCampaign = function (request) {
+const unarchiveCampaign = function (request, h, dependencies = { campaignReportSerializer }) {
   const { userId } = request.auth.credentials;
   const campaignId = request.params.id;
 
-  return usecases.unarchiveCampaign({ userId, campaignId }).then(campaignReportSerializer.serialize);
+  return usecases.unarchiveCampaign({ userId, campaignId }).then(dependencies.campaignReportSerializer.serialize);
 };
 
-const getCollectiveResult = async function (request) {
+const getCollectiveResult = async function (request, h, dependencies = { campaignCollectiveResultSerializer }) {
   const { userId } = request.auth.credentials;
   const campaignId = request.params.id;
   const locale = extractLocaleFromRequest(request);
 
   const campaignCollectiveResult = await usecases.computeCampaignCollectiveResult({ userId, campaignId, locale });
-  return campaignCollectiveResultSerializer.serialize(campaignCollectiveResult);
+  return dependencies.campaignCollectiveResultSerializer.serialize(campaignCollectiveResult);
 };
 
-const getAnalysis = async function (request) {
+const getAnalysis = async function (request, h, dependencies = { campaignAnalysisSerializer }) {
   const { userId } = request.auth.credentials;
   const campaignId = request.params.id;
   const locale = extractLocaleFromRequest(request);
 
   const campaignAnalysis = await usecases.computeCampaignAnalysis({ userId, campaignId, locale });
-  return campaignAnalysisSerializer.serialize(campaignAnalysis);
+  return dependencies.campaignAnalysisSerializer.serialize(campaignAnalysis);
 };
 
 const findProfilesCollectionParticipations = async function (request) {
@@ -192,7 +201,11 @@ const findProfilesCollectionParticipations = async function (request) {
   return campaignProfilesCollectionParticipationSummarySerializer.serialize(results);
 };
 
-const findParticipantsActivity = async function (request) {
+const findParticipantsActivity = async function (
+  request,
+  h,
+  dependencies = { campaignParticipantsActivitySerializer }
+) {
   const campaignId = request.params.id;
 
   const { page, filter: filters } = extractParameters(request.query);
@@ -211,7 +224,7 @@ const findParticipantsActivity = async function (request) {
     filters,
   });
 
-  return campaignParticipantsActivitySerializer.serialize(paginatedParticipations);
+  return dependencies.campaignParticipantsActivitySerializer.serialize(paginatedParticipations);
 };
 
 const division = async function (request) {
