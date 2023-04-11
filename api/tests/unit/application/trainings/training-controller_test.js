@@ -272,9 +272,13 @@ describe('Unit | Controller | training-controller', function () {
 
       const createdTrigger = Symbol('createdTrigger');
       const serializedTrigger = Symbol('serializedTrigger');
-      sinon.stub(trainingTriggerSerializer, 'deserialize').withArgs(payload).returns(deserializedTrigger);
       sinon.stub(usecases, 'createOrUpdateTrainingTrigger').resolves(createdTrigger);
-      sinon.stub(trainingTriggerSerializer, 'serialize').withArgs(createdTrigger).returns(serializedTrigger);
+      const stubedTrainingTriggerSerializer = {
+        deserialize: sinon.stub(),
+        serialize: sinon.stub(),
+      };
+      stubedTrainingTriggerSerializer.deserialize.withArgs(payload).returns(deserializedTrigger);
+      stubedTrainingTriggerSerializer.serialize.withArgs(createdTrigger).returns(serializedTrigger);
 
       // when
       const result = await trainingController.createOrUpdateTrigger(
@@ -282,7 +286,8 @@ describe('Unit | Controller | training-controller', function () {
           params: { trainingId: 145 },
           payload,
         },
-        hFake
+        hFake,
+        { trainingTriggerSerializer: stubedTrainingTriggerSerializer }
       );
 
       // then
