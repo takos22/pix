@@ -15,10 +15,14 @@ const findPaginatedTrainingSummaries = async function (
   return dependencies.trainingSummarySerializer.serialize(trainings, meta);
 };
 
-const findTargetProfileSummaries = async function (request) {
+const findTargetProfileSummaries = async function (
+  request,
+  h,
+  dependencies = { targetProfileSummaryForAdminSerializer }
+) {
   const { trainingId } = request.params;
   const targetProfileSummaries = await usecases.findTargetProfileSummariesForTraining({ trainingId });
-  return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
+  return dependencies.targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
 };
 
 const getById = async function (request, h, dependencies = { trainingSerializer }) {

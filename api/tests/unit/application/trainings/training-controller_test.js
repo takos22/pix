@@ -1,8 +1,6 @@
 import { sinon, expect, hFake } from '../../../test-helper.js';
 import * as trainingController from '../../../../lib/application/trainings/training-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import * as trainingTriggerSerializer from '../../../../lib/infrastructure/serializers/jsonapi/training-trigger-serializer.js';
-import * as targetProfileSummaryForAdminSerializer from '../../../../lib/infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 import { TrainingTrigger } from '../../../../lib/domain/models/TrainingTrigger.js';
 
 describe('Unit | Controller | training-controller', function () {
@@ -273,12 +271,12 @@ describe('Unit | Controller | training-controller', function () {
       const createdTrigger = Symbol('createdTrigger');
       const serializedTrigger = Symbol('serializedTrigger');
       sinon.stub(usecases, 'createOrUpdateTrainingTrigger').resolves(createdTrigger);
-      const stubedTrainingTriggerSerializer = {
+      const trainingTriggerSerializer = {
         deserialize: sinon.stub(),
         serialize: sinon.stub(),
       };
-      stubedTrainingTriggerSerializer.deserialize.withArgs(payload).returns(deserializedTrigger);
-      stubedTrainingTriggerSerializer.serialize.withArgs(createdTrigger).returns(serializedTrigger);
+      trainingTriggerSerializer.deserialize.withArgs(payload).returns(deserializedTrigger);
+      trainingTriggerSerializer.serialize.withArgs(createdTrigger).returns(serializedTrigger);
 
       // when
       const result = await trainingController.createOrUpdateTrigger(
@@ -287,7 +285,7 @@ describe('Unit | Controller | training-controller', function () {
           payload,
         },
         hFake,
-        { trainingTriggerSerializer: stubedTrainingTriggerSerializer }
+        { trainingTriggerSerializer: trainingTriggerSerializer }
       );
 
       // then
@@ -308,13 +306,18 @@ describe('Unit | Controller | training-controller', function () {
       const targetProfileSummaries = Symbol('targetProfileSummaries');
       const serializedTargetProfileSummaries = Symbol('serializedTargetProfileSummaries');
       sinon.stub(usecases, 'findTargetProfileSummariesForTraining').resolves(targetProfileSummaries);
-      sinon
-        .stub(targetProfileSummaryForAdminSerializer, 'serialize')
+
+      const targetProfileSummaryForAdminSerializer = {
+        serialize: sinon.stub(),
+      };
+      targetProfileSummaryForAdminSerializer.serialize
         .withArgs(targetProfileSummaries)
         .returns(serializedTargetProfileSummaries);
 
       // when
-      const result = await trainingController.findTargetProfileSummaries({ params: { trainingId } }, hFake);
+      const result = await trainingController.findTargetProfileSummaries({ params: { trainingId } }, hFake, {
+        targetProfileSummaryForAdminSerializer: targetProfileSummaryForAdminSerializer,
+      });
 
       // then
       expect(usecases.findTargetProfileSummariesForTraining).to.have.been.calledWith({ trainingId });
