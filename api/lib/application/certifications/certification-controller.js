@@ -14,10 +14,14 @@ const findUserCertifications = async function (request) {
   return privateCertificateSerializer.serialize(privateCertificates);
 };
 
-const getCertification = async function (request) {
+const getCertification = async function (
+  request,
+  h,
+  dependencies = { requestResponseUtils: { extractLocaleFromRequest } }
+) {
   const userId = request.auth.credentials.userId;
   const certificationId = request.params.id;
-  const locale = extractLocaleFromRequest(request);
+  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
 
   const privateCertificate = await usecases.getPrivateCertificate({
     userId,
@@ -27,15 +31,19 @@ const getCertification = async function (request) {
   return privateCertificateSerializer.serialize(privateCertificate);
 };
 
-const getCertificationByVerificationCode = async function (request) {
+const getCertificationByVerificationCode = async function (
+  request,
+  h,
+  dependencies = { requestResponseUtils: { extractLocaleFromRequest } }
+) {
   const verificationCode = request.payload.verificationCode;
-  const locale = extractLocaleFromRequest(request);
+  const locale = dependencies.requestResponseUtils.extractLocaleFromRequest(request);
 
   const shareableCertificate = await usecases.getShareableCertificate({ verificationCode, locale });
   return shareableCertificateSerializer.serialize(shareableCertificate);
 };
 
-const getPDFAttestation = async function (request, h) {
+const getPDFAttestation = async function (request, h, dependencies = { certificationAttestationPdf }) {
   const userId = request.auth.credentials.userId;
   const certificationId = request.params.id;
   const isFrenchDomainExtension = request.query.isFrenchDomainExtension;
@@ -44,7 +52,7 @@ const getPDFAttestation = async function (request, h) {
     certificationId,
   });
 
-  const { buffer } = await certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
+  const { buffer } = await dependencies.certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
     certificates: [attestation],
     isFrenchDomainExtension,
   });
@@ -56,7 +64,7 @@ const getPDFAttestation = async function (request, h) {
     .header('Content-Type', 'application/pdf');
 };
 
-const neutralizeChallenge = async function (request, h) {
+const neutralizeChallenge = async function (request, h, dependencies = { events }) {
   const challengeRecId = request.payload.data.attributes.challengeRecId;
   const certificationCourseId = request.payload.data.attributes.certificationCourseId;
   const juryId = request.auth.credentials.userId;
@@ -65,11 +73,11 @@ const neutralizeChallenge = async function (request, h) {
     certificationCourseId,
     juryId,
   });
-  await events.eventDispatcher.dispatch(event);
+  await dependencies.events.eventDispatcher.dispatch(event);
   return h.response().code(204);
 };
 
-const deneutralizeChallenge = async function (request, h) {
+const deneutralizeChallenge = async function (request, h, dependencies = { events }) {
   const challengeRecId = request.payload.data.attributes.challengeRecId;
   const certificationCourseId = request.payload.data.attributes.certificationCourseId;
   const juryId = request.auth.credentials.userId;
@@ -78,7 +86,7 @@ const deneutralizeChallenge = async function (request, h) {
     certificationCourseId,
     juryId,
   });
-  await events.eventDispatcher.dispatch(event);
+  await dependencies.events.eventDispatcher.dispatch(event);
   return h.response().code(204);
 };
 
