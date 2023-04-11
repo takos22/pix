@@ -31,7 +31,9 @@ describe('Unit | Controller | assessment-results', function () {
         competence_code: 1.3,
         competenceId: 'rec456789',
       });
-      sinon.stub(assessmentResultService, 'save').resolves();
+      const assessmentResultServiceStub = { save : sinon.stub() };
+      assessmentResultServiceStub.save.resolves();
+      
       const request = {
         payload: {
           data: {
@@ -80,7 +82,7 @@ describe('Unit | Controller | assessment-results', function () {
       };
 
       // when
-      const response = await assessmentResultController.save(request, hFake);
+      const response = await assessmentResultController.save(request, hFake, { assessmentResultService : assessmentResultServiceStub});
 
       // then
       const expectedAssessmentResult = new AssessmentResult({
@@ -95,7 +97,7 @@ describe('Unit | Controller | assessment-results', function () {
         juryId: 1,
       });
       expect(response).to.be.null;
-      expect(assessmentResultService.save).to.have.been.calledWithMatch(expectedAssessmentResult, [
+      expect(assessmentResultServiceStub.save).to.have.been.calledWithMatch(expectedAssessmentResult, [
         competenceMark1,
         competenceMark2,
         competenceMark3,
