@@ -14,6 +14,8 @@ import {
 } from '../../infrastructure/utils/request-response-utils.js';
 import { Examiner } from '../../domain/models/Examiner.js';
 import { ValidatorAlwaysOK } from '../../domain/models/ValidatorAlwaysOK.js';
+import * as certificationChallengeRepository
+  from "../../infrastructure/repositories/certification-challenge-repository.js";
 
 const save = async function (request, h) {
   const assessment = assessmentSerializer.deserialize(request.payload);
@@ -48,7 +50,7 @@ const getChallengeForPixAutoAnswer = async function (request, h) {
   return h.response(challenge).code(200);
 };
 
-const getNextChallenge = async function (request) {
+const getNextChallenge = async function (request, h, dependencies = {usecases, assessmentRepository, certificationChallengeRepository}) {
   const assessmentId = request.params.id;
 
   const logContext = {
@@ -59,11 +61,11 @@ const getNextChallenge = async function (request) {
   logger.trace(logContext, 'tracing assessmentController.getNextChallenge()');
 
   try {
-    const assessment = await assessmentRepository.get(assessmentId);
+    const assessment = await dependencies.assessmentRepository.get(assessmentId);
     logContext.assessmentType = assessment.type;
     logger.trace(logContext, 'assessment loaded');
 
-    const challenge = await _getChallenge(assessment, request);
+    const challenge = await _getChallenge(assessment, request, dependencies);
     logContext.challenge = challenge;
     logger.trace(logContext, 'replying with challenge');
 
@@ -148,43 +150,46 @@ export {
   autoValidateNextChallenge,
 };
 
-async function _getChallenge(assessment, request) {
+async function _getChallenge(assessment, request, dependencies) {
   if (assessment.isStarted()) {
-    await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate: new Date() });
+    await dependencies.assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate: new Date() });
   }
-  const challenge = await _getChallengeByAssessmentType({ assessment, request });
+  const challenge = await _getChallengeByAssessmentType({ assessment, request, dependencies });
 
   if (challenge) {
     if (challenge.id !== assessment.lastChallengeId) {
-      await assessmentRepository.updateWhenNewChallengeIsAsked({ id: assessment.id, lastChallengeId: challenge.id });
+      await dependencies.assessmentRepository.updateWhenNewChallengeIsAsked({
+        id: assessment.id,
+        lastChallengeId: challenge.id,
+      });
     }
   }
 
   return challenge;
 }
 
-async function _getChallengeByAssessmentType({ assessment, request }) {
+async function _getChallengeByAssessmentType({ assessment, request, dependencies }) {
   const locale = extractLocaleFromRequest(request);
 
   if (assessment.isPreview()) {
-    return usecases.getNextChallengeForPreview({});
+    return dependencies.usecases.getNextChallengeForPreview({});
   }
 
   if (assessment.isCertification()) {
-    return usecases.getNextChallengeForCertification({ assessment });
+    return dependencies.usecases.getNextChallengeForCertification({ assessment });
   }
 
   if (assessment.isDemo()) {
-    return usecases.getNextChallengeForDemo({ assessment });
+    return dependencies.usecases.getNextChallengeForDemo({ assessment });
   }
 
   if (assessment.isForCampaign()) {
-    return usecases.getNextChallengeForCampaignAssessment({ assessment, locale });
+    return dependencies.usecases.getNextChallengeForCampaignAssessment({ assessment, locale });
   }
 
   if (assessment.isCompetenceEvaluation()) {
     const userId = extractUserIdFromRequest(request);
-    return usecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
+    return dependencies.usecases.getNextChallengeForCompetenceEvaluation({ assessment, userId, locale });
   }
 
   return null;
