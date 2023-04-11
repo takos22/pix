@@ -5,34 +5,38 @@ import * as userSavedTutorialRepository from '../../infrastructure/repositories/
 import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
 import { extractLocaleFromRequest } from '../../infrastructure/utils/request-response-utils.js';
 
-const add = async function (request, h) {
+const add = async function (request, h, dependencies = { userSavedTutorialSerializer }) {
   const { userId } = request.auth.credentials;
   const { tutorialId } = request.params;
-  const userSavedTutorial = userSavedTutorialSerializer.deserialize(request.payload);
+  const userSavedTutorial = dependencies.userSavedTutorialSerializer.deserialize(request.payload);
 
   const createdUserSavedTutorial = await usecases.addTutorialToUser({ ...userSavedTutorial, userId, tutorialId });
 
-  return h.response(userSavedTutorialSerializer.serialize(createdUserSavedTutorial)).created();
+  return h.response(dependencies.userSavedTutorialSerializer.serialize(createdUserSavedTutorial)).created();
 };
 
-const find = async function (request) {
+const find = async function (
+  request,
+  h,
+  dependencies = { extractParameters, extractLocaleFromRequest, tutorialSerializer }
+) {
   const { userId } = request.auth.credentials;
-  const { page, filter: filters } = extractParameters(request.query);
-  const locale = extractLocaleFromRequest(request);
+  const { page, filter: filters } = dependencies.extractParameters(request.query);
+  const locale = dependencies.extractLocaleFromRequest(request);
   const { tutorials, meta } = await usecases.findPaginatedFilteredTutorials({
     userId,
     filters,
     page,
     locale,
   });
-  return tutorialSerializer.serialize(tutorials, meta);
+  return dependencies.tutorialSerializer.serialize(tutorials, meta);
 };
 
-const removeFromUser = async function (request, h) {
+const removeFromUser = async function (request, h, dependencies = { userSavedTutorialRepository }) {
   const { userId } = request.auth.credentials;
   const { tutorialId } = request.params;
 
-  await userSavedTutorialRepository.removeFromUser({ userId, tutorialId });
+  await dependencies.userSavedTutorialRepository.removeFromUser({ userId, tutorialId });
 
   return h.response().code(204);
 };

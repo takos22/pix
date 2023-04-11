@@ -1,11 +1,6 @@
 import { sinon, expect, hFake } from '../../../test-helper.js';
 import * as userTutorialsController from '../../../../lib/application/user-tutorials/user-tutorials-controller.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
-import * as userSavedTutorialSerializer from '../../../../lib/infrastructure/serializers/jsonapi/user-saved-tutorial-serializer.js';
-import * as userSavedTutorialRepository from '../../../../lib/infrastructure/repositories/user-saved-tutorial-repository.js';
-import * as queryParamsUtils from '../../../../lib/infrastructure/utils/query-params-utils.js';
-import * as requestResponseUtils from '../../../../lib/infrastructure/utils/request-response-utils.js';
-import * as tutorialSerializer from '../../../../lib/infrastructure/serializers/jsonapi/tutorial-serializer.js';
 
 describe('Unit | Controller | User-tutorials', function () {
   describe('#add', function () {
@@ -14,7 +9,11 @@ describe('Unit | Controller | User-tutorials', function () {
       const tutorialId = 'tutorialId';
       const userId = 'userId';
       sinon.stub(usecases, 'addTutorialToUser').returns({ id: 'userTutorialId' });
-      sinon.stub(userSavedTutorialSerializer, 'deserialize').returns({});
+      const userSavedTutorialSerializer = {
+        deserialize: sinon.stub(),
+        serialize: sinon.stub(),
+      };
+      userSavedTutorialSerializer.deserialize.returns({});
 
       const request = {
         auth: { credentials: { userId } },
@@ -22,7 +21,9 @@ describe('Unit | Controller | User-tutorials', function () {
       };
 
       // when
-      await userTutorialsController.add(request, hFake);
+      await userTutorialsController.add(request, hFake, {
+        userSavedTutorialSerializer,
+      });
 
       // then
       const addTutorialToUserArgs = usecases.addTutorialToUser.firstCall.args[0];
@@ -37,7 +38,11 @@ describe('Unit | Controller | User-tutorials', function () {
         const tutorialId = 'tutorialId';
         const userId = 'userId';
         sinon.stub(usecases, 'addTutorialToUser').returns({ id: 'userTutorialId' });
-        sinon.stub(userSavedTutorialSerializer, 'deserialize').returns({ skillId });
+        const userSavedTutorialSerializer = {
+          deserialize: sinon.stub(),
+          serialize: sinon.stub(),
+        };
+        userSavedTutorialSerializer.deserialize.returns({ skillId });
 
         const request = {
           auth: { credentials: { userId } },
@@ -46,7 +51,9 @@ describe('Unit | Controller | User-tutorials', function () {
         };
 
         // when
-        await userTutorialsController.add(request, hFake);
+        await userTutorialsController.add(request, hFake, {
+          userSavedTutorialSerializer,
+        });
 
         // then
         const addTutorialToUserArgs = usecases.addTutorialToUser.firstCall.args[0];
@@ -81,16 +88,26 @@ describe('Unit | Controller | User-tutorials', function () {
       };
       const returnedTutorials = Symbol('returned-tutorials');
       const returnedMeta = Symbol('returned-meta');
-      sinon.stub(requestResponseUtils, 'extractLocaleFromRequest').withArgs(request).returns(expectedLocale);
-      sinon.stub(queryParamsUtils, 'extractParameters').withArgs(request.query).returns(extractedParams);
+      const requestResponseUtils = { extractLocaleFromRequest: sinon.stub() };
+      requestResponseUtils.extractLocaleFromRequest.withArgs(request).returns(expectedLocale);
+      const queryParamsUtils = { extractParameters: sinon.stub() };
+      queryParamsUtils.extractParameters.withArgs(request.query).returns(extractedParams);
       sinon.stub(usecases, 'findPaginatedFilteredTutorials').resolves({
         tutorials: returnedTutorials,
         meta: returnedMeta,
       });
-      sinon.stub(tutorialSerializer, 'serialize').returns(expectedTutorials);
+      const tutorialSerializer = {
+        deserialize: sinon.stub(),
+        serialize: sinon.stub(),
+      };
+      tutorialSerializer.serialize.returns(expectedTutorials);
 
       // when
-      const result = await userTutorialsController.find(request);
+      const result = await userTutorialsController.find(request, hFake, {
+        tutorialSerializer,
+        extractParameters: queryParamsUtils.extractParameters,
+        extractLocaleFromRequest: requestResponseUtils.extractLocaleFromRequest,
+      });
 
       // then
       expect(tutorialSerializer.serialize).to.have.been.calledWithExactly(returnedTutorials, returnedMeta);
@@ -109,7 +126,9 @@ describe('Unit | Controller | User-tutorials', function () {
       // given
       const userId = 'userId';
       const tutorialId = 'tutorialId';
-      sinon.stub(userSavedTutorialRepository, 'removeFromUser');
+      const userSavedTutorialRepository = {
+        removeFromUser: sinon.stub(),
+      };
 
       const request = {
         auth: { credentials: { userId } },
@@ -117,7 +136,7 @@ describe('Unit | Controller | User-tutorials', function () {
       };
 
       // when
-      await userTutorialsController.removeFromUser(request, hFake);
+      await userTutorialsController.removeFromUser(request, hFake, { userSavedTutorialRepository });
 
       // then
       const removeFromUserArgs = userSavedTutorialRepository.removeFromUser.firstCall.args[0];
