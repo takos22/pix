@@ -9,9 +9,9 @@ import * as membershipSerializer from '../../infrastructure/serializers/jsonapi/
 import * as organizationSerializer from '../../infrastructure/serializers/jsonapi/organization-serializer.js';
 import * as organizationInvitationSerializer from '../../infrastructure/serializers/jsonapi/organization-invitation-serializer.js';
 import * as supOrganizationLearnerWarningSerializer from '../../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer.js';
-import * as TargetProfileForSpecifierSerializer from '../../infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer.js';
+import * as targetProfileForSpecifierSerializer from '../../infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer.js';
 import * as organizationMemberIdentitySerializer from '../../infrastructure/serializers/jsonapi/organization-member-identity-serializer.js';
-import * as organizationPlacesLotManagmentSerializer from '../../infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer.js';
+import * as organizationPlacesLotManagementSerializer from '../../infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer.js';
 import * as organizationPlacesLotSerializer from '../../infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer.js';
 import * as organizationPlacesCapacitySerializer from '../../infrastructure/serializers/jsonapi/organization-places-capacity-serializer.js';
 import * as organizationParticipantsSerializer from '../../infrastructure/serializers/jsonapi/organization/organization-participants-serializer.js';
@@ -20,13 +20,14 @@ import * as supOrganizationParticipantsSerializer from '../../infrastructure/ser
 import * as targetProfileSummaryForAdminSerializer from '../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer.js';
 
 import { SupOrganizationLearnerParser } from '../../infrastructure/serializers/csv/sup-organization-learner-parser.js';
-import { extractParameters } from '../../infrastructure/utils/query-params-utils.js';
+import * as queryParamsUtils from '../../infrastructure/utils/query-params-utils.js';
 import {
   extractLocaleFromRequest,
   extractUserIdFromRequest,
 } from '../../infrastructure/utils/request-response-utils.js';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat.js';
+
 dayjs.extend(customParseFormat);
 import * as certificationResultUtils from '../../infrastructure/utils/csv/certification-results.js';
 import * as certificationAttestationPdf from '../../infrastructure/utils/pdf/certification-attestation-pdf.js';
@@ -35,11 +36,11 @@ import * as organizationForAdminSerializer from '../../infrastructure/serializer
 import { mapCertificabilityByLabel } from './helpers.js';
 import * as csvSerializer from '../../infrastructure/serializers/csv/csv-serializer.js';
 
-const getOrganizationDetails = async function (request) {
+const getOrganizationDetails = async function (request, h, dependencies = { organizationForAdminSerializer }) {
   const organizationId = request.params.id;
 
   const organizationDetails = await usecases.getOrganizationDetails({ organizationId });
-  return organizationForAdminSerializer.serialize(organizationDetails);
+  return dependencies.organizationForAdminSerializer.serialize(organizationDetails);
 };
 
 const create = async function (request) {
@@ -62,28 +63,42 @@ const createInBatch = async function (request, h) {
   return h.response(organizationForAdminSerializer.serialize(createdOrganizations)).code(204);
 };
 
-const updateOrganizationInformation = async function (request) {
-  const organizationDeserialized = organizationForAdminSerializer.deserialize(request.payload);
+const updateOrganizationInformation = async function (request, h, dependencies = { organizationForAdminSerializer }) {
+  const organizationDeserialized = dependencies.organizationForAdminSerializer.deserialize(request.payload);
 
   const organizationUpdated = await usecases.updateOrganizationInformation({
     organization: organizationDeserialized,
   });
-  return organizationForAdminSerializer.serialize(organizationUpdated);
+  return dependencies.organizationForAdminSerializer.serialize(organizationUpdated);
 };
 
-const findPaginatedFilteredOrganizations = async function (request) {
-  const options = extractParameters(request.query);
+const findPaginatedFilteredOrganizations = async function (
+  request,
+  h,
+  dependencies = {
+    organizationSerializer,
+    queryParamsUtils,
+  }
+) {
+  const options = dependencies.queryParamsUtils.extractParameters(request.query);
 
   const { models: organizations, pagination } = await usecases.findPaginatedFilteredOrganizations({
     filter: options.filter,
     page: options.page,
   });
-  return organizationSerializer.serialize(organizations, pagination);
+  return dependencies.organizationSerializer.serialize(organizations, pagination);
 };
 
-const findPaginatedFilteredCampaigns = async function (request) {
+const findPaginatedFilteredCampaigns = async function (
+  request,
+  h,
+  dependencies = {
+    queryParamsUtils,
+    campaignReportSerializer,
+  }
+) {
   const organizationId = request.params.id;
-  const options = extractParameters(request.query);
+  const options = dependencies.queryParamsUtils.extractParameters(request.query);
   const userId = request.auth.credentials.userId;
 
   if (options.filter.status === 'archived') {
@@ -96,19 +111,26 @@ const findPaginatedFilteredCampaigns = async function (request) {
     page: options.page,
     userId,
   });
-  return campaignReportSerializer.serialize(campaigns, meta);
+  return dependencies.campaignReportSerializer.serialize(campaigns, meta);
 };
 
-const findPaginatedCampaignManagements = async function (request) {
+const findPaginatedCampaignManagements = async function (
+  request,
+  h,
+  dependencies = {
+    queryParamsUtils,
+    campaignManagementSerializer,
+  }
+) {
   const organizationId = request.params.id;
-  const { filter, page } = extractParameters(request.query);
+  const { filter, page } = dependencies.queryParamsUtils.extractParameters(request.query);
 
   const { models: campaigns, meta } = await usecases.findPaginatedCampaignManagements({
     organizationId,
     filter,
     page,
   });
-  return campaignManagementSerializer.serialize(campaigns, meta);
+  return dependencies.campaignManagementSerializer.serialize(campaigns, meta);
 };
 
 const findPaginatedFilteredMembershipsForAdmin = async function (request) {
@@ -135,10 +157,14 @@ const findPaginatedFilteredMemberships = async function (request) {
   return membershipSerializer.serialize(memberships, pagination);
 };
 
-const getOrganizationMemberIdentities = async function (request) {
+const getOrganizationMemberIdentities = async function (
+  request,
+  h,
+  dependencies = { organizationMemberIdentitySerializer }
+) {
   const organizationId = request.params.id;
   const members = await usecases.getOrganizationMemberIdentities({ organizationId });
-  return organizationMemberIdentitySerializer.serialize(members);
+  return dependencies.organizationMemberIdentitySerializer.serialize(members);
 };
 
 const getOrganizationPlacesCapacity = async function (request) {
@@ -147,10 +173,14 @@ const getOrganizationPlacesCapacity = async function (request) {
   return organizationPlacesCapacitySerializer.serialize(organizationPlacesCapacity);
 };
 
-const findOrganizationPlacesLot = async function (request) {
+const findOrganizationPlacesLot = async function (
+  request,
+  h,
+  dependencies = { organizationPlacesLotManagementSerializer }
+) {
   const organizationId = request.params.id;
   const places = await usecases.findOrganizationPlacesLot({ organizationId });
-  return organizationPlacesLotManagmentSerializer.serialize(places);
+  return dependencies.organizationPlacesLotManagementSerializer.serialize(places);
 };
 
 const deleteOrganizationPlacesLot = async function (request, h) {
@@ -162,19 +192,30 @@ const deleteOrganizationPlacesLot = async function (request, h) {
   return h.response(null).code(204);
 };
 
-const createOrganizationPlacesLot = async function (request, h) {
+const createOrganizationPlacesLot = async function (
+  request,
+  h,
+  dependencies = {
+    organizationPlacesLotSerializer,
+    organizationPlacesLotManagementSerializer,
+  }
+) {
   const organizationId = request.params.id;
   const createdBy = request.auth.credentials.userId;
-  const organizationPlacesLotData = await organizationPlacesLotSerializer.deserialize(request.payload);
+  const organizationPlacesLotData = await dependencies.organizationPlacesLotSerializer.deserialize(request.payload);
   const organizationPlacesLot = await usecases.createOrganizationPlacesLot({
     organizationPlacesLotData,
     organizationId,
     createdBy,
   });
-  return h.response(organizationPlacesLotManagmentSerializer.serialize(organizationPlacesLot)).code(201);
+  return h.response(dependencies.organizationPlacesLotManagementSerializer.serialize(organizationPlacesLot)).code(201);
 };
 
-const downloadCertificationAttestationsForDivision = async function (request, h) {
+const downloadCertificationAttestationsForDivision = async function (
+  request,
+  h,
+  dependencies = { certificationAttestationPdf }
+) {
   const organizationId = request.params.id;
   const { division, isFrenchDomainExtension } = request.query;
 
@@ -183,7 +224,7 @@ const downloadCertificationAttestationsForDivision = async function (request, h)
     division,
   });
 
-  const { buffer } = await certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
+  const { buffer } = await dependencies.certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
     certificates: attestations,
     isFrenchDomainExtension,
   });
@@ -197,13 +238,15 @@ const downloadCertificationAttestationsForDivision = async function (request, h)
     .header('Content-Type', 'application/pdf');
 };
 
-const downloadCertificationResults = async function (request, h) {
+const downloadCertificationResults = async function (request, h, dependencies = { certificationResultUtils }) {
   const organizationId = request.params.id;
   const { division } = request.query;
 
   const certificationResults = await usecases.getScoCertificationResultsByDivision({ organizationId, division });
 
-  const csvResult = await certificationResultUtils.getDivisionCertificationResultsCsv({ certificationResults });
+  const csvResult = await dependencies.certificationResultUtils.getDivisionCertificationResultsCsv({
+    certificationResults,
+  });
 
   const now = dayjs();
   const fileName = `${now.format('YYYYMMDD')}_resultats_${division}.csv`;
@@ -214,10 +257,10 @@ const downloadCertificationResults = async function (request, h) {
     .header('Content-Disposition', `attachment; filename="${fileName}"`);
 };
 
-const findTargetProfiles = async function (request) {
+const findTargetProfiles = async function (request, h, dependencies = { targetProfileForSpecifierSerializer }) {
   const organizationId = request.params.id;
   const targetProfiles = await usecases.getAvailableTargetProfilesForOrganization({ organizationId });
-  return TargetProfileForSpecifierSerializer.serialize(targetProfiles);
+  return dependencies.targetProfileForSpecifierSerializer.serialize(targetProfiles);
 };
 
 const attachTargetProfiles = async function (request, h) {
@@ -240,9 +283,16 @@ const getGroups = async function (request) {
   return groupSerializer.serialize(groups);
 };
 
-const findPaginatedFilteredScoParticipants = async function (request) {
+const findPaginatedFilteredScoParticipants = async function (
+  request,
+  h,
+  dependencies = {
+    queryParamsUtils,
+    scoOrganizationParticipantsSerializer,
+  }
+) {
   const organizationId = request.params.id;
-  const { filter, page, sort } = extractParameters(request.query);
+  const { filter, page, sort } = dependencies.queryParamsUtils.extractParameters(request.query);
   if (filter.divisions && !Array.isArray(filter.divisions)) {
     filter.divisions = [filter.divisions];
   }
@@ -258,15 +308,22 @@ const findPaginatedFilteredScoParticipants = async function (request) {
     page,
     sort,
   });
-  return scoOrganizationParticipantsSerializer.serialize({
+  return dependencies.scoOrganizationParticipantsSerializer.serialize({
     scoOrganizationParticipants,
     meta,
   });
 };
 
-const findPaginatedFilteredSupParticipants = async function (request) {
+const findPaginatedFilteredSupParticipants = async function (
+  request,
+  h,
+  dependencies = {
+    queryParamsUtils,
+    supOrganizationParticipantsSerializer,
+  }
+) {
   const organizationId = request.params.id;
-  const { filter, page, sort } = extractParameters(request.query);
+  const { filter, page, sort } = dependencies.queryParamsUtils.extractParameters(request.query);
   if (filter.groups && !Array.isArray(filter.groups)) {
     filter.groups = [filter.groups];
   }
@@ -281,7 +338,7 @@ const findPaginatedFilteredSupParticipants = async function (request) {
     page,
     sort,
   });
-  return supOrganizationParticipantsSerializer.serialize({ supOrganizationParticipants, meta });
+  return dependencies.supOrganizationParticipantsSerializer.serialize({ supOrganizationParticipants, meta });
 };
 
 const importOrganizationLearnersFromSIECLE = async function (request, h) {
@@ -347,10 +404,12 @@ const cancelOrganizationInvitation = async function (request, h) {
   return h.response().code(204);
 };
 
-const sendInvitationByLangAndRole = async function (request, h) {
+const sendInvitationByLangAndRole = async function (request, h, dependencies = { organizationInvitationSerializer }) {
   const organizationId = request.params.id;
   const invitationInformation =
-    await organizationInvitationSerializer.deserializeForCreateOrganizationInvitationAndSendEmail(request.payload);
+    await dependencies.organizationInvitationSerializer.deserializeForCreateOrganizationInvitationAndSendEmail(
+      request.payload
+    );
 
   const organizationInvitation = await usecases.createOrganizationInvitationByAdmin({
     organizationId,
@@ -358,21 +417,21 @@ const sendInvitationByLangAndRole = async function (request, h) {
     locale: invitationInformation.lang,
     role: invitationInformation.role,
   });
-  return h.response(organizationInvitationSerializer.serialize(organizationInvitation)).created();
+  return h.response(dependencies.organizationInvitationSerializer.serialize(organizationInvitation)).created();
 };
 
-const findPendingInvitations = function (request) {
+const findPendingInvitations = function (request, h, dependencies = { organizationInvitationSerializer }) {
   const organizationId = request.params.id;
 
   return usecases
     .findPendingOrganizationInvitations({ organizationId })
-    .then((invitations) => organizationInvitationSerializer.serialize(invitations));
+    .then((invitations) => dependencies.organizationInvitationSerializer.serialize(invitations));
 };
 
-const getOrganizationLearnersCsvTemplate = async function (request, h) {
+const getOrganizationLearnersCsvTemplate = async function (request, h, dependencies = { tokenService }) {
   const organizationId = request.params.id;
   const token = request.query.accessToken;
-  const userId = tokenService.extractUserId(token);
+  const userId = dependencies.tokenService.extractUserId(token);
   const template = await usecases.getOrganizationLearnersCsvTemplate({
     userId,
     organizationId,
@@ -385,16 +444,23 @@ const getOrganizationLearnersCsvTemplate = async function (request, h) {
     .header('Content-Disposition', `attachment; filename=${request.i18n.__('csv-template.template-name')}.csv`);
 };
 
-const archiveOrganization = async function (request) {
+const archiveOrganization = async function (request, h, dependencies = { organizationForAdminSerializer }) {
   const organizationId = request.params.id;
   const userId = extractUserIdFromRequest(request);
   const archivedOrganization = await usecases.archiveOrganization({ organizationId, userId });
-  return organizationForAdminSerializer.serialize(archivedOrganization);
+  return dependencies.organizationForAdminSerializer.serialize(archivedOrganization);
 };
 
-const getPaginatedParticipantsForAnOrganization = async function (request) {
+const getPaginatedParticipantsForAnOrganization = async function (
+  request,
+  h,
+  dependencies = {
+    queryParamsUtils,
+    organizationParticipantsSerializer,
+  }
+) {
   const organizationId = request.params.id;
-  const { page, filter: filters, sort } = extractParameters(request.query);
+  const { page, filter: filters, sort } = dependencies.queryParamsUtils.extractParameters(request.query);
 
   if (filters.certificability) {
     filters.certificability = mapCertificabilityByLabel(filters.certificability);
@@ -407,7 +473,7 @@ const getPaginatedParticipantsForAnOrganization = async function (request) {
     sort,
   });
 
-  return organizationParticipantsSerializer.serialize(results);
+  return dependencies.organizationParticipantsSerializer.serialize(results);
 };
 
 const findTargetProfileSummariesForAdmin = async function (request) {
