@@ -3,7 +3,7 @@ const Skill = require('../../domain/models/Skill.js');
 
 module.exports = {
   fromDatasourceObject(datasourceObject) {
-    return new Skill({
+    return Object.freeze(new Skill({
       id: datasourceObject.id,
       name: datasourceObject.name,
       pixValue: datasourceObject.pixValue,
@@ -12,6 +12,6 @@ module.exports = {
       tubeId: datasourceObject.tubeId,
       version: datasourceObject.version,
       difficulty: datasourceObject.level,
-    });
+    }));
   },
 };

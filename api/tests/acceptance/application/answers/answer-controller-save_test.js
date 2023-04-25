@@ -8,7 +8,7 @@ const {
 const createServer = require('../../../../server');
 const { FRENCH_FRANCE, ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Acceptance | Controller | answer-controller-save', function () {
+describe.only('Acceptance | Controller | answer-controller-save', function () {
   let server;
 
   beforeEach(async function () {

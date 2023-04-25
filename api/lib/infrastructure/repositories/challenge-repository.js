@@ -10,12 +10,21 @@ const LearningContentResourceNotFound = require('../datasources/learning-content
 const { NotFoundError } = require('../../domain/errors.js');
 const config = require('../../config.js');
 
+let challenges = null;
+
+async function initChallenges() {
+  if (challenges) return challenges;
+  const challengeDataObjects = await challengeDatasource.list();
+  const skills = await skillDatasource.list();
+  challenges = _toDomainCollection({ challengeDataObjects, skills });
+  return challenges;
+}
+
 module.exports = {
   async get(id) {
     try {
-      const challenge = await challengeDatasource.get(id);
-      const skill = await skillDatasource.get(challenge.skillId);
-      return _toDomain({ challengeDataObject: challenge, skillDataObject: skill });
+      await initChallenges();
+      return challenges.find(({id: challengeId}) => challengeId === id);
     } catch (error) {
       if (error instanceof LearningContentResourceNotFound) {
         throw new NotFoundError();
@@ -26,6 +35,7 @@ module.exports = {
 
   async getMany(ids) {
     try {
+      await initChallenges();
       const challengeDataObjects = await challengeDatasource.getMany(ids);
       const skills = await skillDatasource.getMany(challengeDataObjects.map(({ skillId }) => skillId));
       return _toDomainCollection({ challengeDataObjects, skills });
@@ -38,36 +48,42 @@ module.exports = {
   },
 
   async list() {
+    await initChallenges();
     const challengeDataObjects = await challengeDatasource.list();
     const skills = await skillDatasource.list();
     return _toDomainCollection({ challengeDataObjects, skills });
   },
 
   async findValidated() {
+    await initChallenges();
     const challengeDataObjects = await challengeDatasource.findValidated();
     const activeSkills = await skillDatasource.findActive();
     return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
   },
 
   async findOperative() {
+    await initChallenges();
     const challengeDataObjects = await challengeDatasource.findOperative();
     const operativeSkills = await skillDatasource.findOperative();
     return _toDomainCollection({ challengeDataObjects, skills: operativeSkills });
   },
 
   async findOperativeHavingLocale(locale) {
+    await initChallenges();
     const challengeDataObjects = await challengeDatasource.findOperativeHavingLocale(locale);
     const operativeSkills = await skillDatasource.findOperative();
     return _toDomainCollection({ challengeDataObjects, skills: operativeSkills });
   },
 
   async findValidatedByCompetenceId(competenceId) {
+    await initChallenges();
     const challengeDataObjects = await challengeDatasource.findValidatedByCompetenceId(competenceId);
     const activeSkills = await skillDatasource.findActive();
     return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
   },
 
   async findOperativeBySkills(skills) {
+    await initChallenges();
     const skillIds = skills.map((skill) => skill.id);
     const challengeDataObjects = await challengeDatasource.findOperativeBySkillIds(skillIds);
     const operativeSkills = await skillDatasource.findOperative();
@@ -78,6 +94,7 @@ module.exports = {
     locale,
     successProbabilityThreshold = config.features.successProbabilityThreshold,
   } = {}) {
+    await initChallenges();
     const challengeDataObjects = await challengeDatasource.findActiveFlashCompatible(locale);
     const activeSkills = await skillDatasource.findActive();
     return _toDomainCollection({ challengeDataObjects, skills: activeSkills, successProbabilityThreshold });
@@ -87,12 +104,14 @@ module.exports = {
     locale,
     successProbabilityThreshold = config.features.successProbabilityThreshold,
   } = {}) {
+    await initChallenges();
     const challengeDataObjects = await challengeDatasource.findOperativeFlashCompatible(locale);
     const skills = await skillDatasource.list();
     return _toDomainCollection({ challengeDataObjects, skills, successProbabilityThreshold });
   },
 
   async findValidatedBySkillId(skillId) {
+    await initChallenges();
     const challengeDataObjects = await challengeDatasource.findValidatedBySkillId(skillId);
     const activeSkills = await skillDatasource.findActive();
     return _toDomainCollection({ challengeDataObjects, skills: activeSkills });

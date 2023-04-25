@@ -8,6 +8,19 @@ const { FRENCH_FRANCE } = require('../../domain/constants.js').LOCALE;
 const { PIX_ORIGIN } = require('../../domain/constants.js');
 const { getTranslatedKey } = require('../../domain/services/get-translated-text.js');
 
+let competences = null;
+
+async function initCompetences() {
+  if (competences) return competences;
+  const locale = 'fr';
+  const competenceDatas = await competenceDatasource.list();
+  competences = _.sortBy(
+    competenceDatas.map((competenceData) => _toDomain({ competenceData, locale })),
+    'index'
+  );
+  return competences;
+}
+
 function _toDomain({ competenceData, locale }) {
   const translatedCompetenceName = getTranslatedKey(competenceData.name_i18n, locale);
   const translatedCompetenceDescription = getTranslatedKey(competenceData.description_i18n, locale);
@@ -35,9 +48,9 @@ module.exports = {
   },
 
   async get({ id, locale }) {
+    await initCompetences();
     try {
-      const competenceData = await competenceDatasource.get(id);
-      return _toDomain({ competenceData, locale });
+      return competences.find(({id: idCompetence}) => id === idCompetence);
     } catch (err) {
       if (err instanceof LearningContentResourceNotFound) {
         throw new NotFoundError('La compétence demandée n’existe pas');

@@ -6,6 +6,15 @@ const { getTranslatedKey } = require('../../domain/services/get-translated-text.
 const _ = require('lodash');
 const { NotFoundError } = require('../../domain/errors.js');
 
+let areas = null;
+async function initAreas() {
+  if (areas) return areas;
+  const locale = 'fr';
+  const areaDataObjects = await areaDatasource.list();
+  areas = areaDataObjects.map((areaData) => _toDomain({ areaData, locale }));
+  return areas;
+}
+
 function _toDomain({ areaData, locale }) {
   const translatedTitle = getTranslatedKey(areaData.title_i18n, locale);
   return new Area({
@@ -55,12 +64,12 @@ async function findByRecordIds({ areaIds, locale }) {
 }
 
 async function get({ id, locale }) {
-  const areaDataObjects = await areaDatasource.list();
-  const areaData = areaDataObjects.find((area) => area.id === id);
-  if (!areaData) {
+  await initAreas();
+  const area = areas.find((area) => area.id === id);
+  if (!area) {
     throw new NotFoundError(`Area "${id}" not found.`);
   }
-  return _toDomain({ areaData, locale });
+  return area;
 }
 
 module.exports = {
