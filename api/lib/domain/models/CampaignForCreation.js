@@ -1,3 +1,4 @@
+'use strict';
 const validate = require('../validators/campaign-creation-validator.js');
 class CampaignForCreation {
   constructor({

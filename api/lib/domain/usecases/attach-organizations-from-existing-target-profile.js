@@ -1,3 +1,4 @@
+'use strict';
 const { OrganizationsToAttachToTargetProfile } = require('../models/index.js');
 
 module.exports = async function attachOrganizationsFromExistingTargetProfile({

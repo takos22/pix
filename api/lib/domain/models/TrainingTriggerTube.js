@@ -1,3 +1,4 @@
+'use strict';
 class TrainingTriggerTube {
   constructor({ id, tube, level } = {}) {
     this.id = id;

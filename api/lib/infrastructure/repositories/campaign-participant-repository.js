@@ -1,3 +1,4 @@
+'use strict';
 const pick = require('lodash/pick');
 const CampaignParticipant = require('../../domain/models/CampaignParticipant.js');
 const CampaignToStartParticipation = require('../../domain/models/CampaignToStartParticipation.js');

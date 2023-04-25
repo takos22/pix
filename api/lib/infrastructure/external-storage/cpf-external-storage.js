@@ -1,3 +1,4 @@
+'use strict';
 const s3Utils = require('./s3-utils.js');
 const { cpf } = require('../../config.js');
 const logger = require('../logger.js');

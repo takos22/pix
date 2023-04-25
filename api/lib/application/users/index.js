@@ -1,3 +1,4 @@
+'use strict';
 const Joi = require('joi');
 const XRegExp = require('xregexp');
 const securityPreHandlers = require('../security-pre-handlers.js');

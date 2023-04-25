@@ -1,3 +1,4 @@
+'use strict';
 class CertificationsResults {
   constructor({ certifications, competences } = {}) {
     this.certifications = certifications;

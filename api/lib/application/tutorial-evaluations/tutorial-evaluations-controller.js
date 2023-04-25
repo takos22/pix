@@ -1,3 +1,4 @@
+'use strict';
 const usecases = require('../../domain/usecases/index.js');
 const tutorialEvaluationSerializer = require('../../infrastructure/serializers/jsonapi/tutorial-evaluation-serializer.js');
 const TutorialEvaluation = require('../../../lib/domain/models/TutorialEvaluation.js');

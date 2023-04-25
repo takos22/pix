@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const Assessment = require('./Assessment.js');
 const CompetenceEvaluation = require('./CompetenceEvaluation.js');

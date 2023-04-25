@@ -1,3 +1,4 @@
+'use strict';
 class ComplementaryCertificationHabilitation {
   constructor({ id, complementaryCertificationId, certificationCenterId }) {
     this.id = id;

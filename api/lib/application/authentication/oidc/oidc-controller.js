@@ -1,3 +1,4 @@
+'use strict';
 const authenticationServiceRegistry = require('../../../domain/services/authentication/authentication-service-registry.js');
 const serializer = require('../../../infrastructure/serializers/jsonapi/oidc-identity-providers-serializer.js');
 const usecases = require('../../../domain/usecases/index.js');

@@ -1,3 +1,4 @@
+'use strict';
 const headers = {
   sessionId: 'Numéro de session préexistante',
   address: '* Nom du site',

@@ -1,3 +1,4 @@
+'use strict';
 module.exports = async function endAssessmentBySupervisor({ certificationCandidateId, assessmentRepository }) {
   const assessment = await assessmentRepository.getByCertificationCandidateId(certificationCandidateId);
 

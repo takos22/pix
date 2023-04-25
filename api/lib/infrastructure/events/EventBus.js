@@ -1,3 +1,4 @@
+'use strict';
 const bluebird = require('bluebird');
 
 class SubscriberList {

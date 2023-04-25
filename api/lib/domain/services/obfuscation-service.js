@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const authenticationMethodRepository = require('../../infrastructure/repositories/authentication-method-repository.js');
 const AuthenticationMethod = require('../models/AuthenticationMethod.js');

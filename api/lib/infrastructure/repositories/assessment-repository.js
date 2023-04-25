@@ -1,3 +1,4 @@
+'use strict';
 const BookshelfAssessment = require('../orm-models/Assessment.js');
 const DomainTransaction = require('../DomainTransaction.js');
 const Assessment = require('../../domain/models/Assessment.js');

@@ -1,3 +1,4 @@
+'use strict';
 const bluebird = require('bluebird');
 const certificationCenterCreationValidator = require('../validators/certification-center-creation-validator.js');
 const ComplementaryCertificationHabilitation = require('../../domain/models/ComplementaryCertificationHabilitation.js');

@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('../../infrastructure/utils/lodash-utils.js');
 
 const AnswerStatus = require('../models/AnswerStatus.js');

@@ -1,3 +1,4 @@
+'use strict';
 const BookshelfOrganizationTag = require('../orm-models/OrganizationTag.js');
 const Bookshelf = require('../bookshelf.js');
 const bookshelfUtils = require('../utils/knex-utils.js');

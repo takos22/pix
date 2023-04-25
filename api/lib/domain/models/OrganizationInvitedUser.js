@@ -1,3 +1,4 @@
+'use strict';
 const { AlreadyExistingMembershipError } = require('../../domain/errors.js');
 const { NotFoundError, AlreadyAcceptedOrCancelledInvitationError } = require('../errors.js');
 const { roles } = require('./Membership.js');

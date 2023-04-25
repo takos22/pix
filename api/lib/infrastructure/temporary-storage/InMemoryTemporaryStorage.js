@@ -1,3 +1,4 @@
+'use strict';
 const NodeCache = require('node-cache');
 const trim = require('lodash/trim');
 const TemporaryStorage = require('./TemporaryStorage.js');

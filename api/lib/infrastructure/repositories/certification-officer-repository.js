@@ -1,3 +1,4 @@
+'use strict';
 const BookshelfUser = require('../orm-models/User.js');
 
 const { UserNotFoundError } = require('../../domain/errors.js');

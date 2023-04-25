@@ -1,3 +1,4 @@
+'use strict';
 const knexUtils = require('../utils/knex-utils.js');
 const { AlreadyExistingEntityError, NotFoundError } = require('../../domain/errors.js');
 const omit = require('lodash/omit');

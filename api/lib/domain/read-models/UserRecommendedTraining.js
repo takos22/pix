@@ -1,3 +1,4 @@
+'use strict';
 class UserRecommendedTraining {
   constructor({ id, title, link, type, duration, locale, editorName, editorLogoUrl } = {}) {
     this.id = id;

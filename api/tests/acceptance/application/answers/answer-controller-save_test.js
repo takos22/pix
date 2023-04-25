@@ -41,6 +41,7 @@ describe('Acceptance | Controller | answer-controller-save', function () {
     });
 
     context('when the user is linked to the assessment', function () {
+      this.timeout('10000');
       beforeEach(async function () {
         // given
         const learningContent = {

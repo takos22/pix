@@ -1,3 +1,4 @@
+'use strict';
 const CertificationEligibility = require('../read-models/CertificationEligibility.js');
 
 module.exports = async function getUserCertificationEligibility({

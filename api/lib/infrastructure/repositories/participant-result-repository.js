@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../../db/knex-database-connection.js');
 const _ = require('lodash');
 const Assessment = require('../../domain/models/Assessment.js');

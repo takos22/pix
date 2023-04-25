@@ -1,3 +1,4 @@
+'use strict';
 const codeUtils = require('../../infrastructure/utils/code-utils.js');
 const AuthenticationMethod = require('../models/AuthenticationMethod.js');
 const { InvalidPasswordForUpdateEmailError, UserNotAuthorizedToUpdateEmailError } = require('../errors.js');

@@ -1,3 +1,4 @@
+'use strict';
 const SCOCertificationCandidate = require('../models/SCOCertificationCandidate.js');
 const _ = require('lodash');
 const { ForbiddenAccess, UnknownCountryForStudentEnrollmentError } = require('../errors.js');

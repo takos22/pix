@@ -1,3 +1,4 @@
+'use strict';
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository.js');
 const errorSerializer = require('../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer.js');
 const { UserNotFoundError } = require('../../domain/errors.js');

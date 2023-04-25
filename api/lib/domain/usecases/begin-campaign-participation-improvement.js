@@ -1,3 +1,4 @@
+'use strict';
 const Assessment = require('../models/Assessment.js');
 const {
   AlreadySharedCampaignParticipationError,

@@ -1,3 +1,4 @@
+'use strict';
 const organisationPlacesCategories = {
   T0: 'T0',
   T1: 'T1',

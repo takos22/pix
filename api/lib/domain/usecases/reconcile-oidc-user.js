@@ -1,3 +1,4 @@
+'use strict';
 const { AuthenticationKeyExpired, MissingUserAccountError } = require('../errors.js');
 const AuthenticationMethod = require('../models/AuthenticationMethod.js');
 

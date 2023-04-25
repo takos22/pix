@@ -1,3 +1,4 @@
+'use strict';
 const uniqBy = require('lodash/uniqBy');
 const remove = require('lodash/remove');
 const EuropeanNumericLevel = require('./EuropeanNumericLevel.js');

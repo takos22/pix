@@ -1,3 +1,4 @@
+'use strict';
 const solutionServiceQROCMDep = require('../services/solution-service-qrocm-dep.js');
 const Validation = require('./Validation.js');
 const Validator = require('./Validator.js');

@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const { convertDateValue } = require('../../utils/date-utils.js');
 const {

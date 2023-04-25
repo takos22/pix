@@ -1,3 +1,4 @@
+'use strict';
 const prescriberRoleRepository = require('../../infrastructure/repositories/prescriber-role-repository.js');
 const CampaignAuthorization = require('../preHandlers/models/CampaignAuthorization.js');
 

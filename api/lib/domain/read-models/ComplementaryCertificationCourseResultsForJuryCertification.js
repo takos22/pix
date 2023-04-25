@@ -1,3 +1,4 @@
+'use strict';
 const complementaryCertificationStatus = {
   ACQUIRED: 'Validée',
   REJECTED: 'Rejetée',

@@ -1,3 +1,4 @@
+'use strict';
 const TYPES = {
   RECOMMENDED: 'recommended',
   SAVED: 'saved',

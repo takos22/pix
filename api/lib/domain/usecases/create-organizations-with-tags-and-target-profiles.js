@@ -1,3 +1,4 @@
+'use strict';
 const { isEmpty, uniqBy } = require('lodash');
 const bluebird = require('bluebird');
 const Organization = require('../models/Organization.js');

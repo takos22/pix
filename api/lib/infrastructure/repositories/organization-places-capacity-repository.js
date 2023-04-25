@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../../db/knex-database-connection.js');
 const OrganizationPlacesCapacity = require('../../domain/read-models/OrganizationPlacesCapacity.js');
 

@@ -1,3 +1,4 @@
+'use strict';
 const ScoringSimulationResult = require('../models/ScoringSimulationResult.js');
 const fp = require('lodash/fp');
 const { sortBy } = require('lodash');

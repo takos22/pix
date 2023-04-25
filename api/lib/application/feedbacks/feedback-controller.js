@@ -1,3 +1,4 @@
+'use strict';
 const { BadRequestError } = require('../http-errors.js');
 const _ = require('../../infrastructure/utils/lodash-utils.js');
 const serializer = require('../../infrastructure/serializers/jsonapi/feedback-serializer.js');

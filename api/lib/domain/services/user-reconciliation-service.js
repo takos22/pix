@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const { pipe } = require('lodash/fp');
 const randomString = require('randomstring');

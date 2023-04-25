@@ -1,3 +1,4 @@
+'use strict';
 module.exports = class EmailingAttempt {
   static errorCode = {
     PROVIDER_ERROR: 'PROVIDER_ERROR',

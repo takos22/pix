@@ -1,3 +1,4 @@
+'use strict';
 class BadgeCriterion {
   constructor({ id, scope, threshold, skillSetIds, badgeId } = {}) {
     this.id = id;

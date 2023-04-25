@@ -1,3 +1,4 @@
+'use strict';
 class CertificationScoringCompleted {
   constructor({ certificationCourseId, userId, reproducibilityRate }) {
     this.certificationCourseId = certificationCourseId;

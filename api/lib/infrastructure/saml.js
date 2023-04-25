@@ -1,3 +1,4 @@
+'use strict';
 const samlify = require('samlify');
 samlify.setSchemaValidator({
   validate: () => {

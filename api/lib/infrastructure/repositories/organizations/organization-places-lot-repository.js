@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../../../db/knex-database-connection.js');
 const OrganizationPlacesLotManagement = require('../../../domain/read-models/OrganizationPlacesLotManagement.js');
 const { NotFoundError, DeletedError } = require('../../../domain/errors.js');

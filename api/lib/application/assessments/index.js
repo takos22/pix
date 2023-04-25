@@ -1,3 +1,4 @@
+'use strict';
 const Joi = require('joi');
 const { featureToggles } = require('../../config.js');
 const assessmentController = require('./assessment-controller.js');

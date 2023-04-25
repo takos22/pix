@@ -1,3 +1,4 @@
+'use strict';
 const Joi = require('joi');
 
 const userTutorialsController = require('./user-tutorials-controller.js');

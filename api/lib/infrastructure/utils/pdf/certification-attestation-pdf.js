@@ -1,3 +1,4 @@
+'use strict';
 const { PDFDocument, rgb } = require('pdf-lib');
 const { readFile } = require('fs/promises');
 const pdfLibFontkit = require('@pdf-lib/fontkit');

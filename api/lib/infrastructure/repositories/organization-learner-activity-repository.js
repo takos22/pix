@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../../db/knex-database-connection.js');
 const OrganizationLearnerParticipation = require('../../domain/read-models/OrganizationLearnerParticipation.js');
 const OrganizationLearnerActivity = require('../../domain/read-models/OrganizationLearnerActivity.js');

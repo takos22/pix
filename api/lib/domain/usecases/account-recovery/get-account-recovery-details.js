@@ -1,3 +1,4 @@
+'use strict';
 module.exports = async function getAccountRecoveryDetails({
   temporaryKey,
   accountRecoveryDemandRepository,

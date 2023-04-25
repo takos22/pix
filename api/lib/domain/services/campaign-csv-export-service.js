@@ -1,3 +1,4 @@
+'use strict';
 const CampaignAssessmentCsvLine = require('../../infrastructure/utils/CampaignAssessmentCsvLine.js');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer.js');
 const campaignParticipationService = require('../services/campaign-participation-service.js');

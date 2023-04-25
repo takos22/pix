@@ -1,3 +1,4 @@
+'use strict';
 const settings = require('../config.js');
 
 const PIX_COUNT_BY_LEVEL = 8;

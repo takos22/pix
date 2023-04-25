@@ -1,3 +1,4 @@
+'use strict';
 class TrainingForAdmin {
   constructor({
     id,

@@ -1,3 +1,4 @@
+'use strict';
 const { checkEventTypes } = require('./check-event-types.js');
 const SessionFinalized = require('./SessionFinalized.js');
 const CertificationIssueReportResolutionAttempt = require('../models/CertificationIssueReportResolutionAttempt.js');

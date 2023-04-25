@@ -1,3 +1,4 @@
+'use strict';
 const { AuthenticationMethodAlreadyExistsError } = require('../errors.js');
 const AuthenticationMethod = require('../models/AuthenticationMethod.js');
 

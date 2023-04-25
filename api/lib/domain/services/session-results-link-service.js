@@ -1,3 +1,4 @@
+'use strict';
 const tokenService = require('./token-service.js');
 const settings = require('../../config.js');
 

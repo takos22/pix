@@ -1,3 +1,4 @@
+'use strict';
 const { EntityValidationError } = require('../errors.js');
 
 module.exports = async function updateCampaignDetailsManagement({

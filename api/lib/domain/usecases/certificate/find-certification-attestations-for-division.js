@@ -1,3 +1,4 @@
+'use strict';
 const { NoCertificationAttestationForDivisionError } = require('../../errors.js');
 
 module.exports = async function findCertificationAttestationsForDivision({

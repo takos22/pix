@@ -1,3 +1,4 @@
+'use strict';
 const certificationPointOfContactController = require('./certification-point-of-contact-controller.js');
 
 exports.register = async function (server) {

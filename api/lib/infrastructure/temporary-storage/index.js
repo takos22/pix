@@ -1,3 +1,4 @@
+'use strict';
 const settings = require('../../config.js');
 const REDIS_URL = settings.temporaryStorage.redisUrl;
 

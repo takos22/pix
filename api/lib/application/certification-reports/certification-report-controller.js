@@ -1,3 +1,4 @@
+'use strict';
 const usecases = require('../../domain/usecases/index.js');
 const certificationIssueReportSerializer = require('../../infrastructure/serializers/jsonapi/certification-issue-report-serializer.js');
 

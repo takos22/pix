@@ -1,3 +1,4 @@
+'use strict';
 const CertificationIssueReport = require('../models/CertificationIssueReport.js');
 
 module.exports = async function saveCertificationIssueReport({

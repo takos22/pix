@@ -1,3 +1,4 @@
+'use strict';
 const sessionValidator = require('../validators/session-validator.js');
 
 module.exports = async function updateSession({ session, sessionRepository }) {

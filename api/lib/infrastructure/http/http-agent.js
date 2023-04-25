@@ -1,3 +1,4 @@
+'use strict';
 // eslint-disable-next-line no-restricted-modules
 const axios = require('axios');
 const { performance } = require('perf_hooks');

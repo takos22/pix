@@ -1,3 +1,4 @@
+'use strict';
 const { UserIsTemporaryBlocked, UserIsBlocked } = require('../../domain/errors.js');
 const userLoginRepository = require('../../infrastructure/repositories/user-login-repository.js');
 

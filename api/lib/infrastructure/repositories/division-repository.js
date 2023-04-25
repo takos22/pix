@@ -1,3 +1,4 @@
+'use strict';
 const Division = require('../../domain/models/Division.js');
 const { knex } = require('../../../db/knex-database-connection.js');
 

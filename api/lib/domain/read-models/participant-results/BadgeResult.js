@@ -1,3 +1,4 @@
+'use strict';
 const SkillSetResult = require('./SkillSetResult.js');
 
 class BadgeResult {

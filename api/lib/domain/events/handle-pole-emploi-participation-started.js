@@ -1,3 +1,4 @@
+'use strict';
 const { checkEventTypes } = require('./check-event-types.js');
 const CampaignParticipationStarted = require('./CampaignParticipationStarted.js');
 const PoleEmploiPayload = require('../../infrastructure/externals/pole-emploi/PoleEmploiPayload.js');

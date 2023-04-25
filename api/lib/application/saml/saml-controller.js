@@ -1,3 +1,4 @@
+'use strict';
 const saml = require('../../infrastructure/saml.js');
 const usecases = require('../../domain/usecases/index.js');
 const logger = require('../../infrastructure/logger.js');

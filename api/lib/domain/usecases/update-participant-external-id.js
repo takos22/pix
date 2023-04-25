@@ -1,3 +1,4 @@
+'use strict';
 module.exports = async function updateParticipantExternalId({
   campaignParticipationId,
   participantExternalId,

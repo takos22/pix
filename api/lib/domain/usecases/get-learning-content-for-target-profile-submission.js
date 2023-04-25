@@ -1,3 +1,4 @@
+'use strict';
 const AUTHORIZED_FRAMEWORKS = ['Pix'];
 
 module.exports = async function getLearningContentForTargetProfileSubmission({ learningContentRepository, locale }) {

@@ -1,3 +1,4 @@
+'use strict';
 module.exports = async function updateMembership({ membership, membershipRepository }) {
   membership.validateRole();
   const existingMembership = await membershipRepository.get(membership.id);

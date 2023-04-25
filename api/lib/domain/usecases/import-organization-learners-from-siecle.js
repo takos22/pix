@@ -1,3 +1,4 @@
+'use strict';
 const { FileValidationError, SiecleXmlImportError } = require('../errors.js');
 const fs = require('fs').promises;
 const bluebird = require('bluebird');

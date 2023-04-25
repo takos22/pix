@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../../db/knex-database-connection.js');
 const settings = require('../../../lib/config.js');
 const OidcIdentityProviders = require('../../domain/constants/oidc-identity-providers.js');

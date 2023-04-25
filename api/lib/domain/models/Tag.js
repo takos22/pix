@@ -1,3 +1,4 @@
+'use strict';
 class Tag {
   constructor({ id, name } = {}) {
     this.id = id;

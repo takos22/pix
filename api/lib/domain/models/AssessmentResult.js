@@ -1,3 +1,4 @@
+'use strict';
 const Assessment = require('./Assessment.js');
 
 const status = {

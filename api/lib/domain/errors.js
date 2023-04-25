@@ -1,3 +1,4 @@
+'use strict';
 const { SESSION_SUPERVISING } = require('./constants/session-supervising');
 
 class DomainError extends Error {

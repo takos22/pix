@@ -1,3 +1,4 @@
+'use strict';
 const accept = require('@hapi/accept');
 const tokenService = require('../../domain/services/token-service.js');
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../domain/constants.js').LOCALE;

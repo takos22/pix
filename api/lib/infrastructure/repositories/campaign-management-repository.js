@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection.js');
 const CampaignManagement = require('../../domain/read-models/CampaignManagement.js');

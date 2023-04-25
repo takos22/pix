@@ -1,3 +1,4 @@
+'use strict';
 class AuthenticationSessionContent {
   constructor({ accessToken, idToken, expiresIn, refreshToken }) {
     this.accessToken = accessToken;

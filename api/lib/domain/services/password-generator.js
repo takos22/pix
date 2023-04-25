@@ -1,3 +1,4 @@
+'use strict';
 const randomString = require('randomstring');
 const _ = require('lodash');
 

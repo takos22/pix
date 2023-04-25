@@ -1,3 +1,4 @@
+'use strict';
 const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod.js');

@@ -1,3 +1,4 @@
+'use strict';
 module.exports = class SessionFinalized {
   constructor({ sessionId, finalizedAt, hasExaminerGlobalComment, sessionDate, sessionTime, certificationCenterName }) {
     this.sessionId = sessionId;

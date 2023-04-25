@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const { NotFoundError } = require('../../../lib/domain/errors.js');
 const CampaignAssessmentParticipation = require('../../../lib/domain/read-models/CampaignAssessmentParticipation.js');

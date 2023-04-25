@@ -1,3 +1,4 @@
+'use strict';
 class SessionMassImportReport {
   constructor({
     cachedValidatedSessionsKey,

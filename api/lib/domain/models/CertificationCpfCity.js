@@ -1,3 +1,4 @@
+'use strict';
 class CertificationCpfCity {
   constructor({ id, name, postalCode, INSEECode, isActualName } = {}) {
     this.id = id;

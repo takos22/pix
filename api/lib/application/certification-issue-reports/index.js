@@ -1,3 +1,4 @@
+'use strict';
 const Joi = require('joi');
 const certificationIssueReportController = require('./certification-issue-report-controller.js');
 const identifiersType = require('../../domain/types/identifiers-type.js');

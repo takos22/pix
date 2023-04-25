@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../../../db/knex-database-connection.js');
 const { NotFoundError } = require('../../../domain/errors.js');
 const OrganizationLearner = require('../../../domain/read-models/organization-learner-follow-up/OrganizationLearner.js');

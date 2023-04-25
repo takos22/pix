@@ -1,3 +1,4 @@
+'use strict';
 const stageCollectionRepository = require('../../infrastructure/repositories/target-profile-management/stage-collection-repository');
 const StageCollectionUpdate = require('../../domain/models/target-profile-management/StageCollectionUpdate');
 

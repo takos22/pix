@@ -1,3 +1,4 @@
+'use strict';
 class Skill {
   constructor({
     id,

@@ -1,3 +1,4 @@
+'use strict';
 const Job = require('./SendSharedParticipationResultsToPoleEmploiJob.js');
 const usecases = require('../../../domain/usecases/index.js');
 

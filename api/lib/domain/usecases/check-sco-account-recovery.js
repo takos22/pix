@@ -1,3 +1,4 @@
+'use strict';
 const StudentInformationForAccountRecovery = require('../read-models/StudentInformationForAccountRecovery.js');
 
 module.exports = async function checkScoAccountRecovery({

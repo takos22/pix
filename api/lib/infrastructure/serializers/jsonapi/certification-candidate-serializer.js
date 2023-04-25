@@ -1,3 +1,4 @@
+'use strict';
 const { Serializer, Deserializer } = require('jsonapi-serializer');
 const CertificationCandidate = require('../../../domain/models/CertificationCandidate.js');
 const { WrongDateFormatError } = require('../../../domain/errors.js');

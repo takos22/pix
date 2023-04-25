@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../../db/knex-database-connection.js');
 const AdminMember = require('../../domain/models/AdminMember.js');
 const { AdminMemberError } = require('../../domain/errors.js');

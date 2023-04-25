@@ -1,3 +1,4 @@
+'use strict';
 const CertificationIssueReportCategories = {
   OTHER: 'OTHER',
   CANDIDATE_INFORMATIONS_CHANGES: 'CANDIDATE_INFORMATIONS_CHANGES',

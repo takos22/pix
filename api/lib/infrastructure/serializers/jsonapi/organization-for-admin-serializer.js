@@ -1,3 +1,4 @@
+'use strict';
 const { Serializer } = require('jsonapi-serializer');
 const _ = require('lodash');
 const OrganizationForAdmin = require('../../../domain/models/OrganizationForAdmin.js');

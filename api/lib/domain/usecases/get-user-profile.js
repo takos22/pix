@@ -1,3 +1,4 @@
+'use strict';
 const Scorecard = require('../models/Scorecard.js');
 const { constants } = require('../constants.js');
 const _ = require('lodash');

@@ -1,3 +1,4 @@
+'use strict';
 const errorManager = require('./error-manager.js');
 const { BaseHttpError } = require('./http-errors.js');
 const { DomainError } = require('../domain/errors.js');

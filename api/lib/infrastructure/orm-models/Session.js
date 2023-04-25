@@ -1,3 +1,4 @@
+'use strict';
 const Bookshelf = require('../bookshelf.js');
 require('./CertificationCandidate.js');
 

@@ -1,3 +1,4 @@
+'use strict';
 const settings = require('../../config.js');
 const EXPIRATION_DELAY_SECONDS = settings.temporaryStorage.expirationDelaySeconds;
 const EmailModificationDemand = require('../../domain/models/EmailModificationDemand.js');

@@ -1,3 +1,4 @@
+'use strict';
 const settings = require('../../config.js');
 const accountRecoveryDemandRepository = require('../../infrastructure/repositories/account-recovery-demand-repository.js');
 const adminMemberRepository = require('../../infrastructure/repositories/admin-member-repository.js');

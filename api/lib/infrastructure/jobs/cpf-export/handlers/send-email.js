@@ -1,3 +1,4 @@
+'use strict';
 const { cpf } = require('../../../../config.js');
 const cronParser = require('cron-parser');
 

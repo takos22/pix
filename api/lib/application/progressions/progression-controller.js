@@ -1,3 +1,4 @@
+'use strict';
 const ProgressionSerializer = require('../../infrastructure/serializers/jsonapi/progression-serializer.js');
 const usecases = require('../../domain/usecases/index.js');
 

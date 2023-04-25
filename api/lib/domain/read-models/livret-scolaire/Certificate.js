@@ -1,3 +1,4 @@
+'use strict';
 const { VALIDATED, PENDING } = require('./CertificateStatus.js');
 
 class Certificate {

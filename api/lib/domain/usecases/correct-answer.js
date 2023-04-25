@@ -1,3 +1,4 @@
+'use strict';
 const Examiner = require('../models/Examiner');
 
 module.exports = async function correctAnswer({ answer, challengeId, challengeRepository, examiner } = {}) {

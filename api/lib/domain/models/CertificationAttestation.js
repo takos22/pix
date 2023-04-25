@@ -1,3 +1,4 @@
+'use strict';
 const PIX_COUNT_BY_LEVEL = 8;
 const COMPETENCE_COUNT = 16;
 

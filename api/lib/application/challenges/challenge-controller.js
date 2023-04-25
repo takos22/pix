@@ -1,3 +1,4 @@
+'use strict';
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository.js');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer.js');
 

@@ -1,3 +1,4 @@
+'use strict';
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
 const BookshelfUserOrgaSettings = require('../orm-models/UserOrgaSettings.js');
 const bookshelfUtils = require('../utils/knex-utils.js');

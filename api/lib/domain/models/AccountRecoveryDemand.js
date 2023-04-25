@@ -1,3 +1,4 @@
+'use strict';
 class AccountRecoveryDemand {
   constructor({ id, userId, organizationLearnerId, oldEmail, newEmail, temporaryKey, used, createdAt } = {}) {
     this.id = id;

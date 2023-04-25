@@ -1,3 +1,4 @@
+'use strict';
 const AnswerStatus = require('../../domain/models/AnswerStatus.js');
 
 const UNIMPLEMENTED = 'unimplemented';

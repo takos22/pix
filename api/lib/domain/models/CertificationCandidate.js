@@ -1,3 +1,4 @@
+'use strict';
 const isNil = require('lodash/isNil');
 const endsWith = require('lodash/endsWith');
 const BaseJoi = require('joi');

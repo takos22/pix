@@ -1,3 +1,4 @@
+'use strict';
 const stageCollectionRepository = require('../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js');
 const { UserNotAuthorizedToAccessEntityError, NoStagesForCampaign } = require('../errors.js');
 

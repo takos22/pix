@@ -1,3 +1,4 @@
+'use strict';
 const { PasswordNotMatching } = require('../../errors.js');
 const encryptionService = require('../encryption-service.js');
 const userLoginRepository = require('../../../infrastructure/repositories/user-login-repository.js');

@@ -1,3 +1,4 @@
+'use strict';
 const JSONAPIError = require('jsonapi-serializer').Error;
 
 class BaseHttpError extends Error {

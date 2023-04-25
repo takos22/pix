@@ -1,3 +1,4 @@
+'use strict';
 class CertificationCenterMembership {
   constructor({ id, certificationCenter, user, createdAt, disabledAt, isReferer } = {}) {
     this.id = id;

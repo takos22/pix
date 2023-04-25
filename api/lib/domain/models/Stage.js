@@ -1,3 +1,4 @@
+'use strict';
 class Stage {
   constructor({ id, title, message, threshold, level, prescriberTitle, prescriberDescription, targetProfileId } = {}) {
     this.id = id;

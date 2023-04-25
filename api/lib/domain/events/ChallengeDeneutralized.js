@@ -1,3 +1,4 @@
+'use strict';
 class ChallengeDeneutralized {
   constructor({ certificationCourseId, juryId }) {
     this.certificationCourseId = certificationCourseId;

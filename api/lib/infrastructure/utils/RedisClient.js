@@ -1,3 +1,4 @@
+'use strict';
 const redis = require('redis');
 const Redlock = require('redlock');
 const { promisify } = require('util');

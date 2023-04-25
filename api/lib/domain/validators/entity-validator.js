@@ -1,3 +1,4 @@
+'use strict';
 const { ObjectValidationError } = require('../errors.js');
 
 module.exports = {

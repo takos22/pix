@@ -1,3 +1,4 @@
+'use strict';
 const NodeCache = require('node-cache');
 const Cache = require('./Cache.js');
 

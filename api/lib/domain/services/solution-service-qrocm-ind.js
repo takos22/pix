@@ -1,3 +1,4 @@
+'use strict';
 const jsYaml = require('js-yaml');
 const levenshtein = require('fast-levenshtein');
 const _ = require('../../infrastructure/utils/lodash-utils.js');

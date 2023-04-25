@@ -1,3 +1,4 @@
+'use strict';
 const featureToggleController = require('./feature-toggle-controller.js');
 
 exports.register = async (server) => {

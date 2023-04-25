@@ -1,3 +1,4 @@
+'use strict';
 module.exports = class AutoJuryDone {
   constructor({ sessionId, finalizedAt, certificationCenterName, sessionDate, sessionTime, hasExaminerGlobalComment }) {
     this.sessionId = sessionId;

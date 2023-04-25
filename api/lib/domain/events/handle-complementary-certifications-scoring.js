@@ -1,3 +1,4 @@
+'use strict';
 const { checkEventTypes } = require('./check-event-types.js');
 const CertificationScoringCompleted = require('./CertificationScoringCompleted.js');
 const CertificationRescoringCompleted = require('./CertificationRescoringCompleted.js');

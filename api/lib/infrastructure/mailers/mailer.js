@@ -1,3 +1,4 @@
+'use strict';
 const Debug = require('debug');
 const SendinblueProvider = require('./SendinblueProvider.js');
 const { mailing } = require('../../config.js');

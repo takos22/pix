@@ -1,3 +1,4 @@
+'use strict';
 const monitoringTools = require('../../infrastructure/monitoring-tools.js');
 const ParticipationResultCalculationJob = require('../jobs/campaign-result/ParticipationResultCalculationJob.js');
 const SendSharedParticipationResultsToPoleEmploiJob = require('../jobs/campaign-result/SendSharedParticipationResultsToPoleEmploiJob.js');

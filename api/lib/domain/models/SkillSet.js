@@ -1,3 +1,4 @@
+'use strict';
 class SkillSet {
   constructor({ id, name, skillIds, badgeId } = {}) {
     this.id = id;

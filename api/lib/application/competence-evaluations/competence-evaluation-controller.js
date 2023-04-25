@@ -1,3 +1,4 @@
+'use strict';
 const usecases = require('../../domain/usecases/index.js');
 const competenceEvaluationSerializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer.js');
 const DomainTransaction = require('../../infrastructure/DomainTransaction.js');

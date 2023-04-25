@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const CompetenceMark = require('./CompetenceMark.js');
 const ComplementaryCertificationCourseResult = require('./ComplementaryCertificationCourseResult.js');

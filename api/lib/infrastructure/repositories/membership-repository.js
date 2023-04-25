@@ -1,3 +1,4 @@
+'use strict';
 const BookshelfMembership = require('../orm-models/Membership.js');
 const { MembershipCreationError, MembershipUpdateError, NotFoundError } = require('../../domain/errors.js');
 const Membership = require('../../domain/models/Membership.js');

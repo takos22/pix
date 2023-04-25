@@ -1,3 +1,4 @@
+'use strict';
 const Joi = require('joi');
 const { validateEntity } = require('../validators/entity-validator.js');
 

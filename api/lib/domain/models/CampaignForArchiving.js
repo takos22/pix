@@ -1,3 +1,4 @@
+'use strict';
 const { ArchivedCampaignError, ObjectValidationError } = require('../errors.js');
 
 class CampaignForArchiving {

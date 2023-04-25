@@ -1,3 +1,4 @@
+'use strict';
 const { AssessmentEndedError, UserNotAuthorizedToAccessEntityError } = require('../errors.js');
 
 const smartRandom = require('../services/algorithm-methods/smart-random.js');

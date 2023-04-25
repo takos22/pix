@@ -1,3 +1,4 @@
+'use strict';
 const securityPreHandlers = require('../security-pre-handlers.js');
 const LcmsController = require('./lcms-controller.js');
 

@@ -1,3 +1,4 @@
+'use strict';
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
 const config = require('../../config.js');

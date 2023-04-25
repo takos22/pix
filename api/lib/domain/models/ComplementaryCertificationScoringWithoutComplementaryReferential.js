@@ -1,3 +1,4 @@
+'use strict';
 const PartnerCertificationScoring = require('./PartnerCertificationScoring.js');
 
 class ComplementaryCertificationScoringWithoutComplementaryReferential extends PartnerCertificationScoring {

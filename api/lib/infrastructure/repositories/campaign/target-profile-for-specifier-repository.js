@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../../../db/knex-database-connection.js');
 const { skillDatasource } = require('../../datasources/learning-content/skill-datasource.js');
 const TargetProfileForSpecifier = require('../../../domain/read-models/campaign/TargetProfileForSpecifier.js');

@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const bluebird = require('bluebird');
 const certifiableBadgeAcquisitionRepository = require('../../infrastructure/repositories/certifiable-badge-acquisition-repository.js');

@@ -1,3 +1,4 @@
+'use strict';
 const { UNCERTIFIED_LEVEL } = require('../constants.js');
 const { DomainError } = require('../errors.js');
 

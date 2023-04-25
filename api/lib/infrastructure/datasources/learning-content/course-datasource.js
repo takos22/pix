@@ -1,3 +1,4 @@
+'use strict';
 const datasource = require('./datasource.js');
 
 const courseDatasource = datasource.extend({

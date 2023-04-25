@@ -1,3 +1,4 @@
+'use strict';
 const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository.js');
 const scoringService = require('./scoring/scoring-service.js');
 

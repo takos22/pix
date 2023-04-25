@@ -1,3 +1,4 @@
+'use strict';
 const { injectDefaults, injectDependencies } = require('../../infrastructure/utils/dependency-injection.js');
 const EventDispatcher = require('../../infrastructure/events/EventDispatcher.js');
 const EventDispatcherLogger = require('../../infrastructure/events/EventDispatcherLogger.js');

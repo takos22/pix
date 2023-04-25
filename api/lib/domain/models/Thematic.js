@@ -1,3 +1,4 @@
+'use strict';
 class Thematic {
   constructor({ id, name, index, competenceId, tubeIds = [] } = {}) {
     this.id = id;

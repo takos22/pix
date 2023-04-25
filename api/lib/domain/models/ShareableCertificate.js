@@ -1,3 +1,4 @@
+'use strict';
 class ShareableCertificate {
   constructor({
     id,

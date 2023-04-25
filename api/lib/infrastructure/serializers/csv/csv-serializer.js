@@ -1,3 +1,4 @@
+'use strict';
 const logger = require('../../logger.js');
 const { FileValidationError } = require('../../../../lib/domain/errors.js');
 const { convertDateValue } = require('../../utils/date-utils.js');

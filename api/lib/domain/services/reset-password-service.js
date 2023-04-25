@@ -1,3 +1,4 @@
+'use strict';
 const jsonwebtoken = require('jsonwebtoken');
 const settings = require('../../config.js');
 const passwordResetDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository.js');

@@ -1,3 +1,4 @@
+'use strict';
 class ProgressionLogger {
   constructor(output) {
     this.output = output;

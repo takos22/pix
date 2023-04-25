@@ -1,3 +1,4 @@
+'use strict';
 const BadgeResult = require('./BadgeResult.js');
 const CompetenceResult = require('./CompetenceResult.js');
 const { constants } = require('../../constants.js');

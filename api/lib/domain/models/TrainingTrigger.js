@@ -1,3 +1,4 @@
+'use strict';
 const types = {
   PREREQUISITE: 'prerequisite',
   GOAL: 'goal',

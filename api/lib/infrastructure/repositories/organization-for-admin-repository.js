@@ -1,3 +1,4 @@
+'use strict';
 const { NotFoundError, MissingAttributesError } = require('../../domain/errors.js');
 const OrganizationForAdmin = require('../../domain/models/OrganizationForAdmin.js');
 const Tag = require('../../domain/models/Tag.js');

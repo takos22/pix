@@ -1,3 +1,4 @@
+'use strict';
 const sources = {
   EXTERNAL: 'EXTERNAL',
   PIX: 'PIX',

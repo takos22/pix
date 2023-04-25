@@ -1,3 +1,4 @@
+'use strict';
 const { CertificationCandidateForbiddenDeletionError } = require('../errors.js');
 
 module.exports = async function deleteUnlinkedCertificationCandidate({

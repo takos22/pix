@@ -1,3 +1,4 @@
+'use strict';
 const complementaryCertificationController = require('./complementary-certification-controller.js');
 const securityPreHandlers = require('../security-pre-handlers.js');
 

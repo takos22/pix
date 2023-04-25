@@ -1,3 +1,4 @@
+'use strict';
 const settings = require('../../../config');
 const { temporaryStorage } = require('../../../infrastructure/temporary-storage');
 const sessionMassImportTemporaryStorage = temporaryStorage.withPrefix('sessions-mass-import:');

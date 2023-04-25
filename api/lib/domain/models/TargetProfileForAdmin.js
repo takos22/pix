@@ -1,3 +1,4 @@
+'use strict';
 class TargetProfileForAdmin {
   constructor({
     id,

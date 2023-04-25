@@ -1,3 +1,4 @@
+'use strict';
 const { InvalidMembershipOrganizationRoleError } = require('../errors.js');
 const roles = {
   ADMIN: 'ADMIN',

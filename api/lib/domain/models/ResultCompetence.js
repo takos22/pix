@@ -1,3 +1,4 @@
+'use strict';
 class ResultCompetence {
   constructor({ id, index, level, name, score } = {}) {
     this.id = id;

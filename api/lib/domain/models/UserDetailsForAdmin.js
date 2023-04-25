@@ -1,3 +1,4 @@
+'use strict';
 class UserDetailsForAdmin {
   constructor({
     id,

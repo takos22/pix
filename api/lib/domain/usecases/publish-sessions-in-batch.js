@@ -1,3 +1,4 @@
+'use strict';
 const { v4: uuidv4 } = require('uuid');
 const { SessionPublicationBatchResult } = require('../models/SessionPublicationBatchResult.js');
 

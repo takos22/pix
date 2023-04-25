@@ -1,3 +1,4 @@
+'use strict';
 const { sendJsonApiError, PayloadTooLargeError } = require('../http-errors.js');
 
 const campaignController = require('./campaign-controller.js');

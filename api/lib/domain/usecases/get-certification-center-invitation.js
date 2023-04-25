@@ -1,3 +1,4 @@
+'use strict';
 const { CancelledInvitationError, AlreadyExistingInvitationError } = require('../errors.js');
 
 module.exports = async function getCertificationCenterInvitation({

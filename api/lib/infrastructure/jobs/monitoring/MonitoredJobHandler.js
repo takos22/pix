@@ -1,3 +1,4 @@
+'use strict';
 class MonitoredJobHandler {
   constructor(handler, logger) {
     this.handler = handler;

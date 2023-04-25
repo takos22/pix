@@ -1,3 +1,4 @@
+'use strict';
 const { ALL_TREATMENTS } = require('../constants.js');
 const _ = require('../../infrastructure/utils/lodash-utils.js');
 

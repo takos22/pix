@@ -1,3 +1,4 @@
+'use strict';
 const { rgb } = require('pdf-lib');
 const colorToRgb = {
   jaffa: rgb(0.949, 0.274, 0.27),

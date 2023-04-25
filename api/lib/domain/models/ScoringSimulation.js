@@ -1,3 +1,4 @@
+'use strict';
 class ScoringSimulation {
   constructor({ id, user, answers = [] } = {}) {
     this.id = id;

@@ -1,3 +1,4 @@
+'use strict';
 const { checkEventTypes } = require('./check-event-types.js');
 const PoleEmploiPayload = require('../../infrastructure/externals/pole-emploi/PoleEmploiPayload.js');
 const AssessmentCompleted = require('./AssessmentCompleted.js');

@@ -1,3 +1,4 @@
+'use strict';
 class Authentication {
   constructor({ token, userId } = {}) {
     this.token = token;

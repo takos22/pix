@@ -1,3 +1,4 @@
+'use strict';
 const Assessment = require('../models/Assessment.js');
 const { MAX_REACHABLE_LEVEL } = require('../constants.js');
 const { ImproveCompetenceEvaluationForbiddenError } = require('../errors.js');

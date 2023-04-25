@@ -1,3 +1,4 @@
+'use strict';
 module.exports = class CertificationAnswerStatusChangeAttempt {
   constructor(questionNumber, status) {
     this.questionNumber = questionNumber;

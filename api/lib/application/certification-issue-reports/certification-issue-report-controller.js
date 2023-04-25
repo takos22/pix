@@ -1,3 +1,4 @@
+'use strict';
 const usecases = require('../../domain/usecases/index.js');
 
 module.exports = {

@@ -1,3 +1,4 @@
+'use strict';
 const usecases = require('../../domain/usecases/index.js');
 
 const passwordResetSerializer = require('../../infrastructure/serializers/jsonapi/password-reset-serializer.js');

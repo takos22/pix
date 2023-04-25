@@ -1,3 +1,4 @@
+'use strict';
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
 const BookshelfCompetenceEvaluation = require('../orm-models/CompetenceEvaluation.js');
 const _ = require('lodash');

@@ -1,3 +1,4 @@
+'use strict';
 const certificationCandidatesController = require('./certification-candidates-controller.js');
 const assessmentSupervisorAuthorization = require('../preHandlers/session-supervisor-authorization.js');
 const Joi = require('joi');

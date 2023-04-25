@@ -1,3 +1,4 @@
+'use strict';
 const { injectDependencies } = require('../../utils/dependency-injection.js');
 
 const cpfCertificationResultRepository = require('../../repositories/cpf-certification-result-repository.js');

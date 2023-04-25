@@ -1,3 +1,4 @@
+'use strict';
 const BookshelfCompetenceMark = require('../orm-models/CompetenceMark.js');
 const CompetenceMark = require('../../domain/models/CompetenceMark.js');
 const { knex } = require('../../../db/knex-database-connection.js');

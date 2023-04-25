@@ -1,3 +1,4 @@
+'use strict';
 const { Serializer } = require('jsonapi-serializer');
 const tutorialAttributes = require('./tutorial-attributes.js');
 

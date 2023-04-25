@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Traduction: Correction
  * Context:    Objet existant dans le cadre de la correction d'une réponse pendant le fonctionnement

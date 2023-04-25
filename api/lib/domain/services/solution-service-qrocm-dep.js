@@ -1,3 +1,4 @@
+'use strict';
 const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils.js');
 const { applyPreTreatments, applyTreatments } = require('./validation-treatments.js');

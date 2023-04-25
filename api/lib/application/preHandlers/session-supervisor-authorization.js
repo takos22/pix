@@ -1,3 +1,4 @@
+'use strict';
 const supervisorAccessRepository = require('../../infrastructure/repositories/supervisor-access-repository.js');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
 

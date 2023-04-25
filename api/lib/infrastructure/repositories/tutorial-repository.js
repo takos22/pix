@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const Tutorial = require('../../domain/models/Tutorial.js');
 const userSavedTutorialRepository = require('./user-saved-tutorial-repository.js');

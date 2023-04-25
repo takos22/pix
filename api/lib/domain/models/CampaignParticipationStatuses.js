@@ -1,3 +1,4 @@
+'use strict';
 const CampaignParticipationStatuses = {
   STARTED: 'STARTED',
   TO_SHARE: 'TO_SHARE',

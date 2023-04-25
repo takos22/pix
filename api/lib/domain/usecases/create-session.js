@@ -1,3 +1,4 @@
+'use strict';
 const { ForbiddenAccess } = require('../errors.js');
 const sessionValidator = require('../validators/session-validator.js');
 const sessionCodeService = require('../services/session-code-service.js');

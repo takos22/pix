@@ -1,3 +1,4 @@
+'use strict';
 const usecases = require('../../domain/usecases/index.js');
 const organizationLearnerIdentitySerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-identity-serializer.js');
 const organizationLearnerActivitySerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-activity-serializer.js');

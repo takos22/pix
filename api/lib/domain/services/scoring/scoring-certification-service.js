@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const CertificationContract = require('../../models/CertificationContract.js');
 const scoringService = require('./scoring-service.js');

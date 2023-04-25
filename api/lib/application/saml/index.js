@@ -1,3 +1,4 @@
+'use strict';
 const samlController = require('./saml-controller.js');
 
 exports.register = async function (server) {

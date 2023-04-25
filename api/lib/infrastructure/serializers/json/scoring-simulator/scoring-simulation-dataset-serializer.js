@@ -1,3 +1,4 @@
+'use strict';
 const ScoringSimulation = require('../../../../domain/models/ScoringSimulation.js');
 const ScoringSimulationDataset = require('../../../../domain/models/ScoringSimulationDataset.js');
 const Answer = require('../../../../domain/models/Answer.js');

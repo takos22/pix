@@ -1,3 +1,4 @@
+'use strict';
 const { NotFoundError, AlreadyAcceptedOrCancelledInvitationError } = require('../errors.js');
 const CertificationCenterInvitation = require('./CertificationCenterInvitation.js');
 

@@ -1,3 +1,4 @@
+'use strict';
 class ScoringSimulationResult {
   constructor({ id, estimatedLevel, pixScore, pixScoreByCompetence = [], error } = {}) {
     this.id = id;

@@ -1,3 +1,4 @@
+'use strict';
 const { statuses } = require('../models/Session.js');
 
 class SessionSummary {

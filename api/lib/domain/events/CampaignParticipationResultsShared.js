@@ -1,3 +1,4 @@
+'use strict';
 const Event = require('./Event.js');
 
 class CampaignParticipationResultsShared extends Event {

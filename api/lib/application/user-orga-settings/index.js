@@ -1,3 +1,4 @@
+'use strict';
 const Joi = require('joi');
 
 const userOrgaSettingsController = require('./user-orga-settings-controller.js');

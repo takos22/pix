@@ -1,3 +1,4 @@
+'use strict';
 const Session = require('../../models/Session');
 const SessionMassImportReport = require('../../models/SessionMassImportReport');
 const sessionCodeService = require('../../services/session-code-service');

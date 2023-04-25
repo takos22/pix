@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const moment = require('moment');
 const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils.js');

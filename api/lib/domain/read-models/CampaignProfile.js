@@ -1,3 +1,4 @@
+'use strict';
 const CampaignProfileCompetence = require('./CampaignProfileCompetence.js');
 const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses.js');
 

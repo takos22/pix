@@ -1,3 +1,4 @@
+'use strict';
 const logger = require('../../infrastructure/logger.js');
 const Assessment = require('../models/Assessment.js');
 

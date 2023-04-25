@@ -1,3 +1,4 @@
+'use strict';
 const Job = require('./ParticipationResultCalculationJob.js');
 const usecases = require('../../../domain/usecases/index.js');
 

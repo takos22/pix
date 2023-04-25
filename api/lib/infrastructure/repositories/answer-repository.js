@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const jsYaml = require('js-yaml');
 const { knex } = require('../../../db/knex-database-connection.js');

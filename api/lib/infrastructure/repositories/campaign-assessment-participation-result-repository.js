@@ -1,3 +1,4 @@
+'use strict';
 const CampaignAssessmentParticipationResult = require('../../../lib/domain/read-models/CampaignAssessmentParticipationResult.js');
 const { NotFoundError } = require('../../../lib/domain/errors.js');
 const { knex } = require('../../../db/knex-database-connection.js');

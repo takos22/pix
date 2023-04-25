@@ -1,3 +1,4 @@
+'use strict';
 const Bookshelf = require('../bookshelf.js');
 // eslint-disable-next-line no-unused-vars
 const jsonColumns = require('bookshelf-json-columns');

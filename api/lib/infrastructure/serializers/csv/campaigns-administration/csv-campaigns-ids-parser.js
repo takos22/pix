@@ -1,3 +1,4 @@
+'use strict';
 const fs = require('fs').promises;
 const { CsvParser } = require('../csv-parser.js');
 const ArchiveCampaignColumn = require('./campaign-ids-csv-header.js');

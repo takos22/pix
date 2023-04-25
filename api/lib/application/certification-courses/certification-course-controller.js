@@ -1,3 +1,4 @@
+'use strict';
 const certificationDetailsSerializer = require('../../infrastructure/serializers/jsonapi/certification-details-serializer.js');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer.js');
 const juryCertificationSerializer = require('../../infrastructure/serializers/jsonapi/jury-certification-serializer.js');

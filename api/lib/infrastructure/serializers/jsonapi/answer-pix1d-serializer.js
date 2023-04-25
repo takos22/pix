@@ -1,3 +1,4 @@
+'use strict';
 const Answer = require('../../../domain/models/Answer.js');
 const { Serializer } = require('jsonapi-serializer');
 const answerStatusJSONAPIAdapter = require('../../adapters/answer-status-json-api-adapter.js');

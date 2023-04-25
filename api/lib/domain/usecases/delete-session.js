@@ -1,3 +1,4 @@
+'use strict';
 const { SessionStartedDeletionError } = require('../errors.js');
 
 module.exports = async function deleteSession({ sessionId, sessionRepository, certificationCourseRepository }) {

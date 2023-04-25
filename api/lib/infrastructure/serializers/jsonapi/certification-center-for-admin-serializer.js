@@ -1,3 +1,4 @@
+'use strict';
 const { Serializer } = require('jsonapi-serializer');
 const CertificationCenterForAdmin = require('../../../domain/models/CertificationCenterForAdmin.js');
 

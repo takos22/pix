@@ -1,3 +1,4 @@
+'use strict';
 const { AssessmentEndedError } = require('../errors.js');
 const _ = require('../../infrastructure/utils/lodash-utils.js');
 const logger = require('../../infrastructure/logger.js');

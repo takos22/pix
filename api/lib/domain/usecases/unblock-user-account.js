@@ -1,3 +1,4 @@
+'use strict';
 module.exports = async function unblockUserAccount({ userId, userLoginRepository }) {
   const userLogin = await userLoginRepository.findByUserId(userId);
   userLogin.resetUserBlocking();

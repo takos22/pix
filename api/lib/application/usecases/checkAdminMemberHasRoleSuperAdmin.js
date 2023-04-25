@@ -1,3 +1,4 @@
+'use strict';
 const adminMemberRepository = require('../../infrastructure/repositories/admin-member-repository.js');
 
 module.exports = {

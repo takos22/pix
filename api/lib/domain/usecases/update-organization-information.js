@@ -1,3 +1,4 @@
+'use strict';
 const bluebird = require('bluebird');
 const _ = require('lodash');
 const OrganizationTag = require('../models/OrganizationTag.js');

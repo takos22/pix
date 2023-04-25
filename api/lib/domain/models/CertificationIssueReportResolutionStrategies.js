@@ -1,3 +1,4 @@
+'use strict';
 const CertificationIssueReportResolutionAttempt = require('./CertificationIssueReportResolutionAttempt.js');
 const { CertificationIssueReportSubcategories } = require('./CertificationIssueReportCategory.js');
 

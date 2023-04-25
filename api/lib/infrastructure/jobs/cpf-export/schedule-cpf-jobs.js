@@ -1,3 +1,4 @@
+'use strict';
 const handlers = require('./index.js');
 const logger = require('../../logger.js');
 const config = require('../../../config.js');

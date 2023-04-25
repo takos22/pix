@@ -1,3 +1,4 @@
+'use strict';
 class CampaignParticipantActivity {
   constructor({ campaignParticipationId, userId, firstName, lastName, participantExternalId, sharedAt, status } = {}) {
     this.campaignParticipationId = campaignParticipationId;

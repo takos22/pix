@@ -1,3 +1,4 @@
+'use strict';
 const { Serializer, Deserializer } = require('jsonapi-serializer');
 
 const Campaign = require('../../../domain/models/Campaign.js');

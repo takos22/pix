@@ -1,3 +1,4 @@
+'use strict';
 const UNIMPLEMENTED = 'unimplemented';
 const TIMEDOUT = 'timedout';
 const FOCUSEDOUT = 'focusedOut';

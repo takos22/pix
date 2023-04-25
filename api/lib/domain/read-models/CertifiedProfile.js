@@ -1,3 +1,4 @@
+'use strict';
 class CertifiedSkill {
   constructor({ id, name, hasBeenAskedInCertif, tubeId, difficulty }) {
     this.id = id;

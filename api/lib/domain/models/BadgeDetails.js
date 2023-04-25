@@ -1,3 +1,4 @@
+'use strict';
 const { SCOPES } = require('./BadgeCriterion.js');
 
 class BadgeDetails {

@@ -1,3 +1,4 @@
+'use strict';
 class Division {
   constructor({ name } = {}) {
     this.name = name;

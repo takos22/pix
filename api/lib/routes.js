@@ -1,3 +1,4 @@
+'use strict';
 const accountRecovery = require('./application/account-recovery/index.js');
 const adminMembers = require('./application/admin-members/index.js');
 const answers = require('./application/answers/index.js');

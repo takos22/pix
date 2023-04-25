@@ -1,3 +1,4 @@
+'use strict';
 const settings = require('../../config');
 
 module.exports = {

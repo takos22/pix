@@ -1,3 +1,4 @@
+'use strict';
 class SessionForSupervising {
   constructor({ id, date, time, examiner, certificationCenterName, room, certificationCandidates, accessCode } = {}) {
     this.id = id;

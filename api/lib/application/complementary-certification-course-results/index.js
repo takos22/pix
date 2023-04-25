@@ -1,3 +1,4 @@
+'use strict';
 const Joi = require('joi');
 const identifiersType = require('../../domain/types/identifiers-type.js');
 const securityPreHandlers = require('../security-pre-handlers.js');

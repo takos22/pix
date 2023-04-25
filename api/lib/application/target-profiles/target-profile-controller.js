@@ -1,3 +1,4 @@
+'use strict';
 const usecases = require('../../domain/usecases/index.js');
 const tokenService = require('../../domain/services/token-service.js');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer.js');

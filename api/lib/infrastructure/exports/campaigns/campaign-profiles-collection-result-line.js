@@ -1,3 +1,4 @@
+'use strict';
 const csvSerializer = require('../../serializers/csv/csv-serializer.js');
 const moment = require('moment');
 

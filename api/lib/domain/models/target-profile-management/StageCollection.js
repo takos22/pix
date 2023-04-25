@@ -1,3 +1,4 @@
+'use strict';
 class StageCollection {
   constructor({ id, stages, maxLevel }) {
     this._id = id;

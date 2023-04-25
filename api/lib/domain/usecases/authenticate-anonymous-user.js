@@ -1,3 +1,4 @@
+'use strict';
 const { UserCantBeCreatedError } = require('../errors.js');
 const UserToCreate = require('../models/UserToCreate.js');
 

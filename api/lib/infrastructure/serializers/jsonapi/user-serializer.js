@@ -1,3 +1,4 @@
+'use strict';
 const { Serializer } = require('jsonapi-serializer');
 const User = require('../../../domain/models/User.js');
 

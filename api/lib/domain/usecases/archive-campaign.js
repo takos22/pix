@@ -1,3 +1,4 @@
+'use strict';
 module.exports = async function archiveCampaign({ campaignId, userId, campaignForArchivingRepository }) {
   const campaign = await campaignForArchivingRepository.get(campaignId);
   campaign.archive(new Date(), userId);

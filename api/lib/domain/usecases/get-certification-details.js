@@ -1,3 +1,4 @@
+'use strict';
 const CertificationDetails = require('../read-models/CertificationDetails.js');
 
 module.exports = async function getCertificationDetails({

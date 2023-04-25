@@ -1,3 +1,4 @@
+'use strict';
 const KnowledgeElement = require('./KnowledgeElement.js');
 const { calculatePixScore } = require('../services/scoring/scoring-service.js');
 const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../constants.js');

@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const BookshelfTargetProfile = require('../orm-models/TargetProfile.js');
 const targetProfileAdapter = require('../adapters/target-profile-adapter.js');

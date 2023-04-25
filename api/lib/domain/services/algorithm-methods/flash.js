@@ -1,3 +1,4 @@
+'use strict';
 const { orderBy, range, sortBy, sortedUniqBy, sumBy } = require('lodash');
 
 const config = require('../../../config.js');

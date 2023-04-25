@@ -1,3 +1,4 @@
+'use strict';
 const { NotFoundError, NoCampaignParticipationForUserAndCampaign } = require('../errors.js');
 
 module.exports = async function getUserCampaignAssessmentResult({

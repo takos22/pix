@@ -1,3 +1,4 @@
+'use strict';
 const categories = {
   OTHER: 'OTHER',
   COMPETENCES: 'COMPETENCES',

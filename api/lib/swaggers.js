@@ -1,3 +1,4 @@
+'use strict';
 const HapiSwagger = require('hapi-swagger');
 const packageJSON = require('../package.json');
 

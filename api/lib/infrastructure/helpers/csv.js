@@ -1,3 +1,4 @@
+'use strict';
 const fs = require('fs');
 const { readFile, access } = require('fs').promises;
 const { isEmpty, difference } = require('lodash');

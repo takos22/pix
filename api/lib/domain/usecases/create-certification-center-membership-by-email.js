@@ -1,3 +1,4 @@
+'use strict';
 const { AlreadyExistingEntityError } = require('../errors.js');
 
 module.exports = async function createCertificationCenterMembershipByEmail({

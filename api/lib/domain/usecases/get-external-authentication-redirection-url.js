@@ -1,3 +1,4 @@
+'use strict';
 const AuthenticationMethod = require('../models/AuthenticationMethod.js');
 
 module.exports = async function getExternalAuthenticationRedirectionUrl({

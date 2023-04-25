@@ -1,3 +1,4 @@
+'use strict';
 const { SendingEmailError, SendingEmailToInvalidDomainError } = require('../errors.js');
 const CertificationCenterInvitation = require('../models/CertificationCenterInvitation.js');
 

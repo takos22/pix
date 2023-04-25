@@ -1,3 +1,4 @@
+'use strict';
 const competenceEvaluationController = require('./competence-evaluation-controller.js');
 
 exports.register = async function (server) {

@@ -1,3 +1,4 @@
+'use strict';
 const Cache = require('./Cache.js');
 const DistributedCache = require('./DistributedCache.js');
 const InMemoryCache = require('./InMemoryCache.js');

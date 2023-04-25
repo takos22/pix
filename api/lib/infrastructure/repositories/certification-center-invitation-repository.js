@@ -1,3 +1,4 @@
+'use strict';
 const CertificationCenterInvitation = require('../../domain/models/CertificationCenterInvitation.js');
 const { knex } = require('../../../db/knex-database-connection.js');
 const { NotFoundError } = require('../../domain/errors.js');

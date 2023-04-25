@@ -1,3 +1,4 @@
+'use strict';
 const Cache = require('./Cache.js');
 
 class LayeredCache extends Cache {

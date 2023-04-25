@@ -1,3 +1,4 @@
+'use strict';
 const CompetenceMark = require('./CompetenceMark.js');
 
 class JuryCertification {

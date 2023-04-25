@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring.js');
 const { ReproducibilityRate } = require('../models/ReproducibilityRate.js');

@@ -1,3 +1,4 @@
+'use strict';
 const ChallengeDeneutralized = require('../events/ChallengeDeneutralized.js');
 
 module.exports = async function deneutralizeChallenge({

@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('../../infrastructure/utils/lodash-utils.js');
 
 function getArrayOfStrings(commaSeparatedStrings) {

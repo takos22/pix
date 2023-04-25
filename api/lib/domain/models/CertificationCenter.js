@@ -1,3 +1,4 @@
+'use strict';
 const { CERTIFICATION_CENTER_TYPES } = require('../constants.js');
 
 class CertificationCenter {

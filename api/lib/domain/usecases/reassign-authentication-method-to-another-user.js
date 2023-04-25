@@ -1,3 +1,4 @@
+'use strict';
 const { AuthenticationMethodAlreadyExistsError } = require('../errors.js');
 
 module.exports = async function reassignAuthenticationMethodToAnotherUser({

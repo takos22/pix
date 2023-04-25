@@ -1,3 +1,4 @@
+'use strict';
 const { MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY } = require('../constants.js');
 
 const _ = require('lodash');

@@ -1,3 +1,4 @@
+'use strict';
 const sumBy = require('lodash/sumBy');
 const categories = require('../constants/organization-places-categories.js');
 

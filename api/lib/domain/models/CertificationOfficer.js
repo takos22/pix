@@ -1,3 +1,4 @@
+'use strict';
 class CertificationOfficer {
   constructor({ id, firstName, lastName } = {}) {
     this.id = id;

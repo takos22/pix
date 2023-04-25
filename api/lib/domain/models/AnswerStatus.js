@@ -1,3 +1,4 @@
+'use strict';
 const OK = 'ok';
 const KO = 'ko';
 const SKIPPED = 'aband';

@@ -1,3 +1,4 @@
+'use strict';
 const tutorialEvaluationAttributes = {
   ref: 'id',
   includes: true,

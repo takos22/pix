@@ -1,3 +1,4 @@
+'use strict';
 const Joi = require('joi');
 const campaignController = require('./campaign-controller.js');
 const campaignManagementController = require('./campaign-management-controller.js');

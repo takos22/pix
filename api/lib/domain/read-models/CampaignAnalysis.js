@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const recommendationService = require('../services/recommendation-service.js');
 

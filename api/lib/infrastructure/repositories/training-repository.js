@@ -1,3 +1,4 @@
+'use strict';
 const Training = require('../../domain/models/Training.js');
 const TrainingSummary = require('../../domain/read-models/TrainingSummary.js');
 const { knex } = require('../../../db/knex-database-connection.js');

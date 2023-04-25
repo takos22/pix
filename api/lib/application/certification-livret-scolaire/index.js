@@ -1,3 +1,4 @@
+'use strict';
 const certificationController = require('./certification-controller.js');
 const Joi = require('joi');
 

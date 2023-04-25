@@ -1,3 +1,4 @@
+'use strict';
 const { CampaignCodeError, ObjectValidationError } = require('../errors.js');
 const User = require('../models/User.js');
 const AuthenticationMethod = require('../models/AuthenticationMethod.js');

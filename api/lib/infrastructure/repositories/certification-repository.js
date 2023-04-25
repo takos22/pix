@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../../db/knex-database-connection.js');
 const { CertificationCourseNotPublishableError } = require('../../../lib/domain/errors.js');
 const { status } = require('../../../lib/domain/models/AssessmentResult.js');

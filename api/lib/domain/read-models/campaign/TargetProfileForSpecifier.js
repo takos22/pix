@@ -1,3 +1,4 @@
+'use strict';
 class TargetProfileForSpecifier {
   constructor({ id, name, tubeCount, thematicResultCount, hasStage, description, category }) {
     this.id = id;

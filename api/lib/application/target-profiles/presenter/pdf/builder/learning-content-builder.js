@@ -1,3 +1,4 @@
+'use strict';
 const sortBy = require('lodash/sortBy');
 const areaBuilder = require('./area-builder.js');
 

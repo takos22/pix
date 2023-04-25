@@ -1,3 +1,4 @@
+'use strict';
 const Skill = require('../../domain/models/Skill.js');
 
 module.exports = {

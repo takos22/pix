@@ -1,3 +1,4 @@
+'use strict';
 class CsvColumn {
   constructor({ name, property, isRequired = false, isDate = false, checkEncoding = false }) {
     this.name = name;

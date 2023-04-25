@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../../../db/knex-database-connection.js');
 const StageCollection = require('../../../domain/models/target-profile-management/StageCollection.js');
 

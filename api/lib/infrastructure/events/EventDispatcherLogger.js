@@ -1,3 +1,4 @@
+'use strict';
 class EventDispatcherLogger {
   constructor(monitoringTools, settings, performance) {
     this._monitoringTools = monitoringTools;

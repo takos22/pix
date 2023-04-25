@@ -1,3 +1,4 @@
+'use strict';
 const Joi = require('joi');
 const { sendJsonApiError, BadRequestError } = require('../http-errors.js');
 const AuthenticationController = require('./authentication-controller.js');

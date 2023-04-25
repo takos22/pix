@@ -1,3 +1,4 @@
+'use strict';
 const organizationRepository = require('../../infrastructure/repositories/organization-repository.js');
 
 module.exports = {

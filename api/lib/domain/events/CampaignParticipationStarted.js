@@ -1,3 +1,4 @@
+'use strict';
 class CampaignParticipationStarted {
   constructor({ campaignParticipationId } = {}) {
     this.campaignParticipationId = campaignParticipationId;

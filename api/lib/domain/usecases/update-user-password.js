@@ -1,3 +1,4 @@
+'use strict';
 const { UserNotAuthorizedToUpdatePasswordError } = require('../errors.js');
 
 module.exports = async function updateUserPassword({

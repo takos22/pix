@@ -1,3 +1,4 @@
+'use strict';
 const Bookshelf = require('../bookshelf.js');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
 const DomainTransaction = require('../DomainTransaction.js');

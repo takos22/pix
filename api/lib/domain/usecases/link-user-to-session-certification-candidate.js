@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const CertificationCandidate = require('../models/CertificationCandidate.js');
 const {

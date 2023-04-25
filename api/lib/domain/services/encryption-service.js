@@ -1,3 +1,4 @@
+'use strict';
 const bcrypt = require('bcrypt');
 const { bcryptNumberOfSaltRounds } = require('../../config.js');
 const PasswordNotMatching = require('../errors.js').PasswordNotMatching;

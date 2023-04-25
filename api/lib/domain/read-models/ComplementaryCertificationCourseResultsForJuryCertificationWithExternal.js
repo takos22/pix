@@ -1,3 +1,4 @@
+'use strict';
 const minBy = require('lodash/minBy');
 const { EXTERNAL, PIX } = require('../models/ComplementaryCertificationCourseResult.js').sources;
 

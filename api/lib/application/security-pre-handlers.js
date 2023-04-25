@@ -1,3 +1,4 @@
+'use strict';
 /* eslint-disable  no-restricted-syntax */
 const bluebird = require('bluebird');
 const checkIfUserIsBlockedUseCase = require('./usecases/checkIfUserIsBlocked.js');

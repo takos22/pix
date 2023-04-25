@@ -1,3 +1,4 @@
+'use strict';
 class ScoringSimulationDataset {
   constructor({ id, simulations } = {}) {
     this.id = id;

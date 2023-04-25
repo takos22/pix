@@ -1,3 +1,4 @@
+'use strict';
 const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils.js');
 const {
   getTransformationStructsForPixCertifCandidatesImport,

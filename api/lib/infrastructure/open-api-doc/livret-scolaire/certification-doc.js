@@ -1,3 +1,4 @@
+'use strict';
 const Joi = require('joi');
 const certificationStatus = require('../../../../lib/domain/read-models/livret-scolaire/CertificateStatus.js');
 const competenceResultDoc = require('./competence-result-doc.js');

@@ -1,3 +1,4 @@
+'use strict';
 const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult.js');
 const { knex } = require('../../../db/knex-database-connection.js');
 

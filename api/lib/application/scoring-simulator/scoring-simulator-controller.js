@@ -1,3 +1,4 @@
+'use strict';
 const usecases = require('../../domain/usecases/index.js');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils.js');
 const scoringSimulationContextSerializer = require('../../infrastructure/serializers/json/scoring-simulator/scoring-simulation-context-serializer.js');

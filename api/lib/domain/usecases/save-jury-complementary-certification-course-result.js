@@ -1,3 +1,4 @@
+'use strict';
 const { NotFoundError, InvalidJuryLevelError } = require('../errors.js');
 const ComplementaryCertificationCourseResult = require('../models/ComplementaryCertificationCourseResult.js');
 

@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound.js');
 const Competence = require('../../domain/models/Competence.js');

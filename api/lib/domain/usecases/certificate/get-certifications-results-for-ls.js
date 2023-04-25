@@ -1,3 +1,4 @@
+'use strict';
 const CertificationsResults = require('../../read-models/livret-scolaire/CertificationsResults.js');
 const Competence = require('../../read-models/livret-scolaire/Competence.js');
 const sortBy = require('lodash/sortBy');

@@ -1,3 +1,4 @@
+'use strict';
 class OrganizationMemberIdentity {
   constructor({ id, firstName, lastName } = {}) {
     this.id = id;

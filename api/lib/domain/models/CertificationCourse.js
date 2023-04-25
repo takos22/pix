@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const BaseJoi = require('joi');
 const JoiDate = require('@joi/date');

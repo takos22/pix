@@ -1,3 +1,4 @@
+'use strict';
 const omit = require('lodash/omit');
 const get = require('lodash/get');
 

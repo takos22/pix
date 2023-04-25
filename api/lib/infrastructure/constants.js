@@ -1,3 +1,4 @@
+'use strict';
 const settings = require('../config.js');
 
 const CONCURRENCY_HEAVY_OPERATIONS = settings.infra.concurrencyForHeavyOperations;

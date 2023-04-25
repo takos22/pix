@@ -1,3 +1,4 @@
+'use strict';
 const OrganizationPlacesLot = require('../models/OrganizationPlacesLot.js');
 
 module.exports = async function createOrganizationPlacesLot({

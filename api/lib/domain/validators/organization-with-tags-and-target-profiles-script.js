@@ -1,3 +1,4 @@
+'use strict';
 const Joi = require('joi');
 const { EntityValidationError } = require('../errors.js');
 const Organization = require('../models/Organization.js');

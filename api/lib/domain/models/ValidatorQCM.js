@@ -1,3 +1,4 @@
+'use strict';
 const solutionServiceQCM = require('../services/solution-service-qcm.js');
 const Validation = require('./Validation.js');
 const Validator = require('./Validator.js');

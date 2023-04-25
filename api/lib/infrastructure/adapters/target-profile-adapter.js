@@ -1,3 +1,4 @@
+'use strict';
 const TargetProfile = require('../../domain/models/TargetProfile.js');
 const Badge = require('../../domain/models/Badge.js');
 const skillAdapter = require('./skill-adapter.js');

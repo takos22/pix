@@ -1,3 +1,4 @@
+'use strict';
 const moment = require('moment');
 const { isEmpty, isNil, each } = require('lodash');
 const { SiecleXmlImportError } = require('../../../domain/errors.js');

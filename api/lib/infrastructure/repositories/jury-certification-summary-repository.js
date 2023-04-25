@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const { fetchPage } = require('../utils/knex-utils.js');
 const { knex } = require('../../../db/knex-database-connection.js');

@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const JSONAPIError = require('jsonapi-serializer').Error;
 const { HttpErrors } = require('./http-errors.js');

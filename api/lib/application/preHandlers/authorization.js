@@ -1,3 +1,4 @@
+'use strict';
 const { NotFoundError } = require('../http-errors.js');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository.js');
 const sessionRepository = require('../../infrastructure/repositories/sessions/session-repository.js');

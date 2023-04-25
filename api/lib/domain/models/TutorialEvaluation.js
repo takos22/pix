@@ -1,3 +1,4 @@
+'use strict';
 const statuses = {
   LIKED: 'LIKED',
   NEUTRAL: 'NEUTRAL',

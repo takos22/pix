@@ -1,3 +1,4 @@
+'use strict';
 const { AssessmentEndedError } = require('../errors.js');
 const smartRandom = require('../services/algorithm-methods/smart-random.js');
 const flash = require('../services/algorithm-methods/flash.js');

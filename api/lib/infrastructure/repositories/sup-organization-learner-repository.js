@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const { OrganizationLearnersCouldNotBeSavedError } = require('../../domain/errors.js');
 const { knex } = require('../../../db/knex-database-connection.js');

@@ -1,3 +1,4 @@
+'use strict';
 const SiecleParser = require('../../infrastructure/serializers/xml/siecle-parser.js');
 
 module.exports = {

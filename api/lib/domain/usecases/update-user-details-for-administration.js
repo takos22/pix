@@ -1,3 +1,4 @@
+'use strict';
 const has = require('lodash/has');
 const {
   AlreadyRegisteredEmailAndUsernameError,

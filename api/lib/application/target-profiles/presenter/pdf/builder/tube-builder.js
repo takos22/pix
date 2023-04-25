@@ -1,3 +1,4 @@
+'use strict';
 const TubeText = require('../drawer/TubeText.js');
 const PositionManager = require('../manager/position-manager.js');
 const FontManager = require('../manager/font-manager.js');

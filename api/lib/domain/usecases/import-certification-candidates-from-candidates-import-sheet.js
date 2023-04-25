@@ -1,3 +1,4 @@
+'use strict';
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors.js');
 const bluebird = require('bluebird');
 const DomainTransaction = require('../../infrastructure/DomainTransaction.js');

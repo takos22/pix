@@ -1,3 +1,4 @@
+'use strict';
 const papa = require('papaparse');
 const iconv = require('iconv-lite');
 const { CsvImportError } = require('../../../domain/errors.js');

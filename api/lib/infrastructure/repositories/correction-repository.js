@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 
 const Correction = require('../../domain/models/Correction.js');

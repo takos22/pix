@@ -1,3 +1,4 @@
+'use strict';
 const moment = require('moment');
 
 const { knex } = require('../../../db/knex-database-connection.js');

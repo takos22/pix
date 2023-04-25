@@ -1,3 +1,4 @@
+'use strict';
 const sortBy = require('lodash/sortBy');
 const thematicBuilder = require('./thematic-builder.js');
 const CompetenceText = require('../drawer/CompetenceText.js');

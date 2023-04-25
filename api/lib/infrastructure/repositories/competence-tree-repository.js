@@ -1,3 +1,4 @@
+'use strict';
 const areaRepository = require('./area-repository.js');
 const CompetenceTree = require('../../domain/models/CompetenceTree.js');
 

@@ -1,3 +1,4 @@
+'use strict';
 const { NotFoundError } = require('../../domain/errors.js');
 
 module.exports = async function flagSessionResultsAsSentToPrescriber({ sessionId, sessionRepository }) {

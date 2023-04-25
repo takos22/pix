@@ -1,3 +1,4 @@
+'use strict';
 const toLower = require('lodash/toLower');
 const isNil = require('lodash/isNil');
 const dayjs = require('dayjs');

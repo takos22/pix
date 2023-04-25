@@ -1,3 +1,4 @@
+'use strict';
 const { ForbiddenAccess } = require('../../domain/errors.js');
 const dayjs = require('dayjs');
 

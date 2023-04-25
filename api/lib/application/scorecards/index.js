@@ -1,3 +1,4 @@
+'use strict';
 const scorecardController = require('./scorecard-controller.js');
 
 exports.register = async (server) => {

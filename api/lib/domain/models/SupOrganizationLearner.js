@@ -1,3 +1,4 @@
+'use strict';
 const { checkValidation } = require('../validators/sup-organization-learner-validator.js');
 
 class SupOrganizationLearner {

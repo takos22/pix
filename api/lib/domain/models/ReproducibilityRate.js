@@ -1,3 +1,4 @@
+'use strict';
 const { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED } = require('../constants.js');
 
 class ReproducibilityRate {

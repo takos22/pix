@@ -1,3 +1,4 @@
+'use strict';
 const { AlreadyRegisteredEmailError, EntityValidationError } = require('../errors.js');
 
 const { getCampaignUrl } = require('../../infrastructure/utils/url-builder.js');

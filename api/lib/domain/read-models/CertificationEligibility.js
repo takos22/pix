@@ -1,3 +1,4 @@
+'use strict';
 class CertificationEligibility {
   constructor({ id, pixCertificationEligible, eligibleComplementaryCertifications = [] }) {
     this.id = id;

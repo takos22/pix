@@ -1,3 +1,4 @@
+'use strict';
 const AssessmentResult = require('../models/AssessmentResult.js');
 const CertificationScoringCompleted = require('./CertificationScoringCompleted.js');
 const CompetenceMark = require('../models/CompetenceMark.js');

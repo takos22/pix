@@ -1,3 +1,4 @@
+'use strict';
 const AssessmentResultController = require('./assessment-result-controller.js');
 const securityPreHandlers = require('../security-pre-handlers.js');
 

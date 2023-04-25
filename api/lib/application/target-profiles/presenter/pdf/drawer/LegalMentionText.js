@@ -1,3 +1,4 @@
+'use strict';
 const dayjs = require('dayjs');
 const Text = require('./Text.js');
 const ColorManager = require('../manager/color-manager.js');

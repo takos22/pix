@@ -1,3 +1,4 @@
+'use strict';
 const AnswerStatus = require('./AnswerStatus.js');
 const Validation = require('./Validation.js');
 

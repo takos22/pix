@@ -1,3 +1,4 @@
+'use strict';
 const OrganizationLearner = require('../../../domain/models/OrganizationLearner.js');
 const { checkValidation } = require('../../../domain/validators/organization-learner-validator.js');
 

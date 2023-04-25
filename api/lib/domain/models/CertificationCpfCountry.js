@@ -1,3 +1,4 @@
+'use strict';
 class CertificationCpfCountry {
   constructor({ id, code, commonName, originalName, matcher } = {}) {
     this.id = id;

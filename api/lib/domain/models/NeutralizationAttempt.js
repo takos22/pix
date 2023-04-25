@@ -1,3 +1,4 @@
+'use strict';
 module.exports = class NeutralizationAttempt {
   constructor(questionNumber, status) {
     this.questionNumber = questionNumber;

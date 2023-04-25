@@ -1,3 +1,4 @@
+'use strict';
 const writeOdsUtils = require('../../utils/ods/write-ods-utils.js');
 const readOdsUtils = require('../../utils/ods/read-ods-utils.js');
 const {

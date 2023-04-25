@@ -1,3 +1,4 @@
+'use strict';
 const { OrganizationArchivedError } = require('../errors.js');
 
 module.exports = async function createOrganizationInvitationByAdmin({

@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../../db/knex-database-connection.js');
 const CampaignCreator = require('../../../lib/domain/models/CampaignCreator.js');
 const { UserNotAuthorizedToCreateCampaignError } = require('../../domain/errors.js');

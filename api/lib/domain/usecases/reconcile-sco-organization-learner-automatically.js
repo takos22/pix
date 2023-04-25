@@ -1,3 +1,4 @@
+'use strict';
 const { CampaignCodeError, UserCouldNotBeReconciledError } = require('../../domain/errors.js');
 const _ = require('lodash');
 

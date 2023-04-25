@@ -1,3 +1,4 @@
+'use strict';
 class Correction {
   constructor({ id, solution, solutionToDisplay, hint, tutorials = [], learningMoreTutorials = [] } = {}) {
     this.id = id;

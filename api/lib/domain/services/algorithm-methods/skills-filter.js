@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const { pipe } = require('lodash/fp');
 const { constants } = require('../../constants.js');

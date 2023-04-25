@@ -1,3 +1,4 @@
+'use strict';
 const { areaDatasource } = require('./area-datasource.js');
 const { challengeDatasource } = require('./challenge-datasource.js');
 const { competenceDatasource } = require('./competence-datasource.js');

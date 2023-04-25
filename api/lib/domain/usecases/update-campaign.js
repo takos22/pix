@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const { UserNotAuthorizedToUpdateResourceError, EntityValidationError } = require('../errors.js');
 const campaignValidator = require('../validators/campaign-validator.js');

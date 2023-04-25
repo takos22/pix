@@ -1,3 +1,4 @@
+'use strict';
 const lcms = require('../../infrastructure/lcms.js');
 const { learningContentCache } = require('../../infrastructure/caches/learning-content-cache.js');
 

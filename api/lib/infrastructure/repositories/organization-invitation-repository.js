@@ -1,3 +1,4 @@
+'use strict';
 const BookshelfOrganizationInvitation = require('../orm-models/OrganizationInvitation.js');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter.js');
 const { NotFoundError } = require('../../domain/errors.js');

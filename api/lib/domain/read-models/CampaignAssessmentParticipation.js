@@ -1,3 +1,4 @@
+'use strict';
 const Assessment = require('../models/Assessment.js');
 const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses.js');
 const _ = require('lodash');

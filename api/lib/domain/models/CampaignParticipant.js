@@ -1,3 +1,4 @@
+'use strict';
 const { EntityValidationError, ForbiddenAccess, AlreadyExistingCampaignParticipationError } = require('../errors.js');
 const CampaignParticipation = require('./CampaignParticipation.js');
 const Assessment = require('./Assessment.js');

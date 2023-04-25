@@ -1,3 +1,4 @@
+'use strict';
 const { roles } = require('../models/Membership.js');
 const { OrganizationArchivedError } = require('../errors.js');
 

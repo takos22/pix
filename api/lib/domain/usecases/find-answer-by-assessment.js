@@ -1,3 +1,4 @@
+'use strict';
 const { UserNotAuthorizedToAccessEntityError, EntityValidationError } = require('../errors.js');
 
 module.exports = async function findAnswerByAssessment({

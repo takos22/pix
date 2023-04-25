@@ -1,3 +1,4 @@
+'use strict';
 const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository.js');
 const competenceMarkRepository = require('../../infrastructure/repositories/competence-mark-repository.js');
 const CompetenceMark = require('../models/CompetenceMark.js');

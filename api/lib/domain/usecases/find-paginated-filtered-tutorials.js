@@ -1,3 +1,4 @@
+'use strict';
 const Tutorial = require('../models/Tutorial.js');
 
 module.exports = async function findPaginatedFilteredTutorials({ userId, filters, page, locale, tutorialRepository }) {

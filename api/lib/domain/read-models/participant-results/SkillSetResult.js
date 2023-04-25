@@ -1,3 +1,4 @@
+'use strict';
 class SkillSetResult {
   constructor(competence, knowledgeElements) {
     const totalSkillsCount = competence.skillIds.length;

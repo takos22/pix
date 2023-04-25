@@ -1,3 +1,4 @@
+'use strict';
 const membershipRepository = require('../../infrastructure/repositories/membership-repository.js');
 const Membership = require('../../domain/models/Membership.js');
 

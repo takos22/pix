@@ -1,3 +1,4 @@
+'use strict';
 const SupOrganizationLearner = require('./SupOrganizationLearner.js');
 const { checkValidation } = require('../validators/sup-organization-learner-set-validator.js');
 const { areTwoStringsCloseEnough } = require('../services/string-comparison-service.js');

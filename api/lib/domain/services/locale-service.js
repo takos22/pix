@@ -1,3 +1,4 @@
+'use strict';
 const { LocaleFormatError, LocaleNotSupportedError } = require('../errors');
 const { SUPPORTED_LOCALES } = require('../constants');
 

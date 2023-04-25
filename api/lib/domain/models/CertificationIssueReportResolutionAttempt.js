@@ -1,3 +1,4 @@
+'use strict';
 module.exports = class CertificationIssueReportResolutionAttempt {
   constructor(status) {
     this.status = status;

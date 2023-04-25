@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const certificationCourseRepository = require('../../../lib/infrastructure/repositories/certification-course-repository.js');
 const { CertificateVerificationCodeGenerationTooManyTrials } = require('../../../lib/domain/errors.js');

@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../bookshelf.js');
 const { fetchPage } = require('../../utils/knex-utils.js');
 const SessionSummary = require('../../../domain/read-models/SessionSummary.js');

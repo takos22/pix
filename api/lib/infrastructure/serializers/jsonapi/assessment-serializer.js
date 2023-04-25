@@ -1,3 +1,4 @@
+'use strict';
 const Assessment = require('../../../domain/models/Assessment.js');
 const Progression = require('../../../domain/models/Progression.js');
 const { Serializer } = require('jsonapi-serializer');

@@ -1,3 +1,4 @@
+'use strict';
 const OidcIdentityProviders = require('../../constants/oidc-identity-providers.js');
 const { InvalidIdentityProviderError } = require('../../errors.js');
 

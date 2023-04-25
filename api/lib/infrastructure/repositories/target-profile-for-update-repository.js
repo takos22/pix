@@ -1,3 +1,4 @@
+'use strict';
 const targetProfileForUpdate = require('../../domain/models/TargetProfileForUpdate.js');
 const { knex } = require('../../../db/knex-database-connection.js');
 const { NotFoundError } = require('../../domain/errors.js');

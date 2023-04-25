@@ -1,3 +1,4 @@
+'use strict';
 class ScoringSimulationContext {
   constructor({ id, successProbabilityThreshold, calculateEstimatedLevel = false } = {}) {
     this.id = id;

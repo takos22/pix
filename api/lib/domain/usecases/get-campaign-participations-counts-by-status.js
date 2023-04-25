@@ -1,3 +1,4 @@
+'use strict';
 const { UserNotAuthorizedToAccessEntityError } = require('../errors.js');
 
 module.exports = async function getCampaignParticipationsCountsByStatus({

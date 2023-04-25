@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const { filterByFullName } = require('../utils/filter-utils.js');
 

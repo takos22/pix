@@ -1,3 +1,4 @@
+'use strict';
 const { UserNotAuthorizedToAccessEntityError, CampaignParticipationDeletedError } = require('../errors.js');
 const CampaignLearningContent = require('../models/CampaignLearningContent.js');
 

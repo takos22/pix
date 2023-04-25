@@ -1,3 +1,4 @@
+'use strict';
 const settings = require('../../config.js');
 const serializer = require('../../infrastructure/serializers/jsonapi/feature-toggle-serializer.js');
 

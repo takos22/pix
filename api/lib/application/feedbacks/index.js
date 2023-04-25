@@ -1,3 +1,4 @@
+'use strict';
 const feedbackController = require('./feedback-controller.js');
 const Joi = require('joi');
 const identifiersType = require('../../domain/types/identifiers-type.js');

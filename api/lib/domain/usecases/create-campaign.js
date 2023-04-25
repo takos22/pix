@@ -1,3 +1,4 @@
+'use strict';
 const campaignCodeGenerator = require('../services/campaigns/campaign-code-generator.js');
 
 module.exports = async function createCampaign({ campaign, campaignRepository, campaignCreatorRepository }) {

@@ -1,3 +1,4 @@
+'use strict';
 const { CertificationComputeError } = require('../../../lib/domain/errors.js');
 const _ = require('lodash');
 

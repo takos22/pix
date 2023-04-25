@@ -1,3 +1,4 @@
+'use strict';
 module.exports.SESSION_SUPERVISING = {
   INCORRECT_DATA: {
     code: 'INCORRECT_DATA',

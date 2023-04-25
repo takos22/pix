@@ -1,3 +1,4 @@
+'use strict';
 const CampaignForCreation = require('./CampaignForCreation.js');
 const CampaignTypes = require('./CampaignTypes.js');
 const { UserNotAuthorizedToCreateCampaignError } = require('../errors.js');

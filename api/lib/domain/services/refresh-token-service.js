@@ -1,3 +1,4 @@
+'use strict';
 const bluebird = require('bluebird');
 const { v4: uuidv4 } = require('uuid');
 const settings = require('../../config.js');

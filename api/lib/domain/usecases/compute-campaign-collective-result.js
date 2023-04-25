@@ -1,3 +1,4 @@
+'use strict';
 const { UserNotAuthorizedToAccessEntityError } = require('../errors.js');
 const CampaignLearningContent = require('../models/CampaignLearningContent.js');
 

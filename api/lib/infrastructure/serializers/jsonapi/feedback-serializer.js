@@ -1,3 +1,4 @@
+'use strict';
 const { Serializer, Deserializer } = require('jsonapi-serializer');
 const Feedback = require('../../orm-models/Feedback.js');
 

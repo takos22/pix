@@ -1,3 +1,4 @@
+'use strict';
 const isEmpty = require('lodash/isEmpty');
 const { UserNotAuthorizedToGenerateUsernamePasswordError } = require('../errors.js');
 

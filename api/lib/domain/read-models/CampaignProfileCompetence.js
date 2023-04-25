@@ -1,3 +1,4 @@
+'use strict';
 class CampaignProfileCompetence {
   constructor({ id, index, name, pixScore, estimatedLevel, areaColor } = {}) {
     this.id = id;

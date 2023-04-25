@@ -1,3 +1,4 @@
+'use strict';
 const pino = require('pino');
 const pretty = require('pino-pretty');
 const { logging: logSettings } = require('../config.js');

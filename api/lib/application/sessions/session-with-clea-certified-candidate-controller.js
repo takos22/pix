@@ -1,3 +1,4 @@
+'use strict';
 const usecases = require('../../domain/usecases/index.js');
 const certificationResultUtils = require('../../infrastructure/utils/csv/certification-results.js');
 const dayjs = require('dayjs');

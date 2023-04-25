@@ -1,3 +1,4 @@
+'use strict';
 const Joi = require('joi');
 const { schema: base } = require('./base-validation.js');
 const { EntityValidationError } = require('../../errors.js');

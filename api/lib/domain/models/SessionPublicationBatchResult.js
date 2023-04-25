@@ -1,3 +1,4 @@
+'use strict';
 class SessionPublicationBatchResult {
   constructor(batchId) {
     this.batchId = batchId;

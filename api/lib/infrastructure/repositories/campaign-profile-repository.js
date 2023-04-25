@@ -1,3 +1,4 @@
+'use strict';
 const CampaignProfile = require('../../../lib/domain/read-models/CampaignProfile.js');
 const placementProfileService = require('../../domain/services/placement-profile-service.js');
 const { NotFoundError } = require('../../../lib/domain/errors.js');

@@ -1,3 +1,4 @@
+'use strict';
 class Course {
   constructor({ id, description, imageUrl, name, challenges = [], competences = [] } = {}) {
     this.id = id;

@@ -1,3 +1,4 @@
+'use strict';
 const sortBy = require('lodash/sortBy');
 const moment = require('moment');
 const { toArrayOfFixedLengthStringsConservingWords } = require('../string-utils.js');

@@ -1,3 +1,4 @@
+'use strict';
 const securityPreHandlers = require('../security-pre-handlers.js');
 const CacheController = require('./cache-controller.js');
 

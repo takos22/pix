@@ -1,3 +1,4 @@
+'use strict';
 const jsonwebtoken = require('jsonwebtoken');
 const querystring = require('querystring');
 const { v4: uuidv4 } = require('uuid');

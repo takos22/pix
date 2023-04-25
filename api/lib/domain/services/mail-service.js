@@ -1,3 +1,4 @@
+'use strict';
 const dayjs = require('dayjs');
 
 const tokenService = require('./token-service.js');

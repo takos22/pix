@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const Challenge = require('../../domain/models/Challenge.js');
 
@@ -123,7 +124,7 @@ function _toDomain({ challengeDataObject, skillDataObject, successProbabilityThr
     solution,
   });
 
-  return new Challenge({
+  const challenge = new Challenge({
     id: challengeDataObject.id,
     type: challengeDataObject.type,
     status: challengeDataObject.status,
@@ -149,4 +150,8 @@ function _toDomain({ challengeDataObject, skillDataObject, successProbabilityThr
     responsive: challengeDataObject.responsive,
     successProbabilityThreshold,
   });
+
+  Object.freeze(challenge);
+
+  return challenge;
 }

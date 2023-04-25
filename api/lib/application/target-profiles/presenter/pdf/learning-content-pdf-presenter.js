@@ -1,3 +1,4 @@
+'use strict';
 const pdfLibFontKit = require('@pdf-lib/fontkit');
 require('dayjs/locale/fr');
 const FontManager = require('./manager/font-manager.js');

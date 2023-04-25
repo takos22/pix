@@ -1,3 +1,4 @@
+'use strict';
 const PIX_PLUS_DROIT = 'DROIT';
 const CLEA = 'CLEA';
 const PIX_PLUS_EDU_1ER_DEGRE = 'EDU_1ER_DEGRE';

@@ -1,3 +1,4 @@
+'use strict';
 const Skill = require('../models/Skill.js');
 const _ = require('lodash');
 const moment = require('moment');

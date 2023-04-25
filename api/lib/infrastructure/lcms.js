@@ -1,3 +1,4 @@
+'use strict';
 const httpAgent = require('./http/http-agent.js');
 
 const { lcms } = require('../config.js');

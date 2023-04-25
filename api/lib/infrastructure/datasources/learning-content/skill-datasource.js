@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const datasource = require('./datasource.js');
 

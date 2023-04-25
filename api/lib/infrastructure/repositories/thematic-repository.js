@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const Thematic = require('../../domain/models/Thematic.js');
 const { thematicDatasource } = require('../datasources/learning-content/thematic-datasource.js');

@@ -1,3 +1,4 @@
+'use strict';
 const tutorialEvaluationAttributes = require('./tutorial-evaluation-attributes.js');
 const userSavedTutorialAttributes = require('./user-saved-tutorial-attributes.js');
 const tutorialAttributes = {

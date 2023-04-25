@@ -1,3 +1,4 @@
+'use strict';
 class SessionJuryComment {
   constructor({ id, comment, authorId, updatedAt }) {
     this.id = id;

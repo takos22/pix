@@ -1,3 +1,4 @@
+'use strict';
 const Assessment = require('../models/Assessment.js');
 
 module.exports = async function getAssessment({

@@ -1,3 +1,4 @@
+'use strict';
 const moment = require('moment');
 const { BadRequestError, SessionPublicationBatchError } = require('../http-errors.js');
 const usecases = require('../../domain/usecases/index.js');

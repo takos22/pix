@@ -1,3 +1,4 @@
+'use strict';
 const CertificationCourse = require('../models/CertificationCourse.js');
 const Assessment = require('../models/Assessment.js');
 const ComplementaryCertificationCourse = require('../models/ComplementaryCertificationCourse.js');

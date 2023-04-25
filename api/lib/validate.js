@@ -1,3 +1,4 @@
+'use strict';
 const get = require('lodash/get');
 const { BadRequestError, sendJsonApiError } = require('./application/http-errors.js');
 

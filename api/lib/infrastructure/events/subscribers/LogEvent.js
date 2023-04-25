@@ -1,3 +1,4 @@
+'use strict';
 const Event = require('../../../domain/events/CampaignParticipationResultsShared.js');
 
 class LogEvent {

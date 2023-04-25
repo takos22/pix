@@ -1,3 +1,4 @@
+'use strict';
 const Boom = require('@hapi/boom');
 const packageJSON = require('../../../package.json');
 const settings = require('../../config.js');

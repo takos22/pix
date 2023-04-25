@@ -1,3 +1,4 @@
+'use strict';
 class UserOrgaSettings {
   constructor({ id, currentOrganization, user } = {}) {
     this.id = id;

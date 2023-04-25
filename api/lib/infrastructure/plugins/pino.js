@@ -1,3 +1,4 @@
+'use strict';
 const config = require('../../config.js');
 const monitoringTools = require('../monitoring-tools.js');
 const hapiPino = require('hapi-pino');

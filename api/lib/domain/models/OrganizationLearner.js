@@ -1,3 +1,4 @@
+'use strict';
 const STATUS = {
   STUDENT: 'ST',
   APPRENTICE: 'AP',

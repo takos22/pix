@@ -1,3 +1,4 @@
+'use strict';
 const { NotFoundError } = require('../../domain/errors.js');
 const Skill = require('../../domain/models/Skill.js');
 const { skillDatasource } = require('../datasources/learning-content/skill-datasource.js');

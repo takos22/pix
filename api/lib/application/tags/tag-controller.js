@@ -1,3 +1,4 @@
+'use strict';
 const tagSerializer = require('../../infrastructure/serializers/jsonapi/tag-serializer.js');
 const usecases = require('../../domain/usecases/index.js');
 

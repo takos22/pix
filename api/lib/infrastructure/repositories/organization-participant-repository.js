@@ -1,3 +1,4 @@
+'use strict';
 const OrganizationParticipant = require('../../domain/read-models/OrganizationParticipant.js');
 const { knex } = require('../../../db/knex-database-connection.js');
 const { fetchPage } = require('../utils/knex-utils.js');

@@ -1,3 +1,4 @@
+'use strict';
 const { AlreadyExistingEntityError } = require('../../domain/errors.js');
 
 module.exports = async function updateStudentNumber({

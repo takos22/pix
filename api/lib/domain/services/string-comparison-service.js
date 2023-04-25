@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const levenshtein = require('fast-levenshtein');
 const { LEVENSHTEIN_DISTANCE_MAX_RATE } = require('../constants.js');

@@ -1,3 +1,4 @@
+'use strict';
 class DataProtectionOfficer {
   constructor({
     id,

@@ -1,3 +1,4 @@
+'use strict';
 const Tag = require('../models/Tag.js');
 
 module.exports = async function createTag({ tagName, tagRepository }) {

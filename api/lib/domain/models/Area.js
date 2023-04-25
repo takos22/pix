@@ -1,3 +1,4 @@
+'use strict';
 class Area {
   constructor({ id, code, name, title, color, competences = [], frameworkId }) {
     this.id = id;

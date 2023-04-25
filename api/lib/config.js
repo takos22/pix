@@ -1,3 +1,4 @@
+'use strict';
 /* eslint-disable node/no-process-env*/
 const path = require('path');
 const moment = require('moment');

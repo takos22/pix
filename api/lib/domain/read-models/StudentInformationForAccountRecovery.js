@@ -1,3 +1,4 @@
+'use strict';
 class StudentInformationForAccountRecovery {
   constructor({ firstName, lastName, username, email, latestOrganizationName } = {}) {
     this.firstName = firstName;

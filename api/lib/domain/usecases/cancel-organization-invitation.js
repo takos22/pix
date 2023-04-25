@@ -1,3 +1,4 @@
+'use strict';
 const { UncancellableOrganizationInvitationError } = require('../../domain/errors.js');
 
 module.exports = async function cancelOrganizationInvitation({

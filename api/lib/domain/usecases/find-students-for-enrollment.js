@@ -1,3 +1,4 @@
+'use strict';
 const { NotFoundError } = require('../errors.js');
 const StudentForEnrollment = require('../read-models/StudentForEnrollment.js');
 

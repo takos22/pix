@@ -1,3 +1,4 @@
+'use strict';
 const userOrgaSettingsSerializer = require('../../infrastructure/serializers/jsonapi/user-orga-settings-serializer.js');
 const { UserNotAuthorizedToCreateResourceError } = require('../../domain/errors.js');
 const usecases = require('../../domain/usecases/index.js');

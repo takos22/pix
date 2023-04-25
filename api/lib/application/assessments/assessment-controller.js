@@ -1,3 +1,4 @@
+'use strict';
 const DomainTransaction = require('../../infrastructure/DomainTransaction.js');
 
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;

@@ -1,3 +1,4 @@
+'use strict';
 class SessionForSupervisorKit {
   constructor({ id, date, time, address, room, examiner, accessCode, supervisorPassword }) {
     this.id = id;

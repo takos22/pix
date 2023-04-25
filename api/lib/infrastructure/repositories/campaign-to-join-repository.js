@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../../db/knex-database-connection.js');
 const CampaignToJoin = require('../../domain/read-models/CampaignToJoin.js');
 const { NotFoundError } = require('../../domain/errors.js');

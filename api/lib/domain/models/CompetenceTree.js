@@ -1,3 +1,4 @@
+'use strict';
 class CompetenceTree {
   constructor({ id = 1, areas = [] } = {}) {
     this.id = id;

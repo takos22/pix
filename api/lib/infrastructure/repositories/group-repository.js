@@ -1,3 +1,4 @@
+'use strict';
 const Group = require('../../domain/models/Group.js');
 const { knex } = require('../../../db/knex-database-connection.js');
 

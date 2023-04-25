@@ -1,3 +1,4 @@
+'use strict';
 const { CsvColumn } = require('../csv-column.js');
 
 class CampaignIdsCsvHeader {

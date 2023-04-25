@@ -1,3 +1,4 @@
+'use strict';
 class Framework {
   constructor({ id, name, areas }) {
     this.id = id;

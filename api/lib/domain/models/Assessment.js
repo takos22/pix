@@ -1,3 +1,4 @@
+'use strict';
 const hashInt = require('hash-int');
 const { ObjectValidationError } = require('../errors.js');
 const Answer = require('./Answer.js');

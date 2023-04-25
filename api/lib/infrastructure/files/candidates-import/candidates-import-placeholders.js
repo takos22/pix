@@ -1,3 +1,4 @@
+'use strict';
 const {
   PIX_PLUS_DROIT,
   CLEA,

@@ -1,3 +1,4 @@
+'use strict';
 const AssessmentCompleted = require('../events/AssessmentCompleted.js');
 const CampaignParticipationStatuses = require('../models/CampaignParticipationStatuses.js');
 

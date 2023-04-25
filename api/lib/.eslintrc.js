@@ -1,3 +1,4 @@
+'use strict';
 module.exports = {
   extends: ['../.eslintrc.yaml', 'plugin:node/recommended-script'],
   rules: {

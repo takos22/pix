@@ -1,3 +1,4 @@
+'use strict';
 class Student {
   constructor({ nationalStudentId, account } = {}) {
     this.nationalStudentId = nationalStudentId;

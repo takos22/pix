@@ -1,3 +1,4 @@
+'use strict';
 class EuropeanNumericLevel {
   constructor({ domainCompetenceId, competenceId, level }) {
     this.domainCompetenceId = domainCompetenceId;

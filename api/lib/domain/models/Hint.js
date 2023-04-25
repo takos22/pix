@@ -1,3 +1,4 @@
+'use strict';
 class Hint {
   constructor({ skillName, value } = {}) {
     this.skillName = skillName;

@@ -1,3 +1,4 @@
+'use strict';
 const Joi = require('joi');
 const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-providers.js');
 const oidcController = require('./oidc-controller.js');

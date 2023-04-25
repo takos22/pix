@@ -1,3 +1,4 @@
+'use strict';
 const ComplementaryCertificationHabilitation = require('../models/ComplementaryCertificationHabilitation.js');
 const certificationCenterCreationValidator = require('../validators/certification-center-creation-validator.js');
 

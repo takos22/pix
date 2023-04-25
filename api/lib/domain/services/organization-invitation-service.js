@@ -1,3 +1,4 @@
+'use strict';
 const randomString = require('randomstring');
 const Membership = require('../models/Membership.js');
 const mailService = require('../../domain/services/mail-service.js');

@@ -1,3 +1,4 @@
+'use strict';
 const { runInContext } = require('lodash');
 const _ = runInContext();
 _.mixin({

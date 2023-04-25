@@ -1,3 +1,4 @@
+'use strict';
 const { UncancellableCertificationCenterInvitationError } = require('../../domain/errors.js');
 
 module.exports = async function cancelCertificationCenterInvitation({

@@ -1,3 +1,4 @@
+'use strict';
 class Competence {
   constructor({ id, name, area } = {}) {
     this.id = id;

@@ -1,3 +1,4 @@
+'use strict';
 const types = require('../models/TrainingTrigger.js').types;
 
 class TrainingTriggerForAdmin {

@@ -1,3 +1,4 @@
+'use strict';
 const ScoringSimulationContext = require('../../../../domain/models/ScoringSimulationContext.js');
 
 module.exports = {

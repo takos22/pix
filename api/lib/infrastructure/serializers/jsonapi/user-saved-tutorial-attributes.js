@@ -1,3 +1,4 @@
+'use strict';
 const userSavedTutorialAttributes = {
   ref: 'id',
   includes: true,

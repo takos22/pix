@@ -1,3 +1,4 @@
+'use strict';
 const prescriberRoles = {
   ADMIN: 'ADMIN',
   MEMBER: 'MEMBER',

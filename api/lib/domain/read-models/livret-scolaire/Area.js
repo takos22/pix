@@ -1,3 +1,4 @@
+'use strict';
 class Area {
   constructor({ id, code, name, title } = {}) {
     this.id = id;

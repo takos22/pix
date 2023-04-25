@@ -1,3 +1,4 @@
+'use strict';
 const Competence = require('../../../../../../lib/infrastructure/serializers/jsonapi/certifications-livret-scolaire/response-objects/Competence.js');
 const {
   buildAreaForLS,

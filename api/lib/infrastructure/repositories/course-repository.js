@@ -1,3 +1,4 @@
+'use strict';
 const Course = require('../../domain/models/Course.js');
 const { courseDatasource } = require('../datasources/learning-content/course-datasource.js');
 const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound.js');

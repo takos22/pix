@@ -1,3 +1,4 @@
+'use strict';
 class Country {
   constructor({ code, name, matcher }) {
     this.code = code;

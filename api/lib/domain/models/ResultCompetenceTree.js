@@ -1,3 +1,4 @@
+'use strict';
 const Area = require('./Area.js');
 const ResultCompetence = require('./ResultCompetence.js');
 

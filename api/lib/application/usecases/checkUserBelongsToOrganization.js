@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const membershipRepository = require('../../infrastructure/repositories/membership-repository.js');
 

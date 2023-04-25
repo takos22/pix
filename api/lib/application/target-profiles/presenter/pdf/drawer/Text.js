@@ -1,3 +1,4 @@
+'use strict';
 const PositionManager = require('../manager/position-manager.js');
 const pdfLibUtils = require('pdf-lib/cjs/utils');
 

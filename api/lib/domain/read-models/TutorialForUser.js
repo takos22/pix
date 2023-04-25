@@ -1,3 +1,4 @@
+'use strict';
 const Tutorial = require('../models/Tutorial.js');
 
 class TutorialForUser extends Tutorial {

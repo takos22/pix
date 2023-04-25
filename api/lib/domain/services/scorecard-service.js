@@ -1,3 +1,4 @@
+'use strict';
 const Assessment = require('../models/Assessment.js');
 const CompetenceEvaluation = require('../models/CompetenceEvaluation.js');
 const KnowledgeElement = require('../models/KnowledgeElement.js');

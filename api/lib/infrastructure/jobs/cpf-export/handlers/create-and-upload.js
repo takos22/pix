@@ -1,3 +1,4 @@
+'use strict';
 const { createGzip } = require('node:zlib');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');

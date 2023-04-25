@@ -1,3 +1,4 @@
+'use strict';
 const DEFAULT_PAGINATION = {
   PAGE: 1,
   PAGE_SIZE: 10,

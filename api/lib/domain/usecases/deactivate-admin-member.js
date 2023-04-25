@@ -1,3 +1,4 @@
+'use strict';
 module.exports = async function deactivateAdminMember({ id, adminMemberRepository, refreshTokenService }) {
   const { userId } = await adminMemberRepository.getById(id);
   await adminMemberRepository.deactivate({ id });

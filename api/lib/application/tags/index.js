@@ -1,3 +1,4 @@
+'use strict';
 const securityPreHandlers = require('../security-pre-handlers.js');
 const tagController = require('./tag-controller.js');
 const Joi = require('joi');

@@ -1,3 +1,4 @@
+'use strict';
 const dayjs = require('dayjs');
 const { plannerJob } = require('../../../../config.js').cpf;
 

@@ -1,3 +1,4 @@
+'use strict';
 const { NotFoundError } = require('../../errors');
 const bluebird = require('bluebird');
 const DomainTransaction = require('../../../infrastructure/DomainTransaction.js');

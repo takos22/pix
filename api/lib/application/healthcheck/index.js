@@ -1,3 +1,4 @@
+'use strict';
 const healthcheckController = require('./healthcheck-controller.js');
 
 exports.register = async function (server) {

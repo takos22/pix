@@ -1,3 +1,4 @@
+'use strict';
 class BadgeAcquisition {
   constructor({ id, badge, userId, badgeId, campaignParticipationId } = {}) {
     this.id = id;

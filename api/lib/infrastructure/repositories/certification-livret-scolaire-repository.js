@@ -1,3 +1,4 @@
+'use strict';
 const Certificate = require('../../domain/read-models/livret-scolaire/Certificate.js');
 const { knex } = require('../../../db/knex-database-connection.js');
 

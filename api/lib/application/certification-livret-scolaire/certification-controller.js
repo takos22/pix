@@ -1,3 +1,4 @@
+'use strict';
 const { getCertificationsResultsForLS } = require('../../domain/usecases/index.js');
 const certificationsResultsForLsSerializer = require('../../infrastructure/serializers/jsonapi/certifications-livret-scolaire/certification-ls-serializer.js');
 

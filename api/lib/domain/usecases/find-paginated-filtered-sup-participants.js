@@ -1,3 +1,4 @@
+'use strict';
 module.exports = function findPaginatedFilteredSupParticipants({
   organizationId,
   filter,

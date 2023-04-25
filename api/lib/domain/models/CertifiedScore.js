@@ -1,3 +1,4 @@
+'use strict';
 const { PIX_COUNT_BY_LEVEL } = require('../constants.js');
 
 class CertifiedScore {

@@ -1,3 +1,4 @@
+'use strict';
 class OrganizationLearnerParticipation {
   constructor({ id, campaignType, campaignName, createdAt, sharedAt, status, campaignId }) {
     this.id = id;

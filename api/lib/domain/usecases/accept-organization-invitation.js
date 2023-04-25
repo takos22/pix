@@ -1,3 +1,4 @@
+'use strict';
 const { AlreadyExistingMembershipError } = require('../../domain/errors.js');
 
 module.exports = async function acceptOrganizationInvitation({

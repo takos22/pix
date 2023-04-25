@@ -1,3 +1,4 @@
+'use strict';
 const CertificationCandidateSubscription = require('../read-models/CertificationCandidateSubscription.js');
 const _ = require('lodash');
 

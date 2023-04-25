@@ -1,3 +1,4 @@
+'use strict';
 const answerSerializer = require('../../infrastructure/serializers/jsonapi/answer-serializer.js');
 const answerPix1dSerializer = require('../../infrastructure/serializers/jsonapi/answer-pix1d-serializer.js');
 const correctionSerializer = require('../../infrastructure/serializers/jsonapi/correction-serializer.js');

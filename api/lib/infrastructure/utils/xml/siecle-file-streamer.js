@@ -1,3 +1,4 @@
+'use strict';
 const { isObject, values } = require('lodash');
 const { FileValidationError, SiecleXmlImportError } = require('../../../domain/errors.js');
 const { logErrorWithCorrelationIds } = require('../../monitoring-tools.js');

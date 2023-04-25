@@ -1,3 +1,4 @@
+'use strict';
 const BORDER = 10;
 const DEFAULT_SPACE = 5;
 const COVER_PAGE_TITLE_VERTICAL_START = 400;

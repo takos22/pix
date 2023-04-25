@@ -1,3 +1,4 @@
+'use strict';
 const EventBus = require('./EventBus.js');
 const dependenciesBuilder = require('./EventHandlerDependenciesBuilder.js');
 const LogEvent = require('./subscribers/LogEvent.js');

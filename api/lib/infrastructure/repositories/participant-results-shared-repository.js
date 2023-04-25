@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../../db/knex-database-connection.js');
 const ParticipantResultsShared = require('../../../lib/domain/models/ParticipantResultsShared.js');
 const placementProfileService = require('../../domain/services/placement-profile-service.js');

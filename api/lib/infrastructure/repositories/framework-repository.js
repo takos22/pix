@@ -1,3 +1,4 @@
+'use strict';
 const Framework = require('../../domain/models/Framework.js');
 const { frameworkDatasource } = require('../datasources/learning-content/framework-datasource.js');
 const { NotFoundError } = require('../../domain/errors.js');

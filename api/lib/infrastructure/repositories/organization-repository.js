@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const { NotFoundError } = require('../../domain/errors.js');
 const Organization = require('../../domain/models/Organization.js');

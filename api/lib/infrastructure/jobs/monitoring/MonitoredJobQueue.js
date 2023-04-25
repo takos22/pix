@@ -1,3 +1,4 @@
+'use strict';
 const MonitoringJobHandler = require('./MonitoringJobExecutionTimeHandler.js');
 const logger = require('../../logger.js');
 const { teamSize, teamConcurrency } = require('../../../config.js').pgBoss;

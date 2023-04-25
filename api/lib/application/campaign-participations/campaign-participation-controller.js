@@ -1,3 +1,4 @@
+'use strict';
 const monitoringTools = require('../../infrastructure/monitoring-tools.js');
 const usecases = require('../../domain/usecases/index.js');
 const events = require('../../domain/events/index.js');

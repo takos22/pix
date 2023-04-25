@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../../../db/knex-database-connection.js');
 const Campaign = require('../../../domain/models/CampaignForArchiving.js');
 const knexUtils = require('../../utils/knex-utils.js');

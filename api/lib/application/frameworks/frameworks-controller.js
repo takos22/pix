@@ -1,3 +1,4 @@
+'use strict';
 const usecases = require('../../domain/usecases/index.js');
 const frameworkAreasSerializer = require('../../infrastructure/serializers/jsonapi/framework-areas-serializer.js');
 const frameworkSerializer = require('../../infrastructure/serializers/jsonapi/framework-serializer.js');

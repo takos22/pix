@@ -1,3 +1,4 @@
+'use strict';
 const poleEmploiService = require('../services/pole-emploi-service.js');
 
 module.exports = async function getPoleEmploiSendings({ cursor, poleEmploiSendingRepository, filters }) {

@@ -1,3 +1,4 @@
+'use strict';
 const { loadOdsZip } = require('./common-ods-utils.js');
 const { DOMParser, XMLSerializer } = require('@xmldom/xmldom');
 const _ = require('lodash');

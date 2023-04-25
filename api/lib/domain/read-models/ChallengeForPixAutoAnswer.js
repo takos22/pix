@@ -1,3 +1,4 @@
+'use strict';
 const ChallengeType = Object.freeze({
   QCU: 'QCU',
   QCM: 'QCM',

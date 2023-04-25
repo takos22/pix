@@ -1,3 +1,4 @@
+'use strict';
 const { features } = require('../../config.js');
 
 class AllowedCertificationCenterAccess {

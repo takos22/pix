@@ -1,3 +1,4 @@
+'use strict';
 const { Type } = require('./Challenge.js');
 
 class CertificationChallengeWithType {

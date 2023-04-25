@@ -1,3 +1,4 @@
+'use strict';
 const CampaignTypes = require('../models/CampaignTypes.js');
 const countBy = require('lodash/countBy');
 

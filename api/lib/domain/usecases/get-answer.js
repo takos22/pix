@@ -1,3 +1,4 @@
+'use strict';
 const { NotFoundError } = require('../errors.js');
 
 module.exports = async function getAnswer({ answerId, userId, answerRepository, assessmentRepository } = {}) {

@@ -1,3 +1,4 @@
+'use strict';
 const sortBy = require('lodash/sortBy');
 const competenceBuilder = require('./competence-builder.js');
 const AreaText = require('../drawer/AreaText.js');

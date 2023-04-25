@@ -1,3 +1,4 @@
+'use strict';
 class AssessmentCompleted {
   constructor({ assessmentId, userId, campaignParticipationId, certificationCourseId } = {}) {
     this.assessmentId = assessmentId;

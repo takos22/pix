@@ -1,3 +1,4 @@
+'use strict';
 const hapiSentry = require('hapi-sentry');
 const packageJSON = require('../../../package.json');
 const config = require('../../config.js');

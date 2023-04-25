@@ -1,3 +1,4 @@
+'use strict';
 const Joi = require('joi');
 
 const challengeController = require('./challenge-controller.js');

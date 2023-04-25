@@ -1,3 +1,4 @@
+'use strict';
 const sessionValidator = require('../../validators/session-validator.js');
 const certificationCpfService = require('../certification-cpf-service.js');
 const { CERTIFICATION_SESSIONS_ERRORS } = require('../../constants/sessions-errors');

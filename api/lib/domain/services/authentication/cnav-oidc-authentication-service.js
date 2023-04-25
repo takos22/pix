@@ -1,3 +1,4 @@
+'use strict';
 const settings = require('../../../config.js');
 const OidcAuthenticationService = require('./oidc-authentication-service.js');
 

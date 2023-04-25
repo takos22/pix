@@ -1,3 +1,4 @@
+'use strict';
 const { UserNotMemberOfOrganizationError } = require('../errors.js');
 const _ = require('lodash');
 

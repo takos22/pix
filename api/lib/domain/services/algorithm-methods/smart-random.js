@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const catAlgorithm = require('./cat-algorithm.js');
 const { getFilteredSkillsForNextChallenge, getFilteredSkillsForFirstChallenge } = require('./skills-filter.js');

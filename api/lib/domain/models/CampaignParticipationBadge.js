@@ -1,3 +1,4 @@
+'use strict';
 const Badge = require('./Badge.js');
 
 class CampaignParticipationBadge extends Badge {

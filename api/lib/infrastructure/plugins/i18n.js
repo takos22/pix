@@ -1,3 +1,4 @@
+'use strict';
 const hapiI18n = require('hapi-i18n');
 const plugin = hapiI18n;
 const options = {

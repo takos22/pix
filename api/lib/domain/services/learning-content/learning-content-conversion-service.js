@@ -1,3 +1,4 @@
+'use strict';
 const skillRepository = require('../../../infrastructure/repositories/skill-repository.js');
 
 async function findActiveSkillsForCappedTubes(cappedTubes) {

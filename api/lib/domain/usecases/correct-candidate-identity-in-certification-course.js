@@ -1,3 +1,4 @@
+'use strict';
 const { CpfBirthInformationValidationError } = require('../errors');
 
 module.exports = async function correctCandidateIdentityInCertificationCourse({

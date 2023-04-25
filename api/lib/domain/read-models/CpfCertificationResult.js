@@ -1,3 +1,4 @@
+'use strict';
 const EuropeanNumericLevelFactory = require('./EuropeanNumericLevelFactory.js');
 
 class CpfCertificationResult {

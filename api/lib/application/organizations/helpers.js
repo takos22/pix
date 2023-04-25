@@ -1,3 +1,4 @@
+'use strict';
 const certificabilityByLabel = {
   'not-available': null,
   eligible: true,

@@ -1,3 +1,4 @@
+'use strict';
 const ResetPasswordDemand = require('../orm-models/ResetPasswordDemand.js');
 const { PasswordResetDemandNotFoundError } = require('../../../lib/domain/errors.js');
 

@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const SibApiV3Sdk = require('sib-api-v3-sdk');
 

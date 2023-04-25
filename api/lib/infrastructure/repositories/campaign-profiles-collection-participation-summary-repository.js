@@ -1,3 +1,4 @@
+'use strict';
 const chunk = require('lodash/chunk');
 const bluebird = require('bluebird');
 const { knex } = require('../../../db/knex-database-connection.js');

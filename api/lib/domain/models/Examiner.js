@@ -1,3 +1,4 @@
+'use strict';
 const logger = require('../../infrastructure/logger.js');
 const Answer = require('./Answer.js');
 const AnswerStatus = require('./AnswerStatus.js');

@@ -1,3 +1,4 @@
+'use strict';
 class UserSavedTutorialWithTutorial {
   constructor({ id, userId, tutorial, skillId } = {}) {
     this.id = id;

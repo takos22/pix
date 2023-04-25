@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const { normalize } = require('../utils/string-utils.js');
 const logger = require('../../infrastructure/logger.js');

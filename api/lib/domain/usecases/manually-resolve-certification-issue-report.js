@@ -1,3 +1,4 @@
+'use strict';
 const { CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually } = require('../errors.js');
 
 module.exports = async function manuallyResolveCertificationIssueReport({

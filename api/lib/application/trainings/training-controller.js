@@ -1,3 +1,4 @@
+'use strict';
 const trainingSerializer = require('../../infrastructure/serializers/jsonapi/training-serializer.js');
 const trainingSummarySerializer = require('../../infrastructure/serializers/jsonapi/training-summary-serializer.js');
 const trainingTriggerSerializer = require('../../infrastructure/serializers/jsonapi/training-trigger-serializer.js');

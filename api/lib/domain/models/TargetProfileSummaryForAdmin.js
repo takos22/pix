@@ -1,3 +1,4 @@
+'use strict';
 class TargetProfileSummaryForAdmin {
   constructor({ id, name, outdated } = {}) {
     this.id = id;

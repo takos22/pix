@@ -1,3 +1,4 @@
+'use strict';
 const statuses = {
   STARTED: 'started',
   RESET: 'reset',

@@ -1,3 +1,4 @@
+'use strict';
 const omit = require('lodash/omit');
 const { knex } = require('../../../db/knex-database-connection.js');
 const CertificationIssueReport = require('../../domain/models/CertificationIssueReport.js');

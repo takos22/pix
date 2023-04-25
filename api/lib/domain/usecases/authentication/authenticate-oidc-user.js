@@ -1,3 +1,4 @@
+'use strict';
 const { UnexpectedOidcStateError } = require('../../errors.js');
 const logger = require('../../../infrastructure/logger.js');
 

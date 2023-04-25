@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../../db/knex-database-connection.js');
 const { CLEA } = require('../../domain/models/ComplementaryCertification.js');
 const CleaCertifiedCandidate = require('../../domain/read-models/CleaCertifiedCandidate.js');

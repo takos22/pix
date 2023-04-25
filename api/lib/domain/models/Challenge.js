@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const Validator = require('./Validator.js');
 const ValidatorQCM = require('./ValidatorQCM.js');

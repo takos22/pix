@@ -1,3 +1,4 @@
+'use strict';
 const ComplementaryCertificationCourseResult = require('./ComplementaryCertificationCourseResult.js');
 const PartnerCertificationScoring = require('./PartnerCertificationScoring.js');
 

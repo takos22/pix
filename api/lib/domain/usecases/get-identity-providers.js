@@ -1,3 +1,4 @@
+'use strict';
 const { isEmpty, isNil, pick } = require('lodash');
 const OidcIdentityProviders = require('../constants/oidc-identity-providers.js');
 const config = require('../../config.js');

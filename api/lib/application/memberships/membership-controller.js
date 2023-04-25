@@ -1,3 +1,4 @@
+'use strict';
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer.js');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');
 const usecases = require('../../domain/usecases/index.js');

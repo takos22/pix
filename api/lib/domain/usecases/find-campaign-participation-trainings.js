@@ -1,3 +1,4 @@
+'use strict';
 const { UserNotAuthorizedToFindTrainings } = require('../errors.js');
 
 module.exports = async function findCampaignParticipationTrainings({

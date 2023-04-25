@@ -1,3 +1,4 @@
+'use strict';
 const usecases = require('../../domain/usecases/index.js');
 const csvCampaignsIdsParser = require('../../infrastructure/serializers/csv/campaigns-administration/csv-campaigns-ids-parser.js');
 

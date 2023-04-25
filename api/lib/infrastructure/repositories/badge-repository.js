@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../../db/knex-database-connection.js');
 const Badge = require('../../domain/models/Badge.js');
 const SkillSet = require('../../domain/models/SkillSet.js');

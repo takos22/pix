@@ -1,3 +1,4 @@
+'use strict';
 const Joi = require('joi');
 
 const organizationInvitationController = require('./organization-invitation-controller.js');

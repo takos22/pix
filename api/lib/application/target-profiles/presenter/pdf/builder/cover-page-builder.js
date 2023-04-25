@@ -1,3 +1,4 @@
+'use strict';
 const TemplatePageManager = require('../manager/template-page-manager.js');
 const CoverPageVersionText = require('../drawer/CoverPageVersionText.js');
 const CoverPageLegalMentionText = require('../drawer/CoverPageLegalMentionText.js');

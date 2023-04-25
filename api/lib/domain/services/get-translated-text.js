@@ -1,3 +1,4 @@
+'use strict';
 const { FRENCH_SPOKEN } = require('../../domain/constants.js').LOCALE;
 
 function getTranslatedKey(key, locale) {

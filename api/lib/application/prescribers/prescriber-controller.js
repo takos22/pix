@@ -1,3 +1,4 @@
+'use strict';
 const prescriberSerializer = require('../../infrastructure/serializers/jsonapi/prescriber-serializer.js');
 
 const usecases = require('../../domain/usecases/index.js');

@@ -1,3 +1,4 @@
+'use strict';
 const { AssessmentNotCompletedError, NotFoundError } = require('../errors.js');
 
 module.exports = async function getCorrectionForAnswer({

@@ -1,3 +1,4 @@
+'use strict';
 const get = require('lodash/get');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod.js');
 const { ForbiddenAccess } = require('../../domain/errors.js');

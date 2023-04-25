@@ -1,3 +1,4 @@
+'use strict';
 const usecases = require('../../domain/usecases/index.js');
 const badgeSerializer = require('../../infrastructure/serializers/jsonapi/badge-serializer.js');
 

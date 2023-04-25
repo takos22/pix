@@ -1,3 +1,4 @@
+'use strict';
 const UserToCreate = require('../models/UserToCreate.js');
 const { AuthenticationKeyExpired, UserAlreadyExistsWithAuthenticationMethodError } = require('../errors.js');
 

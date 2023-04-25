@@ -1,3 +1,4 @@
+'use strict';
 const OrganizationMemberIdentity = require('../../domain/models/OrganizationMemberIdentity.js');
 const { knex } = require('../../../db/knex-database-connection.js');
 

@@ -1,3 +1,4 @@
+'use strict';
 module.exports = class AddedCellOption {
   constructor({ labels = [], rowspan = 0, colspan = 0, positionOffset = 0 }) {
     this.labels = labels;

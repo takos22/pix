@@ -1,3 +1,4 @@
+'use strict';
 const { AlreadyExistingAdminMemberError } = require('../errors.js');
 const AdminMember = require('../models/AdminMember.js');
 

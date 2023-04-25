@@ -1,3 +1,4 @@
+'use strict';
 const { knex } = require('../../../db/knex-database-connection.js');
 const { fetchPage } = require('../utils/knex-utils.js');
 const TargetProfileSummaryForAdmin = require('../../domain/models/TargetProfileSummaryForAdmin.js');

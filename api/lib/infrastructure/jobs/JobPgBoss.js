@@ -1,3 +1,4 @@
+'use strict';
 class JobPgBoss {
   constructor(config, queryBuilder) {
     this.name = config.name;

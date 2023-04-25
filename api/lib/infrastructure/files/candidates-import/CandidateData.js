@@ -1,3 +1,4 @@
+'use strict';
 const moment = require('moment');
 const _ = require('lodash');
 const FRANCE_COUNTRY_CODE = '99100';

@@ -1,3 +1,4 @@
+'use strict';
 const ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES = [
   {
     placeholder: 'SESSION_ID',

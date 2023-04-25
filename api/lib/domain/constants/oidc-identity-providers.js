@@ -1,3 +1,4 @@
+'use strict';
 const PoleEmploiOidcAuthenticationService = require('../services/authentication/pole-emploi-oidc-authentication-service.js');
 const CnavOidcAuthenticationService = require('../services/authentication/cnav-oidc-authentication-service.js');
 const FwbOidcAuthenticationService = require('../services/authentication/fwb-oidc-authentication-service.js');

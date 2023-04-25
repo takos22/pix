@@ -1,3 +1,4 @@
+'use strict';
 const { NotFoundError, UserNotAuthorizedToAccessEntityError } = require('../../domain/errors.js');
 const stageCollectionRepository = require('../../infrastructure/repositories/user-campaign-results/stage-collection-repository.js');
 

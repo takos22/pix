@@ -1,3 +1,4 @@
+'use strict';
 class OrganizationTag {
   constructor({ id, organizationId, tagId } = {}) {
     this.id = id;

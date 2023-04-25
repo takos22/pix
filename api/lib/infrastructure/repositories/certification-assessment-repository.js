@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const DomainTransaction = require('../DomainTransaction.js');
 const CertificationAssessment = require('../../domain/models/CertificationAssessment.js');

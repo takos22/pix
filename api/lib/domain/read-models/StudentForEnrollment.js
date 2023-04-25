@@ -1,3 +1,4 @@
+'use strict';
 class StudentForEnrollment {
   constructor({ id, firstName, lastName, birthdate, division, isEnrolled } = {}) {
     this.id = id;

@@ -1,3 +1,4 @@
+'use strict';
 const { find } = require('lodash');
 const boom = require('@hapi/boom');
 

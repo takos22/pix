@@ -1,3 +1,4 @@
+'use strict';
 const Request = require('@hapi/hapi/lib/request');
 const settings = require('../config.js');
 const { get, set, update, omit } = require('lodash');

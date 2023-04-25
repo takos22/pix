@@ -1,3 +1,4 @@
+'use strict';
 const { using } = require('bluebird');
 const Redlock = require('redlock');
 const Cache = require('./Cache.js');

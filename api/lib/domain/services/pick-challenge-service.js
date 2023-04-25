@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 const hashInt = require('hash-int');
 const NON_EXISTING_ITEM = null;

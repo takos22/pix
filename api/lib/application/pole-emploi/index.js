@@ -1,3 +1,4 @@
+'use strict';
 const Joi = require('joi');
 const poleEmploiController = require('./pole-emploi-controller.js');
 const poleEmploiErreurDoc = require('../../infrastructure/open-api-doc/pole-emploi/erreur-doc.js');

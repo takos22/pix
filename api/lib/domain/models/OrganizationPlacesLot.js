@@ -1,3 +1,4 @@
+'use strict';
 const categories = require('../constants/organization-places-categories.js');
 const validate = require('../validators/organization-places-lot-validator.js');
 

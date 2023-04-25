@@ -1,3 +1,4 @@
+'use strict';
 const certificationCenterMembershipController = require('./certification-center-membership-controller.js');
 const securityPreHandlers = require('../security-pre-handlers.js');
 

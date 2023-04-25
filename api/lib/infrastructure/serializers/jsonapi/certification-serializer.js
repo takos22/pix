@@ -1,3 +1,4 @@
+'use strict';
 const _ = require('lodash');
 
 const { Serializer, Deserializer } = require('jsonapi-serializer');

@@ -1,3 +1,4 @@
+'use strict';
 const { SiecleXmlImportError } = require('../../../domain/errors.js');
 const xml2js = require('xml2js');
 const saxPath = require('saxpath');

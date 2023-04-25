@@ -1,3 +1,4 @@
+'use strict';
 const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/scorecard-serializer.js');
 const tutorialSerializer = require('../../infrastructure/serializers/jsonapi/tutorial-serializer.js');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils.js');

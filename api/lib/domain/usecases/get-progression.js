@@ -1,3 +1,4 @@
+'use strict';
 const Progression = require('../../../lib/domain/models/Progression.js');
 
 module.exports = async function getProgression({

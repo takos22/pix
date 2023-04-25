@@ -1,3 +1,4 @@
+'use strict';
 const CampaignParticipationResult = require('../../domain/models/CampaignParticipationResult.js');
 const campaignParticipationRepository = require('./campaign-participation-repository.js');
 const campaignRepository = require('./campaign-repository.js');

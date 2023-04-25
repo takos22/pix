@@ -1,3 +1,4 @@
+'use strict';
 const AuthenticationMethod = require('../models/AuthenticationMethod.js');
 const { UserNotAuthorizedToRemoveAuthenticationMethod } = require('../errors.js');
 const OidcIdentityProviders = require('../constants/oidc-identity-providers.js');

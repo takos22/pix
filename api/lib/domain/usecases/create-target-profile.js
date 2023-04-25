@@ -1,3 +1,4 @@
+'use strict';
 const TargetProfileForCreation = require('../models/TargetProfileForCreation.js');
 const learningContentConversionService = require('../services/learning-content/learning-content-conversion-service.js');
 const { TargetProfileCannotBeCreated } = require('../errors');

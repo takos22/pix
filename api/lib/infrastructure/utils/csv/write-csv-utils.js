@@ -1,3 +1,4 @@
+'use strict';
 const { parseAsync } = require('json2csv');
 const { CsvParsingError } = require('../../../../lib/domain/errors.js');
 

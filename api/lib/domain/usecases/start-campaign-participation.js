@@ -1,3 +1,4 @@
+'use strict';
 const CampaignParticipationStarted = require('../events/CampaignParticipationStarted.js');
 
 module.exports = async function startCampaignParticipation({

@@ -1,3 +1,4 @@
+'use strict';
 const FinalizedSession = require('../models/FinalizedSession.js');
 const { checkEventTypes } = require('./check-event-types.js');
 const AutoJuryDone = require('./AutoJuryDone.js');

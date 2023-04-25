@@ -1,3 +1,4 @@
+'use strict';
 const { SendingEmailToResultRecipientError, SessionAlreadyPublishedError } = require('../../domain/errors.js');
 const mailService = require('../../domain/services/mail-service.js');
 const uniqBy = require('lodash/uniqBy');

@@ -1,3 +1,4 @@
+'use strict';
 const sortBy = require('lodash/sortBy');
 const tubeBuilder = require('./tube-builder.js');
 const ThematicText = require('../drawer/ThematicText.js');

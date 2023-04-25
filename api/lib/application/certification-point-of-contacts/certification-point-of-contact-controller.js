@@ -1,3 +1,4 @@
+'use strict';
 const certificationPointOfContactSerializer = require('../../infrastructure/serializers/jsonapi/certification-point-of-contact-serializer.js');
 const usecases = require('../../domain/usecases/index.js');
 

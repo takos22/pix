@@ -1,3 +1,4 @@
+'use strict';
 const Area = require('../../domain/models/Area.js');
 const { areaDatasource } = require('../datasources/learning-content/area-datasource.js');
 const competenceRepository = require('./competence-repository.js');

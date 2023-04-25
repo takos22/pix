@@ -1,3 +1,4 @@
+'use strict';
 module.exports = async function findDivisionsByOrganization({ organizationId, divisionRepository }) {
   const divisionsOrderedByPostgres = await divisionRepository.findByOrganizationIdForCurrentSchoolYear({
     organizationId,
