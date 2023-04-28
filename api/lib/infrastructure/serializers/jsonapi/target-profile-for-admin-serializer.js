@@ -9,6 +9,10 @@ module.exports = {
           badge.criteria = badge.criteria.map((criteria) => criteria.toDTO());
           return badge;
         });
+        record.areas = record.areas.map((area) => {
+          area.id = `${record.id}_${area.id}`;
+          return area;
+        });
         return record;
       },
       attributes: [

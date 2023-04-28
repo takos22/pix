@@ -194,11 +194,11 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
             areas: {
               data: [
                 {
-                  id: 'recArea1',
+                  id: '132_recArea1',
                   type: 'areas',
                 },
                 {
-                  id: 'recArea2',
+                  id: '132_recArea2',
                   type: 'areas',
                 },
               ],
@@ -417,7 +417,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
               'framework-id': 'recFrameworkCool1',
               title: 'Super domaine',
             },
-            id: 'recArea1',
+            id: '132_recArea1',
             relationships: {
               competences: {
                 data: [
@@ -499,7 +499,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-for-admin-serializer', fu
               'framework-id': 'recFrameworkCool1',
               title: 'Super domaine2',
             },
-            id: 'recArea2',
+            id: '132_recArea2',
             relationships: {
               competences: {
                 data: [
