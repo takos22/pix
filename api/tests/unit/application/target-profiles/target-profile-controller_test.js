@@ -301,8 +301,16 @@ describe('Unit | Controller | target-profile-controller', function () {
         trainings: trainingSummaries,
         meta,
       });
-      sinon.stub(trainingSummarySerializer, 'serialize').withArgs(trainingSummaries, meta).returns(expectedResult);
-      sinon.stub(queryParamsUtils, 'extractParameters').returns(useCaseParameters);
+
+      const trainingSummarySerializer = {
+        serialize: sinon.stub(),
+      };
+      trainingSummarySerializer.serialize.withArgs(trainingSummaries, meta).returns(expectedResult);
+
+      const queryParamsUtils = {
+        extractParameters: sinon.stub().returns(useCaseParameters),
+      };
+
       // when
       const response = await targetProfileController.findPaginatedTrainings(
         {
@@ -311,7 +319,8 @@ describe('Unit | Controller | target-profile-controller', function () {
             page: { size: 2, number: 1 },
           },
         },
-        hFake
+        hFake,
+        { trainingSummarySerializer, queryParamsUtils }
       );
 
       // then
