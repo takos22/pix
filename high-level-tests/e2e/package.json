@@ -37,8 +37,8 @@
   },
   "devDependencies": {
     "axe-core": "^4.4.3",
-    "cypress": "^8.7.0",
-    "cypress-axe": "^0.13.0",
+    "cypress": "^10.11.0",
+    "cypress-axe": "^1.4.0",
     "cypress-cucumber-preprocessor": "^4.1.1",
     "cypress-visual-regression": "^1.5.7",
     "eslint": "^8.0.0",
