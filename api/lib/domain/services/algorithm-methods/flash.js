@@ -1,4 +1,4 @@
-const { maxBy, orderBy, range, sortBy, sortedUniqBy, sumBy } = require('lodash');
+const { orderBy, range, sortBy, sortedUniqBy, sumBy } = require('lodash');
 
 const config = require('../../../config.js');
 
@@ -27,7 +27,6 @@ function getPossibleNextChallenges({ allAnswers, challenges, estimatedLevel = DE
       possibleChallenges: [],
     };
   }
-
   const challengesWithReward = nonAnsweredChallenges.map((challenge) => {
     return {
       challenge,
@@ -125,8 +124,11 @@ function calculateTotalPixScoreAndScoreByCompetence({ allAnswers, challenges, es
 }
 
 function _findBestPossibleChallenges(challengesWithReward) {
-  const { reward: maxReward } = maxBy(challengesWithReward, 'reward');
-  const possibleChallengesWithReward = challengesWithReward.filter(({ reward }) => reward === maxReward);
+  const orderedChallengesWithReward = challengesWithReward.sort(({ reward: rewardA }, { reward: rewardB }) => {
+    return rewardB - rewardA;
+  });
+
+  const possibleChallengesWithReward = orderedChallengesWithReward.slice(0, 5);
 
   return possibleChallengesWithReward.map(({ challenge }) => challenge);
 }
