@@ -1,14 +1,9 @@
 const { knex } = require('../../../../api/db/knex-database-connection');
-const cucumber = require('cypress-cucumber-preprocessor').default;
-const getCompareSnapshotsPlugin = require('cypress-visual-regression/dist/plugin');
 
 const SEQUENCE_RESTART_AT_NUMBER = 10000000;
 
 module.exports = (on, config) => {
   config.env.AUTH_SECRET = process.env.AUTH_SECRET;
-
-  getCompareSnapshotsPlugin(on);
-  on('file:preprocessor', cucumber());
   on('task', {
     async 'db:fixture' (data) {
       const file = require('../fixtures/' + data + '.json');
