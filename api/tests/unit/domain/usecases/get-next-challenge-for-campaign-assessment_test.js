@@ -6,7 +6,7 @@ const getNextChallengeForCampaignAssessment = require('../../../../lib/domain/us
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 const config = require('../../../../lib/config');
 
-describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function () {
+describe.only('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function () {
   describe('#get-next-challenge-for-campaign-assessment', function () {
     let challengeRepository;
     let answerRepository;
@@ -213,6 +213,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             assessment,
             locale,
             dataFetcher: dataFetcherStub,
+            random: {},
           });
 
           // then
@@ -260,6 +261,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment
             assessment,
             locale,
             dataFetcher: dataFetcherStub,
+            random: {},
           });
 
           // then
