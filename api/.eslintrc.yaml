@@ -2,7 +2,7 @@ extends:
   - ../.eslintrc.yaml
   - 'plugin:i18n-json/recommended'
   - 'plugin:mocha/recommended'
-  - 'plugin:prettier/recommended'
+  - 'prettier'
   - 'plugin:chai-expect/recommended'
   - 'plugin:node/recommended-module'
   - 'plugin:import/recommended'
@@ -26,6 +26,8 @@ plugins:
   - unicorn
 
 rules:
+  "arrow-body-style": "off"
+  "prefer-arrow-callback": "off"
   no-console: error
   mocha/no-hooks-for-single-case: off
   no-sync: error
