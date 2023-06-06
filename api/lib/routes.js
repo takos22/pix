@@ -56,6 +56,7 @@ import * as missions from './application/missions/index.js';
 import * as frameworks from './application/frameworks/index.js';
 import * as tutorialEvaluations from './application/tutorial-evaluations/index.js';
 import * as userOrgaSettings from './application/user-orga-settings/index.js';
+import * as userSettings from './application/user-settings/index.js';
 import * as userTutorials from './application/user-tutorials/index.js';
 import * as users from './application/users/index.js';
 
@@ -117,6 +118,7 @@ const routes = [
   frameworks,
   tutorialEvaluations,
   userOrgaSettings,
+  userSettings,
   userTutorials,
   users,
 ];

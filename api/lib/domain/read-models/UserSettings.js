@@ -8,4 +8,4 @@ class UserSettings {
   }
 }
 
-module.exports = UserSettings;
+export { UserSettings };

@@ -140,6 +140,7 @@ import { buildUser } from './build-user.js';
 import { buildUserCompetence } from './build-user-competence.js';
 import { buildUserDetailsForAdmin } from './build-user-details-for-admin.js';
 import { buildUserOrgaSettings } from './build-user-orga-settings.js';
+import { buildUserSettings } from './build-user-settings.js';
 import { buildUserScorecard } from './build-user-scorecard.js';
 import { buildUserSavedTutorial } from './build-user-saved-tutorial.js';
 import { buildUserSavedTutorialWithTutorial } from './build-user-saved-tutorial-with-tutorial.js';
@@ -294,5 +295,5 @@ export {
   buildUserSavedTutorialWithTutorial,
   buildValidation,
   buildValidator,
-  buildUserSettings: require('./build-user-settings'),
+  buildUserSettings,
 };

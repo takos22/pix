@@ -1,21 +1,27 @@
-const usecases = require('../../domain/usecases');
+import { usecases } from '../../domain/usecases/index.js';
 
-const UserSettingsSerializer = require('../../infrastructure/serializers/jsonapi/user-settings-serializer');
+import * as userSettingsSerializer from '../../infrastructure/serializers/jsonapi/user-settings-serializer.js';
 
-module.exports = {
-  async getUserSettings(request, h) {
-    const { userId } = request.params;
+async function getUserSettings(request, h, dependencies = { userSettingsSerializer }) {
+  const { userId } = request.params;
 
-    const userSettings = await usecases.getUserSettings({ userId });
+  const userSettings = await usecases.getUserSettings({ userId });
 
-    return h.response(UserSettingsSerializer.serialize(userSettings));
-  },
-  async updateUserColor(request, h) {
-    const { userId } = request.auth.credentials;
-    const { color } = UserSettingsSerializer.deserialize(request.payload);
+  return h.response(dependencies.userSettingsSerializer.serialize(userSettings));
+}
 
-    const updatedUserSettings = await usecases.updateUserColor({ userId, color });
+async function updateUserColor(request, h, dependencies = { userSettingsSerializer }) {
+  const { userId } = request.auth.credentials;
+  const { color } = userSettingsSerializer.deserialize(request.payload);
 
-    return h.response(UserSettingsSerializer.serialize(updatedUserSettings)).created();
-  },
+  const updatedUserSettings = await usecases.updateUserColor({ userId, color });
+
+  return h.response(dependencies.userSettingsSerializer.serialize(updatedUserSettings)).created();
+}
+
+const userSettingsController = {
+  getUserSettings,
+  updateUserColor,
 };
+
+export { userSettingsController };

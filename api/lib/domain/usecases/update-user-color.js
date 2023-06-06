@@ -1,6 +1,6 @@
-const UserSettings = require('../models/UserSettings');
+import { UserSettings } from '../models/UserSettings.js';
 
-module.exports = async function updateUserColor({ userId, color, userSettingsRepository }) {
+const updateUserColor = async function ({ userId, color, userSettingsRepository }) {
   let userSettings;
 
   try {
@@ -13,3 +13,5 @@ module.exports = async function updateUserColor({ userId, color, userSettingsRep
 
   return userSettingsRepository.save(userSettings);
 };
+
+export { updateUserColor };

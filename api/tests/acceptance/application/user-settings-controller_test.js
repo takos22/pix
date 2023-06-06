@@ -1,5 +1,5 @@
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex } = require('../../test-helper');
-const createServer = require('../../../server');
+import { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex } from '../../test-helper.js';
+import { createServer } from '../../../server.js';
 
 describe('Acceptance | Controller | user-settings-controller', function () {
   let server;

@@ -1,7 +1,7 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
+import { expect, databaseBuilder, knex } from '../../../test-helper.js';
 
-const updateUserColor = require('../../../../lib/domain/usecases/update-user-color');
-const userSettingsRepository = require('../../../../lib/infrastructure/repositories/user-settings-repository');
+import { updateUserColor } from '../../../../lib/domain/usecases/update-user-color.js';
+import { userSettingsRepository } from '../../../../lib/infrastructure/repositories/user-settings-repository.js';
 
 describe('Integration | UseCases | updateUserColor', function () {
   afterEach(async function () {
