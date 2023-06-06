@@ -120,7 +120,7 @@ jobs:
             - ~/.npm
       - run:
           name: Lint
-          command: npm run lint
+          command: TIMING=1 npm run lint
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
             TEST_REDIS_URL: redis://localhost:6379
