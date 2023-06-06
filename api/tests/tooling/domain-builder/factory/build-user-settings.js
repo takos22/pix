@@ -1,10 +1,10 @@
-const UserSettings = require('../../../../lib/domain/models/UserSettings');
+import { UserSettings } from '../../../../lib/domain/models/UserSettings.js';
 
-function buildUserSettings({ userId, color = 'red' } = {}) {
+const buildUserSettings = function ({ userId, color = 'red' } = {}) {
   return new UserSettings({
     userId,
     color,
   });
-}
+};
 
-module.exports = buildUserSettings;
+export { buildUserSettings };

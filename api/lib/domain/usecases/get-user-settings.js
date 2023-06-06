@@ -1,3 +1,5 @@
-module.exports = async function getUserSettings({ userId, userSettingsRepository }) {
+const getUserSettings = async function ({ userId, userSettingsRepository }) {
   return userSettingsRepository.get(userId);
 };
+
+export { getUserSettings };

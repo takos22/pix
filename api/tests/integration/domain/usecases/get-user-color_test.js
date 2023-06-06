@@ -1,8 +1,8 @@
-const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
+import { expect, databaseBuilder, knex, catchErr } from '../../../test-helper.js';
 
-const getUserSettings = require('../../../../lib/domain/usecases/get-user-settings');
-const userSettingsRepository = require('../../../../lib/infrastructure/repositories/user-settings-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+import { getUserSettings } from '../../../../lib/domain/usecases/get-user-settings.js';
+import { userSettingsRepository } from '../../../../lib/infrastructure/repositories/user-settings-repository.js';
+import { NotFoundError } from '../../../../lib/domain/errors.js';
 
 describe('Integration | UseCases | getUserSettings', function () {
   afterEach(async function () {

@@ -1,5 +1,5 @@
-const { buildUser } = require('./build-user');
-const databaseBuffer = require('../database-buffer');
+import { buildUser } from './build-user.js';
+import { databaseBuffer } from '../database-buffer.js';
 
 const buildUserSettings = function ({ id = databaseBuffer.getNextId(), color = 'red', userId = buildUser().id } = {}) {
   const values = {
@@ -14,4 +14,4 @@ const buildUserSettings = function ({ id = databaseBuffer.getNextId(), color = '
   });
 };
 
-module.exports = buildUserSettings;
+export { buildUserSettings };

@@ -1,7 +1,7 @@
 const TABLE_NAME = 'user-settings';
 const COLUMN_NAME = 'color';
 
-exports.up = async function (knex) {
+const up = async function (knex) {
   await knex.schema.createTable(TABLE_NAME, function (table) {
     table.increments().primary();
     table.string(COLUMN_NAME).nullable();
@@ -10,6 +10,8 @@ exports.up = async function (knex) {
     table.dateTime('updatedAt').notNullable().defaultTo(knex.fn.now());
   });
 };
-exports.down = async function (knex) {
+const down = async function (knex) {
   await knex.schema.dropTable(TABLE_NAME);
 };
+
+export { up, down };
