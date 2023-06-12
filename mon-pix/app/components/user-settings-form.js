@@ -25,8 +25,8 @@ export default class UserSettingsFormComponent extends Component {
   }
 
   @action
-  onChange(event) {
-    this.selectedColor = event.target.value;
+  onChange(color) {
+    this.selectedColor = color;
   }
 
   @action
