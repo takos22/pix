@@ -3,7 +3,7 @@
     <h1 class="user-settings__title">{{t "pages.user-settings.title"}}
       <PixTag @color="light-blue" class="user-settings__last-modified">
         {{t "pages.user-settings.last-modified"}}
-        {{moment-format this.lastModified "D MMMM YYYY HH:mm:ss"}}
+        {{dayjs-format this.lastModified "D MMMM YYYY HH:mm:ss"}}
       </PixTag>
     </h1>
     <PixSelect
