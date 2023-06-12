@@ -2,17 +2,17 @@ $header-height: 101px;
 
 .user-settings {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
   &__form {
     padding: $pix-spacing-m;
   }
 
   &__title {
-    margin-bottom: 16px;
     display: flex;
     align-items: center;
+    margin-bottom: 16px;
   }
 
   &__submit {
