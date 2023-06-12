@@ -4,7 +4,10 @@ $header-height: 101px;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - #{$header-height} - #{$footer-height});
+
+  &__form {
+    padding: $pix-spacing-m;
+  }
 
   &__title {
     margin-bottom: 16px;
