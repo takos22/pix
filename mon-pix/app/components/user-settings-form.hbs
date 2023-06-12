@@ -1,11 +1,12 @@
 <div class="user-settings page-container">
   <PixBlock @shadow="heavy" class="user-settings__form">
-    <h1 class="user-settings__title">{{t "pages.user-settings.title"}}
+    <div class="user-settings__title">
+      <h1>{{t "pages.user-settings.title"}}</h1>
       <PixTag @color="light-blue" class="user-settings__last-modified">
         {{t "pages.user-settings.last-modified"}}
         {{dayjs-format this.lastModified "D MMMM YYYY HH:mm:ss"}}
       </PixTag>
-    </h1>
+    </div>
     <PixSelect
       @label={{t "pages.user-settings.color-label"}}
       @options={{this.options}}

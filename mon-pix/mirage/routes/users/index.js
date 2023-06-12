@@ -13,9 +13,11 @@ import patchTermsOfServiceAcceptance from './patch-terms-of-service-acceptance';
 import putVerificationCode from './put-verification-code';
 import putUpdateEmail from './put-update-email';
 import findPaginatedUserTrainings from './find-paginated-user-trainings';
+import getUserSettings from './get-user-settings';
 
 export default function index(config) {
   config.get('/users/me', getAuthenticatedUser);
+  config.get('/user-settings/:id', getUserSettings);
 
   config.post('/users');
   config.post('/users/:id/competences/:competenceId/reset', resetScorecard);
