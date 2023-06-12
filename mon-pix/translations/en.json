@@ -153,7 +153,6 @@
     "user-settings": {
       "title": "Preferences",
       "color-label": "Preferred color",
-      "empty-color": "Pick a color",
       "last-modified": "Last modified",
       "submit": "Save"
     },
