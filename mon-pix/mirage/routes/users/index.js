@@ -7,6 +7,7 @@ import getUserCampaignParticipations from './get-user-campaign-participations';
 import getUserCampaignParticipationOverviews from './get-user-campaign-participation-overviews';
 import getUserCampaignParticipationToCampaign from './get-user-campaign-participation-to-campaign';
 import getUserSharedProfileForCampaign from './get-user-shared-profile-for-campaign';
+import getUserSettings from './get-user-settings';
 import isCertifiable from './is-certifiable';
 import resetScorecard from './reset-scorecard';
 import patchTermsOfServiceAcceptance from './patch-terms-of-service-acceptance';
@@ -77,4 +78,6 @@ export default function index(config) {
     });
     return user;
   });
+
+  config.get('/user-settings/:id', getUserSettings);
 }
