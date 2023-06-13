@@ -11,7 +11,7 @@ module('Acceptance | Preferences ', function (hooks) {
   setupMirage(hooks);
   setupIntl(hooks);
 
-  test.only('go to preference page', async function (assert) {
+  test('go to preference page', async function (assert) {
     const user = server.create('user', 'withEmail');
     server.create('userSetting', {color: 'red'});
     await authenticateByEmail(user);

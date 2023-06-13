@@ -6,7 +6,7 @@ export default class UserSettingsRoute extends Route {
   @service store;
 
   async model() {
-    const userSettings = this.store.find('user-setting', this.currentUser.user.id)
+    const userSettings = await this.store.find('user-setting', this.currentUser.user.id)
     return { userSettings }
   }
 }
