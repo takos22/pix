@@ -150,6 +150,12 @@
     "mobile-button-title": "Ouvrir le menu"
   },
   "pages": {
+    "user-settings": {
+      "title": "Préférences",
+      "color-label": "Couleur favorite",
+      "last-modified": "Dernière modification",
+      "submit": "Sauvegarder"
+    },
     "assessment-banner": {
       "modal": {
         "title": "Besoin d'une pause ?",
