@@ -25,6 +25,7 @@ Router.map(function () {
     this.route('profile', { path: '/competences' });
     this.route('user-tests', { path: '/mes-parcours' });
     this.route('sitemap', { path: '/plan-du-site' });
+    this.route('user-settings', { path: '/preferences' });
 
     this.route('user-trainings', { path: '/mes-formations' });
 
