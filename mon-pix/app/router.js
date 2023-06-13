@@ -21,6 +21,7 @@ export default class Router extends EmberRouter {
 Router.map(function () {
   this.route('authenticated', { path: '/' }, function () {
     this.route('index', { path: '' });
+    this.route('user-settings', { path: '/preferences' });
     this.route('user-dashboard', { path: '/accueil' });
     this.route('profile', { path: '/competences' });
     this.route('user-tests', { path: '/mes-parcours' });
