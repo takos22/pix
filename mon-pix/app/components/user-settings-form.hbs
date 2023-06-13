@@ -1,1 +1,8 @@
-<h1 style="display:flex;margin:auto;">pouet</h1>
+<PixBlock @shadow="light">
+  <h1>{{ t "pages.user-settings.title" }}</h1>
+
+  <PixTag @color="light-blue" class="user-settings__last-modified">
+        {{t "pages.user-settings.last-modified"}}
+        {{dayjs-format this.lastModified "D MMMM YYYY HH:mm:ss"}}
+      </PixTag>
+</PixBlock>
