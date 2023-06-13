@@ -1,8 +1,21 @@
 <PixBlock @shadow="light">
-  <h1>{{ t "pages.user-settings.title" }}</h1>
+  <h1>{{t "pages.user-settings.title"}}</h1>
 
   <PixTag @color="light-blue" class="user-settings__last-modified">
-        {{t "pages.user-settings.last-modified"}}
-        {{dayjs-format this.lastModified "D MMMM YYYY HH:mm:ss"}}
-      </PixTag>
+    {{t "pages.user-settings.last-modified"}}
+    {{dayjs-format this.lastModified "D MMMM YYYY HH:mm:ss"}}
+  </PixTag>
+
+  <PixSelect
+    @label={{t "pages.user-settings.color-label"}}
+    @options={{this.options}}
+    @onChange={{this.onChange}}
+    @value={{this.selectedColor}}
+    @isSearchable={{false}}
+    @hideDefaultOption={{true}}
+  />
+
+  <PixButton @triggerAction={{this.onSubmit}} class="user-settings__submit">
+    {{t "pages.user-settings.submit"}}
+  </PixButton>
 </PixBlock>
