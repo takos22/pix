@@ -1,6 +1,7 @@
 import { buildAccountRecoveryDemand } from './build-account-recovery-demand.js';
 import { buildAnswer } from './build-answer.js';
 import { buildActivity } from './build-activity.js';
+import { buildActivityAnswer } from './build-activity-answer.js';
 import { buildAnsweredNotCompletedCertificationAssessment } from './build-answered-not-completed-certification-assessment.js';
 import { buildAssessment } from './build-assessment.js';
 import { buildAssessmentFromParticipation } from './build-assessment-from-participation.js';
@@ -83,6 +84,7 @@ export {
   buildAccountRecoveryDemand,
   buildAnswer,
   buildActivity,
+  buildActivityAnswer,
   buildAnsweredNotCompletedCertificationAssessment,
   buildAssessment,
   buildAssessmentFromParticipation,

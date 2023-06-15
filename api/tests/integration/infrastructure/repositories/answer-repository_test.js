@@ -326,7 +326,8 @@ describe('Integration | Repository | answerRepository', function () {
 
         // other activity with answer
         databaseBuilder.factory.buildActivity({ id: 345 });
-        databaseBuilder.factory.buildAnswer({ activityId: 345 });
+        const answerId = databaseBuilder.factory.buildAnswer().id;
+        databaseBuilder.factory.buildActivityAnswer({ activityId: 345, answerId });
 
         await databaseBuilder.commit();
 
@@ -341,16 +342,18 @@ describe('Integration | Repository | answerRepository', function () {
       it('should return the answers ordered by creation date', async function () {
         // given
         databaseBuilder.factory.buildActivity({ id: 123 });
-        databaseBuilder.factory.buildAnswer({
+        const answer1 = databaseBuilder.factory.buildAnswer({
           activityId: 123,
           createdAt: new Date('2023-06-01T15:01:00Z'),
           result: 'ko',
         });
-        databaseBuilder.factory.buildAnswer({
+        const answer2 = databaseBuilder.factory.buildAnswer({
           activityId: 123,
           createdAt: new Date('2023-06-01T15:00:00Z'),
           result: 'ok',
         });
+        databaseBuilder.factory.buildActivityAnswer({ activityId: 123, answerId: answer1.id });
+        databaseBuilder.factory.buildActivityAnswer({ activityId: 123, answerId: answer2.id });
         await databaseBuilder.commit();
 
         // when

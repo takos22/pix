@@ -46,7 +46,6 @@ const COLUMNS = Object.freeze([
   'assessmentId',
   'challengeId',
   'timeSpent',
-  'activityId',
 ]);
 
 const get = async function (id) {
@@ -88,7 +87,8 @@ const findByAssessment = async function (assessmentId) {
 };
 
 const findByActivity = async function (activityId) {
-  const answerDTOs = await knex.select(COLUMNS).from('answers').where({ activityId }).orderBy('createdAt');
+  const answerIds = knex('activity-answers').select('answerId').where({ activityId });
+  const answerDTOs = await knex.select(COLUMNS).from('answers').whereIn('id', answerIds).orderBy('createdAt');
   return _toDomainArray(answerDTOs);
 };
 
