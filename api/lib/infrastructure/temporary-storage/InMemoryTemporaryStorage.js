@@ -62,6 +62,10 @@ class InMemoryTemporaryStorage extends TemporaryStorage {
   lrange(key) {
     return this._client.get(key) || [];
   }
+
+  has(key) {
+    return this._client.has(key);
+  }
 }
 
 export { InMemoryTemporaryStorage };

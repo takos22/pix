@@ -65,6 +65,10 @@ class RedisTemporaryStorage extends TemporaryStorage {
   async lrange(key, start = 0, stop = -1) {
     return this._client.lrange(key, start, stop);
   }
+
+  async has(key) {
+    return this._client.has(key);
+  }
 }
 
 export { RedisTemporaryStorage };

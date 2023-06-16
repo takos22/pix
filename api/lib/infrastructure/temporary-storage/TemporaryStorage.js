@@ -41,6 +41,10 @@ class TemporaryStorage {
     throw new Error('Method #lrange(key) must be overridden');
   }
 
+  async has(/* key */) {
+    throw new Error('Method #has(key) must be overridden');
+  }
+
   quit() {
     throw new Error('Method #quit() must be overridden');
   }
@@ -84,6 +88,10 @@ class TemporaryStorage {
 
       lrange(key) {
         return storage.lrange(prefix + key);
+      },
+
+      has(key) {
+        return storage.has(prefix + key);
       },
     };
   }

@@ -35,6 +35,7 @@ class RedisClient {
     this.lpush = promisify(this._wrapWithPrefix(this._client.lpush)).bind(this._client);
     this.lrem = promisify(this._wrapWithPrefix(this._client.lrem)).bind(this._client);
     this.lrange = promisify(this._wrapWithPrefix(this._client.lrange)).bind(this._client);
+    this.has = promisify(this._wrapWithPrefix(this._client.exists)).bind(this._client);
     this.ping = promisify(this._client.ping).bind(this._client);
     this.flushall = promisify(this._client.flushall).bind(this._client);
     this.lockDisposer = this._clientWithLock.disposer.bind(this._clientWithLock);
@@ -64,7 +65,15 @@ class RedisClient {
   }
 
   async quit() {
-    await this._client.quit();
+    return new Promise((resolve, reject) => {
+      this._client.quit((err) => {
+        if (err == null) {
+          resolve();
+        } else {
+          reject(err);
+        }
+      });
+    });
   }
 }
 
