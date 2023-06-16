@@ -11,6 +11,11 @@ async function createPreview(request, h, dependencies = { challengeRepository })
   return h.response({ id }).code(201);
 }
 
-const challengeController = { get, createPreview };
+async function getPreview(request, h, dependencies = { challengeRepository, challengeSerializer }) {
+  const challenge = await dependencies.challengeRepository.getPreview(request.params.id);
+  return dependencies.challengeSerializer.serialize(challenge);
+}
+
+const challengeController = { get, createPreview, getPreview };
 
 export { challengeController };

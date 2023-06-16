@@ -201,6 +201,11 @@ async function createPreview(challengeData) {
   return { id };
 }
 
+async function getPreview(id) {
+  const challenge = await previewsStorage.get(id);
+  return _toDomain({ challengeDataObject: challenge });
+}
+
 function _hashChallengeData(challengeData) {
   const hash = createHash('sha256');
   hash.update(JSON.stringify(challengeData));
@@ -222,6 +227,7 @@ export {
   findOperativeFlashCompatible,
   findValidatedBySkillId,
   createPreview,
+  getPreview,
 };
 
 function _toDomainCollection({ challengeDataObjects, skills, successProbabilityThreshold }) {

@@ -53,6 +53,24 @@ const register = async function (server) {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/challenge-previews/{id}',
+      config: {
+        auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.challengePreviewId,
+          }),
+        },
+        handler: challengeController.getPreview,
+        tags: ['api', 'challenge', 'preview'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
+          'Elle permet de créer une preview de challenge',
+        ],
+      },
+    },
   ]);
 };
 
