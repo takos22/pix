@@ -6,6 +6,11 @@ const get = async function (request, h, dependencies = { challengeRepository, ch
   return dependencies.challengeSerializer.serialize(challenge);
 };
 
-const challengeController = { get };
+async function createPreview(request, h, dependencies = { challengeRepository }) {
+  const { id } = await dependencies.challengeRepository.createPreview(request.payload);
+  return h.response({ id }).code(201);
+}
+
+const challengeController = { get, createPreview };
 
 export { challengeController };

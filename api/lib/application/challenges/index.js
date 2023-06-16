@@ -35,6 +35,24 @@ const register = async function (server) {
         tags: ['api'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/challenge-previews',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
+          },
+        ],
+        handler: challengeController.createPreview,
+        tags: ['api', 'challenge', 'preview'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
+          'Elle permet de créer une preview de challenge',
+        ],
+      },
+    },
   ]);
 };
 

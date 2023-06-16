@@ -1,4 +1,6 @@
+import { createHash } from 'node:crypto';
 import _ from 'lodash';
+
 import { Challenge } from '../../domain/models/Challenge.js';
 import { challengeDatasource } from '../datasources/learning-content/challenge-datasource.js';
 import { skillDatasource } from '../datasources/learning-content/skill-datasource.js';
@@ -10,6 +12,10 @@ import { config } from '../../config.js';
 import { tubeDatasource } from '../datasources/learning-content/index.js';
 import { logger } from '../../infrastructure/logger.js';
 import { Activity } from '../../domain/models/Activity.js';
+import { temporaryStorage } from '../../infrastructure/temporary-storage/index.js';
+
+const EXPIRATION_DELAY = 30 * 24 * 60 * 60; // FIXME create a config variable
+const previewsStorage = temporaryStorage.withPrefix('challenge-previews:');
 
 const get = async function (id) {
   try {
@@ -97,7 +103,7 @@ function _getPix1dLevelName(activityLevel) {
 
 function _throwNotFoundError(activityLevel, missionId, challengeNumber) {
   throw new NotFoundError(
-    `Aucun challenge trouvé pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${challengeNumber}`,
+    `Aucun challenge trouvé pour la mission : ${missionId}, le niveau ${activityLevel} et le numéro ${challengeNumber}`
   );
 }
 
@@ -181,6 +187,26 @@ const findValidatedBySkillId = async function (skillId) {
   return _toDomainCollection({ challengeDataObjects, skills: activeSkills });
 };
 
+async function createPreview(challengeData) {
+  const id = _hashChallengeData(challengeData);
+
+  if (await previewsStorage.has(id)) {
+    return { id };
+  }
+
+  logger.info({ id }, 'Storing new challenge preview');
+
+  await previewsStorage.save({ key: id, value: challengeData, expirationDelaySeconds: EXPIRATION_DELAY });
+
+  return { id };
+}
+
+function _hashChallengeData(challengeData) {
+  const hash = createHash('sha256');
+  hash.update(JSON.stringify(challengeData));
+  return hash.digest('base64');
+}
+
 export {
   get,
   getForPix1D,
@@ -195,6 +221,7 @@ export {
   findActiveFlashCompatible,
   findOperativeFlashCompatible,
   findValidatedBySkillId,
+  createPreview,
 };
 
 function _toDomainCollection({ challengeDataObjects, skills, successProbabilityThreshold }) {
