@@ -30,14 +30,16 @@ const update = async function (request, _h, dependencies = { requestResponseUtil
 
 const find = async function (request, _h, dependencies = { requestResponseUtils }) {
   const userId = dependencies.requestResponseUtils.extractUserIdFromRequest(request);
-  const challengeId = request.query.challengeId;
-  const assessmentId = request.query.assessmentId;
+  const { challengeId, challengePreviewId, assessmentId } = request.query;
   let answers = [];
-  if (challengeId && assessmentId) {
-    answers = await usecases.findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId });
-  }
-  if (assessmentId && !challengeId) {
-    answers = await usecases.findAnswerByAssessment({ assessmentId, userId });
+  if (assessmentId) {
+    if (challengeId) {
+      answers = await usecases.findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId });
+    } else if (challengePreviewId) {
+      answers = await usecases.findAnswerByChallengePreviewAndAssessment({ challengePreviewId, assessmentId, userId });
+    } else {
+      answers = await usecases.findAnswerByAssessment({ assessmentId, userId });
+    }
   }
 
   return answerSerializer.serialize(answers);
