@@ -13,17 +13,16 @@ import {
   extractUserIdFromRequest,
   extractLocaleFromRequest,
 } from '../../infrastructure/utils/request-response-utils.js';
+import { ApplicationTransaction } from '../../infrastructure/ApplicationTransaction.js';
 import { DomainTransaction } from '../../infrastructure/DomainTransaction.js';
 
 const save = async function (request, h, dependencies = { campaignParticipationSerializer, monitoringTools }) {
   const userId = request.auth.credentials.userId;
   const campaignParticipation = await dependencies.campaignParticipationSerializer.deserialize(request.payload);
 
-  const { event, campaignParticipation: campaignParticipationCreated } = await DomainTransaction.execute(
-    (domainTransaction) => {
-      return usecases.startCampaignParticipation({ campaignParticipation, userId, domainTransaction });
-    }
-  );
+  const { event, campaignParticipation: campaignParticipationCreated } = await ApplicationTransaction.execute(() => {
+    return usecases.startCampaignParticipation({ campaignParticipation, userId });
+  });
 
   events.eventDispatcher
     .dispatch(event)

@@ -7,31 +7,44 @@ import { CampaignToStartParticipation } from '../../domain/models/CampaignToStar
 import { AlreadyExistingCampaignParticipationError, NotFoundError } from '../../domain/errors.js';
 import * as campaignRepository from '../repositories/campaign-repository.js';
 import { knex } from '../../../db/knex-database-connection.js';
+import { ApplicationTransaction } from '../ApplicationTransaction.js';
 
-async function save(campaignParticipant, domainTransaction) {
+async function save(campaignParticipant) {
   const newlyCreatedOrganizationLearnerId = await _createNewOrganizationLearner(
-    campaignParticipant.organizationLearner,
-    domainTransaction.knexTransaction
+    campaignParticipant.organizationLearner
   );
   if (newlyCreatedOrganizationLearnerId) {
     campaignParticipant.campaignParticipation.organizationLearnerId = newlyCreatedOrganizationLearnerId;
   }
 
-  await _updatePreviousParticipation(
-    campaignParticipant.previousCampaignParticipationForUser,
-    domainTransaction.knexTransaction
-  );
-  const campaignParticipationId = await _createNewCampaignParticipation(
-    domainTransaction.knexTransaction,
-    campaignParticipant.campaignParticipation
-  );
-  await _createAssessment(campaignParticipant.assessment, campaignParticipationId, domainTransaction.knexTransaction);
+  await _updatePreviousParticipation(campaignParticipant.previousCampaignParticipationForUser);
+  const campaignParticipationId = await _createNewCampaignParticipation(campaignParticipant.campaignParticipation);
+  await _createAssessment(campaignParticipant.assessment, campaignParticipationId);
   return campaignParticipationId;
 }
 
-async function _createNewOrganizationLearner(organizationLearner, queryBuilder) {
+async function get({ userId, campaignId }) {
+  const userIdentity = await _getUserIdentityForTrainee(userId);
+
+  const campaignToStartParticipation = await _getCampaignToStart(campaignId);
+
+  const organizationLearner = await _getOrganizationLearner(campaignId, userId);
+
+  const previousCampaignParticipationForUser = await _findpreviousCampaignParticipationForUser(campaignId, userId);
+
+  return new CampaignParticipant({
+    userIdentity,
+    campaignToStartParticipation,
+    organizationLearner,
+    previousCampaignParticipationForUser,
+  });
+}
+
+async function _createNewOrganizationLearner(organizationLearner) {
+  const connection = ApplicationTransaction.getConnection();
+
   if (organizationLearner) {
-    const [{ id }] = await queryBuilder('organization-learners')
+    const [{ id }] = await connection('organization-learners')
       .insert({
         userId: organizationLearner.userId,
         organizationId: organizationLearner.organizationId,
@@ -45,17 +58,21 @@ async function _createNewOrganizationLearner(organizationLearner, queryBuilder) 
   }
 }
 
-async function _updatePreviousParticipation(campaignParticipation, queryBuilder) {
+async function _updatePreviousParticipation(campaignParticipation) {
+  const connection = ApplicationTransaction.getConnection();
+
   if (campaignParticipation) {
-    await queryBuilder('campaign-participations')
+    await connection('campaign-participations')
       .update({ isImproved: campaignParticipation.isImproved })
       .where({ id: campaignParticipation.id });
   }
 }
 
-async function _createNewCampaignParticipation(queryBuilder, campaignParticipation) {
+async function _createNewCampaignParticipation(campaignParticipation) {
+  const connection = ApplicationTransaction.getConnection();
+
   try {
-    const [{ id }] = await queryBuilder('campaign-participations')
+    const [{ id }] = await connection('campaign-participations')
       .insert({
         campaignId: campaignParticipation.campaignId,
         userId: campaignParticipation.userId,
@@ -76,41 +93,25 @@ async function _createNewCampaignParticipation(queryBuilder, campaignParticipati
   }
 }
 
-async function _createAssessment(assessment, campaignParticipationId, queryBuilder) {
+async function _createAssessment(assessment, campaignParticipationId) {
+  const connection = ApplicationTransaction.getConnection();
+
   if (assessment) {
     const assessmentAttributes = pick(assessment, ['userId', 'method', 'state', 'type', 'courseId', 'isImproving']);
-    await queryBuilder('assessments').insert({ campaignParticipationId, ...assessmentAttributes });
+    await connection('assessments').insert({ campaignParticipationId, ...assessmentAttributes });
   }
 }
 
-async function get({ userId, campaignId, domainTransaction }) {
-  const userIdentity = await _getUserIdentityForTrainee(userId, domainTransaction);
+function _getUserIdentityForTrainee(userId) {
+  const connection = ApplicationTransaction.getConnection();
 
-  const campaignToStartParticipation = await _getCampaignToStart(campaignId, domainTransaction);
-
-  const organizationLearner = await _getOrganizationLearner(campaignId, userId, domainTransaction);
-
-  const previousCampaignParticipationForUser = await _findpreviousCampaignParticipationForUser(
-    campaignId,
-    userId,
-    domainTransaction
-  );
-
-  return new CampaignParticipant({
-    userIdentity,
-    campaignToStartParticipation,
-    organizationLearner,
-    previousCampaignParticipationForUser,
-  });
+  return connection('users').select('id', 'firstName', 'lastName').where({ id: userId }).first();
 }
 
-function _getUserIdentityForTrainee(userId, domainTransaction) {
-  return domainTransaction.knexTransaction('users').select('id', 'firstName', 'lastName').where({ id: userId }).first();
-}
+async function _getCampaignToStart(campaignId) {
+  const connection = ApplicationTransaction.getConnection();
 
-async function _getCampaignToStart(campaignId, domainTransaction) {
-  const campaignAttributes = await domainTransaction
-    .knexTransaction('campaigns')
+  const campaignAttributes = await connection('campaigns')
     .join('organizations', 'organizations.id', 'organizationId')
     .select([
       'campaigns.id',
@@ -128,15 +129,16 @@ async function _getCampaignToStart(campaignId, domainTransaction) {
   if (!campaignAttributes) {
     throw new NotFoundError(`La campagne d'id ${campaignId} n'existe pas ou son accès est restreint`);
   }
-  const skillIds = await campaignRepository.findSkillIds({ campaignId, domainTransaction });
+  const skillIds = await campaignRepository.findSkillIds({ campaignId });
 
   return new CampaignToStartParticipation({ ...campaignAttributes, skillCount: skillIds.length });
 }
 
-async function _getOrganizationLearner(campaignId, userId, domainTransaction) {
+async function _getOrganizationLearner(campaignId, userId) {
+  const connection = ApplicationTransaction.getConnection();
+
   const organizationLearner = { id: null, hasParticipated: false };
-  const row = await domainTransaction
-    .knexTransaction('campaigns')
+  const row = await connection('campaigns')
     .select({ id: 'view-active-organization-learners.id', campaignParticipationId: 'campaign-participations.id' })
     .join(
       'view-active-organization-learners',
@@ -168,9 +170,10 @@ async function _getOrganizationLearner(campaignId, userId, domainTransaction) {
   return organizationLearner;
 }
 
-async function _findpreviousCampaignParticipationForUser(campaignId, userId, domainTransaction) {
-  const campaignParticipationAttributes = await domainTransaction
-    .knexTransaction('campaign-participations')
+async function _findpreviousCampaignParticipationForUser(campaignId, userId) {
+  const connection = ApplicationTransaction.getConnection();
+
+  const campaignParticipationAttributes = await connection('campaign-participations')
     .select('id', 'participantExternalId', 'validatedSkillsCount', 'status', 'deletedAt')
     .where({ campaignId, userId, isImproved: false })
     .first();
@@ -185,4 +188,4 @@ async function _findpreviousCampaignParticipationForUser(campaignId, userId, dom
   };
 }
 
-export { get, save };
+export { save, get };

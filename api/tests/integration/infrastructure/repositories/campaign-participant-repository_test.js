@@ -6,7 +6,7 @@ import { CampaignToStartParticipation } from '../../../../lib/domain/models/Camp
 import lodash from 'lodash';
 const { pick } = lodash;
 import { AlreadyExistingCampaignParticipationError, NotFoundError } from '../../../../lib/domain/errors.js';
-import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { ApplicationTransaction } from '../../../../lib/infrastructure/ApplicationTransaction.js';
 const campaignParticipationDBAttributes = [
   'id',
   'campaignId',
@@ -42,9 +42,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         isRestricted: false,
       });
 
-      const id = await DomainTransaction.execute(async (domainTransaction) => {
-        return campaignParticipantRepository.save(campaignParticipant, domainTransaction);
-      });
+      const id = await campaignParticipantRepository.save(campaignParticipant);
 
       const [campaignParticipationId] = await knex('campaign-participations').pluck('id');
 
@@ -71,9 +69,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         // when
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
-        });
+        await campaignParticipantRepository.save(campaignParticipant);
 
         const campaignParticipation = await knex('campaign-participations')
           .select(campaignParticipationDBAttributes)
@@ -100,9 +96,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           isRestricted: false,
         });
 
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
-        });
+        await campaignParticipantRepository.save(campaignParticipant);
 
         const campaignParticipation = await knex('campaign-participations')
           .select(campaignParticipationDBAttributes)
@@ -121,9 +115,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           isRestricted: false,
         });
 
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
-        });
+        await campaignParticipantRepository.save(campaignParticipant);
 
         const assessments = await knex('assessments');
 
@@ -146,9 +138,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         //WHEN
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
-        });
+        await campaignParticipantRepository.save(campaignParticipant);
 
         //THEN
         const campaignParticipation = await knex('campaign-participations')
@@ -188,9 +178,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         campaignParticipant.start({ participantExternalId: null });
 
         //WHEN
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
-        });
+        await campaignParticipantRepository.save(campaignParticipant);
 
         //THEN
         const campaignParticipation = await knex('campaign-participations').select('organizationLearnerId').first();
@@ -219,9 +207,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         campaignParticipant.start({ participantExternalId: null });
 
         //WHEN
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
-        });
+        await campaignParticipantRepository.save(campaignParticipant);
 
         //THEN
         const organizationLearner = await knex('organization-learners')
@@ -255,9 +241,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         campaignParticipant.start({ participantExternalId: null });
 
         //WHEN
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
-        });
+        await campaignParticipantRepository.save(campaignParticipant);
 
         //THEN
         const campaignParticipation = await knex('campaign-participations').select('organizationLearnerId').first();
@@ -299,9 +283,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         campaignParticipant.start({ participantExternalId: null });
 
         //WHEN
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
-        });
+        await campaignParticipantRepository.save(campaignParticipant);
 
         //THEN
         const campaignParticipation = await knex('campaign-participations')
@@ -355,9 +337,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         campaignParticipant.start({ participantExternalId: null });
 
         //WHEN
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
-        });
+        await campaignParticipantRepository.save(campaignParticipant);
 
         //THEN
         const campaignParticipations = await knex('campaign-participations').pluck('id').where({ isImproved: true });
@@ -375,9 +355,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           isRestricted: false,
         });
 
-        await DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
-        });
+        await campaignParticipantRepository.save(campaignParticipant);
 
         const campaignParticipation = await knex('campaign-participations')
           .select(campaignParticipationDBAttributes)
@@ -417,10 +395,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           campaignParticipant.start({ participantExternalId: null });
 
           //WHEN
-          const error = await catchErr(() => {
-            return DomainTransaction.execute(async (domainTransaction) => {
-              await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
-            });
+          const error = await catchErr(async () => {
+            await campaignParticipantRepository.save(campaignParticipant);
           })();
 
           //THEN
@@ -453,10 +429,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           campaignParticipant.start({ participantExternalId: null });
 
           //WHEN
-          const error = await catchErr(() => {
-            return DomainTransaction.execute(async (domainTransaction) => {
-              await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
-            });
+          const error = await catchErr(async () => {
+            await campaignParticipantRepository.save(campaignParticipant);
           })();
 
           //THEN
@@ -495,10 +469,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         campaignParticipant.start({ participantExternalId: null });
 
         //WHEN
-        await catchErr(() => {
-          return DomainTransaction.execute(async (domainTransaction) => {
-            await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
-          });
+        await catchErr(async () => {
+          return ApplicationTransaction.execute(() => campaignParticipantRepository.save(campaignParticipant));
         })();
 
         //THEN
@@ -527,12 +499,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
       await databaseBuilder.commit();
 
-      const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-        return campaignParticipantRepository.get({
-          userId,
-          campaignId: campaign.id,
-          domainTransaction,
-        });
+      const campaignParticipant = await campaignParticipantRepository.get({
+        userId,
+        campaignId: campaign.id,
       });
 
       expect(campaignParticipant.userIdentity.id).to.equal(userId);
@@ -573,12 +542,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         await databaseBuilder.commit();
 
-        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-          return campaignParticipantRepository.get({
-            userId,
-            campaignId: campaignToStartParticipation.id,
-            domainTransaction,
-          });
+        const campaignParticipant = await campaignParticipantRepository.get({
+          userId,
+          campaignId: campaignToStartParticipation.id,
         });
 
         expect(campaignParticipant.previousCampaignParticipationForUser).to.deep.equal(expectedAttributes);
@@ -595,12 +561,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         await databaseBuilder.commit();
 
-        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-          return campaignParticipantRepository.get({
-            userId,
-            campaignId: campaignToStartParticipation.id,
-            domainTransaction,
-          });
+        const campaignParticipant = await campaignParticipantRepository.get({
+          userId,
+          campaignId: campaignToStartParticipation.id,
         });
 
         expect(campaignParticipant.previousCampaignParticipationForUser).to.be.null;
@@ -618,12 +581,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         await databaseBuilder.commit();
 
-        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-          return campaignParticipantRepository.get({
-            userId,
-            campaignId: campaignToStartParticipation.id,
-            domainTransaction,
-          });
+        const campaignParticipant = await campaignParticipantRepository.get({
+          userId,
+          campaignId: campaignToStartParticipation.id,
         });
 
         expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
@@ -641,12 +601,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         await databaseBuilder.commit();
 
-        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-          return campaignParticipantRepository.get({
-            userId,
-            campaignId: campaignToStartParticipation.id,
-            domainTransaction,
-          });
+        const campaignParticipant = await campaignParticipantRepository.get({
+          userId,
+          campaignId: campaignToStartParticipation.id,
         });
 
         expect(campaignParticipant.organizationLearnerId).to.equal(null);
@@ -672,12 +629,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
             await databaseBuilder.commit();
 
-            const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-              return campaignParticipantRepository.get({
-                userId,
-                campaignId: campaignToStartParticipation.id,
-                domainTransaction,
-              });
+            const campaignParticipant = await campaignParticipantRepository.get({
+              userId,
+              campaignId: campaignToStartParticipation.id,
             });
 
             expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
@@ -699,12 +653,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
               await databaseBuilder.commit();
 
-              const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-                return campaignParticipantRepository.get({
-                  userId,
-                  campaignId: campaignToStartParticipation.id,
-                  domainTransaction,
-                });
+              const campaignParticipant = await campaignParticipantRepository.get({
+                userId,
+                campaignId: campaignToStartParticipation.id,
               });
 
               expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
@@ -729,12 +680,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
             await databaseBuilder.commit();
 
-            const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-              return campaignParticipantRepository.get({
-                userId,
-                campaignId: campaignToStartParticipation.id,
-                domainTransaction,
-              });
+            const campaignParticipant = await campaignParticipantRepository.get({
+              userId,
+              campaignId: campaignToStartParticipation.id,
             });
 
             expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
@@ -759,12 +707,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
               await databaseBuilder.commit();
 
-              const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-                return campaignParticipantRepository.get({
-                  userId,
-                  campaignId: campaignToStartParticipation.id,
-                  domainTransaction,
-                });
+              const campaignParticipant = await campaignParticipantRepository.get({
+                userId,
+                campaignId: campaignToStartParticipation.id,
               });
 
               expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
@@ -802,12 +747,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
                 await databaseBuilder.commit();
 
-                const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-                  return campaignParticipantRepository.get({
-                    userId,
-                    campaignId: campaignToStartParticipation.id,
-                    domainTransaction,
-                  });
+                const campaignParticipant = await campaignParticipantRepository.get({
+                  userId,
+                  campaignId: campaignToStartParticipation.id,
                 });
 
                 expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
@@ -834,12 +776,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
           await databaseBuilder.commit();
 
-          const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-            return campaignParticipantRepository.get({
-              userId,
-              campaignId: campaignToStartParticipation.id,
-              domainTransaction,
-            });
+          const campaignParticipant = await campaignParticipantRepository.get({
+            userId,
+            campaignId: campaignToStartParticipation.id,
           });
 
           expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
@@ -860,12 +799,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
           await databaseBuilder.commit();
 
-          const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-            return campaignParticipantRepository.get({
-              userId,
-              campaignId: campaignToStartParticipation.id,
-              domainTransaction,
-            });
+          const campaignParticipant = await campaignParticipantRepository.get({
+            userId,
+            campaignId: campaignToStartParticipation.id,
           });
 
           expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
@@ -899,12 +835,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         await databaseBuilder.commit();
 
-        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-          return campaignParticipantRepository.get({
-            userId,
-            campaignId: campaignToStartParticipation.id,
-            domainTransaction,
-          });
+        const campaignParticipant = await campaignParticipantRepository.get({
+          userId,
+          campaignId: campaignToStartParticipation.id,
         });
 
         expect(campaignParticipant.campaignToStartParticipation).to.deep.equal(campaignToStartParticipation);
@@ -948,12 +881,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         await databaseBuilder.commit();
 
-        const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-          return campaignParticipantRepository.get({
-            userId,
-            campaignId: campaignToStartParticipation.id,
-            domainTransaction,
-          });
+        const campaignParticipant = await campaignParticipantRepository.get({
+          userId,
+          campaignId: campaignToStartParticipation.id,
         });
 
         expect(campaignParticipant.campaignToStartParticipation).to.deep.equal(campaignToStartParticipation);
@@ -965,13 +895,10 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
       await databaseBuilder.commit();
 
-      const error = await catchErr(() => {
-        return DomainTransaction.execute(async (domainTransaction) => {
-          await campaignParticipantRepository.get({
-            userId,
-            campaignId: 12,
-            domainTransaction,
-          });
+      const error = await catchErr(async () => {
+        await campaignParticipantRepository.get({
+          userId,
+          campaignId: 12,
         });
       })();
 

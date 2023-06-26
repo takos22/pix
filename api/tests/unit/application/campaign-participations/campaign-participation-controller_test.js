@@ -5,6 +5,7 @@ import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { CampaignParticipationResultsShared } from '../../../../lib/domain/events/CampaignParticipationResultsShared.js';
 import { CampaignParticipationStarted } from '../../../../lib/domain/events/CampaignParticipationStarted.js';
 import { DomainTransaction } from '../../../../lib/infrastructure/DomainTransaction.js';
+import { ApplicationTransaction } from '../../../../lib/infrastructure/ApplicationTransaction.js';
 import { LOCALE } from '../../../../lib/domain/constants.js';
 
 const { FRENCH_SPOKEN } = LOCALE;
@@ -123,6 +124,9 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
         monitoringTools: monitoringToolsStub,
       };
 
+      sinon.stub(ApplicationTransaction, 'execute').callsFake((callback) => {
+        return callback();
+      });
       sinon.stub(events.eventDispatcher, 'dispatch');
       request = {
         headers: { authorization: 'token' },
@@ -151,9 +155,6 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       usecases.startCampaignParticipation.resolves(new CampaignParticipationStarted());
       const deserializedCampaignParticipation = Symbol('campaignParticipation');
       dependencies.campaignParticipationSerializer.deserialize.resolves(deserializedCampaignParticipation);
-      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-        return callback();
-      });
       events.eventDispatcher.dispatch.resolves();
 
       // when
@@ -174,9 +175,6 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       // given
       const campaignParticipationStartedEvent = new CampaignParticipationStarted();
       usecases.startCampaignParticipation.resolves({ event: campaignParticipationStartedEvent });
-      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-        return callback();
-      });
       events.eventDispatcher.dispatch.resolves();
 
       // when
@@ -192,9 +190,6 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       usecases.startCampaignParticipation.resolves({
         event: new CampaignParticipationStarted({ campaignParticipationId: campaignParticipation.id }),
         campaignParticipation,
-      });
-      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-        return callback();
       });
       events.eventDispatcher.dispatch.resolves();
 
@@ -216,9 +211,6 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       usecases.startCampaignParticipation.resolves({
         event: new CampaignParticipationStarted({ campaignParticipationId: campaignParticipation.id }),
         campaignParticipation,
-      });
-      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-        return callback();
       });
       const errorInHandler = new Error('handlePoleEmploiParticipationStarted failed with an error');
       events.eventDispatcher.dispatch.rejects(errorInHandler);

@@ -7,6 +7,7 @@ import { CampaignParticipation } from '../../domain/models/CampaignParticipation
 import { Assessment } from '../../domain/models/Assessment.js';
 import { Campaign } from '../../domain/models/Campaign.js';
 import { DomainTransaction } from '../DomainTransaction.js';
+import { ApplicationTransaction } from '../ApplicationTransaction.js';
 import { NotFoundError } from '../../domain/errors.js';
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
@@ -36,7 +37,7 @@ const getCodeOfLastParticipationToProfilesCollectionCampaignForUser = async func
 };
 
 const get = async function (id, domainTransaction = DomainTransaction.emptyTransaction()) {
-  const knexConn = domainTransaction.knexTransaction || knex;
+  const knexConn = ApplicationTransaction.getConnection(domainTransaction);
   const campaignParticipation = await knexConn('campaign-participations').where({ id }).first();
   const campaign = await knexConn('campaigns').where({ id: campaignParticipation.campaignId }).first();
   const assessments = await knexConn('assessments').where({ campaignParticipationId: id });
