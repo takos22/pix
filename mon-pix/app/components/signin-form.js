@@ -21,6 +21,11 @@ export default class SigninForm extends Component {
   @tracked login = null;
   @tracked isLoading = false;
 
+  user = {
+    firstName: 'Nicolas',
+    lastName: 'Lepage',
+  };
+
   get showcase() {
     return this.url.showcase;
   }

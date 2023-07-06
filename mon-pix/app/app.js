@@ -10,6 +10,12 @@ import '@formatjs/intl-pluralrules/locale-data/en';
 import '@formatjs/intl-pluralrules/locale-data/fr';
 import '@formatjs/intl-getcanonicallocales/polyfill';
 
+import { defineCustomElements as defineCustomElements1 } from '@1024pix/pix-webcomponents/loader';
+defineCustomElements1();
+
+import { defineCustomElements as defineCustomElements2 } from '@1024pix/pix-ui-webcomponents/loader';
+defineCustomElements2();
+
 if (config.sentry.enabled) {
   InitSentryForEmber();
 }
