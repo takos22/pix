@@ -141,7 +141,7 @@ jobs:
 
   mon_pix_build_and_test:
     docker:
-      - image: cimg/node:16.20.1-browsers
+      - image: cimg/node:16.20.1
         environment:
           # See https://git.io/vdao3 for details.
           JOBS: 2
@@ -170,7 +170,7 @@ jobs:
 
   orga_build_and_test:
     docker:
-      - image: cimg/node:16.20.1-browsers
+      - image: cimg/node:16.20.1
         environment:
           JOBS: 2
     resource_class: small
@@ -197,7 +197,7 @@ jobs:
 
   pix1d_build_and_test:
     docker:
-      - image: cimg/node:16.20.1-browsers
+      - image: cimg/node:16.20.1
         environment:
           JOBS: 2
     resource_class: small
@@ -224,7 +224,7 @@ jobs:
 
   certif_build_and_test:
     docker:
-      - image: cimg/node:16.20.1-browsers
+      - image: cimg/node:16.20.1
         environment:
           JOBS: 2
     resource_class: small
@@ -251,7 +251,7 @@ jobs:
 
   admin_build_and_test:
     docker:
-      - image: cimg/node:16.20.1-browsers
+      - image: cimg/node:16.20.1
         environment:
           JOBS: 2
     resource_class: small
@@ -278,7 +278,7 @@ jobs:
 
   e2e_test_app:
     docker:
-      - image: cimg/node:16.20.1-browsers
+      - image: cimg/node:16.20.1
       - image: postgres:14.6-alpine
         environment:
           POSTGRES_USER: circleci
@@ -356,7 +356,7 @@ jobs:
 
   e2e_test_orga:
     docker:
-      - image: cimg/node:16.20.1-browsers
+      - image: cimg/node:16.20.1
       - image: postgres:14.6-alpine
         environment:
           POSTGRES_USER: circleci
