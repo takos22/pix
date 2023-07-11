@@ -9,7 +9,6 @@ import '@formatjs/intl-pluralrules/polyfill';
 import '@formatjs/intl-pluralrules/locale-data/en';
 import '@formatjs/intl-pluralrules/locale-data/fr';
 import '@formatjs/intl-getcanonicallocales/polyfill';
-import '@webcomponents/webcomponentsjs';
 
 if (config.sentry.enabled) {
   InitSentryForEmber();
