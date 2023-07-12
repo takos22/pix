@@ -1,5 +1,4 @@
 <div class="sign-form__container">
-  <pix-button>pouet pouet</pix-button>
   <a href={{this.showcase.url}} class="pix-logo__link">
     <img class="pix-logo__image" src="/images/pix-logo.svg" alt="{{this.showcase.linkText}}" />
   </a>
@@ -55,7 +54,15 @@
     </fieldset>
 
     <div class="sign-form-body__bottom-button">
-      <pix-button><span slot="text">Jedi</span></pix-button>
+      <pix-button type="submit">
+        <span slot="text">Jedi</span>
+        <span slot="icon">
+          <FaIcon
+            class="pix-button__icon pix-button__icon--after"
+            @icon="times"
+            @prefix="fa"></FaIcon>
+        </span>
+      </pix-button>
       <PixButton @type="submit" @shape="rounded">
         {{t "pages.sign-in.actions.submit"}}
       </PixButton>
