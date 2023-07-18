@@ -22,8 +22,14 @@ export default class ChallengeRoute extends Route {
       const challengeId = answers[currentChallengeNumber].challenge.get('id');
       challenge = await this.store.findRecord('challenge', challengeId);
     } else {
+      console.log('coucou', params);
       if (assessment.isPreview && params.challengeId) {
         challenge = await this.store.findRecord('challenge', params.challengeId);
+      } else if (assessment.isPreview && params.challengeDraftId) {
+        console.log('draft-preview!');
+        challenge = await this.store.findRecord('challenge', params.challengeDraftId, {
+          adapterOptions: { draft: true },
+        });
       } else if (!assessment.isPreview) {
         challenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
       }

@@ -11,7 +11,7 @@ const focusedOutPageTitle = 'pages.challenge.title.focused-out';
 import isInteger from 'lodash/isInteger';
 
 export default class ChallengeController extends Controller {
-  queryParams = ['newLevel', 'competenceLeveled', 'challengeId'];
+  queryParams = ['newLevel', 'competenceLeveled', 'challengeId', 'challengeDraftId'];
   @service intl;
   @service store;
   @service currentUser;
