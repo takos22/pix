@@ -14,7 +14,7 @@ export default class CertificationCenter extends Model {
   @attr() dataProtectionOfficerLastName;
   @attr() dataProtectionOfficerEmail;
 
-  @hasMany('complementary-certification') habilitations;
+  @hasMany('complementary-certification', { async: false }) habilitations;
 
   get typeLabel() {
     return types.find((type) => type.value === this.type).label;

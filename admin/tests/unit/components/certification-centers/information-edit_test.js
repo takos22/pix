@@ -51,10 +51,7 @@ module('Unit | Component | certification-centers/information-edit', function (ho
       // given
       const component = createGlimmerComponent('component:certification-centers/information-edit', {
         availableHabilitations: [{ id: 321 }, { id: 21 }, { id: 1 }],
-        certificationCenter: {
-          id: 1,
-          getProperties: sinon.stub().returns({}),
-        },
+        certificationCenter: store.createRecord('certification-center'),
         onSubmit: sinon.stub(),
       });
 

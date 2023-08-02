@@ -42,13 +42,13 @@ export default class InformationEdit extends Component {
       return;
     }
 
-    this.args.certificationCenter.set('name', this.form.name);
-    this.args.certificationCenter.set('externalId', !this.form.externalId ? null : this.form.externalId);
-    this.args.certificationCenter.set('type', this.form.type);
-    this.args.certificationCenter.set('habilitations', this.form.habilitations);
-    this.args.certificationCenter.set('dataProtectionOfficerFirstName', this.form.dataProtectionOfficerFirstName);
-    this.args.certificationCenter.set('dataProtectionOfficerLastName', this.form.dataProtectionOfficerLastName);
-    this.args.certificationCenter.set('dataProtectionOfficerEmail', this.form.dataProtectionOfficerEmail);
+    this.args.certificationCenter.name = this.form.name;
+    this.args.certificationCenter.externalId = !this.form.externalId ? null : this.form.externalId;
+    this.args.certificationCenter.type = this.form.type;
+    this.args.certificationCenterhabilitations = this.form.habilitations;
+    this.args.certificationCenter.dataProtectionOfficerFirstName = this.form.dataProtectionOfficerFirstName;
+    this.args.certificationCenter.dataProtectionOfficerLastName = this.form.dataProtectionOfficerLastName;
+    this.args.certificationCenter.dataProtectionOfficerEmail = this.form.dataProtectionOfficerEmail;
 
     this.args.toggleEditMode();
     return this.args.onSubmit();
@@ -56,7 +56,6 @@ export default class InformationEdit extends Component {
 
   _initForm() {
     const properties = this.args.certificationCenter.getProperties(
-      'habilitations',
       'name',
       'externalId',
       'type',
@@ -65,5 +64,6 @@ export default class InformationEdit extends Component {
       'dataProtectionOfficerEmail',
     );
     this.form.setProperties(properties);
+    this.form.habilitations = this.args.certificationCenter.habilitations.toArray();
   }
 }
