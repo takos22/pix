@@ -1,0 +1,92 @@
+orbs:
+  browser-tools: circleci/browser-tools@1.4.3
+  
+executors:
+  node-docker:
+    parameters:
+      node-version:
+        # renovate datasource=node-version depName=node
+        default: 16.20.1
+        type: string
+    docker:
+      - image: cimg/node:<<parameters.node-version>>
+    resource_class: small
+  node-redis-postgres-docker:
+    parameters:
+      node-version:
+        # renovate datasource=node-version depName=node
+        default: 16.20.1
+        type: string
+    docker:
+      - image: cimg/node:<<parameters.node-version>>
+      - image: postgres:14.8-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_HOST_AUTH_METHOD: trust
+      - image: redis:7.0.12-alpine
+    resource_class: small
+  node-browsers-docker:
+    parameters:
+      node-version:
+        # renovate datasource=node-version depName=node
+        default: 16.20.1
+        type: string
+    docker:
+      - image: cimg/node:<<parameters.node-version>>-browsers
+        environment:
+          JOBS: 2
+    resource_class: small
+  node-browsers-redis-postgres-docker:
+    parameters:
+      node-version:
+        # renovate datasource=node-version depName=node
+        default: 16.20.1
+        type: string
+    docker:
+      - image: cimg/node:<<parameters.node-version>>-browsers
+      - image: postgres:14.8-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_HOST_AUTH_METHOD: trust
+      - image: redis:7.0.12-alpine
+    resource_class: medium+
+  node-18-postgres-docker:
+    parameters:
+      node-version:
+        # renovate datasource=node-version depName=node
+        default: 18.17.0
+        type: string
+    docker:
+      - image: cimg/node:<<parameters.node-version>>
+      - image: postgres:14.8-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_HOST_AUTH_METHOD: trust
+    resource_class: small
+
+jobs:
+  checkout:
+    executor:
+      name: node-docker
+    working_directory: ~/pix
+    steps:
+      - checkout
+      - run:
+          name: Lint and test root
+          command: |
+            npm ci
+            npm run lint:scripts
+            npm run lint:yaml
+            npm run test:root
+            rm -rf .git/
+      - persist_to_workspace:
+          root: ~/pix
+          paths:
+            - .
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - checkout:
+          context: Pix
