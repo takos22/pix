@@ -22,7 +22,7 @@
 version: 2.1
 setup: true
 orbs:
-  circletron: 1024pix/circletron@dev:npm
+  circletron: pix/circletron@dev:npm
 
 workflows:
   trigger-jobs:
