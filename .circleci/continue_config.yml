@@ -113,76 +113,58 @@ parameters:
     type: boolean
     default: false
 
-
 workflows:
-  version: 2
   build-and-test:
     jobs:
       - checkout:
           context: Pix
 
       - api_build_and_test:
-          when: << pipeline.parameters.run-api-job >>
           context: Pix
           requires:
             - checkout
 
       - audit_logger_build_and_test:
-          when: << pipeline.parameters.run-audit-logger-job >>
           context: Pix
           requires:
             - checkout
 
       - mon_pix_build_and_test:
-          when: << pipeline.parameters.run-mon-pix-job >>
           context: Pix
           requires:
             - checkout
 
       - orga_build_and_test:
-          when: << pipeline.parameters.run-orga-job >>
           context: Pix
           requires:
             - checkout
 
       - certif_build_and_test:
-          when: << pipeline.parameters.run-certif-job >>
           context: Pix
           requires:
             - checkout
 
       - admin_build_and_test:
-          when: << pipeline.parameters.run-admin-job >>
           context: Pix
           requires:
             - checkout
 
       - pix1d_build_and_test:
-          when: << pipeline.parameters.run-1d-job >>
           context: Pix
           requires:
             - checkout
 
       - e2e_test_app:
-          when:
-            or: 
-              - << pipeline.parameters.run-api-job >>
-              - << pipeline.parameters.run-mon-pix-job >>
           context: Pix
           requires:
             - checkout
 
       - e2e_test_orga:
-          when:
-            or: 
-              - << pipeline.parameters.run-api-job >>
-              - << pipeline.parameters.run-orga-job >>
           context: Pix
           requires:
             - checkout
 
       - algo_test:
-          when: << pipeline.parameters.run-high-level-tests-job >>
           context: Pix
           requires:
             - checkout
@@ -212,71 +194,85 @@ jobs:
       name: node-redis-postgres-docker
     working_directory: ~/pix/api
     steps:
-      - attach_workspace:
-          at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-api-npm-{{ checksum "cachekey" }}
-      - run: npm ci --no-optional
-      - save_cache:
-          key: v7-api-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
-      - run:
-          name: Lint
-          command: npm run lint
-          environment:
-            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
-            TEST_REDIS_URL: redis://localhost:6379
-          when: always
-      - run:
-          name: Test
-          command: npm run test
-          environment:
-            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
-            TEST_REDIS_URL: redis://localhost:6379
-            MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
-            MOCHA_REPORTER: mocha-junit-reporter
-          when: always
-      - store_test_results:
-          path: /home/circleci/test-results
-      - store_artifacts:
-          path: /home/circleci/test-results
+      - unless:
+          condition: << pipeline.parameters.run-api-job >>
+          steps:
+            - run: echo 'ok'
+      - when:
+          condition: << pipeline.parameters.run-api-job >>
+          steps:
+            - attach_workspace:
+                at: ~/pix
+            - run: cat package*.json > cachekey
+            - restore_cache:
+                keys:
+                  - v7-api-npm-{{ checksum "cachekey" }}
+            - run: npm ci --no-optional
+            - save_cache:
+                key: v7-api-npm-{{ checksum "cachekey" }}
+                paths:
+                  - ~/.npm
+            - run:
+                name: Lint
+                command: npm run lint
+                environment:
+                  TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
+                  TEST_REDIS_URL: redis://localhost:6379
+                when: always
+            - run:
+                name: Test
+                command: npm run test
+                environment:
+                  TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
+                  TEST_REDIS_URL: redis://localhost:6379
+                  MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
+                  MOCHA_REPORTER: mocha-junit-reporter
+                when: always
+            - store_test_results:
+                path: /home/circleci/test-results
+            - store_artifacts:
+                path: /home/circleci/test-results
 
   audit_logger_build_and_test:
     executor:
       name: node-postgres-docker
     working_directory: ~/pix/audit-logger
     steps:
-      - attach_workspace:
-          at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-audit-logger-npm-{{ checksum "cachekey" }}
-      - run: npm ci --no-optional
-      - save_cache:
-          key: v7-audit-logger-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
-      - run:
-          name: Lint
-          command: npm run lint
-          environment:
-            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
-          when: always
-      - run:
-          name: Test
-          command: npm run test
-          environment:
-            PIX_API_CLIENT_SECRET: $2a$04$vkPRiypzeVQVG92/dCll7.5brjDQZVZc750VwKBc01icXjVIQqRVq
-            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
-          when: always
-      - store_test_results:
-          path: /home/circleci/test-results
-      - store_artifacts:
-          path: /home/circleci/test-results
+      - unless:
+          condition: << pipeline.parameters.run-audit-logger-job >>
+          steps:
+            - run: echo 'ok'
+      - when:
+          condition: << pipeline.parameters.run-audit-logger-job >>
+          steps:
+            - attach_workspace:
+                at: ~/pix
+            - run: cat package*.json > cachekey
+            - restore_cache:
+                keys:
+                  - v7-audit-logger-npm-{{ checksum "cachekey" }}
+            - run: npm ci --no-optional
+            - save_cache:
+                key: v7-audit-logger-npm-{{ checksum "cachekey" }}
+                paths:
+                  - ~/.npm
+            - run:
+                name: Lint
+                command: npm run lint
+                environment:
+                  TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
+                when: always
+            - run:
+                name: Test
+                command: npm run test
+                environment:
+                  PIX_API_CLIENT_SECRET: $2a$04$vkPRiypzeVQVG92/dCll7.5brjDQZVZc750VwKBc01icXjVIQqRVq
+                  TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
+                when: always
+            - store_test_results:
+                path: /home/circleci/test-results
+            - store_artifacts:
+                path: /home/circleci/test-results
 
   mon_pix_build_and_test:
     executor:
@@ -284,120 +280,155 @@ jobs:
     working_directory: ~/pix/mon-pix
     parallelism: 3
     steps:
-      - browser-tools/install-chrome
-      - attach_workspace:
-          at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-mon-pix-npm-{{ checksum "cachekey" }}
-      - run: npm ci
-      - save_cache:
-          key: v7-mon-pix-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
-      - run:
-          name: Lint
-          command: npm run lint
-      - run:
-          name: Test
-          command: npm run test:ci
+      - unless:
+          condition: << pipeline.parameters.run-mon-pix-job >>
+          steps:
+            - run: echo 'ok'
+      - when:
+          condition: << pipeline.parameters.run-mon-pix-job >>
+          steps:
+            - browser-tools/install-chrome
+            - attach_workspace:
+                at: ~/pix
+            - run: cat package*.json > cachekey
+            - restore_cache:
+                keys:
+                  - v7-mon-pix-npm-{{ checksum "cachekey" }}
+            - run: npm ci
+            - save_cache:
+                key: v7-mon-pix-npm-{{ checksum "cachekey" }}
+                paths:
+                  - ~/.npm
+            - run:
+                name: Lint
+                command: npm run lint
+            - run:
+                name: Test
+                command: npm run test:ci
 
   orga_build_and_test:
     executor:
       name: node-browsers-docker
     working_directory: ~/pix/orga
     steps:
-      - browser-tools/install-chrome
-      - attach_workspace:
-          at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-orga-npm-{{ checksum "cachekey" }}
-      - run: npm ci
-      - save_cache:
-          key: v7-orga-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
-      - run:
-          name: Lint
-          command: npm run lint
-      - run:
-          name: Test
-          command: npm run test:ci
+      - unless:
+          condition: << pipeline.parameters.run-orga-job >>
+          steps:
+            - run: echo 'ok'
+      - when:
+          condition: << pipeline.parameters.run-orga-job >>
+          steps:
+            - browser-tools/install-chrome
+            - attach_workspace:
+                at: ~/pix
+            - run: cat package*.json > cachekey
+            - restore_cache:
+                keys:
+                  - v7-orga-npm-{{ checksum "cachekey" }}
+            - run: npm ci
+            - save_cache:
+                key: v7-orga-npm-{{ checksum "cachekey" }}
+                paths:
+                  - ~/.npm
+            - run:
+                name: Lint
+                command: npm run lint
+            - run:
+                name: Test
+                command: npm run test:ci
 
   pix1d_build_and_test:
     executor:
       name: node-browsers-docker
     working_directory: ~/pix/1d
     steps:
-      - browser-tools/install-chrome
-      - attach_workspace:
-          at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-pix1d-npm-{{ checksum "cachekey" }}
-      - run: npm ci
-      - save_cache:
-          key: v7-pix1d-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
-      - run:
-          name: Lint
-          command: npm run lint
-      - run:
-          name: Test
-          command: npm run test:ci
+      - unless:
+          condition: << pipeline.parameters.run-1d-job >>
+          steps:
+            - run: echo 'ok'
+      - when:
+          condition: << pipeline.parameters.run-1d-job >>
+          steps:
+            - browser-tools/install-chrome
+            - attach_workspace:
+                at: ~/pix
+            - run: cat package*.json > cachekey
+            - restore_cache:
+                keys:
+                  - v7-pix1d-npm-{{ checksum "cachekey" }}
+            - run: npm ci
+            - save_cache:
+                key: v7-pix1d-npm-{{ checksum "cachekey" }}
+                paths:
+                  - ~/.npm
+            - run:
+                name: Lint
+                command: npm run lint
+            - run:
+                name: Test
+                command: npm run test:ci
 
   certif_build_and_test:
     executor:
       name: node-browsers-docker
     working_directory: ~/pix/certif
     steps:
-      - browser-tools/install-chrome
-      - attach_workspace:
-          at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-certif-npm-{{ checksum "cachekey" }}
-      - run: npm ci
-      - save_cache:
-          key: v7-certif-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
-      - run:
-          name: Lint
-          command: npm run lint
-      - run:
-          name: Test
-          command: npm run test:ci
+      - unless:
+          condition: << pipeline.parameters.run-certif-job >>
+          steps:
+            - run: echo 'ok'
+      - when:
+          condition: << pipeline.parameters.run-certif-job >>
+          steps:
+            - browser-tools/install-chrome
+            - attach_workspace:
+                at: ~/pix
+            - run: cat package*.json > cachekey
+            - restore_cache:
+                keys:
+                  - v7-certif-npm-{{ checksum "cachekey" }}
+            - run: npm ci
+            - save_cache:
+                key: v7-certif-npm-{{ checksum "cachekey" }}
+                paths:
+                  - ~/.npm
+            - run:
+                name: Lint
+                command: npm run lint
+            - run:
+                name: Test
+                command: npm run test:ci
 
   admin_build_and_test:
     executor:
       name: node-browsers-docker
     working_directory: ~/pix/admin
     steps:
-      - browser-tools/install-chrome
-      - attach_workspace:
-          at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-admin-npm-{{ checksum "cachekey" }}
-      - run: npm ci
-      - save_cache:
-          key: v7-admin-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
-      - run:
-          name: Lint
-          command: npm run lint
-      - run:
-          name: Test
-          command: npm run test:ci
+      - unless:
+          condition: << pipeline.parameters.run-admin-job >>
+          steps:
+            - run: echo 'ok'
+      - when:
+          condition: << pipeline.parameters.run-admin-job >>
+          steps:
+            - browser-tools/install-chrome
+            - attach_workspace:
+                at: ~/pix
+            - run: cat package*.json > cachekey
+            - restore_cache:
+                keys:
+                  - v7-admin-npm-{{ checksum "cachekey" }}
+            - run: npm ci
+            - save_cache:
+                key: v7-admin-npm-{{ checksum "cachekey" }}
+                paths:
+                  - ~/.npm
+            - run:
+                name: Lint
+                command: npm run lint
+            - run:
+                name: Test
+                command: npm run test:ci
 
   e2e_test_app:
     executor:
@@ -405,142 +436,168 @@ jobs:
     parallelism: 4
     working_directory: ~/pix/high-level-tests/e2e
     steps:
-      - browser-tools/install-chrome
-      - attach_workspace:
-          at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-e2e-npm-{{ checksum "cachekey" }}
-      - run: npm ci
-      - save_cache:
-          key: v7-e2e-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
+      - unless:
+          condition:
+            or:
+              - << pipeline.parameters.run-api-job >>
+              - << pipeline.parameters.run-mon-pix-job >>
+          steps:
+            - run: echo 'ok'
+      - when:
+          condition:
+            or:
+              - << pipeline.parameters.run-api-job >>
+              - << pipeline.parameters.run-mon-pix-job >>
+          steps:
+            - browser-tools/install-chrome
+            - attach_workspace:
+                at: ~/pix
+            - run: cat package*.json > cachekey
+            - restore_cache:
+                keys:
+                  - v7-e2e-npm-{{ checksum "cachekey" }}
+            - run: npm ci
+            - save_cache:
+                key: v7-e2e-npm-{{ checksum "cachekey" }}
+                paths:
+                  - ~/.npm
 
-      - run:
-          name: Lint
-          command: npm run lint
+            - run:
+                name: Lint
+                command: npm run lint
 
-      - run:
-          working_directory: ~/pix/api
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
-      - run:
-          name: Install Pix API
-          working_directory: ~/pix/api
-          command: npm ci --no-optional
+            - run:
+                working_directory: ~/pix/api
+                command: cat package*.json > cachekey
+            - restore_cache:
+                keys:
+                  - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
+            - run:
+                name: Install Pix API
+                working_directory: ~/pix/api
+                command: npm ci --no-optional
 
-      - run:
-          working_directory: ~/pix/mon-pix
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-mon-pix-npm-{{ checksum "~/pix/mon-pix/cachekey" }}
-      - run:
-          name: Install Pix App
-          environment:
-            JOBS: 1
-          working_directory: ~/pix/mon-pix
-          command: npm ci
+            - run:
+                working_directory: ~/pix/mon-pix
+                command: cat package*.json > cachekey
+            - restore_cache:
+                keys:
+                  - v7-mon-pix-npm-{{ checksum "~/pix/mon-pix/cachekey" }}
+            - run:
+                name: Install Pix App
+                environment:
+                  JOBS: 1
+                working_directory: ~/pix/mon-pix
+                command: npm ci
 
-      - run:
-          name: Start Pix API
-          working_directory: ~/pix/api
-          environment:
-            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            REDIS_URL: 'redis://localhost:6379'
-          background: true
-          command: npm start
+            - run:
+                name: Start Pix API
+                working_directory: ~/pix/api
+                environment:
+                  DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+                  REDIS_URL: 'redis://localhost:6379'
+                background: true
+                command: npm start
 
-      - run:
-          name: Start Pix App
-          working_directory: ~/pix/mon-pix
-          environment:
-            JOBS: 1
-          background: true
-          command: npm start
+            - run:
+                name: Start Pix App
+                working_directory: ~/pix/mon-pix
+                environment:
+                  JOBS: 1
+                background: true
+                command: npm start
 
-      - run:
-          name: Run tests
-          environment:
-            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: npm run test:ci:app
-      - store_test_results:
-          path: /home/circleci/test-results
+            - run:
+                name: Run tests
+                environment:
+                  DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+                command: npm run test:ci:app
+            - store_test_results:
+                path: /home/circleci/test-results
 
   e2e_test_orga:
     executor:
       name: node-browsers-redis-postgres-docker
     working_directory: ~/pix/high-level-tests/e2e
     steps:
-      - browser-tools/install-chrome
-      - attach_workspace:
-          at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-e2e-npm-{{ checksum "cachekey" }}
-      - run: npm ci
-      - save_cache:
-          key: v7-e2e-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
+      - unless:
+          condition:
+            or:
+              - << pipeline.parameters.run-api-job >>
+              - << pipeline.parameters.run-orga-job >>
+          steps:
+            - run: echo 'ok'
+      - when:
+          condition:
+            or:
+              - << pipeline.parameters.run-api-job >>
+              - << pipeline.parameters.run-orga-job >>
+          steps:
+            - browser-tools/install-chrome
+            - attach_workspace:
+                at: ~/pix
+            - run: cat package*.json > cachekey
+            - restore_cache:
+                keys:
+                  - v7-e2e-npm-{{ checksum "cachekey" }}
+            - run: npm ci
+            - save_cache:
+                key: v7-e2e-npm-{{ checksum "cachekey" }}
+                paths:
+                  - ~/.npm
 
-      - run:
-          name: Lint
-          command: npm run lint
+            - run:
+                name: Lint
+                command: npm run lint
 
-      - run:
-          working_directory: ~/pix/api
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
-      - run:
-          name: Install Pix API
-          working_directory: ~/pix/api
-          command: npm ci --no-optional
+            - run:
+                working_directory: ~/pix/api
+                command: cat package*.json > cachekey
+            - restore_cache:
+                keys:
+                  - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
+            - run:
+                name: Install Pix API
+                working_directory: ~/pix/api
+                command: npm ci --no-optional
 
-      - run:
-          working_directory: ~/pix/orga
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-orga-npm-{{ checksum "~/pix/orga/cachekey" }}
-      - run:
-          name: Install Pix Orga
-          environment:
-            JOBS: 2
-          working_directory: ~/pix/orga
-          command: npm ci
+            - run:
+                working_directory: ~/pix/orga
+                command: cat package*.json > cachekey
+            - restore_cache:
+                keys:
+                  - v7-orga-npm-{{ checksum "~/pix/orga/cachekey" }}
+            - run:
+                name: Install Pix Orga
+                environment:
+                  JOBS: 2
+                working_directory: ~/pix/orga
+                command: npm ci
 
-      - run:
-          name: Start Pix API
-          working_directory: ~/pix/api
-          environment:
-            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            REDIS_URL: 'redis://localhost:6379'
-          background: true
-          command: npm start
+            - run:
+                name: Start Pix API
+                working_directory: ~/pix/api
+                environment:
+                  DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+                  REDIS_URL: 'redis://localhost:6379'
+                background: true
+                command: npm start
 
-      - run:
-          name: Start Pix Orga
-          working_directory: ~/pix/orga
-          environment:
-            JOBS: 2
-          background: true
-          command: npm start
+            - run:
+                name: Start Pix Orga
+                working_directory: ~/pix/orga
+                environment:
+                  JOBS: 2
+                background: true
+                command: npm start
 
-      - run:
-          name: Run tests
-          environment:
-            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: npm run test:ci:orga
-      - store_test_results:
-          path: /home/circleci/test-results
+            - run:
+                name: Run tests
+                environment:
+                  DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+                command: npm run test:ci:orga
+            - store_test_results:
+                path: /home/circleci/test-results
 
   algo_test:
     executor:
@@ -548,38 +605,45 @@ jobs:
     parallelism: 1
     working_directory: ~/pix/high-level-tests/test-algo
     steps:
-      - attach_workspace:
-          at: ~/pix
-      - run:
-          working_directory: ~/pix/api
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
-      - run:
-          name: Install Pix API
-          working_directory: ~/pix/api
-          environment:
-            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: npm ci --no-optional
-      - run:
-          command: cat package*.json > cachekey
+      - unless:
+          condition: << pipeline.parameters.run-high-level-tests-job >>
+          steps:
+            - run: echo 'ok'
+      - when:
+          condition: << pipeline.parameters.run-high-level-tests-job >>
+          steps:
+            - attach_workspace:
+                at: ~/pix
+            - run:
+                working_directory: ~/pix/api
+                command: cat package*.json > cachekey
+            - restore_cache:
+                keys:
+                  - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
+            - run:
+                name: Install Pix API
+                working_directory: ~/pix/api
+                environment:
+                  DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+                command: npm ci --no-optional
+            - run:
+                command: cat package*.json > cachekey
 
-      - restore_cache:
-          keys:
-            - v7-test-algo-npm-{{ checksum "~/pix/high-level-tests/test-algo/cachekey" }}
-      - run:
-          name: Install test algo
-          command: npm ci
-      - save_cache:
-          key: v7-test-algo-npm-{{ checksum "~/pix/high-level-tests/test-algo/cachekey" }}
-          paths:
-            - ~/.npm
+            - restore_cache:
+                keys:
+                  - v7-test-algo-npm-{{ checksum "~/pix/high-level-tests/test-algo/cachekey" }}
+            - run:
+                name: Install test algo
+                command: npm ci
+            - save_cache:
+                key: v7-test-algo-npm-{{ checksum "~/pix/high-level-tests/test-algo/cachekey" }}
+                paths:
+                  - ~/.npm
 
-      - run:
-          name: Lint
-          command: npm run lint
+            - run:
+                name: Lint
+                command: npm run lint
 
-      - run:
-          name: Test
-          command: npm run test:ci
+            - run:
+                name: Test
+                command: npm run test:ci
