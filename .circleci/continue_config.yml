@@ -225,7 +225,7 @@ jobs:
             - persist_to_workspace:
                 root: ~/pix
                 paths:
-                  - .
+                  - api
 
   api_lint:
     executor:
