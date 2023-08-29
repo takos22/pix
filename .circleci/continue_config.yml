@@ -201,7 +201,7 @@ jobs:
 
   api_install:
     executor:
-      name: node-redis-postgres-docker
+      name: node-docker
     working_directory: ~/pix/api
     steps:
       - unless:
@@ -223,9 +223,9 @@ jobs:
                 paths:
                   - ~/.npm
             - persist_to_workspace:
-                root: ~/
+                root: ~/pix
                 paths:
-                  - pix/api
+                  - .
 
   api_lint:
     executor:
