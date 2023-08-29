@@ -240,7 +240,7 @@ jobs:
           condition: << pipeline.parameters.run-api-job >>
           steps:
             - attach_workspace:
-                at: ~/pix/api
+                at: ~/pix
             - run:
                 name: Lint
                 command: npm run lint
@@ -262,7 +262,7 @@ jobs:
           condition: << pipeline.parameters.run-api-job >>
           steps:
             - attach_workspace:
-                at: ~/pix/api
+                at: ~/pix
             - run:
                 name: Test
                 command: npm run test
