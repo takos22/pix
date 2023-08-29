@@ -3,6 +3,9 @@
 /* Pix UI */
 @import 'pix-design-tokens';
 
+// @import '~@1024pix/pix-ui-themes/dist/pix-design-tokens-pluto.css';
+@import 'pix-design-tokens-pluto';
+
 /* globals */
 @import 'globals/a11y';
 @import 'globals/fonts';
