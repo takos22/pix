@@ -23,6 +23,7 @@ version: 2.1
 
 orbs:
   browser-tools: circleci/browser-tools@1.4.3
+  git-shallow-clone: guitarrapc/git-shallow-clone@2.6.0
 
 executors:
   node-docker:
@@ -185,7 +186,8 @@ jobs:
       name: node-docker
     working_directory: ~/pix
     steps:
-      - checkout
+      - git-shallow-clone/checkout:
+          fetch_depth: 1
       - run:
           name: Lint and test root
           command: |
