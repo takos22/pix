@@ -8,3 +8,6 @@ workflows:
       - continuation/continue:
           name: Setup Pix Worflow
           configuration_path: .circleci/continue_config.yml
+      - continuation/continue:
+          name: Launch API Workflow
+          configuration_path: api/.circleci/config.yml
