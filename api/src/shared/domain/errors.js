@@ -6,4 +6,11 @@ class ForbiddenAccess extends DomainError {
   }
 }
 
-export { ForbiddenAccess };
+class NotFoundError extends DomainError {
+  constructor(message = 'Erreur, ressource introuvable.', code) {
+    super(message);
+    this.code = code;
+  }
+}
+
+export { ForbiddenAccess, NotFoundError };

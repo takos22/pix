@@ -1,0 +1,14 @@
+{
+  "grain": [
+    {
+      "id": 1,
+      "title": "Grain 1",
+      "description": "This is the first grain"
+    },
+    {
+      "id": 2,
+      "title": "Grain 2",
+      "description": "This is the second grain"
+    }
+  ]
+}
