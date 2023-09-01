@@ -13,4 +13,4 @@ class NotFoundError extends DomainError {
   }
 }
 
-export { ForbiddenAccess, NotFoundError };
+export { DomainError, ForbiddenAccess, NotFoundError };
