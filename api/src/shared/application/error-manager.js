@@ -6,6 +6,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.NotFoundError) {
     return new HttpErrors.NotFoundError(error.message);
   }
+  if (error instanceof DomainErrors.ForbiddenAccess) {
+    return new HttpErrors.ForbiddenError(error.message);
+  }
 }
 
 function handle(request, h, error) {

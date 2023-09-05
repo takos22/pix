@@ -14,8 +14,6 @@ function handleDomainAndHttpErrors(
   if (response instanceof DomainError || response instanceof BaseHttpError) {
     return dependencies.errorManager.handle(request, h, response);
   }
-
-  return h.continue;
 }
 
 export { handleDomainAndHttpErrors };

@@ -1,7 +1,7 @@
 import {
-  ChallengeNotAskedError,
-  CertificationEndedBySupervisorError,
   CertificationEndedByFinalizationError,
+  CertificationEndedBySupervisorError,
+  ChallengeNotAskedError,
 } from '../errors.js';
 
 import { Examiner } from '../models/Examiner.js';

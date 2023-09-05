@@ -1,4 +1,9 @@
-import { DomainError } from '../../../lib/domain/errors.js';
+class DomainError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = this.constructor.name;
+  }
+}
 
 class ForbiddenAccess extends DomainError {
   constructor(message = 'Accès non autorisé.') {
