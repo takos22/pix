@@ -5,3 +5,4 @@ packages:
   - certif
   - api
   - 1d
+  - audit-logger
