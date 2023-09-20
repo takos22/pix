@@ -141,7 +141,7 @@
     "lint:js": "eslint . --ext js --cache --cache-strategy content",
     "lint:js:fix": "pnpm run lint:js -- --fix",
     "lint:js:uncached": "eslint . --ext js",
-    "lint:translations": "eslint --ext .json  --format node_modules/eslint-plugin-i18n-json/formatter.js translations",
+    "lint:translations": "eslint --ext .json  --format ../node_modules/eslint-plugin-i18n-json/formatter.js translations",
     "lint:translations:fix": "pnpm run lint:translations -- --fix",
     "postdeploy": "DEBUG=knex:* pnpm run db:migrate",
     "preinstall": "pnpm dlx check-engine",
