@@ -220,7 +220,7 @@ jobs:
             - v7-root-npm-{{ checksum "cachekey" }}
       - run:
           name: Install root dependencies
-          command: pnpm install --frozen-lockfile
+          command: pnpm install --frozen-lockfile --ignore-scripts
       - save_cache:
           key: v7-root-npm-{{ checksum "cachekey" }}
           paths:
