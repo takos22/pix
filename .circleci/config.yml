@@ -33,7 +33,7 @@ executors:
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
-    resource_class: small
+    resource_class: medium
   node-redis-postgres-docker:
     parameters:
       node-version:
@@ -220,7 +220,7 @@ jobs:
             - v7-root-npm-{{ checksum "cachekey" }}
       - run:
           name: Install root dependencies
-          command: pnpm install --frozen-lockfile --ignore-scripts
+          command: pnpm install --frozen-lockfile
       - save_cache:
           key: v7-root-npm-{{ checksum "cachekey" }}
           paths:
