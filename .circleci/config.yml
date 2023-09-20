@@ -289,28 +289,19 @@ jobs:
   audit_logger_build_and_test:
     executor:
       name: node-postgres-docker
-    working_directory: ~/pix/audit-logger
+    working_directory: ~/pix
     steps:
       - attach_workspace:
           at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-audit-logger-npm-{{ checksum "cachekey" }}
-      - run: npm ci --no-optional
-      - save_cache:
-          key: v7-audit-logger-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
       - run:
           name: Lint
-          command: pnpm run lint
+          command: pnpm --filter audit-logger run lint
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
           when: always
       - run:
           name: Test
-          command: pnpm run test
+          command: pnpm --filter audit-logger run test
           environment:
             PIX_API_CLIENT_SECRET: $2a$04$vkPRiypzeVQVG92/dCll7.5brjDQZVZc750VwKBc01icXjVIQqRVq
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
