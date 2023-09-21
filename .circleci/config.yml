@@ -214,17 +214,18 @@ jobs:
                 git checkout --force -B "$CIRCLE_BRANCH" "$CIRCLE_SHA1"
                 git --no-pager log --no-color -n 1 --format='HEAD is now at %h %s'
             fi
-      - run: cat package*.json > cachekey
       - restore_cache:
+          name: Restore pnpm Package Cache
           keys:
-            - v7-root-npm-{{ checksum "cachekey" }}
+            - v1-pnpm-packages-{{ checksum "pnpm-lock.yaml" }}
       - run:
           name: Install root dependencies
           command: pnpm install --frozen-lockfile
       - save_cache:
-          key: v7-root-npm-{{ checksum "cachekey" }}
+          key: v7-root-npm-{{ checksum "pnpm-lock.yaml" }}
           paths:
-            - ~/.npm
+            - node_modules
+            - .cypress
       - run:
           name: Remove .git folder
           command: rm -rf .git/
@@ -391,7 +392,7 @@ jobs:
     executor:
       name: node-browsers-redis-postgres-docker
     parallelism: 4
-    working_directory: ~/pix/high-level-tests/e2e
+    working_directory: ~/pix
     steps:
       - browser-tools/install-chrome
       - attach_workspace:
@@ -421,14 +422,14 @@ jobs:
           name: Run tests
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: pnpm run test:ci:app
+          command: pnpm --filter pix-e2e run test:ci:orga
       - store_test_results:
           path: /home/circleci/test-results
 
   e2e_test_orga:
     executor:
       name: node-browsers-redis-postgres-docker
-    working_directory: ~/pix/high-level-tests/e2e
+    working_directory: ~/pix
     steps:
       - browser-tools/install-chrome
       - attach_workspace:
@@ -458,6 +459,6 @@ jobs:
           name: Run tests
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: pnpm run test:ci:orga
+          command: pnpm --filter pix-e2e run test:ci:orga
       - store_test_results:
           path: /home/circleci/test-results
