@@ -222,10 +222,9 @@ jobs:
           name: Install root dependencies
           command: pnpm install --frozen-lockfile
       - save_cache:
-          key: v7-root-npm-{{ checksum "pnpm-lock.yaml" }}
+          key: v1-pnpm-packages-{{ checksum "pnpm-lock.yaml" }}
           paths:
             - node_modules
-            - .cypress
       - run:
           name: Remove .git folder
           command: rm -rf .git/
@@ -399,7 +398,7 @@ jobs:
           at: ~/pix
       - run:
           name: Lint
-          command: pnpm run lint
+          command: pnpm --filter pix-e2e run lint
 
       - run:
           name: Start Pix API
@@ -436,7 +435,7 @@ jobs:
           at: ~/pix
       - run:
           name: Lint
-          command: pnpm run lint
+          command: pnpm --filter pix-e2e run lint
 
       - run:
           name: Start Pix API
@@ -455,6 +454,9 @@ jobs:
           background: true
           command: pnpm --filter pix-orga start
 
+      - run:
+          name: Install Cypress
+          command: pnpm --filter pix-e2e exec cypress install
       - run:
           name: Run tests
           environment:
