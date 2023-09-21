@@ -309,7 +309,7 @@ async function _createSuccessCertifiableUser({ databaseBuilder }) {
     shouldChangePassword: false,
   }).id;
 
-  await tooling.profile.createPerfectProfile({
+  await tooling.profile.createCertifiableProfileWithComplementaryCertificationBadgeAquisition({
     databaseBuilder,
     userId,
   });

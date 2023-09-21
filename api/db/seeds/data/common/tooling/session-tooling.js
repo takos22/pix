@@ -712,7 +712,7 @@ async function _registerSomeCandidatesToSession({ databaseBuilder, sessionId, co
       if (randomComplementaryCertificationId && hasJoinedSession) {
         databaseBuilder.factory.buildComplementaryCertificationSubscription({
           complementaryCertificationId: randomComplementaryCertificationId,
-          certificationCandidateId: certificationCandidate.id,
+            certificationCandidateId: certificationCandidate.id,
         });
         certificationCandidate.complementaryCertificationSubscribedId = randomComplementaryCertificationId;
       }
