@@ -138,12 +138,7 @@ workflows:
           requires:
             - checkout
 
-      - e2e_test_app:
-          context: Pix
-          requires:
-            - checkout
-
-      - e2e_test_orga:
+      - e2e_test:
           context: Pix
           requires:
             - checkout
@@ -387,7 +382,7 @@ jobs:
           name: Test
           command: pnpm --filter pix-admin run test:ci
 
-  e2e_test_app:
+  e2e_test:
     executor:
       name: node-browsers-redis-postgres-docker
     parallelism: 4
@@ -418,35 +413,6 @@ jobs:
           command: pnpm --filter mon-pix start
 
       - run:
-          name: Run tests
-          environment:
-            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: pnpm --filter pix-e2e run test:ci:orga
-      - store_test_results:
-          path: /home/circleci/test-results
-
-  e2e_test_orga:
-    executor:
-      name: node-browsers-redis-postgres-docker
-    working_directory: ~/pix
-    steps:
-      - browser-tools/install-chrome
-      - attach_workspace:
-          at: ~/pix
-      - run:
-          name: Lint
-          command: pnpm --filter pix-e2e run lint
-
-      - run:
-          name: Start Pix API
-          working_directory: ~/pix
-          environment:
-            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-            REDIS_URL: 'redis://localhost:6379'
-          background: true
-          command: pnpm --filter pix-api start
-
-      - run:
           name: Start Pix Orga
           working_directory: ~/pix
           environment:
@@ -461,6 +427,6 @@ jobs:
           name: Run tests
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: pnpm --filter pix-e2e run test:ci:orga
+          command: pnpm --filter pix-e2e run test:ci
       - store_test_results:
           path: /home/circleci/test-results

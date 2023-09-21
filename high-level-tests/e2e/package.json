@@ -19,6 +19,7 @@
     "cy:run": "pnpm run db:initialize && cypress run --browser=chrome && exit",
     "cy:run:ci:app": "cypress run --browser=chrome --spec cypress/integration/pix-app/**/* --parallel --record --group e2e-tests-app --reporter junit --reporter-options 'mochaFile=/home/circleci/test-results/cypress.xml' --env type=base && exit",
     "cy:run:ci:orga": "cypress run --browser=chrome --spec cypress/integration/pix-orga/**/* --record --group e2e-tests-orga --reporter junit --reporter-options 'mochaFile=/home/circleci/test-results/cypress.xml' && exit",
+    "cy:run:ci": "cypress run --browser=chrome --spec cypress/integration/**/* --parallel --record --group e2e-tests --reporter junit --reporter-options 'mochaFile=/home/circleci/test-results/cypress.xml' --env type=base && exit",
     "cy:run:local": "DATABASE_URL=postgresql://postgres@localhost/pix_test npm run cy:run",
     "cy:run:base": "cypress run --env type=base --config screenshotsFolder=cypress/snapshots/base",
     "cy:test": "run-p start:api start:mon-pix start:orga cy:run",
@@ -32,7 +33,8 @@
     "start:mon-pix": "cd ../.. && pnpm --filter mon-pix start",
     "start:orga": "cd ../.. && pnpm --filter pix-orga start",
     "test:ci:app": "pnpm run db:initialize && pnpm dlx wait-on http://localhost:3000/api http://localhost:4200 && pnpm run cy:run:ci:app",
-    "test:ci:orga": "pnpm run db:initialize && pnpm dlx wait-on http://localhost:3000/api http://localhost:4201 && pnpm run cy:run:ci:orga"
+    "test:ci:orga": "pnpm run db:initialize && pnpm dlx wait-on http://localhost:3000/api http://localhost:4201 && pnpm run cy:run:ci:orga",
+    "test:ci": "pnpm run db:initialize && pnpm dlx wait-on http://localhost:3000/api http://localhost:4200 http://localhost:4201 && pnpm run cy:run:ci"
   },
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^18.0.0",
