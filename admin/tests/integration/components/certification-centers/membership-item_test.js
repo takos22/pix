@@ -165,6 +165,41 @@ module('Integration | Component |  certification-centers/membership-item', funct
         assert.dom(screen.queryByRole('button', { name: 'Enregistrer' })).doesNotExist();
         assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
       });
+
+      module('after updating member role', function () {
+        test.only('displays previous role', async function (assert) {
+          // given
+          const user = store.createRecord('user', {
+            id: 1,
+            firstName: 'Jojo',
+            lastName: 'La Gringue',
+            email: 'jojo@example.net',
+          });
+          const certificationCenterMembership = store.createRecord('certification-center-membership', {
+            id: 1,
+            user,
+            role: 'MEMBER',
+            createdAt: new Date('2023-09-13T10:47:07Z'),
+          });
+
+          this.set('certificationCenterMembership', certificationCenterMembership);
+          this.set('disableCertificationCenterMembership', sinon.stub());
+
+          // when
+          const screen = await renderScreen(
+            hbs`<CertificationCenters::MembershipItem @certificationCenterMembership={{this.certificationCenterMembership}} @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`,
+          );
+          await clickByName('Modifier le rôle');
+          await click(screen.getByRole('button', { name: 'Sélectionner un rôle' }));
+          await screen.findByRole('listbox');
+          await click(screen.getByRole('option', { name: 'Administrateur' }));
+          await clickByName('Annuler');
+          await this.pauseTest();
+
+          // then
+          assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText('Membre');
+        });
+      });
     });
   });
 });
