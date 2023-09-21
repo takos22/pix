@@ -385,7 +385,7 @@ jobs:
           command: pnpm --filter pix-admin run lint
       - run:
           name: Test
-          command: npm --filter pix-admin run test:ci
+          command: pnpm --filter pix-admin run test:ci
 
   e2e_test_app:
     executor:
@@ -396,16 +396,6 @@ jobs:
       - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-e2e-npm-{{ checksum "cachekey" }}
-      - run: npm ci
-      - save_cache:
-          key: v7-e2e-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
-
       - run:
           name: Lint
           command: pnpm run lint
@@ -443,16 +433,6 @@ jobs:
       - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-e2e-npm-{{ checksum "cachekey" }}
-      - run: npm ci
-      - save_cache:
-          key: v7-e2e-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
-
       - run:
           name: Lint
           command: pnpm run lint
