@@ -198,6 +198,47 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignParticipation = await knex('campaign-participations').select('organizationLearnerId').first();
         expect(campaignParticipation.organizationLearnerId).to.equal(organizationLearnerId);
       });
+
+      it.only('try reproduce bug', async function () {
+        //GIVEN
+        const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: false }).id;
+        const campaign = databaseBuilder.factory.buildCampaign({ idPixLabel: null, organizationId });
+        const id = databaseBuilder.factory.buildOrganizationLearner().id;
+        databaseBuilder.factory.buildOrganizationLearner().id;
+        databaseBuilder.factory.buildOrganizationLearner().id;
+        databaseBuilder.factory.buildOrganizationLearner().id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+          userId: userIdentity.id,
+          isDisabled: true,
+          organizationId,
+        }).id;
+        databaseBuilder.factory.buildOrganizationLearner().id;
+        databaseBuilder.factory.buildOrganizationLearner().id;
+        databaseBuilder.factory.buildOrganizationLearner().id;
+        databaseBuilder.factory.buildOrganizationLearner().id;
+        await databaseBuilder.commit();
+
+        const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
+        const campaignParticipant = new CampaignParticipant({
+          campaignToStartParticipation,
+          userIdentity,
+          organizationLearner: {
+            id: null,
+          },
+          previousCampaignParticipationForUser: null,
+        });
+
+        campaignParticipant.start({ participantExternalId: null });
+
+        //WHEN
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await campaignParticipantRepository.save(campaignParticipant, domainTransaction);
+        });
+
+        //THEN
+        const campaignParticipation = await knex('campaign-participations').select('organizationLearnerId').first();
+        expect(campaignParticipation.organizationLearnerId).to.equal(organizationLearnerId);
+      });
     });
 
     context('when there is no organization learner linked', function () {
