@@ -24,7 +24,7 @@
   "main": "index.js",
   "scripts": {
     "prebuild": "mkdir -p dist",
-    "build": "pnpm --parallel --recursive --if-present build",
+    "build": "pnpm --parallel --recursive --if-present build && cp -R admin/dist dist/admin && cp -R 1d/dist dist/1d && cp -R mon-pix/dist dist/mon-pix  && cp -R orga/dist dist/orga  && cp -R certif/dist dist/certif",
     "compute-lead-times": "node ./scripts/compute-lead-times",
     "clean": "pnpm clean:workspaces && pnpm clean:root",
     "clean:workspaces": "pnpm --parallel --recursive --if-present clean",
