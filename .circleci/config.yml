@@ -33,7 +33,7 @@ executors:
         type: string
     docker:
       - image: cimg/node:<<parameters.node-version>>
-    resource_class: medium
+    resource_class: medium+
   node-redis-postgres-docker:
     parameters:
       node-version:
