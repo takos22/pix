@@ -129,7 +129,7 @@
     "db:empty": "node scripts/database/empty-database",
     "db:migrate": "pnpm exec knex --knexfile db/knexfile.js migrate:latest && node scripts/database/pg-boss-migration.js",
     "db:rollback:latest": "pnpm exec knex --knexfile db/knexfile.js migrate:down",
-    "db:prepare": "npm db:delete && npm db:create && npm db:migrate",
+    "db:prepare": "pnpm db:delete && pnpm db:create && pnpm db:migrate",
     "db:seed": "pnpm exec knex --knexfile db/knexfile.js seed:run",
     "db:reload": "pnpm db:empty && pnpm db:seed",
     "db:reset": "pnpm db:prepare && pnpm db:seed",
