@@ -43,7 +43,7 @@
     "test": "pnpm /^test:.*/",
     "test:packages": "pnpm --filter test --workspaces --if-present",
     "test:api": "pnpm --filter api lint && pnpm --filter api test",
-    "test:api:debug": "pnpm --filter api run test:api:debug",
+    "test:api:debug": "pnpm --filter api test:api:debug",
     "test:root": "pnpm test:scripts",
     "test:scripts": "cd scripts && NODE_ENV=test mocha --recursive --exit --reporter dot tests",
     "domains:install": "./scripts/local-domains/install",
