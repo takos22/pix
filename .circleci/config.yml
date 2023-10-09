@@ -215,7 +215,7 @@ jobs:
             - v1-pnpm-packages-{{ checksum "pnpm-lock.yaml" }}
       - run:
           name: Install root dependencies
-          command: pnpm install --frozen-lockfile
+          command: pnpm install
       - save_cache:
           key: v1-pnpm-packages-{{ checksum "pnpm-lock.yaml" }}
           paths:
