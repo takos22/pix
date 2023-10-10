@@ -1,5 +1,7 @@
 <div class="robot-speaking">
-  <img class="robot-speaking__logo" alt="mascotte pix1d" src="/images/{{if @class (concat @class '-')}}robot.svg" />
+  <div class="robot-speaking__logo-container">
+    <img class="robot-speaking__logo" alt="mascotte pix1d" src="/images/{{if @class (concat @class '-')}}robot.svg" />
+  </div>
   <Markdown::MarkdownToHtmlUnsafe
     @markdown={{@instruction}}
     @class="robot-speaking__instruction {{if @class (concat 'robot-speaking__instruction--' @class)}}"
