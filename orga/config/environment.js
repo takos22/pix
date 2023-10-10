@@ -95,10 +95,6 @@ module.exports = function (environment) {
       COOKIE_LOCALE_LIFESPAN_IN_SECONDS: 31536000, // 1 year in seconds
     },
 
-    fontawesome: {
-      warnIfNoIconsIncluded: false,
-    },
-
     matomo: {},
 
     'ember-cli-notifications': {

@@ -90,10 +90,6 @@ module.exports = function (environment) {
 
     matomo: {},
 
-    fontawesome: {
-      warnIfNoIconsIncluded: true,
-    },
-
     pagination: {
       debounce: _getEnvironmentVariableAsNumber({
         environmentVariableName: 'RESEARCH_DEBOUNCE_TIMEOUT',
