@@ -68,6 +68,6 @@ module.exports = {
       },
     ],
     'local-rules/no-sinon-stub-with-args-oneliner': 'error',
-    'local-rules/no-new-file-in-lib': 'warn',
+    'local-rules/no-new-file-in-lib': 'error',
   },
 };
