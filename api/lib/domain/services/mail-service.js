@@ -11,6 +11,8 @@ import { LOCALE } from '../../domain/constants.js';
 
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = LOCALE;
 
+import { SmtpMailer } from '../../../src/shared/mail/infrastructure/services/smtp-mailer.js';
+
 const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
 const PIX_ORGA_NAME_FR = 'Pix Orga - Ne pas répondre';
 const PIX_ORGA_NAME_EN = 'Pix Orga - Noreply';
@@ -73,13 +75,14 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
     accountCreationEmailSubject = frTranslations['pix-account-creation-email'].subject;
   }
 
-  return mailer.sendEmail({
+  const smtpMailer = new SmtpMailer();
+  return smtpMailer.sendEmail({
     from: EMAIL_ADDRESS_NO_RESPONSE,
     fromName: pixName,
     to: email,
     subject: accountCreationEmailSubject,
-    template: mailer.accountCreationTemplateId,
-    variables,
+    html: '<h1>Welcome !</h1>',
+    text: 'Welcome',
   });
 }
 
