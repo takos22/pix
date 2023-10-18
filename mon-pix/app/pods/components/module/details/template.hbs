@@ -3,5 +3,11 @@
 <main class="module">
   <div class="module__title">
     <h1>{{@module.title}}</h1>
+
+    {{#each @module.elements as |element|}}
+      <p>Test</p>
+      <p>{{element.id}}</p>
+      {{element.content}}
+    {{/each}}
   </div>
 </main>
