@@ -6,11 +6,13 @@
 
 .certification-center-invitations__heading {
   font-size: 1.125rem;
+  margin-bottom: $pix-spacing-s;
 }
 
 .certification-center-invitations-form-container {
   display: flex;
   align-items: flex-end;
+  gap: $pix-spacing-xs;
 }
 
 .certification-center-invitations-form-container__input {
