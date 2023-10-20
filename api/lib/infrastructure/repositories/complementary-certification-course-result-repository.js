@@ -13,6 +13,40 @@ const getPixSourceResultByComplementaryCertificationCourseId = async function ({
   return ComplementaryCertificationCourseResult.from(result);
 };
 
+const getByUserId = async function ({ userId }) {
+  const results = await knex
+    .select({
+      acquired: 'complementary-certification-course-results.acquired',
+      complementaryCertificationCourseId:
+        'complementary-certification-course-results.complementaryCertificationCourseId',
+      source: 'complementary-certification-course-results.source',
+      partnerKey: 'complementary-certification-course-results.partnerKey',
+      label: 'complementary-certification-badges.label',
+    })
+    .from('complementary-certification-course-results')
+    .innerJoin(
+      'complementary-certification-courses',
+      'complementary-certification-courses.id',
+      'complementary-certification-course-results.complementaryCertificationCourseId',
+    )
+    .innerJoin(
+      'complementary-certification-badges',
+      'complementary-certification-badges.complementaryCertificationId',
+      'complementary-certification-courses.complementaryCertificationId',
+    )
+    .innerJoin('badges', 'complementary-certification-course-results.partnerKey', 'badges.key')
+    .innerJoin(
+      'certification-courses',
+      'certification-courses.id',
+      'complementary-certification-courses.certificationCourseId',
+    )
+    .where({ userId });
+
+  if (!results.length) return null;
+
+  return results.map(ComplementaryCertificationCourseResult.from);
+};
+
 const getAllowedJuryLevelByBadgeKey = async function ({ key }) {
   return knex('badges')
     .pluck('key')
@@ -26,4 +60,4 @@ const save = async function ({ complementaryCertificationCourseId, partnerKey, a
     .merge();
 };
 
-export { getPixSourceResultByComplementaryCertificationCourseId, getAllowedJuryLevelByBadgeKey, save };
+export { getPixSourceResultByComplementaryCertificationCourseId, getAllowedJuryLevelByBadgeKey, save, getByUserId };
