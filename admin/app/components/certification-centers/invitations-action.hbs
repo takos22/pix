@@ -20,6 +20,14 @@
         @hideDefaultOption={{true}}
       />
 
+      <PixSelect
+        @options={{this.rolesOptions}}
+        @value={{this.invitationRole}}
+        @onChange={{this.changeCertificationCenterInvitationRole}}
+        @label="Choisir le rôle du membre"
+        @placeholder="Rôle"
+      />
+
       <PixButton
         @size="small"
         @triggerAction={{fn @createInvitation this.invitationLanguage}}
