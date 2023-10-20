@@ -80,6 +80,7 @@ import * as competenceMarkRepository from '../../infrastructure/repositories/com
 import * as competenceRepository from '../../infrastructure/repositories/competence-repository.js';
 import * as competenceTreeRepository from '../../infrastructure/repositories/competence-tree-repository.js';
 import * as complementaryCertificationCourseResultRepository from '../../infrastructure/repositories/complementary-certification-course-result-repository.js';
+import * as complementaryCertificationCourseRepository from '../../infrastructure/repositories/complementary-certification-course-repository.js';
 import * as complementaryCertificationHabilitationRepository from '../../infrastructure/repositories/complementary-certification-habilitation-repository.js';
 import * as complementaryCertificationRepository from '../../infrastructure/repositories/complementary-certification-repository.js';
 import * as countryRepository from '../../infrastructure/repositories/country-repository.js';
@@ -292,6 +293,7 @@ const dependencies = {
   competenceRepository,
   competenceTreeRepository,
   complementaryCertificationCourseResultRepository,
+  complementaryCertificationCourseRepository,
   complementaryCertificationHabilitationRepository,
   complementaryCertificationRepository,
   config,
