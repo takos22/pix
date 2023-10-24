@@ -128,9 +128,9 @@ const addOrUpdateOrganizationOfOrganizationLearners = async function (
         organizationId,
       }),
   );
-  const existingOrganizationLearners = await this.findByOrganizationId({ organizationId }, domainTransaction);
+  const existingOrganizationLearners = await findByOrganizationId({ organizationId }, domainTransaction);
 
-  const reconciledOrganizationLearnersToImport = await this._reconcileOrganizationLearners(
+  const reconciledOrganizationLearnersToImport = await _reconcileOrganizationLearners(
     organizationLearnersFromFile,
     existingOrganizationLearners,
     domainTransaction,

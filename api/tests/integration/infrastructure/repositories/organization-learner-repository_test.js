@@ -758,6 +758,74 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
             expect(newOrganizationLearner.birthdate).to.not.equal(existingOrganizationLearner.birthdate);
           });
         });
+
+        context.only('different INE with same userId in other organization', function () {
+          it('throw an error', async function () {
+            // given
+            // build same User for different learner
+            const userId = databaseBuilder.factory.buildUser().id;
+
+            // build orga agri to import learner
+            const organizationToImportLearner = databaseBuilder.factory.buildOrganization({
+              type: 'SCO',
+              isManagingStudents: true,
+            });
+            const tagId = databaseBuilder.factory.buildTag({ name: 'AGRICULTURE' }).id;
+            databaseBuilder.factory.buildOrganizationTag({ tagId, organizationId: organizationToImportLearner.id });
+
+            // build orga for nationalStudentId 1234567
+            const oldOrganizationFromLeaner = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
+            const oldLearner = databaseBuilder.factory.buildOrganizationLearner({
+              organizationId: oldOrganizationFromLeaner.id,
+              userId,
+              firstName: 'Jean',
+              lastName: 'Michel',
+              birthdate: new Date('2019-03-12'),
+              nationalStudentId: '1234567',
+            });
+
+            // build orga for nationalStudentId 7654321
+            const anotherOrganizationFromLeaner = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
+            const anotherLearner = databaseBuilder.factory.buildOrganizationLearner({
+              organizationId: anotherOrganizationFromLeaner.id,
+              userId,
+              firstName: 'Pierre',
+              lastName: 'Poljack',
+              birthdate: new Date('2019-03-12'),
+              nationalStudentId: '7654321',
+            });
+
+            await databaseBuilder.commit();
+
+            // build learner to Import on SCO Agri
+            const organizationLearnerDatas = [
+              {
+                lastName: oldLearner.lastName,
+                firstName: oldLearner.firstName,
+                birthdate: '2019-03-12',
+                nationalStudentId: oldLearner.nationalStudentId,
+                userId: null,
+              },
+              {
+                lastName: anotherLearner.lastName,
+                firstName: anotherLearner.firstName,
+                birthdate: '2019-03-12',
+                nationalStudentId: anotherLearner.nationalStudentId,
+                userId: null,
+              },
+            ];
+
+            // when
+            const domainTransaction = { knexTransaction: knex };
+            const error = await catchErr(organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners)(
+              organizationLearnerDatas,
+              organizationToImportLearner.id,
+              domainTransaction,
+            );
+
+            expect(error).to.be.instanceOf(OrganizationLearnersCouldNotBeSavedError);
+          });
+        });
       },
     );
 
