@@ -21,7 +21,13 @@ const getUserCertificationEligibility = async function ({
 
   // FIXME : trouver un joli nom
   const complementaryCertificationsAccessibleAtAGivenTime = stillValidBadgeAcquisitions.map(
-    ({ complementaryCertificationBadgeLabel, complementaryCertificationBadgeImageUrl, isOutdated }) => ({
+    ({
+      complementaryCertificationBadgeId,
+      complementaryCertificationBadgeLabel,
+      complementaryCertificationBadgeImageUrl,
+      isOutdated,
+    }) => ({
+      complementaryCertificationBadgeId,
       label: complementaryCertificationBadgeLabel,
       imageUrl: complementaryCertificationBadgeImageUrl,
       isOutdated,
@@ -32,12 +38,22 @@ const getUserCertificationEligibility = async function ({
     userId,
   });
 
-  const complementaryCertificationsAcquired = complementaryCertificationsTakenByUser.filter(({ acquired }) => acquired);
+  const complementaryCertificationsNotAcquired = complementaryCertificationsTakenByUser.filter(
+    (complementaryCertification) => !complementaryCertification.isAcquired(),
+  );
+
+  const complementaryCertificationsEligibles = complementaryCertificationsAccessibleAtAGivenTime.filter(
+    (complementaryCertificationsAccessible) =>
+      complementaryCertificationsNotAcquired.some(
+        ({ complementaryCertificationBadgeId }) =>
+          complementaryCertificationBadgeId === complementaryCertificationsAccessible.complementaryCertificationBadgeId,
+      ),
+  );
 
   return new CertificationEligibility({
     id: userId,
     pixCertificationEligible,
-    complementaryCertifications: complementaryCertificationsAccessibleAtAGivenTime,
+    complementaryCertifications: complementaryCertificationsEligibles,
   });
 };
 

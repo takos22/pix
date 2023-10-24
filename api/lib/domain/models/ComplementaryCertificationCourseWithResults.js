@@ -1,18 +1,29 @@
 class ComplementaryCertificationCourseWithResults {
-  constructor({ hasExternalJury = false, results }) {
+  constructor({ id, hasExternalJury = false, results, complementaryCertificationBadgeId }) {
+    this.id = id;
     this.hasExternalJury = hasExternalJury;
     this.results = results;
+    this.complementaryCertificationBadgeId = complementaryCertificationBadgeId;
   }
 
   isAcquired() {
-    if (this.hasExternalJury && this.results.length <= 1) {
+    if (this.#isUncompleted()) {
       return false;
     }
-    return this.results.every(({ isAcquired }) => isAcquired);
+    return this.results.every(({ acquired }) => acquired);
   }
 
-  static from({ hasEternalJury, results }) {
-    return new ComplementaryCertificationCourseWithResults({ hasEternalJury, results });
+  static from({ id, hasExternalJury, results, complementaryCertificationBadgeId }) {
+    return new ComplementaryCertificationCourseWithResults({
+      id,
+      hasExternalJury,
+      results,
+      complementaryCertificationBadgeId,
+    });
+  }
+
+  #isUncompleted() {
+    return (this.hasExternalJury && this.results.length < 2) || this.results.length === 0;
   }
 }
 

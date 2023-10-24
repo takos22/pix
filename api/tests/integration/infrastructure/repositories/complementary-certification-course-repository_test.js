@@ -8,20 +8,12 @@ describe('Integration | Repository | complementary-certification-courses-reposit
     afterEach(function () {
       return knex('complementary-certification-course-results').delete();
     });
-    describe('when the ComplementaryCertificationCourseResult does not exist', function () {
+    describe('when the user has no certificationCourse taken', function () {
       it('should return null', async function () {
-        // given
+        // given a user
         const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildComplementaryCertification({
-          id: 1,
-          name: 'Pix+ Test',
-        });
-        databaseBuilder.factory.buildCertificationCourse({ id: 99, userId });
-        databaseBuilder.factory.buildComplementaryCertificationCourse({
-          id: 999,
-          certificationCourseId: 99,
-          complementaryCertificationId: 1,
-        });
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+        databaseBuilder.factory.buildComplementaryCertificationCourse({ certificationCourseId });
 
         await databaseBuilder.commit();
 
@@ -29,30 +21,21 @@ describe('Integration | Repository | complementary-certification-courses-reposit
         const complementaryCertificationCoursesWithResults =
           await complementaryCertificationCourseRepository.getByUserId({ userId });
 
-        console.log(complementaryCertificationCoursesWithResults[0].results);
         // then
-        expect(complementaryCertificationCoursesWithResults[0].results).to.be.empty;
+        expect(complementaryCertificationCoursesWithResults).to.be.empty;
       });
     });
-    describe('when the ComplementaryCertificationCourseResults already exist', function () {
-      it('should return the ComplementaryCertificationCourseResults', async function () {
+
+    describe('when the user has taken and passed certificationCourses', function () {
+      it('should return the ComplementaryCertificationCourses', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
 
         databaseBuilder.factory.buildBadge({ key: 'PIX_TEST_1', id: 1 });
         databaseBuilder.factory.buildBadge({ key: 'PIX_TEST_2', id: 2 });
 
-        databaseBuilder.factory.buildComplementaryCertification({
-          id: 1,
-          name: 'Pix+ Test',
-          badgeId: 1,
-        });
-        databaseBuilder.factory.buildComplementaryCertification({
-          id: 2,
-          name: 'Pix+ Test2',
-          badgeId: 2,
-        });
-        databaseBuilder.factory.buildCertificationCourse({ id: 99, userId });
+        databaseBuilder.factory.buildComplementaryCertification({ id: 1 });
+        databaseBuilder.factory.buildComplementaryCertification.pixEdu1erDegre({ id: 2 });
 
         databaseBuilder.factory.buildComplementaryCertificationBadge({
           id: 123,
@@ -60,7 +43,6 @@ describe('Integration | Repository | complementary-certification-courses-reposit
           badgeId: 1,
           label: 'Certif Complementaire 1',
         });
-
         databaseBuilder.factory.buildComplementaryCertificationBadge({
           id: 456,
           complementaryCertificationId: 2,
@@ -68,7 +50,9 @@ describe('Integration | Repository | complementary-certification-courses-reposit
           label: 'Certif Complementaire 2',
         });
 
+        databaseBuilder.factory.buildCertificationCourse({ id: 99, userId });
         databaseBuilder.factory.buildCertificationCourse({ id: 100, userId });
+
         databaseBuilder.factory.buildComplementaryCertificationCourse({
           complementaryCertificationBadgeId: 123,
           id: 999,
@@ -82,41 +66,68 @@ describe('Integration | Repository | complementary-certification-courses-reposit
           complementaryCertificationId: 2,
         });
 
-        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-          acquired: true,
-          complementaryCertificationCourseId: 999,
-          partnerKey: 'PIX_TEST_1',
-          source: ComplementaryCertificationCourseResult.sources.PIX,
-        });
-
-        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-          acquired: true,
-          complementaryCertificationCourseId: 1000,
-          partnerKey: 'PIX_TEST_2',
-          source: ComplementaryCertificationCourseResult.sources.PIX,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const results = await complementaryCertificationCourseRepository.getByUserId({ userId });
-
-        // then
-        expect(results).to.have.lengthOf(2);
-        expect(results).to.deep.equal([
-          {
+        const complementaryCertificationCourseResultId1 =
+          databaseBuilder.factory.buildComplementaryCertificationCourseResult({
             acquired: true,
             complementaryCertificationCourseId: 999,
             partnerKey: 'PIX_TEST_1',
             source: ComplementaryCertificationCourseResult.sources.PIX,
-            label: 'Certif Complementaire 1',
-          },
-          {
+          }).id;
+        const complementaryCertificationCourseResultId2 =
+          databaseBuilder.factory.buildComplementaryCertificationCourseResult({
             acquired: true,
             complementaryCertificationCourseId: 1000,
             partnerKey: 'PIX_TEST_2',
             source: ComplementaryCertificationCourseResult.sources.PIX,
-            label: 'Certif Complementaire 2',
+          }).id;
+        const complementaryCertificationCourseResultId3 =
+          databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+            acquired: true,
+            complementaryCertificationCourseId: 1000,
+            partnerKey: 'PIX_TEST_2',
+            source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
+          }).id;
+
+        await databaseBuilder.commit();
+
+        // when
+        const complementaryCertificationCoursesWithResults =
+          await complementaryCertificationCourseRepository.getByUserId({ userId });
+
+        // then
+        expect(complementaryCertificationCoursesWithResults).to.have.lengthOf(2);
+        expect(complementaryCertificationCoursesWithResults).to.exactlyContain([
+          {
+            hasExternalJury: false,
+            id: 999,
+            complementaryCertificationBadgeId: 123,
+            results: [
+              {
+                id: complementaryCertificationCourseResultId1,
+                acquired: true,
+                partnerKey: 'PIX_TEST_1',
+                source: ComplementaryCertificationCourseResult.sources.PIX,
+              },
+            ],
+          },
+          {
+            id: 1000,
+            hasExternalJury: true,
+            complementaryCertificationBadgeId: 456,
+            results: [
+              {
+                id: complementaryCertificationCourseResultId3,
+                acquired: true,
+                partnerKey: 'PIX_TEST_2',
+                source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
+              },
+              {
+                id: complementaryCertificationCourseResultId2,
+                acquired: true,
+                partnerKey: 'PIX_TEST_2',
+                source: ComplementaryCertificationCourseResult.sources.PIX,
+              },
+            ],
           },
         ]);
       });

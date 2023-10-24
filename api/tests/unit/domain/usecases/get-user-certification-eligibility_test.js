@@ -1,4 +1,4 @@
-import { sinon, expect, domainBuilder } from '../../../test-helper.js';
+import { domainBuilder, expect, sinon } from '../../../test-helper.js';
 import { getUserCertificationEligibility } from '../../../../lib/domain/usecases/get-user-certification-eligibility.js';
 
 describe('Unit | UseCase | get-user-certification-eligibility', function () {
@@ -11,11 +11,15 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
   const certificationBadgesService = {
     findLatestBadgeAcquisitions: () => undefined,
   };
+  const complementaryCertificationCourseRepository = {
+    getByUserId: () => undefined,
+  };
 
   beforeEach(function () {
     clock = sinon.useFakeTimers(now);
     placementProfileService.getPlacementProfile = sinon.stub();
     certificationBadgesService.findLatestBadgeAcquisitions = sinon.stub();
+    complementaryCertificationCourseRepository.getByUserId = sinon.stub();
   });
 
   afterEach(function () {
@@ -55,12 +59,14 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
       };
       placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
       certificationBadgesService.findLatestBadgeAcquisitions.resolves([]);
+      complementaryCertificationCourseRepository.getByUserId.resolves([]);
 
       // when
       const certificationEligibility = await getUserCertificationEligibility({
         userId: 2,
         placementProfileService,
         certificationBadgesService,
+        complementaryCertificationCourseRepository,
       });
 
       // then
@@ -69,35 +75,141 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
   });
 
   context('when badge is acquired', function () {
-    it('should return the user certification eligibility with the acquired badge informations', async function () {
-      // given
-      const placementProfile = {
-        isCertifiable: () => true,
-      };
-      placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
-      const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
-        badgeKey: 'BADGE_KEY',
-        complementaryCertificationBadgeLabel: 'BADGE_LABEL',
-        complementaryCertificationBadgeImageUrl: 'http://www.image-url.com',
-        isOutdated: true,
-      });
-      certificationBadgesService.findLatestBadgeAcquisitions.resolves([badgeAcquisition]);
-
-      // when
-      const certificationEligibility = await getUserCertificationEligibility({
-        userId: 2,
-        placementProfileService,
-        certificationBadgesService,
-      });
-
-      // then
-      expect(certificationEligibility.complementaryCertifications).to.deep.equal([
-        {
-          label: 'BADGE_LABEL',
-          imageUrl: 'http://www.image-url.com',
+    context('when the certification is not acquired', function () {
+      it('should return the user certification eligibility with the acquired badge informations', async function () {
+        // given
+        const placementProfile = {
+          isCertifiable: () => true,
+        };
+        placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
+        const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+          badgeKey: 'BADGE_KEY',
+          complementaryCertificationBadgeId: 2,
+          complementaryCertificationBadgeLabel: 'BADGE_LABEL',
+          complementaryCertificationBadgeImageUrl: 'http://www.image-url.com',
           isOutdated: true,
-        },
-      ]);
+        });
+        certificationBadgesService.findLatestBadgeAcquisitions.resolves([badgeAcquisition]);
+        complementaryCertificationCourseRepository.getByUserId.resolves([
+          domainBuilder.buildComplementaryCertificationCourseWithResults({
+            id: 1,
+            hasExternalJury: false,
+            complementaryCertificationBadgeId: 2,
+            results: [
+              {
+                id: 3,
+                acquired: false,
+                partnerKey: 'BADGE_KEY',
+                source: 'PIX',
+              },
+            ],
+          }),
+        ]);
+
+        // when
+        const certificationEligibility = await getUserCertificationEligibility({
+          userId: 2,
+          placementProfileService,
+          certificationBadgesService,
+          complementaryCertificationCourseRepository,
+        });
+
+        // then
+        expect(certificationEligibility.complementaryCertifications).to.deep.equal([
+          {
+            complementaryCertificationBadgeId: 2,
+            label: 'BADGE_LABEL',
+            imageUrl: 'http://www.image-url.com',
+            isOutdated: true,
+          },
+        ]);
+      });
+    });
+    context('when the certification is acquired', function () {
+      it('should return the user certification eligibility with no acquired badge', async function () {
+        // given
+        const placementProfile = {
+          isCertifiable: () => true,
+        };
+        placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
+        const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+          badgeKey: 'BADGE_KEY',
+          complementaryCertificationBadgeId: 2,
+          complementaryCertificationBadgeLabel: 'BADGE_LABEL',
+          complementaryCertificationBadgeImageUrl: 'http://www.image-url.com',
+          isOutdated: true,
+        });
+        certificationBadgesService.findLatestBadgeAcquisitions.resolves([badgeAcquisition]);
+        complementaryCertificationCourseRepository.getByUserId.resolves([
+          domainBuilder.buildComplementaryCertificationCourseWithResults({
+            id: 1,
+            hasExternalJury: false,
+            complementaryCertificationBadgeId: 2,
+            results: [
+              {
+                id: 3,
+                acquired: true,
+                partnerKey: 'BADGE_KEY',
+                source: 'PIX',
+              },
+            ],
+          }),
+        ]);
+
+        // when
+        const certificationEligibility = await getUserCertificationEligibility({
+          userId: 2,
+          placementProfileService,
+          certificationBadgesService,
+          complementaryCertificationCourseRepository,
+        });
+
+        // then
+        expect(certificationEligibility.complementaryCertifications).to.be.empty;
+      });
+    });
+    context('when the certification has no result', function () {
+      it('should return the user certification eligibility with the acquired badge informations', async function () {
+        // given
+        const placementProfile = {
+          isCertifiable: () => true,
+        };
+        placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
+        const badgeAcquisition = domainBuilder.buildCertifiableBadgeAcquisition({
+          badgeKey: 'BADGE_KEY',
+          complementaryCertificationBadgeId: 2,
+          complementaryCertificationBadgeLabel: 'BADGE_LABEL',
+          complementaryCertificationBadgeImageUrl: 'http://www.image-url.com',
+          isOutdated: true,
+        });
+        certificationBadgesService.findLatestBadgeAcquisitions.resolves([badgeAcquisition]);
+        complementaryCertificationCourseRepository.getByUserId.resolves([
+          domainBuilder.buildComplementaryCertificationCourseWithResults({
+            id: 1,
+            hasExternalJury: false,
+            complementaryCertificationBadgeId: 2,
+            results: [],
+          }),
+        ]);
+
+        // when
+        const certificationEligibility = await getUserCertificationEligibility({
+          userId: 2,
+          placementProfileService,
+          certificationBadgesService,
+          complementaryCertificationCourseRepository,
+        });
+
+        // then
+        expect(certificationEligibility.complementaryCertifications).to.deep.equal([
+          {
+            complementaryCertificationBadgeId: 2,
+            label: 'BADGE_LABEL',
+            imageUrl: 'http://www.image-url.com',
+            isOutdated: true,
+          },
+        ]);
+      });
     });
   });
 });
