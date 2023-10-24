@@ -772,6 +772,15 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
             });
             const tagId = databaseBuilder.factory.buildTag({ name: 'AGRICULTURE' }).id;
             databaseBuilder.factory.buildOrganizationTag({ tagId, organizationId: organizationToImportLearner.id });
+            databaseBuilder.factory.buildOrganizationLearner({
+              isDisabled: true,
+              lastName: 'Kenobi',
+              firstName: 'Obi-wan',
+              nationalStudentId: '000999000',
+              birthdate: new Date('2018-03-12'),
+              organizationId: organizationToImportLearner.id,
+              userId,
+            });
 
             // build orga for nationalStudentId 1234567
             const oldOrganizationFromLeaner = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
@@ -784,17 +793,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
               nationalStudentId: '1234567',
             });
 
-            // build orga for nationalStudentId 7654321
-            const anotherOrganizationFromLeaner = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
-            const anotherLearner = databaseBuilder.factory.buildOrganizationLearner({
-              organizationId: anotherOrganizationFromLeaner.id,
-              userId,
-              firstName: 'Pierre',
-              lastName: 'Poljack',
-              birthdate: new Date('2019-03-12'),
-              nationalStudentId: '7654321',
-            });
-
             await databaseBuilder.commit();
 
             // build learner to Import on SCO Agri
@@ -805,19 +803,12 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
                 birthdate: '2019-03-12',
                 nationalStudentId: oldLearner.nationalStudentId,
                 userId: null,
-              },
-              {
-                lastName: anotherLearner.lastName,
-                firstName: anotherLearner.firstName,
-                birthdate: '2019-03-12',
-                nationalStudentId: anotherLearner.nationalStudentId,
-                userId: null,
-              },
+              }
             ];
 
             // when
             const domainTransaction = { knexTransaction: knex };
-            const error = await catchErr(organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners)(
+            const error = await organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
               organizationLearnerDatas,
               organizationToImportLearner.id,
               domainTransaction,
