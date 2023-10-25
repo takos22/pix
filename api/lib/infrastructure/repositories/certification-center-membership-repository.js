@@ -73,7 +73,7 @@ const findByUserId = async function (userId) {
   return certificationCenterMemberships.map(_toDomain);
 };
 
-const findActiveByCertificationCenterIdSortedById = async function ({ certificationCenterId }) {
+const findActiveByCertificationCenterIdSortedByRole = async function ({ certificationCenterId }) {
   const certificationCenterMemberships = await knex('certification-center-memberships')
     .select(
       'certification-center-memberships.*',
@@ -240,7 +240,7 @@ const findById = async function (certificationCenterMembershipId) {
 
 export {
   findByUserId,
-  findActiveByCertificationCenterIdSortedById,
+  findActiveByCertificationCenterIdSortedByRole,
   save,
   isAdminOfCertificationCenter,
   isMemberOfCertificationCenter,
