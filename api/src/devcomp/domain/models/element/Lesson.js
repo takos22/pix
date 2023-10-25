@@ -1,19 +1,16 @@
-import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.js';
+import { Element } from './Element.js';
+import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 
-class Lesson {
-  #id;
+class Lesson extends Element {
   #content;
 
   constructor({ id, content }) {
+    super({ id });
+
     assertNotNullOrUndefined(id, "L'id est obligatoire pour une leçon");
     assertNotNullOrUndefined(content, 'Le contenu est obligatoire pour une leçon');
 
-    this.#id = id;
     this.#content = content;
-  }
-
-  get id() {
-    return this.#id;
   }
 
   get content() {

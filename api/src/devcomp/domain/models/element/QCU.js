@@ -1,13 +1,15 @@
-import { assertNotNullOrUndefined } from '../../../shared/domain/models/asserts.js';
+import { Element } from './Element.js';
+import { assertNotNullOrUndefined } from '../../../../shared/domain/models/asserts.js';
 
-class QCU {
+class QCU extends Element {
   constructor({ id, instruction, locales, proposals }) {
+    super({ id });
+
     assertNotNullOrUndefined(id, "L'id est obligatoire pour un QCU");
     assertNotNullOrUndefined(instruction, "L'instruction est obligatoire pour un QCU");
     this.#assertProposalsIsAnArray(proposals);
     this.#assertProposalsAreNotEmpty(proposals);
 
-    this.id = id;
     this.instruction = instruction;
     this.locales = locales;
     this.proposals = proposals;
