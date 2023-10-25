@@ -23,7 +23,7 @@ class ComplementaryCertificationCourseWithResults {
   }
 
   #isUncompleted() {
-    return (this.hasExternalJury && this.results.length < 2) || this.results.length === 0;
+    return this.results.length === 0 || (this.hasExternalJury && this.results.length < 2);
   }
 }
 
