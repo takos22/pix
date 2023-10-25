@@ -184,6 +184,145 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
         ]);
       });
     });
+    context('when the certification with external jury is acquired', function () {
+      it('should return the user certification eligibility with no acquired badge', async function () {
+        // given
+        const placementProfile = { isCertifiable: () => true };
+        placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
+        const badgeAcquisition = getOutdatedBadgeAcquisition();
+        certificationBadgesService.findLatestBadgeAcquisitions.resolves([badgeAcquisition]);
+        complementaryCertificationCourseRepository.getByUserId.resolves([
+          domainBuilder.buildComplementaryCertificationCourseWithResults({
+            id: 1,
+            hasExternalJury: true,
+            complementaryCertificationBadgeId: 2,
+            results: [
+              {
+                id: 3,
+                acquired: true,
+                partnerKey: 'BADGE_KEY',
+                source: 'PIX',
+              },
+              {
+                id: 4,
+                acquired: true,
+                partnerKey: 'BADGE_KEY',
+                source: 'EXTERNAL',
+              },
+            ],
+          }),
+        ]);
+
+        // when
+        const certificationEligibility = await getUserCertificationEligibility({
+          userId: 2,
+          placementProfileService,
+          certificationBadgesService,
+          complementaryCertificationCourseRepository,
+        });
+
+        // then
+        expect(certificationEligibility.complementaryCertifications).to.be.empty;
+      });
+    });
+    context('when the certification with external jury is not acquired', function () {
+      context('when the user failed the external examination', function () {
+        it('should return the user certification eligibility with the acquired badge', async function () {
+          // given
+          const placementProfile = {
+            isCertifiable: () => true,
+          };
+          placementProfileService.getPlacementProfile
+            .withArgs({ userId: 2, limitDate: now })
+            .resolves(placementProfile);
+          const badgeAcquisition = getOutdatedBadgeAcquisition();
+          certificationBadgesService.findLatestBadgeAcquisitions.resolves([badgeAcquisition]);
+          complementaryCertificationCourseRepository.getByUserId.resolves([
+            domainBuilder.buildComplementaryCertificationCourseWithResults({
+              id: 1,
+              hasExternalJury: true,
+              complementaryCertificationBadgeId: 2,
+              results: [
+                {
+                  id: 3,
+                  acquired: true,
+                  partnerKey: 'BADGE_KEY',
+                  source: 'PIX',
+                },
+                {
+                  id: 4,
+                  acquired: false,
+                  partnerKey: 'BADGE_KEY',
+                  source: 'EXTERNAL',
+                },
+              ],
+            }),
+          ]);
+
+          // when
+          const certificationEligibility = await getUserCertificationEligibility({
+            userId: 2,
+            placementProfileService,
+            certificationBadgesService,
+            complementaryCertificationCourseRepository,
+          });
+
+          // then
+          expect(certificationEligibility.complementaryCertifications).to.exactlyContain([
+            {
+              complementaryCertificationBadgeId: 2,
+              label: 'BADGE_LABEL',
+              imageUrl: 'http://www.image-url.com',
+              isOutdated: true,
+            },
+          ]);
+        });
+      });
+      context('when the user has not yet attended the external examination', function () {
+        it('should return the user certification eligibility with the acquired badge', async function () {
+          // given
+          const placementProfile = { isCertifiable: () => true };
+          placementProfileService.getPlacementProfile
+            .withArgs({ userId: 2, limitDate: now })
+            .resolves(placementProfile);
+          const badgeAcquisition = getOutdatedBadgeAcquisition();
+          certificationBadgesService.findLatestBadgeAcquisitions.resolves([badgeAcquisition]);
+          complementaryCertificationCourseRepository.getByUserId.resolves([
+            domainBuilder.buildComplementaryCertificationCourseWithResults({
+              id: 1,
+              hasExternalJury: true,
+              complementaryCertificationBadgeId: 2,
+              results: [
+                {
+                  id: 3,
+                  acquired: true,
+                  partnerKey: 'BADGE_KEY',
+                  source: 'PIX',
+                },
+              ],
+            }),
+          ]);
+
+          // when
+          const certificationEligibility = await getUserCertificationEligibility({
+            userId: 2,
+            placementProfileService,
+            certificationBadgesService,
+            complementaryCertificationCourseRepository,
+          });
+
+          // then
+          expect(certificationEligibility.complementaryCertifications).to.exactlyContain([
+            {
+              complementaryCertificationBadgeId: 2,
+              label: 'BADGE_LABEL',
+              imageUrl: 'http://www.image-url.com',
+              isOutdated: true,
+            },
+          ]);
+        });
+      });
+    });
   });
 
   function getOutdatedBadgeAcquisition() {
