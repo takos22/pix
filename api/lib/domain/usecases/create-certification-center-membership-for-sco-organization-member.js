@@ -1,3 +1,5 @@
+import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../models/CertificationCenterMembership.js';
+
 const createCertificationCenterMembershipForScoOrganizationMember = async function ({
   membership,
   membershipRepository,
@@ -20,12 +22,20 @@ const createCertificationCenterMembershipForScoOrganizationMember = async functi
       certificationCenterId: existingCertificationCenter.id,
     });
 
-  if (!isAlreadyMemberOfCertificationCenter) {
-    return await certificationCenterMembershipRepository.save({
-      userId: existingMembership.user.id,
-      certificationCenterId: existingCertificationCenter.id,
-    });
-  }
+  if (isAlreadyMemberOfCertificationCenter) return;
+
+  const adminMembersCount = await certificationCenterMembershipRepository.countAdminMembersForCertificationCenter(
+    existingCertificationCenter.id,
+  );
+
+  const role =
+    adminMembersCount > 0 ? CERTIFICATION_CENTER_MEMBERSHIP_ROLES.MEMBER : CERTIFICATION_CENTER_MEMBERSHIP_ROLES.ADMIN;
+
+  await certificationCenterMembershipRepository.create({
+    certificationCenterId: existingCertificationCenter.id,
+    role,
+    userId: existingMembership.user.id,
+  });
 };
 
 export { createCertificationCenterMembershipForScoOrganizationMember };

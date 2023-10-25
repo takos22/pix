@@ -1,6 +1,7 @@
 import { expect, sinon, domainBuilder } from '../../../test-helper.js';
 import { usecases } from '../../../../lib/domain/usecases/index.js';
 import { Membership } from '../../../../lib/domain/models/Membership.js';
+import { CERTIFICATION_CENTER_MEMBERSHIP_ROLES } from '../../../../lib/domain/models/CertificationCenterMembership.js';
 
 const { createCertificationCenterMembershipForScoOrganizationMember } = usecases;
 
@@ -19,6 +20,8 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
     certificationCenterMembershipRepository = {
       save: sinon.stub(),
       isMemberOfCertificationCenter: sinon.stub(),
+      countAdminMembersForCertificationCenter: sinon.stub(),
+      create: sinon.stub(),
     };
   });
 
@@ -86,6 +89,9 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
             certificationCenterMembershipRepository.isMemberOfCertificationCenter
               .withArgs(userWhoseOrganizationRoleIsToUpdate.id, existingCertificationCenter.id)
               .resolves(false);
+            certificationCenterMembershipRepository.countAdminMembersForCertificationCenter
+              .withArgs(existingCertificationCenter.id)
+              .resolves(0);
 
             // when
             await createCertificationCenterMembershipForScoOrganizationMember({
@@ -96,9 +102,10 @@ describe('Unit | UseCase | create-certification-center-membership-for-sco-organi
             });
 
             // then
-            expect(certificationCenterMembershipRepository.save).to.have.been.calledWithExactly({
+            expect(certificationCenterMembershipRepository.create).to.have.been.calledWithExactly({
               userId: userWhoseOrganizationRoleIsToUpdate.id,
               certificationCenterId: existingCertificationCenter.id,
+              role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.ADMIN,
             });
           });
         });
