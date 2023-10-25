@@ -62,6 +62,10 @@ const countAdminMembersForCertificationCenter = async function (certificationCen
   return count;
 };
 
+const create = async function ({ certificationCenterId, role, userId }) {
+  await knex(CERTIFICATION_CENTER_MEMBERSHIP_TABLE_NAME).insert({ certificationCenterId, role, userId });
+};
+
 const findByUserId = async function (userId) {
   const certificationCenterMemberships = await knex
     .select(
@@ -251,6 +255,7 @@ const findById = async function (certificationCenterMembershipId) {
 
 export {
   countAdminMembersForCertificationCenter,
+  create,
   disableById,
   disableMembershipsByUserId,
   findActiveByCertificationCenterIdSortedById,

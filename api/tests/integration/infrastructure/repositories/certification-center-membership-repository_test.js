@@ -44,6 +44,35 @@ describe('Integration | Repository | Certification Center Membership', function 
     });
   });
 
+  describe('#create', function () {
+    afterEach(async function () {
+      await knex('certification-center-memberships').delete();
+    });
+
+    it('returns newly created certification center membership', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+
+      await databaseBuilder.commit();
+
+      // when
+      await certificationCenterMembershipRepository.create({
+        certificationCenterId,
+        role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.MEMBER,
+        userId,
+      });
+
+      // then
+      const createdCertificationCenterMembership = await knex('certification-center-memberships').first();
+      expect(createdCertificationCenterMembership).to.include({
+        certificationCenterId,
+        role: CERTIFICATION_CENTER_MEMBERSHIP_ROLES.MEMBER,
+        userId,
+      });
+    });
+  });
+
   describe('#save', function () {
     let userId, certificationCenterId;
 
