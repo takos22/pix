@@ -23,14 +23,18 @@
       <PixSelect
         @options={{this.rolesOptions}}
         @value={{this.invitationRole}}
-        @onChange={{this.changeCertificationCenterInvitationRole}}
+        @onChange={{this.changeInvitationRole}}
         @label="Choisir le rôle du membre"
-        @placeholder="Rôle"
+        @placeholder="Choix du Rôle"
+        @hideDefaultOption={{true}}
       />
+
+      {{log 'role' this.invitationRole}}
+      {{log 'option' this.rolesOptions}}
 
       <PixButton
         @size="small"
-        @triggerAction={{fn @createInvitation this.invitationLanguage}}
+        @triggerAction={{fn @createInvitation this.invitationLanguage this.certificationCenterRoleValue}}
         aria-label="Inviter un membre"
         class="certification-center-invitations-form-container__button"
         name="Inviter"

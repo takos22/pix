@@ -38,18 +38,20 @@ export default class CertificationCenterInvitationsAction extends Component {
     ];
   }
 
-
   get certificationCenterRoleValue() {
     return this.invitationRole === 'NULL' ? null : this.invitationRole;
   }
 
   @action
-  changeCertificationCenterInvitationRole(role){
-    this.invitationRole = role;
+  changeInvitationRole(value){
+    console.log({value});
+    console.log('invitation role', this.invitationRole);
+    this.invitationRole = value;
   }
 
   @action
   changeInvitationLanguage(value) {
+    console.log({value});
     this.invitationLanguage = value;
   }
 }
