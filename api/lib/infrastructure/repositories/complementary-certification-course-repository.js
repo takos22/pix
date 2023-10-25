@@ -1,12 +1,6 @@
 import { knex } from '../../../db/knex-database-connection.js';
 import { ComplementaryCertificationCourseWithResults } from '../../domain/models/ComplementaryCertificationCourseWithResults.js';
 
-/**
- *
- *     this.id = id;
- *     this.hasExternalJury = hasExternalJury;
- *     this.results = results;
- */
 const getByUserId = async function ({ userId }) {
   const results = await knex
     .select({
