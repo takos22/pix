@@ -1088,6 +1088,9 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           creatorId: 789,
           multipleSendings: true,
           ownerId: 45,
+          customResultPageText: null,
+          customResultPageButtonText: null,
+          customResultPageButtonUrl: null,
         },
         {
           organizationId: 2,
@@ -1099,6 +1102,9 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           creatorId: 666,
           multipleSendings: false,
           ownerId: null,
+          customResultPageText: null,
+          customResultPageButtonText: null,
+          customResultPageButtonUrl: null,
         },
         {
           organizationId: 3,
@@ -1107,7 +1113,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function () {
           idPixLabel: 'identifiant',
           title: 'titre 3',
           customLandingPageText: 'descriptif 3',
-          creatorId: 666,
+          creatorId: 123,
           multipleSendings: false,
           ownerId: null,
           customResultPageText: 'Bravo !',
