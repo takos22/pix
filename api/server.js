@@ -22,6 +22,7 @@ import {
 import { supOrganizationManangementRoutes } from './src/prescription/learner-management/routes.js';
 import { devcompRoutes } from './src/devcomp/routes.js';
 import { schoolRoutes } from './src/school/routes.js';
+import { authenticationRoutes } from './src/authentication/application/routes.js';
 
 monitoringTools.installHapiHook();
 
@@ -116,8 +117,9 @@ const setupRoutesAndPlugins = async function (server) {
   const configuration = [].concat(
     plugins,
     routes,
-    certificationSessionRoutes,
     attachTargetProfileRoutes,
+    authenticationRoutes,
+    certificationSessionRoutes,
     complementaryCertificationRoutes,
     devcompRoutes,
     supOrganizationManangementRoutes,
