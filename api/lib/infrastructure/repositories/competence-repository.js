@@ -3,7 +3,8 @@ import { LearningContentResourceNotFound } from '../datasources/learning-content
 import { Competence } from '../../domain/models/Competence.js';
 import { competenceDatasource } from '../datasources/learning-content/competence-datasource.js';
 import { NotFoundError } from '../../domain/errors.js';
-import { LOCALE, PIX_ORIGIN } from '../../domain/constants.js';
+import { PIX_ORIGIN } from '../../domain/constants.js';
+import { LOCALE } from '../../../src/shared/domain/constants.js';
 
 const { FRENCH_FRANCE } = LOCALE;
 
