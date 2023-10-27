@@ -10,7 +10,7 @@ describe('Integration | Repository | mission-assessment-repository', function ()
       databaseBuilder.factory.buildMissionAssessment({ missionId, assessmentId });
       await databaseBuilder.commit();
 
-      const result = await missionAssessmentRepository.getByAssessmentId({ assessmentId });
+      const result = await missionAssessmentRepository.getByAssessmentId(assessmentId);
 
       expect(result).to.deep.equal(new MissionAssessment({ missionId, assessmentId }));
     });

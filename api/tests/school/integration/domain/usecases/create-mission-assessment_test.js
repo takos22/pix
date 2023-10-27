@@ -22,6 +22,7 @@ describe('Integration | UseCases | create-mission-assessment', function () {
 
   it('should save a new assessment', async function () {
     const missionId = testMissionId;
+    const learnerId = 4567;
     const expectedAssessment = {
       missionId: testMissionId,
       state: 'started',
@@ -31,6 +32,7 @@ describe('Integration | UseCases | create-mission-assessment', function () {
 
     await createMissionAssessment({
       missionId,
+      learnerId,
       ...dependencies,
     });
 
@@ -41,18 +43,21 @@ describe('Integration | UseCases | create-mission-assessment', function () {
 
   it('should save a new mission assessment', async function () {
     const missionId = testMissionId;
+    const learnerId = 4567;
 
     const createdAssessment = await createMissionAssessment({
       missionId,
+      learnerId,
       ...dependencies,
     });
 
     const expectedMissionAssessment = {
       missionId: testMissionId,
+      learnerId,
       assessmentId: createdAssessment.id,
     };
 
-    const record = await knex('mission-assessments').where({ missionId, assessmentId: createdAssessment.id }).first();
+    const record = await knex('mission-assessments').where({ missionId, organizationLearnerId: learnerId, assessmentId: createdAssessment.id }).first();
     expect(_.pick(record, Object.keys(expectedMissionAssessment))).to.deep.equal(expectedMissionAssessment);
   });
 });
