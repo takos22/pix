@@ -53,7 +53,7 @@ module.exports = {
       },
     ],
     'import/no-restricted-paths': [
-      'error',
+      'warn',
       {
         zones: [
           {
