@@ -1,5 +1,5 @@
-import { Lesson } from '../../../../../src/devcomp/domain/models/element/Lesson.js';
-import { expect } from '../../../../test-helper.js';
+import { Lesson } from '../../../../../../src/devcomp/domain/models/element/Lesson.js';
+import { expect } from '../../../../../test-helper.js';
 
 describe('Unit | Devcomp | Domain | Models | Lesson', function () {
   describe('#constructor', function () {
