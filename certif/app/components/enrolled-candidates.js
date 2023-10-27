@@ -25,9 +25,9 @@ export default class EnrolledCandidates extends Component {
     try {
       await certificationCandidate.destroyRecord({ adapterOptions: { sessionId } });
       this.notifications.success(this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.success-remove`));
-    } catch (err) {
+    } catch (error) {
       let errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-remove-unknown`);
-      if (get(err, 'errors[0].code') === 403) {
+      if (get(error, 'errors[0].code') === 403) {
         errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-remove-already-in`);
       }
       this.notifications.error(errorText);
@@ -99,11 +99,6 @@ export default class EnrolledCandidates extends Component {
     this.notifications.clearAll();
     const certificationCandidate = this._createCertificationCandidateRecord(certificationCandidateData);
 
-    if (this._hasDuplicate(certificationCandidate)) {
-      this._handleDuplicateError(certificationCandidate);
-      return;
-    }
-
     try {
       await certificationCandidate.save({
         adapterOptions: { registerToSession: true, sessionId: this.args.sessionId },
@@ -111,15 +106,25 @@ export default class EnrolledCandidates extends Component {
       this.args.reloadCertificationCandidate();
       this.notifications.success(this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.success-add`));
       return true;
-    } catch (err) {
-      if (this._hasConflict(err)) {
-        this._handleDuplicateError(certificationCandidate);
-      } else if (this._isEntityUnprocessable(err)) {
-        this._handleEntityValidationError(certificationCandidate, err);
-      } else {
-        this._handleUnknownSavingError(certificationCandidate);
-      }
+    } catch (errorResponse) {
+      const status = get(errorResponse, 'errors[0].status');
+      let errorText;
 
+      switch (status) {
+        case '409':
+          errorText = this._handleDuplicateError();
+          break;
+        case '422':
+          errorText = this._handleEntityValidationError(errorResponse);
+          break;
+        case '400':
+          errorText = this._handleMissingQueryParamError(errorResponse);
+          break;
+        default:
+          errorText = this._handleUnknownSavingError();
+          break;
+      }
+      this._handleSavingError(errorText, certificationCandidate);
       return false;
     }
   }
@@ -151,54 +156,34 @@ export default class EnrolledCandidates extends Component {
     return this.store.createRecord('certification-candidate', certificationCandidateData);
   }
 
-  _handleDuplicateError(certificationCandidate) {
-    const errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-add-duplicate`);
-    this._handleSavingError(errorText, certificationCandidate);
+  _handleDuplicateError() {
+    return this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-add-duplicate`);
   }
 
-  _handleUnknownSavingError(certificationCandidate) {
-    const errorText = this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-add-unknown`);
-    this._handleSavingError(errorText, certificationCandidate);
+  _handleUnknownSavingError() {
+    return this.intl.t(`${TRANSLATE_PREFIX}.add-modal.notifications.error-add-unknown`);
   }
 
-  _handleEntityValidationError(certificationCandidate, errorResponse) {
-    let errorText = this.intl.t(`common.api-error-messages.internal-server-error`);
+  _handleEntityValidationError(errorResponse) {
     const error = errorResponse?.errors?.[0];
     if (error?.code) {
-      errorText = this.intl.t(`common.api-error-messages.certification-candidate.${error.code}`, {
+      return this.intl.t(`common.api-error-messages.certification-candidate.${error.code}`, {
         ...error?.meta,
       });
     }
-    this._handleSavingError(errorText, certificationCandidate);
+  }
+
+  _handleMissingQueryParamError(errorResponse) {
+    const error = errorResponse?.errors?.[0];
+    if (error?.detail === 'CANDIDATE_BIRTHDATE_FORMAT_NOT_VALID') {
+      return this.intl.t(`common.api-error-messages.certification-candidate.${error.detail}`);
+    }
   }
 
   _handleSavingError(errorText, certificationCandidate) {
-    this.notifications.error(errorText);
+    const error = errorText ?? this.intl.t(`common.api-error-messages.internal-server-error`);
+    this.notifications.error(error);
     certificationCandidate.deleteRecord();
-  }
-
-  _hasConflict(err) {
-    return get(err, 'errors[0].status') === '409';
-  }
-
-  _isEntityUnprocessable(err) {
-    const status = get(err, 'errors[0].status');
-    return status === '422' || status === '400';
-  }
-
-  _hasDuplicate(certificationCandidate) {
-    const currentFirstName = certificationCandidate.firstName;
-    const currentLastName = certificationCandidate.lastName;
-    const currentBirthdate = certificationCandidate.birthdate;
-
-    return (
-      this.args.certificationCandidates.find(
-        ({ lastName, firstName, birthdate }) =>
-          lastName.toLowerCase() === currentLastName.toLowerCase() &&
-          firstName.toLowerCase() === currentFirstName.toLowerCase() &&
-          birthdate === currentBirthdate,
-      ) !== undefined
-    );
   }
 
   _fromPercentageStringToDecimal(value) {

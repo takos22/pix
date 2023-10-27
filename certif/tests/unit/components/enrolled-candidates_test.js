@@ -46,35 +46,6 @@ module('Unit | Component | enrolled-candidates', function (hooks) {
       sinon.assert.calledOnce(component.args.reloadCertificationCandidate);
       assert.ok(true);
     });
-
-    test('should throw an exception when the student is already added', async function (assert) {
-      // given
-      const sessionId = 'sessionId';
-      const certificationCandidateData = _buildCandidate({});
-      const savableCandidate = _buildCandidate(
-        { ...certificationCandidateData },
-        { save: sinon.stub().resolves(), deleteRecord: sinon.stub() },
-      );
-      const store = { createRecord: sinon.stub().returns(savableCandidate) };
-
-      component.store = store;
-      component.args = {
-        certificationCandidates: [
-          _buildCandidate({
-            ...certificationCandidateData,
-          }),
-        ],
-        sessionId,
-      };
-
-      // when
-      await component.saveCertificationCandidate(certificationCandidateData);
-
-      // then
-      sinon.assert.notCalled(savableCandidate.save);
-      sinon.assert.calledOnce(savableCandidate.deleteRecord);
-      assert.strictEqual(component.args.certificationCandidates.length, 1);
-    });
   });
 
   module('#addCertificationCandidateInStaging', function () {
