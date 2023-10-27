@@ -1,80 +1,11 @@
-import { expect, sinon } from '../../../test-helper.js';
-import * as cpfExternalStorage from '../../../../lib/infrastructure/external-storage/cpf-external-storage.js';
-import { S3ObjectStorageProvider } from '../../../../lib/infrastructure/external-storage/s3-utils.js';
-import { config } from '../../../../lib/config.js';
-import _ from 'lodash';
+import { expect, sinon } from '../../../../../test-helper.js';
+import { S3ObjectStorageProvider } from '../../../../../../src/shared/storage/infrastructure/providers/S3ObjectStorageProvider.js';
+import * as getPreSignedUrls from '../../../../../../src/certification/session/domain/usecases/get-cpf-presigned-urls.js';
+import { config } from '../../../../../../src/shared/config.js';
 
 const { cpf } = config;
 
-describe('Unit | Infrastructure | external-storage | cpf-external-storage', function () {
-  let logger;
-
-  beforeEach(function () {
-    logger = {
-      trace: sinon.stub(),
-    };
-  });
-
-  context('#upload', function () {
-    it('should instantiate an Upload with the expected parameters', async function () {
-      // given
-      const startUploadStub = sinon.stub(S3ObjectStorageProvider.prototype, 'startUpload');
-      startUploadStub.returns({ done: _.noop, on: _.noop });
-
-      sinon.stub(cpf, 'storage').value({
-        accessKeyId: 'accessKeyId',
-        secretAccessKey: 'secretAccessKey',
-        endpoint: 'endpoint',
-        region: 'region',
-        bucket: 'bucket',
-      });
-      const readableStream = Symbol('readableStream');
-
-      // when
-      await cpfExternalStorage.upload({
-        filename: 'filename.xml',
-        readableStream,
-        dependencies: { S3ObjectStorageProvider, logger },
-      });
-
-      // then
-      expect(startUploadStub).to.have.been.calledWithExactly({
-        filename: 'filename.xml',
-        readableStream,
-      });
-    });
-
-    it('should call done() when the upload is successfully completed', async function () {
-      // given
-      const startUploadStub = sinon.stub(S3ObjectStorageProvider.prototype, 'startUpload');
-      const doneStub = sinon.stub();
-      startUploadStub.returns({ done: doneStub, on: _.noop });
-
-      sinon.stub(cpf, 'storage').value({
-        accessKeyId: 'accessKeyId',
-        secretAccessKey: 'secretAccessKey',
-        endpoint: 'endpoint',
-        region: 'region',
-        bucket: 'bucket',
-      });
-      const readableStream = Symbol('readableStream');
-
-      // when
-      await cpfExternalStorage.upload({
-        filename: 'filename.xml',
-        readableStream,
-        dependencies: { S3ObjectStorageProvider, logger },
-      });
-
-      // then
-      expect(startUploadStub).to.have.been.calledWithExactly({
-        filename: 'filename.xml',
-        readableStream,
-      });
-      expect(doneStub).to.have.been.called;
-    });
-  });
-
+describe('Unit | UseCase | get-cpf-presigned-urls ', function () {
   context('#getPreSignUrlsOfFilesModifiedAfter', function () {
     it('should list files of the right bucket', async function () {
       // given
@@ -89,7 +20,7 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       });
 
       // when
-      await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({
+      await getPreSignedUrls.getPreSignedUrls({
         date: null,
         dependencies: { S3ObjectStorageProvider },
       });
@@ -123,7 +54,7 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       });
 
       // when
-      await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({ date, dependencies: { S3ObjectStorageProvider } });
+      await getPreSignedUrls.getPreSignedUrls({ date, dependencies: { S3ObjectStorageProvider } });
 
       // then
       expect(preSignFilesStub).to.have.been.calledWithExactly({
@@ -160,7 +91,7 @@ describe('Unit | Infrastructure | external-storage | cpf-external-storage', func
       });
 
       // when
-      const result = await cpfExternalStorage.getPreSignUrlsOfFilesModifiedAfter({
+      const result = await getPreSignedUrls.getPreSignedUrls({
         date,
         dependencies: { S3ObjectStorageProvider },
       });
